@@ -8,7 +8,7 @@ import TournamentsDashboard from "./components/tournaments/TournamentsDashboard"
 import { BodyContainer, MainContainer } from "./styled/styledLayout";
 import { routerConstString } from "./const/menuConst";
 import TournamentDetails from "./components/tournaments/tournament/TournamentDetails";
-import Login from "./components/auth/Login";
+import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 
 const App = () => {
@@ -23,15 +23,9 @@ const App = () => {
               path={routerConstString.tournaments}
               component={TournamentsDashboard}
             />
-            <Route path={routerConstString.live}>
-              <TournamentsDashboard view={routerConstString.live} />
-            </Route>
-            <Route path={routerConstString.my}>
-              <TournamentsDashboard view={routerConstString.my} />
-            </Route>
-            <Route path={routerConstString.favorites}>
-              <TournamentsDashboard view={routerConstString.favorites} />
-            </Route>
+            <Route path={routerConstString.live} component={TournamentsDashboard} />
+            <Route path={routerConstString.my} component={TournamentsDashboard} />
+            <Route path={routerConstString.favorites} component={TournamentsDashboard} />
             <Route path={routerConstString.tournament + "/:id"} component={TournamentDetails} />
             <Route
               path={routerConstString.create}
@@ -39,7 +33,7 @@ const App = () => {
             />
             <Route
               path={routerConstString.login}
-              component={Login}
+              component={SignIn}
             />
             <Route
               path={routerConstString.signUp}

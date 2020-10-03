@@ -1,9 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
-import TextField from "@material-ui/core/TextField";
+
 import Button from "@material-ui/core/Button";
-import { FormStyled, TextFieldContainerStyled } from "../../styled/styledForm";
+import {
+  FormStyled,
+  TextFieldContainerStyled,
+  TextFieldStyled,
+} from "../../styled/styledForm";
 import { Credentials } from "../../models/credentialsData";
 import { signIn } from "../../store/actions/AuthActions";
 
@@ -11,7 +15,7 @@ type Props = {
   signIn: (credentials: Credentials) => void;
 };
 
-const Login: React.FC<Props> = ({ signIn }) => {
+const SignIn: React.FC<Props> = ({ signIn }) => {
   const { handleSubmit, register, errors } = useForm();
   const onSubmit = (values: any) => {
     const user: Credentials = {
@@ -24,7 +28,7 @@ const Login: React.FC<Props> = ({ signIn }) => {
   return (
     <FormStyled onSubmit={handleSubmit(onSubmit)}>
       <TextFieldContainerStyled>
-        <TextField
+        <TextFieldStyled
           label="Email"
           color="secondary"
           inputProps={{
@@ -43,7 +47,7 @@ const Login: React.FC<Props> = ({ signIn }) => {
         <p>{errors.email && errors.email.message}</p>
       </TextFieldContainerStyled>
       <TextFieldContainerStyled>
-        <TextField
+        <TextFieldStyled
           label="Hasło"
           color="secondary"
           inputProps={{
@@ -70,4 +74,4 @@ const mapDispatchToProps = (dispatch: any) => {
     signIn: (credentials: Credentials) => dispatch(signIn(credentials)),
   };
 };
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(SignIn);

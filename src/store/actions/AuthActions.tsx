@@ -1,6 +1,6 @@
 // import { firestore } from "firebase";
 
-import { Credentials } from "../../models/credentialsData";
+import { Credentials, User } from "../../models/credentialsData";
 
 export const signIn = (credentials: Credentials) => {
   return (dispatch: any, getState: any, { getFirebase }: any) => {
@@ -18,7 +18,7 @@ export const signIn = (credentials: Credentials) => {
   };
 };
 
-export const signOut = (credentials: Credentials) => {
+export const signOut = () => {
   return (dispatch: any, getState: any, { getFirebase }: any) => {
     const firebase = getFirebase();
 
@@ -34,26 +34,19 @@ export const signOut = (credentials: Credentials) => {
   };
 };
 
-export const signUp = (newUser: any) => {
-  console.log(newUser);
+export const signUp = (credentials: Credentials, user: User) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
 
+    console.log(credentials, user);
     firebase
       .auth()
-      .createUserWithEmailAndPassword(newUser.email, newUser.password)
+      .createUserWithEmailAndPassword(credentials.email, credentials.password)
       .then((resp: any) => {
-        console.log(newUser);
-        console.log(resp);
-        return firestore
-          .collection("users")
-          .doc(resp.user.uid)
-          .set({
-            firstName: newUser.firstName,
-            lastName: newUser.lastName,
-            initials: newUser.firstName[0] + newUser.lastName[0],
-          });
+        return firestore.collection("users").doc(resp.user.uid).set({
+          login: user.login,
+        });
       })
       .then(() => {
         dispatch({ type: "SIGNUP_SUCCESS" });

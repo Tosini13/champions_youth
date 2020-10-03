@@ -107,6 +107,7 @@ export const TournamentListItemDateStyled = styled.p`
   border-radius: 5px;
   width: fit-content;
   font-size: 11px;
+  color: ${mainTheme.palette.secondary.dark};
 `;
 
 export const TournamentListItemImgStyled = styled.img`

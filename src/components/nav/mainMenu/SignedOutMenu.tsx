@@ -9,6 +9,7 @@ import DraftsIcon from "@material-ui/icons/Drafts";
 import Divider from "@material-ui/core/Divider";
 
 import { MenuLinkStyled } from "../../../styled/styledNav";
+import { routerConstString } from "../../../const/menuConst";
 
 type Props = {
   toggleSideBarMenu: () => void;
@@ -18,7 +19,10 @@ const SignedOutMenu: React.FC<Props> = ({ toggleSideBarMenu }) => {
   return (
     <List>
       <ListItem button>
-        <MenuLinkStyled to={"/signin"} onClick={toggleSideBarMenu}>
+        <MenuLinkStyled
+          to={routerConstString.login}
+          onClick={toggleSideBarMenu}
+        >
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
@@ -27,11 +31,14 @@ const SignedOutMenu: React.FC<Props> = ({ toggleSideBarMenu }) => {
       </ListItem>
       <Divider />
       <ListItem button>
-        <MenuLinkStyled to={"/"} onClick={toggleSideBarMenu}>
+        <MenuLinkStyled
+          to={routerConstString.signUp}
+          onClick={toggleSideBarMenu}
+        >
           <ListItemIcon>
             <DraftsIcon />
           </ListItemIcon>
-          <ListItemText primary="Turnieje" />
+          <ListItemText primary="Zarejestruj" />
         </MenuLinkStyled>
       </ListItem>
     </List>
