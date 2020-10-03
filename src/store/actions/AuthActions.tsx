@@ -1,6 +1,8 @@
 // import { firestore } from "firebase";
 
-export const signIn = (credentials: any) => {
+import { Credentials } from "../../models/credentialsData";
+
+export const signIn = (credentials: Credentials) => {
   return (dispatch: any, getState: any, { getFirebase }: any) => {
     const firebase = getFirebase();
 
@@ -16,7 +18,7 @@ export const signIn = (credentials: any) => {
   };
 };
 
-export const signOut = (credentials: any) => {
+export const signOut = (credentials: Credentials) => {
   return (dispatch: any, getState: any, { getFirebase }: any) => {
     const firebase = getFirebase();
 

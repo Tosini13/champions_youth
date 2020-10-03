@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 import DateRangeIcon from '@material-ui/icons/DateRange';
 
-import MenuSideBar from "./mainMenu/MenuSideBar";
 import { NavBarStyled, NavContainerStyled } from "../../styled/styledNav";
 import { IconButtonNavStyled } from "../../styled/styledButtons";
 import { HamburgerStyled } from "../../styled/styledIcons";
 import DayNavbar from "./TopNav.tsx/DayNavbar";
+import MenuSideBar from "./mainMenu/MenuSideBar";
 
 const Navbar = () => {
   const [sideBarMenuOpened, setSideBarMenu] = useState(false);

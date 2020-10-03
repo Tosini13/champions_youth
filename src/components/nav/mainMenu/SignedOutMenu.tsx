@@ -10,11 +10,15 @@ import Divider from "@material-ui/core/Divider";
 
 import { MenuLinkStyled } from "../../../styled/styledNav";
 
-const SignedOutMenu = () => {
+type Props = {
+  toggleSideBarMenu: () => void;
+};
+
+const SignedOutMenu: React.FC<Props> = ({ toggleSideBarMenu }) => {
   return (
     <List>
       <ListItem button>
-        <MenuLinkStyled to={"/signin"}>
+        <MenuLinkStyled to={"/signin"} onClick={toggleSideBarMenu}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
@@ -23,7 +27,7 @@ const SignedOutMenu = () => {
       </ListItem>
       <Divider />
       <ListItem button>
-        <MenuLinkStyled to={"/"}>
+        <MenuLinkStyled to={"/"} onClick={toggleSideBarMenu}>
           <ListItemIcon>
             <DraftsIcon />
           </ListItemIcon>

@@ -8,6 +8,8 @@ import TournamentsDashboard from "./components/tournaments/TournamentsDashboard"
 import { BodyContainer, MainContainer } from "./styled/styledLayout";
 import { routerConstString } from "./const/menuConst";
 import TournamentDetails from "./components/tournaments/tournament/TournamentDetails";
+import Login from "./components/auth/Login";
+import SignUp from "./components/auth/SignUp";
 
 const App = () => {
   return (
@@ -34,6 +36,14 @@ const App = () => {
             <Route
               path={routerConstString.create}
               component={CreateTournament}
+            />
+            <Route
+              path={routerConstString.login}
+              component={Login}
+            />
+            <Route
+              path={routerConstString.signUp}
+              component={SignUp}
             />
           </MainContainer>
         </Switch>

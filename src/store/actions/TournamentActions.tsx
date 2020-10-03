@@ -5,12 +5,12 @@ import { TournamentCreateData } from "../../models/tournamentData";
 export const createTournament = (data: TournamentCreateData) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
-    // const authorId = getState().firebase.auth.uid;
+    const authorId = getState().firebase.auth.uid;
     firestore
       .collection("tournaments")
       .add({
         ...data,
-        // ownerId: authorId,
+        ownerId: authorId,
       })
       .then((res: any) => {
         dispatch({ type: "CREATE_TOURNAMENT", data });

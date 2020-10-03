@@ -16,7 +16,7 @@ type Props = {
 };
 
 const SignedInMenu: React.FC<Props> = ({ toggleSideBarMenu }) => {
-  const userLoggedIn = 'admin';
+  const userLoggedIn = "admin";
   return (
     <List>
       <ListItem>
@@ -38,7 +38,7 @@ const SignedInMenu: React.FC<Props> = ({ toggleSideBarMenu }) => {
       </ListItem>
       <ListItem button>
         <MenuLinkStyled
-          to={routerConstString.logout}
+          to={routerConstString.login}
           onClick={toggleSideBarMenu}
         >
           <ListItemIcon>

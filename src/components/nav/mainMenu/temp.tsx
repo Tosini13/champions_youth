@@ -1,9 +1,10 @@
 import React from "react";
+import { compose } from "redux";
 import { connect } from "react-redux";
-
+import { firestoreConnect } from "react-redux-firebase";
 import { MenuSideBarContainerStyled } from "../../../styled/styledNav";
+
 import SignedInMenu from "./SignedInMenu";
-import SignedOutMenu from "./SignedOutMenu";
 
 type Props = {
   loggedIn: boolean;
@@ -14,24 +15,29 @@ type Props = {
 const MenuSideBar: React.FC<Props> = ({
   sideBarMenuOpened,
   toggleSideBarMenu,
-  loggedIn,
 }) => {
   return (
     <MenuSideBarContainerStyled opened={sideBarMenuOpened}>
-      {loggedIn ? (
-        <SignedInMenu toggleSideBarMenu={toggleSideBarMenu} />
-      ) : (
-        <SignedOutMenu toggleSideBarMenu={toggleSideBarMenu} />
-      )}
+      <SignedInMenu toggleSideBarMenu={toggleSideBarMenu} />
     </MenuSideBarContainerStyled>
   );
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  const loggedIn = Boolean(state.firebase.auth.uid);
+  console.log(state, ownProps);
   return {
-    loggedIn,
+    loggedIn: true,
   };
 };
 
-export default connect(mapStateToProps)(MenuSideBar);
+export default compose(
+  connect(mapStateToProps),
+  firestoreConnect((props) => {
+    return [
+      {
+        collection: "tournaments",
+        orderBy: ["date", "desc"],
+      },
+    ];
+  })
+)(MenuSideBar);
