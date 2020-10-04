@@ -7,34 +7,27 @@ import { NoContentTitle } from "../../styled/styledLayout";
 import TournamentSummary from "./TournamentSummary";
 import { TournamentData } from "../../models/tournamentData";
 import { routerConstString } from "../../const/menuConst";
+import { Id } from "../../const/structuresConst";
 
 type Props = {
-  view?: routerConstString;
+  userId?: Id;
   tournaments: TournamentData[];
 };
 
 class TournamentsDashboard extends Component<Props> {
-  filterTournaments = () => {
-    switch (this.props.view) {
-      case routerConstString.live:
-        return [];
-      case routerConstString.my:
-        return [];
-      case routerConstString.favorites:
-        return [];
-      default:
-        return [];
-    }
-  };
   render() {
-    const { tournaments } = this.props;
+    const { tournaments, userId } = this.props;
     return (
       <div>
         {!tournaments?.length ? (
           <NoContentTitle>Brak turniejów</NoContentTitle>
         ) : null}
         {tournaments?.map((tournament: TournamentData) => (
-          <TournamentSummary key={tournament.id} tournament={tournament} />
+          <TournamentSummary
+            key={tournament.id}
+            tournament={tournament}
+            userId={userId}
+          />
         ))}
       </div>
     );
@@ -42,9 +35,20 @@ class TournamentsDashboard extends Component<Props> {
 }
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  const tournaments = state.firestore.ordered.tournaments;
+  let tournaments = state.firestore.ordered.tournaments;
+  const userId = state.firebase.auth.uid;
+  if (
+    routerConstString.my === ownProps.match.path &&
+    tournaments?.length &&
+    userId
+  ) {
+    tournaments = tournaments.filter(
+      (tournament: TournamentData) => tournament.ownerId === userId.toString()
+    );
+  }
   return {
     tournaments,
+    userId,
   };
 };
 
@@ -55,6 +59,9 @@ export default compose(
       {
         collection: "tournaments",
         orderBy: ["date", "desc"],
+      },
+      {
+        collection: "users",
       },
     ];
   })
