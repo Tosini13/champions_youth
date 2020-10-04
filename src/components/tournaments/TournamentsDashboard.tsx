@@ -29,6 +29,8 @@ const getFilteredTournaments = (
       return tournaments?.filter((tournament: TournamentData) =>
         user.favoriteTournaments?.includes(tournament.id)
       );
+    case routerConstString.live:
+      return [];
     default:
       return tournaments;
   }
