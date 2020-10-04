@@ -28,6 +28,10 @@ export const TextFieldStyled = styled(TextField)`
   }
 `;
 
+export const AddTeamTextFieldStyled = styled(TextFieldStyled)`
+  flex-grow: 1;
+`;
+
 export const ErrorTextContainerStyled = styled.p`
   color: ${mainTheme.palette.error.main};
 `;

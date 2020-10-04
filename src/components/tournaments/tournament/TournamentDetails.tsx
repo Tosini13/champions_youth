@@ -27,7 +27,7 @@ const TournamentDetails: React.FC<Props> = ({
   teams,
   playoffs,
 }) => {
-  const [view, setView] = useState(menuTournamentConst.playoffs);
+  const [view, setView] = useState(menuTournamentConst.teams);
   return (
     <>
       <TournamentMenu view={view} setView={setView} />

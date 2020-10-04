@@ -1,5 +1,10 @@
 import styled from "styled-components";
 
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import AddIcon from "@material-ui/icons/Add";
+import IconButton from "@material-ui/core/IconButton";
+
 import { mainTheme } from "./styledConst";
 
 export const HamburgerStyled = styled.div<{ open: boolean }>`
@@ -32,4 +37,21 @@ export const HamburgerStyled = styled.div<{ open: boolean }>`
         width: 0px;
     }`
       : ``}
+`;
+
+
+export const TeamsListIconButtonStyled = styled(IconButton)`
+    padding-right: 0px;
+`
+
+export const DeleteIconStyled = styled(DeleteIcon)`
+  color: ${mainTheme.palette.error.dark};
+`;
+
+export const EditIconStyled = styled(EditIcon)`
+  color: ${mainTheme.palette.info.light};
+`;
+
+export const AddIconStyled = styled(AddIcon)`
+  color: ${mainTheme.palette.success.light};
 `;
