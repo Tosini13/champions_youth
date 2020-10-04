@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 
-import { mainTheme } from "./styledConst";
+import { mainTheme, styledColors } from "./styledConst";
 
 export const MenuSideBarContainerStyled = styled.div<{ opened: boolean }>`
   position: absolute;
@@ -53,7 +53,6 @@ export const MenuLinkStyled = styled(Link)`
 
 export const BottomNavigationStyled = styled(BottomNavigation)`
   background-color: ${mainTheme.palette.primary.main};
-  color: ${mainTheme.palette.secondary.main};
   max-width: 100vw;
   min-height: 55px;
   overflow: hidden;
@@ -62,12 +61,26 @@ export const BottomNavigationStyled = styled(BottomNavigation)`
 `;
 
 export const BottomNavigationActionLinkStyled = styled(Link)`
+  color: ${mainTheme.palette.secondary.main};
   min-width: 0px;
-  &.MuiBottomNavigationAction-root.Mui-selected {
-    color: ${mainTheme.palette.secondary.main};
-  }
   .MuiBottomNavigationAction-label.Mui-selected {
     font-size: 0.575rem;
+  }
+`;
+
+export const GoldBottomNavigationActionLinkStyled = styled(
+  BottomNavigationActionLinkStyled
+)`
+  &.MuiBottomNavigationAction-root.Mui-selected {
+    color: ${styledColors.icons.tournament};
+  }
+`;
+
+export const RedBottomNavigationActionLinkStyled = styled(
+  BottomNavigationActionLinkStyled
+)`
+  &.MuiBottomNavigationAction-root.Mui-selected {
+    color: ${styledColors.icons.live};
   }
 `;
 
