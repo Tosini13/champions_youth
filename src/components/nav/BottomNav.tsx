@@ -15,7 +15,8 @@ import {
 } from "../../const/menuConst";
 import {
   BottomNavigationStyled,
-  BottomNavigationActionLinkStyled,
+  RedBottomNavigationActionLinkStyled,
+  GoldBottomNavigationActionLinkStyled,
 } from "../../styled/styledNav";
 
 const BottomNav = () => {
@@ -32,28 +33,28 @@ const BottomNav = () => {
         onChange={handleChange}
       >
         <BottomNavigationAction
-          component={BottomNavigationActionLinkStyled}
+          component={GoldBottomNavigationActionLinkStyled}
           to={routerConstString.tournaments}
           label={bottomMenuTitleConst.get(bottomMenuConst.tournaments)}
           value={bottomMenuConst.tournaments}
           icon={<EmojiEventsIcon />}
         />
         <BottomNavigationAction
-          component={BottomNavigationActionLinkStyled}
+          component={RedBottomNavigationActionLinkStyled}
           to={routerConstString.live}
           label={bottomMenuTitleConst.get(bottomMenuConst.live)}
           value={bottomMenuConst.live}
           icon={<AdjustIcon />}
         />
         <BottomNavigationAction
-          component={BottomNavigationActionLinkStyled}
+          component={RedBottomNavigationActionLinkStyled}
           to={routerConstString.my}
           label={bottomMenuTitleConst.get(bottomMenuConst.my)}
           value={bottomMenuConst.my}
           icon={<FavoriteIcon />}
         />
         <BottomNavigationAction
-          component={BottomNavigationActionLinkStyled}
+          component={GoldBottomNavigationActionLinkStyled}
           to={routerConstString.favorites}
           label={bottomMenuTitleConst.get(bottomMenuConst.favorites)}
           value={bottomMenuConst.favorites}
