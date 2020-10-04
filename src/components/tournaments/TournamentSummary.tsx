@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import moment from "moment";
 
 import StarBorderIcon from "@material-ui/icons/StarBorder";
@@ -19,15 +20,35 @@ import {
 import { IconButtonStarStyled } from "../../styled/styledButtons";
 import { TournamentData } from "../../models/tournamentData";
 import { Id } from "../../const/structuresConst";
+import { setFavorites } from "../../store/actions/UserActions";
+import { UserData } from "../../models/credentialsData";
 
 type Props = {
-  userId?: Id;
+  user: UserData;
   tournament: TournamentData;
+  setFavorites: (userId: Id, favoriteTournaments: Id[]) => void;
 };
 
-const TournamentSummary: React.FC<Props> = ({ tournament, userId }) => {
-  const favorite = false;
-  const handleToggleFavorites = () => {};
+const TournamentSummary: React.FC<Props> = ({
+  tournament,
+  user,
+  setFavorites,
+}) => {
+  const favorite = user.favoriteTournaments?.includes(tournament.id);
+
+  const handleToggleFavorites = () => {
+    let favorites: Id[] = [];
+    if (favorite && user.favoriteTournaments) {
+      favorites = user.favoriteTournaments.filter(
+        (tournamentId) => tournamentId !== tournament.id
+      );
+    } else {
+      favorites = user?.favoriteTournaments
+        ? [...user.favoriteTournaments, tournament.id]
+        : [tournament.id];
+    }
+    setFavorites(user.id, favorites);
+  };
 
   return (
     <TournamentListItemStyled button>
@@ -43,7 +64,7 @@ const TournamentSummary: React.FC<Props> = ({ tournament, userId }) => {
         <TournamentListItemDateStyled>
           {moment(tournament.date).format("HH:mm")}
         </TournamentListItemDateStyled>
-        {tournament.ownerId === userId ? (
+        {tournament.ownerId === user?.id ? (
           <IconButtonStarStyled aria-label="star">
             <FavoriteIcon fontSize="small" color="secondary" />
           </IconButtonStarStyled>
@@ -60,4 +81,10 @@ const TournamentSummary: React.FC<Props> = ({ tournament, userId }) => {
   );
 };
 
-export default TournamentSummary;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setFavorites: (userId: Id, favoriteTournaments: Id[]) =>
+      dispatch(setFavorites(userId, favoriteTournaments)),
+  };
+};
+export default connect(null, mapDispatchToProps)(TournamentSummary);

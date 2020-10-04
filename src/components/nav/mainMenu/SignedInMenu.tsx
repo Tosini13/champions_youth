@@ -64,7 +64,6 @@ const SignedInMenu: React.FC<Props> = ({
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  console.log(state, ownProps);
   const users: UserData[] = state.firestore.ordered.users;
   const userId: Id = state.firebase.auth.uid;
   let user: UserData | undefined = undefined;

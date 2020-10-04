@@ -7,16 +7,36 @@ import { NoContentTitle } from "../../styled/styledLayout";
 import TournamentSummary from "./TournamentSummary";
 import { TournamentData } from "../../models/tournamentData";
 import { routerConstString } from "../../const/menuConst";
-import { Id } from "../../const/structuresConst";
+import { UserData } from "../../models/credentialsData";
+
+const getFilteredTournaments = (
+  view: routerConstString,
+  tournaments: TournamentData[],
+  user: UserData
+) => {
+  switch (view) {
+    case routerConstString.my:
+      return tournaments?.filter(
+        (tournament: TournamentData) =>
+          tournament.ownerId === user.id?.toString()
+      );
+    case routerConstString.favorites:
+      return tournaments?.filter((tournament: TournamentData) =>
+        user.favoriteTournaments?.includes(tournament.id)
+      );
+    default:
+      return tournaments;
+  }
+};
 
 type Props = {
-  userId?: Id;
+  user: UserData;
   tournaments: TournamentData[];
 };
 
 class TournamentsDashboard extends Component<Props> {
   render() {
-    const { tournaments, userId } = this.props;
+    const { tournaments, user } = this.props;
     return (
       <div>
         {!tournaments?.length ? (
@@ -26,7 +46,7 @@ class TournamentsDashboard extends Component<Props> {
           <TournamentSummary
             key={tournament.id}
             tournament={tournament}
-            userId={userId}
+            user={user}
           />
         ))}
       </div>
@@ -36,19 +56,21 @@ class TournamentsDashboard extends Component<Props> {
 
 const mapStateToProps = (state: any, ownProps: any) => {
   let tournaments = state.firestore.ordered.tournaments;
+  const users: UserData[] | undefined = state.firestore.ordered.users;
   const userId = state.firebase.auth.uid;
-  if (
-    routerConstString.my === ownProps.match.path &&
-    tournaments?.length &&
-    userId
-  ) {
-    tournaments = tournaments.filter(
-      (tournament: TournamentData) => tournament.ownerId === userId.toString()
+  const user = users?.find((user) => user.id === userId);
+
+  if (user) {
+    tournaments = getFilteredTournaments(
+      ownProps.match.path,
+      tournaments,
+      user
     );
   }
+
   return {
     tournaments,
-    userId,
+    user,
   };
 };
 
