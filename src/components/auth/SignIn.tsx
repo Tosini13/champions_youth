@@ -7,15 +7,20 @@ import {
   FormStyled,
   TextFieldContainerStyled,
   TextFieldStyled,
+  ErrorTextContainerStyled,
 } from "../../styled/styledForm";
 import { Credentials } from "../../models/credentialsData";
 import { signIn } from "../../store/actions/AuthActions";
+import { Redirect } from "react-router-dom";
+import { routerConstString } from "../../const/menuConst";
 
 type Props = {
+  authError: boolean;
+  loggedIn: boolean;
   signIn: (credentials: Credentials) => void;
 };
 
-const SignIn: React.FC<Props> = ({ signIn }) => {
+const SignIn: React.FC<Props> = ({ signIn, authError, loggedIn }) => {
   const { handleSubmit, register, errors } = useForm();
   const onSubmit = (values: any) => {
     const user: Credentials = {
@@ -25,6 +30,7 @@ const SignIn: React.FC<Props> = ({ signIn }) => {
     signIn(user);
   };
 
+  if (loggedIn) return <Redirect to={routerConstString.tournaments} />;
   return (
     <FormStyled onSubmit={handleSubmit(onSubmit)}>
       <TextFieldContainerStyled>
@@ -44,7 +50,6 @@ const SignIn: React.FC<Props> = ({ signIn }) => {
           helperText={errors.email && "Nie prawidłowy adres email"}
           error={Boolean(errors.email)}
         />
-        <p>{errors.email && errors.email.message}</p>
       </TextFieldContainerStyled>
       <TextFieldContainerStyled>
         <TextFieldStyled
@@ -60,18 +65,32 @@ const SignIn: React.FC<Props> = ({ signIn }) => {
           helperText={errors.password && "Nie prawidłowe hasło"}
           error={Boolean(errors.password)}
         />
-        <p>{errors.password && errors.password.message}</p>
       </TextFieldContainerStyled>
       <Button variant="outlined" color="secondary" type="submit">
         Zaloguj
       </Button>
+      {authError ? (
+        <ErrorTextContainerStyled>
+          Login lub hasło są nie prawidłowe
+        </ErrorTextContainerStyled>
+      ) : null}
     </FormStyled>
   );
 };
 
+const mapStateToProps = (state: any, ownProps: any) => {
+  console.log(state, ownProps);
+  const authError = Boolean(state.auth.authError);
+  const loggedIn = Boolean(state.firebase.auth.uid);
+  console.log(authError);
+  return {
+    authError,
+    loggedIn,
+  };
+};
 const mapDispatchToProps = (dispatch: any) => {
   return {
     signIn: (credentials: Credentials) => dispatch(signIn(credentials)),
   };
 };
-export default connect(null, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

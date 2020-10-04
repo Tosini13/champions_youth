@@ -19,6 +19,13 @@ export const MainContainer = styled.main`
   padding: 0px 5px;
 `;
 
+export const NoContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const NoContentTitle = styled.p`
   text-align: center;
   color: ${mainTheme.palette.secondary.dark};

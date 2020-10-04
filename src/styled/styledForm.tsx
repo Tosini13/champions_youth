@@ -27,3 +27,7 @@ export const TextFieldStyled = styled(TextField)`
     color: ${mainTheme.palette.secondary.dark};
   }
 `;
+
+export const ErrorTextContainerStyled = styled.p`
+  color: ${mainTheme.palette.error.main};
+`;

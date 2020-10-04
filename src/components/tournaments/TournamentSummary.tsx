@@ -24,7 +24,7 @@ import { setFavorites } from "../../store/actions/UserActions";
 import { UserData } from "../../models/credentialsData";
 
 type Props = {
-  user: UserData;
+  user?: UserData;
   tournament: TournamentData;
   setFavorites: (userId: Id, favoriteTournaments: Id[]) => void;
 };
@@ -34,20 +34,22 @@ const TournamentSummary: React.FC<Props> = ({
   user,
   setFavorites,
 }) => {
-  const favorite = user.favoriteTournaments?.includes(tournament.id);
+  const favorite = user?.favoriteTournaments?.includes(tournament.id);
 
   const handleToggleFavorites = () => {
-    let favorites: Id[] = [];
-    if (favorite && user.favoriteTournaments) {
-      favorites = user.favoriteTournaments.filter(
-        (tournamentId) => tournamentId !== tournament.id
-      );
-    } else {
-      favorites = user?.favoriteTournaments
-        ? [...user.favoriteTournaments, tournament.id]
-        : [tournament.id];
+    if (user) {
+      let favorites: Id[] = [];
+      if (favorite && user?.favoriteTournaments) {
+        favorites = user?.favoriteTournaments.filter(
+          (tournamentId) => tournamentId !== tournament.id
+        );
+      } else {
+        favorites = user?.favoriteTournaments
+          ? [...user.favoriteTournaments, tournament.id]
+          : [tournament.id];
+      }
+      setFavorites(user.id, favorites);
     }
-    setFavorites(user.id, favorites);
   };
 
   return (
