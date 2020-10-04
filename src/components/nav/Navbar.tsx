@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import DateRangeIcon from '@material-ui/icons/DateRange';
+import DateRangeIcon from "@material-ui/icons/DateRange";
 
 import { NavBarStyled, NavContainerStyled } from "../../styled/styledNav";
 import { IconButtonNavStyled } from "../../styled/styledButtons";
