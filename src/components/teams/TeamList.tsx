@@ -6,7 +6,7 @@ import { TeamListStyled } from "../../styled/styledTeams";
 import TeamSummary from "./TeamSummary";
 
 type Props = {
-  teams: TeamData[];
+  teams?: TeamData[];
 };
 
 const TeamList: React.FC<Props> = ({ teams }) => {
@@ -20,7 +20,7 @@ const TeamList: React.FC<Props> = ({ teams }) => {
 
   return (
     <TeamListStyled>
-      {teams.map((team: TeamData) => {
+      {teams?.map((team: TeamData) => {
         return (
           <TeamSummary
             key={team.id}

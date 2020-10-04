@@ -12,8 +12,8 @@ type Props = {
 const TournamentTeams: React.FC<Props> = ({ teams, tournamentId }) => {
   return (
     <>
-      <TeamList teams={teams} />
       <AddTeam tournamentId={tournamentId} />
+      <TeamList teams={teams} />
     </>
   );
 };

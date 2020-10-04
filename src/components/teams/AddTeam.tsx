@@ -1,17 +1,14 @@
-import React from "react";
+import React, { ChangeEvent, useState } from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 
-import AddIcon from "@material-ui/icons/Add";
-
 import { IconButtonStyled } from "../../styled/styledButtons";
-import {
-  AddTeamFormStyled,
-  AddTeamTextFieldStyled,
-} from "../../styled/styledTeams";
+import { AddTeamFormStyled } from "../../styled/styledTeams";
 import { addTeamToTournament } from "../../store/actions/TeamActions";
 import { Id } from "../../const/structuresConst";
 import { TeamCreateData } from "../../models/teamData";
+import { AddTeamTextFieldStyled } from "../../styled/styledForm";
+import { AddIconStyled } from "../../styled/styledIcons";
 
 type Props = {
   tournamentId: Id;
@@ -21,10 +18,19 @@ type Props = {
 const AddTeam: React.FC<Props> = ({ tournamentId, addTeamToTournament }) => {
   const { handleSubmit, register, errors } = useForm();
 
+  const [name, setName] = useState<string>("");
+
+  const handleChange = (
+    value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setName(value.currentTarget.value);
+  };
+
   const onSubmit = (data: any) => {
     const team: TeamCreateData = {
-      name: data.name,
+      name,
     };
+    setName("");
     addTeamToTournament(tournamentId, team);
   };
 
@@ -34,6 +40,8 @@ const AddTeam: React.FC<Props> = ({ tournamentId, addTeamToTournament }) => {
         <AddTeamTextFieldStyled
           label="Nazwa"
           color="secondary"
+          onChange={handleChange}
+          value={name}
           inputProps={{
             name: "name",
             ref: register({
@@ -48,7 +56,7 @@ const AddTeam: React.FC<Props> = ({ tournamentId, addTeamToTournament }) => {
         />
         {errors.username && errors.username.message}
         <IconButtonStyled aria-label="add" type="submit">
-          <AddIcon />
+          <AddIconStyled />
         </IconButtonStyled>
       </AddTeamFormStyled>
     </>
