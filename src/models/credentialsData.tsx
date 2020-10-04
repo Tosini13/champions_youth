@@ -1,3 +1,4 @@
+import { Id } from "../const/structuresConst";
 import { Login } from "../const/userConst";
 
 export interface Credentials {
@@ -7,4 +8,9 @@ export interface Credentials {
 
 export interface User {
   login: Login;
+}
+
+export interface UserData {
+  login: Login;
+  id: Id;
 }

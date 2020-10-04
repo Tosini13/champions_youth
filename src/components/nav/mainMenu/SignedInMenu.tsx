@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-// import { compose } from "redux";
-// import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import { firestoreConnect } from "react-redux-firebase";
 
 import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -14,12 +14,13 @@ import ListItem from "@material-ui/core/ListItem";
 import { MenuLinkStyled } from "../../../styled/styledNav";
 import { routerConstString } from "../../../const/menuConst";
 import { signOut } from "../../../store/actions/AuthActions";
-import { Login } from "../../../const/userConst";
+import { Id } from "../../../const/structuresConst";
+import { UserData } from "../../../models/credentialsData";
 
 type Props = {
   signOut: () => void;
   toggleSideBarMenu: () => void;
-  user: Login;
+  user: UserData | undefined;
 };
 
 const SignedInMenu: React.FC<Props> = ({
@@ -37,7 +38,7 @@ const SignedInMenu: React.FC<Props> = ({
         <ListItemIcon>
           <AccountCircleIcon />
         </ListItemIcon>
-        <ListItemText primary={user} />
+        <ListItemText primary={user?.login} />
       </ListItem>
       <ListItem>
         <MenuLinkStyled
@@ -63,7 +64,13 @@ const SignedInMenu: React.FC<Props> = ({
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  const user: Login = "admin";
+  console.log(state, ownProps);
+  const users: UserData[] = state.firestore.ordered.users;
+  const userId: Id = state.firebase.auth.uid;
+  let user: UserData | undefined = undefined;
+  if (users?.length) {
+    user = users.find((user: UserData) => user.id === userId);
+  }
   return {
     user,
   };
@@ -75,15 +82,13 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-// export default compose(
-//   connect(mapStateToProps, mapDispatchToProps),
-//   firestoreConnect((props) => {
-//     return [
-//       {
-//         collection: "users",
-//       },
-//     ];
-//   })
-// )(SignedInMenu);
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignedInMenu);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect((props) => {
+    return [
+      {
+        collection: "users",
+      },
+    ];
+  })
+)(SignedInMenu);
