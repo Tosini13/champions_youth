@@ -1,42 +1,54 @@
-import React, { useState } from "react";
-import moment from "moment";
+import React from "react";
+import moment, { Moment } from "moment";
 import "moment/locale/pl";
 
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 import { IconButtonNavStyled } from "../../../styled/styledButtons";
-import { DayNavbarContainerStyled } from "../../../styled/styledNav";
+import {
+  DayNavbarContainerStyled,
+  DayNameStyled,
+  DayDateStyled,
+} from "../../../styled/styledNav";
+import { DATE_FORMAT_SHOW } from "../../../const/menuConst";
 
-const DayNavbar = () => {
-  const [date, setDate] = useState(moment().locale("pl"));
-
+const DayNavbar = ({
+  selectedDate,
+  setSelectedDate,
+}: {
+  selectedDate: Moment;
+  setSelectedDate: (date: Moment) => void;
+}) => {
   const handleDayBack = () => {
-    setDate(moment(date).subtract(1, "day"));
+    setSelectedDate(moment(date).subtract(1, "day"));
   };
 
   const handleDayNext = () => {
-    setDate(moment(date).add(1, "day"));
+    setSelectedDate(moment(date).add(1, "day"));
   };
 
+  const showNameDay = (date: Moment) => {
+    if (moment().isSame(date, "day")) return "dzisiaj";
+    if (moment().add(1, "day").isSame(date, "day")) return "jutro";
+    if (moment(date).subtract(1, "day").isSame(date, "day")) return "wczoraj";
+    return date.format("dddd");
+  };
+
+  const date = moment(selectedDate).locale("pl");
   return (
-    <div>
-      <DayNavbarContainerStyled>
-        <IconButtonNavStyled onClick={handleDayBack}>
-          <NavigateBeforeIcon fontSize="large" />
-        </IconButtonNavStyled>
-        <div>{date.fromNow()}</div>
-        <IconButtonNavStyled onClick={handleDayNext}>
-          <NavigateNextIcon fontSize="large" />
-        </IconButtonNavStyled>
-      </DayNavbarContainerStyled>
-      {/* <DateTimePicker
-        clearable
-        value={clearedDate}
-        onChange={handleDateTimeChange}
-        helperText="Clear Initial State"
-      /> */}
-    </div>
+    <DayNavbarContainerStyled>
+      <IconButtonNavStyled onClick={handleDayBack}>
+        <NavigateBeforeIcon fontSize="large" />
+      </IconButtonNavStyled>
+      <div>
+        <DayNameStyled>{showNameDay(date)}</DayNameStyled>
+        <DayDateStyled>{date.format(DATE_FORMAT_SHOW)}</DayDateStyled>
+      </div>
+      <IconButtonNavStyled onClick={handleDayNext}>
+        <NavigateNextIcon fontSize="large" />
+      </IconButtonNavStyled>
+    </DayNavbarContainerStyled>
   );
 };
 

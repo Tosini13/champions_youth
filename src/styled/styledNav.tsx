@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 
 import { mainTheme, styledColors } from "./styledConst";
 
@@ -26,7 +27,7 @@ export const MenuSideBarContainerStyled = styled.div<{ opened: boolean }>`
 
 export const NavBarStyled = styled.nav`
   position: relative;
-  padding: 5px 10px;
+  padding: 6px 10px;
   display: flex;
   justify-content: space-between;
   z-index: 10;
@@ -93,4 +94,38 @@ export const DayNavbarContainerStyled = styled.div`
   margin: 0px 5px;
   margin: auto 5px;
   height: 100%;
+`;
+
+export const DayNameStyled = styled.p`
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+`;
+
+export const DayDateStyled = styled.p`
+  margin: 0px;
+  padding: 0px;
+  font-size: 10px;
+  text-align: center;
+`;
+
+export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
+  margin: 0px;
+  .MuiInputBase-root,
+  .MuiFormControl-root {
+    margin: 0px;
+  }
+  .MuiInputBase-root::before,
+  .MuiInputBase-root::after {
+    content: none;
+  }
+  .Mui-error,
+  input,
+  label {
+    display: none;
+  }
+  .MuiIconButton-root {
+    padding: 5px;
+    color: ${mainTheme.palette.secondary.main};
+  }
 `;

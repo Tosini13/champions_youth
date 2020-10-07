@@ -13,6 +13,7 @@ export const HamburgerStyled = styled.div<{ open: boolean }>`
   justify-content: center;
   align-items: center;
   width: 25px;
+  padding: 5px;
   > div {
     background-color: ${mainTheme.palette.secondary.main};
     width: 100%;
@@ -39,10 +40,9 @@ export const HamburgerStyled = styled.div<{ open: boolean }>`
       : ``}
 `;
 
-
 export const TeamsListIconButtonStyled = styled(IconButton)`
-    padding-right: 0px;
-`
+  padding-right: 0px;
+`;
 
 export const DeleteIconStyled = styled(DeleteIcon)`
   color: ${mainTheme.palette.error.dark};

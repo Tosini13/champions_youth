@@ -5,11 +5,13 @@ import { firestoreReducer } from "redux-firestore";
 import { firebaseReducer } from "react-redux-firebase";
 import routerReducer from "./RouterReducer";
 import userReducer from "./UserReducer";
+import menuReducer from "./MenuReducer";
 
 const rootReducer = combineReducers({
   tournament: tournamentReducer,
-  menu: routerReducer,
+  router: routerReducer,
   user: userReducer,
+  menu: menuReducer,
   auth: authReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer,
