@@ -6,7 +6,9 @@ import moment from "moment";
 
 import TextField from "@material-ui/core/TextField";
 
-import { routerConstString } from "../../const/menuConst";
+import {
+  routerConstString,
+} from "../../const/menuConst";
 import { createTournament } from "../../store/actions/TournamentActions";
 import { TournamentCreateData } from "../../models/tournamentData";
 

@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment, { Moment } from "moment";
 import { bracketDbApi } from "./dbAPI/bracketData";
 import { BracketStructure } from "./bracket";
 import { TeamStructure } from "./team";
@@ -10,7 +10,7 @@ import { TournamentCreateData } from "../models/tournamentData";
 export class TournamentStructure {
   id?: Id;
   owner: Login;
-  date: string = moment().format();
+  date: Moment = moment();
   name: string;
   bracket?: BracketStructure;
   groups?: GroupStructure[];
@@ -50,7 +50,7 @@ export class TournamentStructure {
   convert = () => {
     const convertedTournament: TournamentCreateData = {
       name: this.name,
-      date: this.date,
+      date: moment(this.date).format(),
     };
     return convertedTournament;
   };

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
+import moment, { Moment } from "moment";
 
 import Button from "@material-ui/core/Button";
 
@@ -15,6 +16,7 @@ import { Id } from "../../const/structuresConst";
 const getFilteredTournaments = (
   view: routerConstString,
   tournaments: TournamentData[],
+  selectedDate: Moment,
   user?: UserData
 ) => {
   switch (view) {
@@ -30,7 +32,9 @@ const getFilteredTournaments = (
         user.favoriteTournaments?.includes(tournament.id)
       );
     default:
-      return tournaments;
+      return tournaments?.filter((tournament: TournamentData) =>
+        moment(selectedDate).isSame(moment(tournament.date), "day")
+      );
   }
 };
 
@@ -38,13 +42,13 @@ type Props = {
   user?: UserData;
   tournaments?: TournamentData[];
   history: any;
+  selectedDate: Moment;
 };
 
 class TournamentsDashboard extends Component<Props> {
   handleRedirectLogin = () => {
     this.props.history.push(routerConstString.login);
   };
-
   render() {
     const { tournaments, user } = this.props;
     return (
@@ -55,7 +59,7 @@ class TournamentsDashboard extends Component<Props> {
         {!tournaments?.length && !user ? (
           <NoContentContainer>
             <NoContentTitle>
-              Aby dodać turniej do musisz być zalogowany!
+              Aby dodać turniej musisz być zalogowany!
             </NoContentTitle>
             <Button
               variant="outlined"
@@ -84,11 +88,13 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const users: UserData[] | undefined = state.firestore.ordered.users;
   const userId: Id | undefined = state.firebase.auth.uid;
   const user: UserData | undefined = users?.find((user) => user.id === userId);
+  const selectedDate: Moment = state.menu.selectedDate;
 
   if (tournaments) {
     tournaments = getFilteredTournaments(
       ownProps.match.path,
       tournaments,
+      selectedDate,
       user
     );
   }
@@ -96,6 +102,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
   return {
     tournaments,
     user,
+    selectedDate,
   };
 };
 
