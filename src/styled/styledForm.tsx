@@ -32,6 +32,12 @@ export const AddTeamTextFieldStyled = styled(TextFieldStyled)`
   flex-grow: 1;
 `;
 
+export const EditTeamInputStyled = styled(TextFieldStyled)`
+  input {
+    font-size: 0.8rem;
+  }
+`;
+
 export const ErrorTextContainerStyled = styled.p`
   color: ${mainTheme.palette.error.main};
 `;
