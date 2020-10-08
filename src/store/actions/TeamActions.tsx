@@ -1,5 +1,5 @@
 import { Id } from "../../const/structuresConst";
-import { TeamCreateData } from "../../models/teamData";
+import { TeamCreateData, TeamData } from "../../models/teamData";
 
 export const addTeamToTournament = (tournamentId: Id, team: TeamCreateData) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
@@ -38,20 +38,19 @@ export const deleteTeamFromTournament = (tournamentId: Id, teamId: Id) => {
   };
 };
 
-export const editTeamFromTournament = (
-  tournamentId: Id,
-  teamId: Id,
-  team: any
-) => {
+export const editTeamFromTournament = (tournamentId: Id, team: TeamData) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const teamDb = {
+      name: team.name,
+    };
     const firestore = getFirestore();
     firestore
       .collection("tournaments")
       .doc(tournamentId)
       .collection("teams")
-      .doc(teamId)
+      .doc(team.id)
       .update({
-        ...team,
+        ...teamDb,
       })
       .then(() => {
         dispatch({ type: "EDIT_TEAM" });
