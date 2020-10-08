@@ -31,7 +31,7 @@ const DayNavbar = ({
   const showNameDay = (date: Moment) => {
     if (moment().isSame(date, "day")) return "dzisiaj";
     if (moment().add(1, "day").isSame(date, "day")) return "jutro";
-    if (moment(date).subtract(1, "day").isSame(date, "day")) return "wczoraj";
+    if (moment().subtract(1, "day").isSame(date, "day")) return "wczoraj";
     return date.format("dddd");
   };
 
