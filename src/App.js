@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import BottomNav from "./components/nav/BottomNav";
 import Navbar from "./components/nav/Navbar";
-import CreateTournament from "./components/tournaments/CreateTournament";
+import CreateTournament from "./components/tournaments/create/CreateTournament";
 import TournamentsDashboard from "./components/tournaments/TournamentsDashboard";
 import { BodyContainer, MainContainer } from "./styled/styledLayout";
 import { routerConstString } from "./const/menuConst";

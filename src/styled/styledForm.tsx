@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
 import TextField from "@material-ui/core/TextField";
+import { KeyboardDatePicker, KeyboardTimePicker } from "@material-ui/pickers";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
+import Stepper from "@material-ui/core/Stepper";
 
 import { mainTheme } from "./styledConst";
 
@@ -16,16 +20,57 @@ export const TextFieldContainerStyled = styled.div`
   margin-bottom: 20px;
 `;
 
-export const TextFieldStyled = styled(TextField)`
+const INPUT_STYLE = `
+  margin-bottom: 20px;
+  width: 100%;
   input {
     color: ${mainTheme.palette.secondary.main};
     &::before {
       border-color: ${mainTheme.palette.secondary.dark};
     }
-  }
+  };
   label {
     color: ${mainTheme.palette.secondary.dark};
+  };
+`;
+
+export const TextFieldStyled = styled(TextField)`
+  ${INPUT_STYLE};
+`;
+
+const KEYBOARD_PICKER_STYLE = `
+  button{
+    color: ${mainTheme.palette.secondary.main};
   }
+  ${INPUT_STYLE};
+`;
+
+export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
+  ${KEYBOARD_PICKER_STYLE};
+`;
+
+export const KeyboardTimePickerStyled = styled(KeyboardTimePicker)`
+  ${KEYBOARD_PICKER_STYLE};
+`;
+
+export const FormControlStyled = styled(FormControl)`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const FormLabelStyled = styled(FormLabel)`
+  color: ${mainTheme.palette.secondary.dark};
+  font-size: 15px;
+  text-align: center;
+`;
+
+export const TournamentCreationStepperStyled = styled(Stepper)`
+  background-color: transparent;
+  width: 100%;
+`;
+
+export const TournamentCreationStepLabelStyled = styled.span`
+  color: ${mainTheme.palette.secondary.light};
 `;
 
 export const AddTeamTextFieldStyled = styled(TextFieldStyled)`
