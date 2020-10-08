@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
+import { Redirect } from "react-router-dom";
 
 import Button from "@material-ui/core/Button";
 import {
@@ -11,7 +12,6 @@ import {
 } from "../../styled/styledForm";
 import { Credentials } from "../../models/credentialsData";
 import { signIn } from "../../store/actions/AuthActions";
-import { Redirect } from "react-router-dom";
 import { routerConstString } from "../../const/menuConst";
 
 type Props = {
@@ -79,10 +79,8 @@ const SignIn: React.FC<Props> = ({ signIn, authError, loggedIn }) => {
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  console.log(state, ownProps);
   const authError = Boolean(state.auth.authError);
   const loggedIn = Boolean(state.firebase.auth.uid);
-  console.log(authError);
   return {
     authError,
     loggedIn,
