@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import moment from "moment";
+import React from "react";
 
 import "date-fns";
 import MomentUtils from "@date-io/moment";
@@ -11,17 +10,43 @@ import {
   TextFieldStyled,
 } from "../../../styled/styledForm";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import { BasicInfoDataForm } from "./CreateTournament";
 
-type Props = { register: any; errors: any };
+type Props = {
+  register: any;
+  errors: any;
+  basicInfo: BasicInfoDataForm;
+  setBasicInfo: (basicInfo: BasicInfoDataForm) => void;
+};
 
-const CreateTournamentBasicInfo: React.FC<Props> = ({ register, errors }) => {
-  const [date, setDate] = useState<MaterialUiPickersDate>(moment());
-  const [time, setTime] = useState<MaterialUiPickersDate>(moment());
+const CreateTournamentBasicInfo: React.FC<Props> = ({
+  register,
+  errors,
+  basicInfo,
+  setBasicInfo,
+}) => {
+  const handleOnChange = (
+    element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setBasicInfo({
+      ...basicInfo,
+      [element.target.name]: element.target.value,
+    });
+  };
+
+  const handleOnChangeDate = (value: MaterialUiPickersDate) => {
+    setBasicInfo({
+      ...basicInfo,
+      date: value,
+    });
+  };
 
   return (
     <>
       <TextFieldStyled
         label="Title"
+        value={basicInfo.name}
+        onChange={handleOnChange}
         inputProps={{
           name: "name",
           ref: register({ required: "Required", maxLength: 255, minLength: 2 }),
@@ -38,8 +63,8 @@ const CreateTournamentBasicInfo: React.FC<Props> = ({ register, errors }) => {
           margin="normal"
           label="Wybierz datę"
           format="yyyy-MM-DD"
-          value={date}
-          onChange={setDate}
+          value={basicInfo.date}
+          onChange={handleOnChangeDate}
           KeyboardButtonProps={{
             "aria-label": "change date",
           }}
@@ -52,8 +77,8 @@ const CreateTournamentBasicInfo: React.FC<Props> = ({ register, errors }) => {
           }}
           margin="normal"
           label="Wybierz czas"
-          value={time}
-          onChange={setTime}
+          value={basicInfo.date}
+          onChange={handleOnChangeDate}
           KeyboardButtonProps={{
             "aria-label": "change time",
           }}

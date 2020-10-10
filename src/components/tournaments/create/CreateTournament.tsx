@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 import Button from "@material-ui/core/Button";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -16,6 +17,24 @@ import CreateTournamentLocation from "./Location";
 import CreateTournamentMatchesInfo from "./MatchesInfo";
 import VerticalStepper from "./VerticalStepper";
 
+export type BasicInfoDataForm = {
+  name: string;
+  date: MaterialUiPickersDate;
+};
+
+export type LocationDataForm = {
+  city: string;
+  address: string;
+};
+
+export type MatchesInfoForm = {
+  disabled: boolean;
+  matchTimeInGroup: number;
+  breakTimeInGroup: number;
+  matchTimeInBracket: number;
+  breakTimeInBracket: number;
+};
+
 type Props = {
   createTournament: (data: TournamentCreateData) => void;
 };
@@ -23,28 +42,69 @@ type Props = {
 const CreateTournament: React.FC<Props> = ({ createTournament }) => {
   const history = useHistory();
   const { handleSubmit, register, errors } = useForm();
+  const [basicInfo, setBasicInfo] = useState<BasicInfoDataForm>({
+    name: "",
+    date: moment(),
+  });
+  const [location, setLocation] = useState<LocationDataForm>({
+    city: "",
+    address: "",
+  });
+  const [matchesInfo, setMatchesInfo] = useState<MatchesInfoForm>({
+    disabled: true,
+    matchTimeInGroup: 5,
+    breakTimeInGroup: 1,
+    matchTimeInBracket: 6,
+    breakTimeInBracket: 2,
+  });
 
-  const onSubmit = (values: any) => {
-    console.log(values);
-    // const data: TournamentCreateData = {
-    //   name: values.name,
-    //   date: values.date,
-    // };
-    // createTournament(data);
-    // history.push(routerConstString.tournaments);
+  const onSubmit = () => {
+    console.log("check!");
+  };
+
+  const onCreate = () => {
+    const data: TournamentCreateData = {
+      name: basicInfo.name,
+      date: basicInfo.date ? basicInfo.date.format() : moment().format(),
+      city: location.city,
+      address: location.address,
+      matchTimeInGroup: matchesInfo.matchTimeInGroup,
+      breakTimeInGroup: matchesInfo.breakTimeInGroup,
+      matchTimeInBracket: matchesInfo.matchTimeInBracket,
+      breakTimeInBracket: matchesInfo.breakTimeInBracket,
+    };
+    createTournament(data);
+    history.push(routerConstString.tournaments);
   };
 
   const getStepContent = (step: number) => {
     switch (step) {
       case 0:
         return (
-          <CreateTournamentBasicInfo register={register} errors={errors} />
+          <CreateTournamentBasicInfo
+            register={register}
+            errors={errors}
+            basicInfo={basicInfo}
+            setBasicInfo={setBasicInfo}
+          />
         );
       case 1:
-        return <CreateTournamentLocation register={register} errors={errors} />;
+        return (
+          <CreateTournamentLocation
+            register={register}
+            errors={errors}
+            location={location}
+            setLocation={setLocation}
+          />
+        );
       case 2:
         return (
-          <CreateTournamentMatchesInfo register={register} errors={errors} />
+          <CreateTournamentMatchesInfo
+            register={register}
+            errors={errors}
+            matchesInfo={matchesInfo}
+            setMatchesInfo={setMatchesInfo}
+          />
         );
       case 3:
         return (
@@ -53,6 +113,7 @@ const CreateTournament: React.FC<Props> = ({ createTournament }) => {
               variant="outlined"
               color="secondary"
               type="submit"
+              onClick={onCreate}
               style={{ margin: "5px auto" }}
             >
               Stwórz
@@ -66,7 +127,7 @@ const CreateTournament: React.FC<Props> = ({ createTournament }) => {
 
   return (
     <FormStyled onSubmit={handleSubmit(onSubmit)}>
-      <VerticalStepper getStepContent={getStepContent} />
+      <VerticalStepper getStepContent={getStepContent} errors={errors} />
     </FormStyled>
   );
 };

@@ -13,22 +13,25 @@ import { ColorlibStepIcon } from "./StepperBullet";
 function getSteps() {
   return [
     "Informacje o turnieju",
-    "Informacje o meczach",
     "Lokalizacja turnieju",
+    "Informacje o meczach",
     "Podsumowanie",
   ];
 }
 
 type Props = {
   getStepContent: (step: number) => JSX.Element | "Unknown step";
+  errors: any;
 };
 
-const VerticalStepper: React.FC<Props> = ({ getStepContent }) => {
+const VerticalStepper: React.FC<Props> = ({ getStepContent, errors }) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
   const handleSetStep = (step: number) => {
-    setActiveStep(step);
+    if (Object.keys(errors).length === 0) {
+      setActiveStep(step);
+    }
   };
 
   return (
@@ -45,7 +48,7 @@ const VerticalStepper: React.FC<Props> = ({ getStepContent }) => {
                 handleSetStep(index);
               }}
             >
-              <TournamentCreationStepLabelStyled>
+              <TournamentCreationStepLabelStyled type="submit">
                 {label}
               </TournamentCreationStepLabelStyled>
             </StepLabel>

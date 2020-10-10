@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { KeyboardDatePicker, KeyboardTimePicker } from "@material-ui/pickers";
 import FormLabel from "@material-ui/core/FormLabel";
@@ -21,7 +23,6 @@ export const TextFieldContainerStyled = styled.div`
 `;
 
 const INPUT_STYLE = `
-  margin-bottom: 20px;
   width: 100%;
   input {
     color: ${mainTheme.palette.secondary.main};
@@ -58,6 +59,10 @@ export const FormControlStyled = styled(FormControl)`
   flex-direction: row;
 `;
 
+export const FormControlLabelStyled = styled(FormControlLabel)`
+  color: ${mainTheme.palette.secondary.dark};
+`;
+
 export const FormLabelStyled = styled(FormLabel)`
   color: ${mainTheme.palette.secondary.dark};
   font-size: 15px;
@@ -69,7 +74,7 @@ export const TournamentCreationStepperStyled = styled(Stepper)`
   width: 100%;
 `;
 
-export const TournamentCreationStepLabelStyled = styled.span`
+export const TournamentCreationStepLabelStyled = styled(Button)`
   color: ${mainTheme.palette.secondary.light};
 `;
 
