@@ -58,7 +58,7 @@ const TournamentInfo: React.FC<Props> = ({
               <ALinkStyled
                 href={`https://www.google.com/maps/search/?api=1&query=${tournament.address
                   .split(" ")
-                  .join("+")}`}
+                  .join("+")}+${tournament.city.split(" ").join("+")}`}
                 target="_blank"
               >
                 {tournament.address} {tournament.city}
