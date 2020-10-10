@@ -2,6 +2,8 @@ import React, { ChangeEvent, useState } from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 
+import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+
 import { IconButtonStyled } from "../../styled/styledButtons";
 import { AddTeamFormStyled } from "../../styled/styledTeams";
 import { addTeamToTournament } from "../../store/actions/TeamActions";
@@ -37,6 +39,9 @@ const AddTeam: React.FC<Props> = ({ tournamentId, addTeamToTournament }) => {
   return (
     <>
       <AddTeamFormStyled onSubmit={handleSubmit(onSubmit)}>
+        <IconButtonStyled style={{ marginRight: "10px" }}>
+          <AddAPhotoIcon fontSize="small" color="secondary" />
+        </IconButtonStyled>
         <AddTeamTextFieldStyled
           label="Nazwa"
           color="secondary"

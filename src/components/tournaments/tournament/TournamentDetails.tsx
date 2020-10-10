@@ -38,7 +38,7 @@ const TournamentDetails: React.FC<Props> = ({
     setBack(routerConstString.tournaments);
   }, [setBack]);
 
-  const [view, setView] = useState(menuTournamentConst.info);
+  const [view, setView] = useState(menuTournamentConst.teams);
   return (
     <>
       <TournamentMenu view={view} setView={setView} />
