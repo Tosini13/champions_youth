@@ -6,7 +6,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
 export const AddTeamFormStyled = styled.form`
-  padding: 5px;
+  padding: 0px 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -13,6 +13,7 @@ import { TeamData } from "../../../models/teamData";
 import { GameData } from "../../../models/gameData";
 import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
+import TournamentInfo from "./TournamentInfo";
 
 type Props = {
   tournament: TournamentData;
@@ -27,7 +28,7 @@ const TournamentDetails: React.FC<Props> = ({
   teams,
   playoffs,
 }) => {
-  const [view, setView] = useState(menuTournamentConst.teams);
+  const [view, setView] = useState(menuTournamentConst.info);
   return (
     <>
       <TournamentMenu view={view} setView={setView} />
@@ -38,6 +39,9 @@ const TournamentDetails: React.FC<Props> = ({
         {view === menuTournamentConst.playoffs && tournament && playoffs ? (
           <TournamentPlayOffs tournament={tournament} playoffs={playoffs} />
         ) : null} */}
+        {view === menuTournamentConst.info && tournament ? (
+          <TournamentInfo tournament={tournament} />
+        ) : null}
         {view === menuTournamentConst.teams && tournament ? (
           <TournamentTeams tournamentId={tournamentId} teams={teams} />
         ) : null}

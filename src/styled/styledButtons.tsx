@@ -40,6 +40,11 @@ export const IconButtonStyled = styled(IconButton)`
   width: fit-content;
 `;
 
+export const ALinkStyled = styled.a`
+    text-decoration: none;
+    color: ${mainTheme.palette.secondary.main};
+`
+
 export const ButtonSuccessStyled = styled(Button)`
   color: ${mainTheme.palette.success.main};
 `;
