@@ -33,7 +33,7 @@ export const NoContentTitle = styled.p`
 
 export const ContentContainerStyled = styled.div`
   padding: 5px;
-  padding-top: 35px;
+  padding-top: 45px;
 `;
 
 export const LinkStyled = styled(Link)`

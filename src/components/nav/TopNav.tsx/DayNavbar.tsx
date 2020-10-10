@@ -5,7 +5,10 @@ import "moment/locale/pl";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
-import { IconButtonNavStyled } from "../../../styled/styledButtons";
+import {
+  IconButtonArrowBeforeStyled,
+  IconButtonArrowNextStyled,
+} from "../../../styled/styledButtons";
 import {
   DayNavbarContainerStyled,
   DayNameStyled,
@@ -16,9 +19,11 @@ import { DATE_FORMAT_SHOW } from "../../../const/menuConst";
 const DayNavbar = ({
   selectedDate,
   setSelectedDate,
+  isDateActive,
 }: {
   selectedDate: Moment;
   setSelectedDate: (date: Moment) => void;
+  isDateActive: boolean;
 }) => {
   const handleDayBack = () => {
     setSelectedDate(moment(date).subtract(1, "day"));
@@ -38,16 +43,22 @@ const DayNavbar = ({
   const date = moment(selectedDate).locale("pl");
   return (
     <DayNavbarContainerStyled>
-      <IconButtonNavStyled onClick={handleDayBack}>
+      <IconButtonArrowBeforeStyled
+        active={isDateActive ? 1 : 0}
+        onClick={handleDayBack}
+      >
         <NavigateBeforeIcon fontSize="large" />
-      </IconButtonNavStyled>
+      </IconButtonArrowBeforeStyled>
       <div>
         <DayNameStyled>{showNameDay(date)}</DayNameStyled>
         <DayDateStyled>{date.format(DATE_FORMAT_SHOW)}</DayDateStyled>
       </div>
-      <IconButtonNavStyled onClick={handleDayNext}>
+      <IconButtonArrowNextStyled
+        active={isDateActive ? 1 : 0}
+        onClick={handleDayNext}
+      >
         <NavigateNextIcon fontSize="large" />
-      </IconButtonNavStyled>
+      </IconButtonArrowNextStyled>
     </DayNavbarContainerStyled>
   );
 };

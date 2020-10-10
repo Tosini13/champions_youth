@@ -16,6 +16,25 @@ export const IconButtonNavStyled = styled(IconButton)`
   color: ${mainTheme.palette.secondary.main};
 `;
 
+export const IconButtonArrowStyled = styled(IconButtonNavStyled)`
+  transition: transform 0.3s, opacity 0.3s;
+  transform: translateX(0px);
+  opacity: 1;
+`;
+
+export const IconButtonArrowBeforeStyled = styled(IconButtonArrowStyled)<{
+  active: number;
+}>`
+  ${(props) =>
+    props.active ? "" : `transform: translateX(-50px); opacity: 0;`}
+`;
+
+export const IconButtonArrowNextStyled = styled(IconButtonArrowStyled)<{
+  active: number;
+}>`
+  ${(props) => (props.active ? "" : `transform: translateX(50px); opacity: 0;`)}
+`;
+
 export const IconButtonBackStyled = styled(IconButton)`
   display: flex;
   align-items: center;
@@ -38,6 +57,11 @@ export const IconButtonStyled = styled(IconButton)`
   margin: 0px 2px;
   height: fit-content;
   width: fit-content;
+`;
+
+export const ALinkStyled = styled.a`
+  text-decoration: none;
+  color: ${mainTheme.palette.secondary.main};
 `;
 
 export const ButtonSuccessStyled = styled(Button)`

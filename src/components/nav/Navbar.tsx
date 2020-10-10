@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+
+import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import "date-fns";
+import MomentUtils from "@date-io/moment";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 import {
   NavBarStyled,
@@ -9,21 +16,23 @@ import {
 import { HamburgerStyled } from "../../styled/styledIcons";
 import DayNavbar from "./TopNav.tsx/DayNavbar";
 import MenuSideBar from "./mainMenu/MenuSideBar";
-
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import "date-fns";
-import MomentUtils from "@date-io/moment";
 import { setSelectedDate } from "../../store/actions/MenuActions";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { Moment } from "moment";
+import { IconButtonNavStyled } from "../../styled/styledButtons";
+import { routerConstString } from "../../const/menuConst";
 
 const Navbar = ({
   selectedDate,
   setSelectedDate,
+  isDateActive,
+  back,
 }: {
   selectedDate: Moment;
   setSelectedDate: (menu: Moment) => void;
+  isDateActive: boolean;
+  back?: routerConstString;
 }) => {
+  const history = useHistory();
   const [sideBarMenuOpened, setSideBarMenu] = useState(false);
 
   const toggleSideBarMenu = () => {
@@ -36,25 +45,36 @@ const Navbar = ({
     }
   };
 
+  const goBack = () => {
+    if (back) history.push(back);
+  };
+
   return (
     <>
       <NavContainerStyled>
         <NavBarStyled>
-          <MuiPickersUtilsProvider utils={MomentUtils}>
-            <KeyboardDatePickerStyled
-              margin="normal"
-              id="date-picker-dialog"
-              label="Date picker dialog"
-              format="MM/dd/yyyy"
-              value={selectedDate}
-              onChange={handleDateChange}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-              cancelLabel="anuluj"
-            />
-          </MuiPickersUtilsProvider>
+          {isDateActive ? (
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <KeyboardDatePickerStyled
+                margin="normal"
+                id="date-picker-dialog"
+                label="Date picker dialog"
+                format="MM/dd/yyyy"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+                cancelLabel="anuluj"
+              />
+            </MuiPickersUtilsProvider>
+          ) : (
+            <IconButtonNavStyled onClick={goBack}>
+              <NavigateBeforeIcon fontSize="large" />
+            </IconButtonNavStyled>
+          )}
           <DayNavbar
+            isDateActive={isDateActive}
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
           />
@@ -76,6 +96,8 @@ const Navbar = ({
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
     selectedDate: state.menu.selectedDate,
+    isDateActive: state.menu.isDateActive,
+    back: state.menu.back,
   };
 };
 
