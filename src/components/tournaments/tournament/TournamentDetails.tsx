@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
 import { ContentContainerStyled } from "../../../styled/styledLayout";
-import { menuTournamentConst } from "../../../const/menuConst";
+import {
+  menuTournamentConst,
+  routerConstString,
+} from "../../../const/menuConst";
 import TournamentMenu from "./TournamentMenu";
 import TournamentTeams from "./TournamentTeams";
 // import TournamentPlayOffs from "./TournamentPlayOffs";
@@ -14,12 +17,14 @@ import { GameData } from "../../../models/gameData";
 import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
 import TournamentInfo from "./TournamentInfo";
+import { setBack } from "../../../store/actions/MenuActions";
 
 type Props = {
   tournament: TournamentData;
   teams: TeamData[];
   playoffs: GameData[];
   tournamentId: Id;
+  setBack: (route: routerConstString) => void;
 };
 
 const TournamentDetails: React.FC<Props> = ({
@@ -27,7 +32,12 @@ const TournamentDetails: React.FC<Props> = ({
   tournament,
   teams,
   playoffs,
+  setBack,
 }) => {
+  useEffect(() => {
+    setBack(routerConstString.tournaments);
+  }, [setBack]);
+
   const [view, setView] = useState(menuTournamentConst.info);
   return (
     <>
@@ -64,8 +74,14 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setBack: (route: routerConstString) => dispatch(setBack(route)),
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect((props: any) => {
     return [
       { collection: "tournaments" },

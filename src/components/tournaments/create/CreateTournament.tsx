@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
@@ -16,6 +16,7 @@ import CreateTournamentBasicInfo from "./BasicInfo";
 import CreateTournamentLocation from "./Location";
 import CreateTournamentMatchesInfo from "./MatchesInfo";
 import VerticalStepper from "./VerticalStepper";
+import { setBack } from "../../../store/actions/MenuActions";
 
 export type BasicInfoDataForm = {
   name: string;
@@ -37,11 +38,17 @@ export type MatchesInfoForm = {
 
 type Props = {
   createTournament: (data: TournamentCreateData) => void;
+  setBack: (route: routerConstString) => void;
 };
 
-const CreateTournament: React.FC<Props> = ({ createTournament }) => {
+const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
   const history = useHistory();
   const { handleSubmit, register, errors } = useForm();
+
+  useEffect(() => {
+    setBack(routerConstString.tournaments);
+  }, [setBack]);
+
   const [basicInfo, setBasicInfo] = useState<BasicInfoDataForm>({
     name: "",
     date: moment(),
@@ -136,6 +143,7 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     createTournament: (data: TournamentCreateData) =>
       dispatch(createTournament(data)),
+    setBack: (route: routerConstString) => dispatch(setBack(route)),
   };
 };
 export default connect(null, mapDispatchToProps)(CreateTournament);

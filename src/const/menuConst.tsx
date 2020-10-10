@@ -53,5 +53,5 @@ routerConst.set(routerConstString.my, bottomMenuConst.my);
 routerConst.set(routerConstString.favorites, bottomMenuConst.favorites);
 
 export const DATE_FORMAT_DATA = "YYYY-MM-DDTHH:mm:SS";
-export const DATE_FORMAT_SHOW = "YYYY-MM-DD";
+export const DATE_FORMAT_SHOW = "DD-MM-YYYY";
 export const DATE_FORMAT_CONVERTED = "YYYY-MM-DD HH:mm:SS";

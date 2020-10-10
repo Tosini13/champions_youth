@@ -94,6 +94,7 @@ export const DayNavbarContainerStyled = styled.div`
   margin: 0px 5px;
   margin: auto 5px;
   height: 100%;
+  overflow: hidden;
 `;
 
 export const DayNameStyled = styled.p`
@@ -125,7 +126,7 @@ export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
     display: none;
   }
   .MuiIconButton-root {
-    padding: 5px;
+    padding: 1.5px;
     color: ${mainTheme.palette.secondary.main};
   }
 `;
