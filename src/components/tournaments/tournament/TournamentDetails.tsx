@@ -11,7 +11,7 @@ import {
 import TournamentMenu from "./TournamentMenu";
 import TournamentTeams from "./TournamentTeams";
 // import TournamentPlayOffs from "./TournamentPlayOffs";
-// import TournamentGroups from "./TournamentGroups";
+import TournamentGroups from "./TournamentGroups";
 import { TeamData } from "../../../models/teamData";
 import { GameData } from "../../../models/gameData";
 import { TournamentData } from "../../../models/tournamentData";
@@ -38,15 +38,15 @@ const TournamentDetails: React.FC<Props> = ({
     setBack(routerConstString.tournaments);
   }, [setBack]);
 
-  const [view, setView] = useState(menuTournamentConst.teams);
+  const [view, setView] = useState(menuTournamentConst.groups);
   return (
     <>
       <TournamentMenu view={view} setView={setView} />
       <ContentContainerStyled>
-        {/* {view === menuTournamentConst.groups && tournament ? (
-          <TournamentGroups tournament={tournament} />
+        {view === menuTournamentConst.groups && tournament ? (
+          <TournamentGroups tournament={tournament} teams={teams}  />
         ) : null}
-        {view === menuTournamentConst.playoffs && tournament && playoffs ? (
+        {/* {view === menuTournamentConst.playoffs && tournament && playoffs ? (
           <TournamentPlayOffs tournament={tournament} playoffs={playoffs} />
         ) : null} */}
         {view === menuTournamentConst.info && tournament ? (

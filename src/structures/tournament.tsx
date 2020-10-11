@@ -2,10 +2,10 @@ import moment, { Moment } from "moment";
 import { bracketDbApi } from "./dbAPI/bracketData";
 import { BracketStructure } from "./bracket";
 import { TeamStructure } from "./team";
-import { GroupStructure } from "./group";
 import { Login } from "../const/userConst";
 import { Id } from "../const/structuresConst";
 import { TournamentCreateData } from "../models/tournamentData";
+import { GroupStage } from "./groupStage";
 
 export class TournamentStructure {
   id?: Id;
@@ -13,8 +13,13 @@ export class TournamentStructure {
   date: Moment = moment();
   name: string;
   bracket?: BracketStructure;
-  groups?: GroupStructure[];
+  groupStage?: GroupStage;
   teams: TeamStructure[] = [];
+  matchTimeInGroup?: number = 5;
+  breakTimeInGroup?: number = 1;
+  matchTimeInBracket?: number = 6;
+  breakTimeInBracket?: number = 2;
+  fields: number = 3;
 
   addTeam = (team: TeamStructure) => {
     this.teams = [...this.teams, team];
@@ -31,6 +36,10 @@ export class TournamentStructure {
         team = teamToEdit;
       }
     });
+  };
+
+  deleteGroups = () => {
+    this.groupStage = undefined;
   };
 
   deletePlayOffs = () => {
@@ -51,6 +60,7 @@ export class TournamentStructure {
     const convertedTournament: TournamentCreateData = {
       name: this.name,
       date: moment(this.date).format(),
+      fields: this.fields,
     };
     return convertedTournament;
   };
@@ -67,4 +77,10 @@ export type TournamentStructureData = {
   bracket?: BracketStructure;
   rounds?: number;
   matchPlace?: number;
+  matchTimeInGroup?: number;
+  breakTimeInGroup?: number;
+  matchTimeInBracket?: number;
+  breakTimeInBracket?: number;
+  fields?: number;
+  teams?: TeamStructure[];
 };
