@@ -1,4 +1,5 @@
 import { placeMatchesTitle, roundMatchesTitle } from "../const/structuresConst";
+import { TeamData } from "../models/teamData";
 import { GameStructure } from "./game";
 import { TeamStructure } from "./team";
 
@@ -197,7 +198,7 @@ export class BracketStructure {
     }
   };
 
-  initBracketWithTeams = (teams: TeamStructure[]) => {
+  initBracketWithTeams = (teams: TeamData[]) => {
     const lastMatches = this.getLastMatches(this.placeMatches[1]);
     let i = 0;
     lastMatches.forEach((match) => {

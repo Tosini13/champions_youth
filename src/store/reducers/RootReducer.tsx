@@ -6,10 +6,12 @@ import { firebaseReducer } from "react-redux-firebase";
 import routerReducer from "./RouterReducer";
 import userReducer from "./UserReducer";
 import menuReducer from "./MenuReducer";
+import groupReducer from "./GroupReducer";
 import teamReducer from "./TeamReducer";
 
 const rootReducer = combineReducers({
   tournament: tournamentReducer,
+  group: groupReducer,
   team: teamReducer,
   router: routerReducer,
   user: userReducer,

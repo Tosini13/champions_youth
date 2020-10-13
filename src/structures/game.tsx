@@ -1,5 +1,6 @@
 import { matchModeConst } from "../const/matchConst";
 import { Id } from "../const/structuresConst";
+import { TeamData } from "../models/teamData";
 import { MatchStructure } from "./match";
 import { TeamStructure } from "./team";
 
@@ -77,7 +78,7 @@ export class GameStructure {
     return false;
   };
 
-  promoteTeam = (team: TeamStructure | undefined) => {
+  promoteTeam = (team: TeamData | undefined) => {
     if (this.winnerMatch?.previousMatchHome === this) {
       this.winnerMatch.match.setHome(team);
       if (this.winnerMatch.returnMatch) {
@@ -92,7 +93,7 @@ export class GameStructure {
     }
   };
 
-  demoteTeam = (team: TeamStructure | undefined) => {
+  demoteTeam = (team: TeamData | undefined) => {
     if (this.loserMatch?.previousMatchHome === this) {
       this.loserMatch.match.setHome(team);
       if (this.loserMatch.returnMatch) {

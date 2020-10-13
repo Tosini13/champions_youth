@@ -7,12 +7,23 @@ import { TeamData } from "../../../models/teamData";
 import { GroupStage } from "../../../structures/groupStage";
 import { TournamentData } from "../../../models/tournamentData";
 import { GroupData } from "../../../models/groupData";
+import { createGroup } from "../../../store/actions/GroupActions";
+import { connect } from "react-redux";
+import { MatchDataDb } from "../../../structures/dbAPI/matchData";
+import { GroupDataDb } from "../../../structures/dbAPI/groupData";
+import { Id } from "../../../const/structuresConst";
+import { useParams } from "react-router-dom";
 
 type Props = {
   tournament: TournamentData;
   groupStage: GroupStage;
   teams: TeamData[];
   toggleCreate: () => void;
+  createGroup: (
+    tournamentId: Id,
+    group: GroupDataDb,
+    matches: MatchDataDb[]
+  ) => void;
 };
 
 const GroupsCreate: React.FC<Props> = ({
@@ -20,12 +31,21 @@ const GroupsCreate: React.FC<Props> = ({
   groupStage,
   teams,
   toggleCreate,
+  createGroup,
 }) => {
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
   const [chosenGroup, setChosenGroup] = useState<GroupData>();
   const [groups, setGroups] = useState<GroupData[]>([]);
+  const { id } = useParams<{ id: Id }>();
 
   const submitGroups = () => {
+    console.log(groups);
+    const groupsDb = groupStage.convertToDb(groups);
+    console.log(groupsDb);
+    groupsDb.forEach((group) => {
+      console.log(group);
+      createGroup(id, group.groupData, group.matchesData);
+    });
     toggleCreate();
   };
 
@@ -35,14 +55,13 @@ const GroupsCreate: React.FC<Props> = ({
 
   const drawGroupsMatches = () => {
     if (groupStage.groups.length) {
-      setGroups(
-        groupStage.createRandomGroups(
-          teams,
-          groupStage.groups.length,
-          tournament,
-          false
-        )
+      const newGroups = groupStage.createRandomGroups(
+        teams,
+        groupStage.groups.length,
+        tournament,
+        false
       );
+      setGroups(newGroups);
     }
   };
 
@@ -52,14 +71,22 @@ const GroupsCreate: React.FC<Props> = ({
       groupStage.groups.length < Math.ceil(teams.length / 2) - 1
     ) {
       setChosenTeams([]);
-      groupStage?.createGroups(teams, groupStage.groups.length + 1);
+      const newGroups = groupStage?.createGroups(
+        teams,
+        groupStage.groups.length + 1
+      );
+      setGroups(newGroups);
     }
   };
 
   const removeGroup = () => {
     if (groupStage && groupStage.groups.length > 1) {
       setChosenTeams([]);
-      groupStage?.createGroups(teams, groupStage.groups.length - 1);
+      const newGroups = groupStage?.createGroups(
+        teams,
+        groupStage.groups.length - 1
+      );
+      setGroups(newGroups);
     }
   };
 
@@ -96,7 +123,9 @@ const GroupsCreate: React.FC<Props> = ({
   };
 
   const handleAcceptTeams = () => {
-    groupStage?.initGroupMatches(teams, groupStage.groups, tournament, false);
+    console.log(
+      groupStage?.initGroupMatches(teams, groupStage.groups, tournament, false)
+    );
     setChosenGroup(undefined);
   };
 
@@ -123,14 +152,20 @@ const GroupsCreate: React.FC<Props> = ({
         addGroup={addGroup}
         removeGroup={removeGroup}
       />
-      {groupStage.groups.length ? (
-        <GroupList
-          groups={groupStage.groups}
-          handleChooseGroup={handleChooseGroup}
-        />
+      {groups.length ? (
+        <GroupList groups={groups} handleChooseGroup={handleChooseGroup} />
       ) : null}
     </div>
   );
 };
 
-export default GroupsCreate;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    createGroup: (
+      tournamentId: Id,
+      group: GroupDataDb,
+      matches: MatchDataDb[]
+    ) => dispatch(createGroup(tournamentId, group, matches)),
+  };
+};
+export default connect(null, mapDispatchToProps)(GroupsCreate);

@@ -44,7 +44,7 @@ const TournamentDetails: React.FC<Props> = ({
       <TournamentMenu view={view} setView={setView} />
       <ContentContainerStyled>
         {view === menuTournamentConst.groups && tournament ? (
-          <TournamentGroups tournament={tournament} teams={teams}  />
+          <TournamentGroups tournament={tournament} teams={teams} />
         ) : null}
         {/* {view === menuTournamentConst.playoffs && tournament && playoffs ? (
           <TournamentPlayOffs tournament={tournament} playoffs={playoffs} />
@@ -65,12 +65,15 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const tournaments = state.firestore.data.tournaments;
   const tournament = tournaments ? tournaments[tournamentId] : null;
   const teams = state.firestore.ordered.teams;
+  const groups = state.firestore.ordered.groups;
   const playoffs = state.firestore.ordered.playoffs;
+  console.log(groups);
   return {
     tournament,
     teams,
     playoffs,
     tournamentId,
+    groups,
   };
 };
 

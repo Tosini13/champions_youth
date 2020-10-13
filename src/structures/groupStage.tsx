@@ -3,16 +3,47 @@ import { TeamStructure } from "./team";
 import { TournamentData } from "../models/tournamentData";
 import { TeamData } from "../models/teamData";
 import { GroupData } from "../models/groupData";
+import { MatchDataDb } from "./dbAPI/matchData";
+import { GroupDataDb, ConvertedGroup } from "./dbAPI/groupData";
 
 export class GroupStage {
   groups: GroupData[] = [];
   matchCounter: number = 0;
 
+  convertToDb = (groupsData: GroupData[]) => {
+    this.groups = groupsData;
+    const groupsDb = this.groups.map((group) => {
+      const teams = group.teams.map((team) => team.id);
+      const matchesData: MatchDataDb[] = group.matches.map((match) => {
+        return {
+          ...match,
+          home: match.home?.id,
+          away: match.away?.id,
+          date: match.date.format(),
+        };
+      });
+      const groupData: GroupDataDb = {
+        name: group.name,
+        teams,
+        finishAt: group.finishAt ? group.finishAt?.format() : null,
+        promoted: group.promoted ? group.promoted : null,
+        promotedQtt: group.promotedQtt ? group.promotedQtt : null,
+        teamsQtt: group.teamsQtt ? group.teamsQtt : null,
+      };
+      const data: ConvertedGroup = {
+        groupData,
+        matchesData,
+      };
+      return data;
+    });
+    return groupsDb;
+  };
+
   createGroups = (teams: TeamStructure[], groupsQtt: number) => {
     if (teams.length / groupsQtt < 2) {
-      return false;
+      return [];
     } else if (groupsQtt < 1) {
-      return false;
+      return [];
     }
     let groups: GroupData[] = [];
     const teamsQtt = teams.length;
@@ -40,6 +71,7 @@ export class GroupStage {
       groups.push(group);
     }
     this.groups = groups;
+    return groups;
   };
 
   initPromoted(groupName: string, teamsQtt: number) {
