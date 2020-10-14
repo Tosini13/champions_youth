@@ -7,7 +7,18 @@ export interface GroupData {
   name: string;
   id?: Id;
   teams: TeamData[];
-  matches: MatchData[];
+  matches?: MatchData[];
+  promoted?: string[];
+  finishAt?: Moment;
+  promotedQtt?: number;
+  teamsQtt?: number;
+}
+
+export interface GroupDatabaseData {
+  name: string;
+  id?: Id;
+  teams: Id[];
+  matches?: MatchData[];
   promoted?: string[];
   finishAt?: Moment;
   promotedQtt?: number;

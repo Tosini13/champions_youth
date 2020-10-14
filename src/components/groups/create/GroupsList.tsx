@@ -39,7 +39,7 @@ const GroupList: React.FC<GroupListProps> = ({ groups, handleChooseGroup }) => {
           <List>
             {group.matches?.map((match) => (
               <div key={match.id}>
-                <MatchSummaryMock match={match} teams={group.teams} />
+                <MatchSummaryMock match={match} />
               </div>
             ))}
           </List>

@@ -11,14 +11,15 @@ import { Id } from "../../const/structuresConst";
 import { TeamCreateData } from "../../models/teamData";
 import { AddTeamTextFieldStyled } from "../../styled/styledForm";
 import { AddIconStyled } from "../../styled/styledIcons";
+import { useParams } from "react-router-dom";
 
 type Props = {
-  tournamentId: Id;
   addTeamToTournament: (tournamentId: Id, team: TeamCreateData) => void;
 };
 
-const AddTeam: React.FC<Props> = ({ tournamentId, addTeamToTournament }) => {
+const AddTeam: React.FC<Props> = ({ addTeamToTournament }) => {
   const { handleSubmit, register, errors } = useForm();
+  const { tournamentId } = useParams<{ tournamentId: Id }>();
 
   const [name, setName] = useState<string>("");
 

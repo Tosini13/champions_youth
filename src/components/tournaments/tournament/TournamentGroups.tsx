@@ -12,13 +12,16 @@ import GroupsCreate from "../../groups/create/GroupsCreate";
 import { TournamentData } from "../../../models/tournamentData";
 import { GroupStage } from "../../../structures/groupStage";
 import { TeamData } from "../../../models/teamData";
+import { Group } from "../../../structures/dbAPI/groupData";
+import GroupsComponent from "../../groups/GroupsComponent";
 
 type Props = {
   tournament: TournamentData;
+  groups?: Group[];
   teams: TeamData[];
 };
 
-const TournamentGroups: React.FC<Props> = ({ tournament, teams }) => {
+const TournamentGroups: React.FC<Props> = ({ tournament, teams, groups }) => {
   const [create, setCreate] = useState<boolean>(false);
 
   const toggleCreate = () => {
@@ -29,10 +32,10 @@ const TournamentGroups: React.FC<Props> = ({ tournament, teams }) => {
     console.log("To delete!");
   };
 
-  if (false) {
+  if (groups?.length) {
     return (
       <>
-        <div>Created groups</div>
+        <GroupsComponent groups={groups} />
         <ButtonHorizontalContainerStyled>
           <ButtonErrorStyled
             onClick={deleteGroups}

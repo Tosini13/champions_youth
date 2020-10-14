@@ -1,3 +1,5 @@
+import { Id } from "./structuresConst";
+
 export enum menuPlayOffsConst {
   bracket = "BRACKET",
   round = "ROUND",
@@ -31,6 +33,7 @@ export enum routerConstString {
   signUp = "/signup",
   tournaments = "/",
   tournament = "/tournament",
+  group = "/tournament/:tournamentId/group/:groupId",
   live = "/live",
   my = "/my",
   favorites = "/favorites",
@@ -55,3 +58,15 @@ routerConst.set(routerConstString.favorites, bottomMenuConst.favorites);
 export const DATE_FORMAT_DATA = "YYYY-MM-DDTHH:mm:SS";
 export const DATE_FORMAT_SHOW = "DD-MM-YYYY";
 export const DATE_FORMAT_CONVERTED = "YYYY-MM-DD HH:mm:SS";
+
+class RouteConst {
+  group = (tournamentId: Id, groupId: Id) => {
+    return `/tournament/${tournamentId}/group/${groupId}`;
+  };
+
+  tournament = (tournamentId: Id) => {
+    return `/tournament/${tournamentId}`;
+  };
+}
+
+export const routeConst = new RouteConst();

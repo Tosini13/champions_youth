@@ -9,23 +9,26 @@ import {
   ButtonSuccessStyled,
 } from "../../../styled/styledButtons";
 import { TournamentStructure } from "../../../structures/tournament";
+import { BracketData } from "../../../structures/bracket";
 
 type Props = {
-  tournament: TournamentStructure;
+  bracket?: BracketData;
 };
 
-const TournamentPlayOffs: React.FC<Props> = ({ tournament }) => {
+const TournamentPlayOffs: React.FC<Props> = ({ bracket }) => {
   const [create, setCreate] = useState<boolean>(false);
 
-  const toggleCreate = () => {
+  const createPlayOffs = () => {
+    console.log("createPlayOffs");
     setCreate(!create);
   };
 
   const deletePlayOffs = () => {
-    tournament.deletePlayOffs();
+    console.log("deletePlayOffs");
+    // tournament.deletePlayOffs();
   };
 
-  if (tournament.bracket) {
+  if (bracket) {
     return (
       <>
         {/* <PlayOffsBracket
@@ -57,7 +60,7 @@ const TournamentPlayOffs: React.FC<Props> = ({ tournament }) => {
   return (
     <ButtonHorizontalContainerStyled>
       <ButtonSuccessStyled
-        onClick={toggleCreate}
+        onClick={createPlayOffs}
         variant="outlined"
         color="secondary"
         startIcon={<AddIcon />}

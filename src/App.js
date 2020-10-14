@@ -10,6 +10,7 @@ import { routerConstString } from "./const/menuConst";
 import TournamentDetails from "./components/tournaments/tournament/TournamentDetails";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
+import GroupDetails from "./components/groups/GroupDetails";
 
 const App = () => {
   return (
@@ -26,7 +27,10 @@ const App = () => {
             <Route path={routerConstString.live} component={TournamentsDashboard} />
             <Route path={routerConstString.my} component={TournamentsDashboard} />
             <Route path={routerConstString.favorites} component={TournamentsDashboard} />
-            <Route path={routerConstString.tournament + "/:id"} component={TournamentDetails} />
+            <Switch>
+              <Route path={routerConstString.group} component={GroupDetails} />
+              <Route path={routerConstString.tournament + "/:tournamentId"} component={TournamentDetails} />
+            </Switch>
             <Route
               path={routerConstString.create}
               component={CreateTournament}

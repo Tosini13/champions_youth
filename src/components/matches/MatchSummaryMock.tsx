@@ -5,17 +5,13 @@ import {
   MatchRoundTitleStyled,
   MatchMockTeamsContainerStyled,
 } from "../../styled/styledMatch";
-import { TeamData } from "../../models/teamData";
 import { MatchData } from "../../structures/match";
 
 type Props = {
   match: MatchData;
-  teams: TeamData[];
 };
 
-const MatchSummaryMock: React.FC<Props> = ({ match, teams }) => {
-  const home = teams.find((team) => team.id === match.home?.id);
-  const away = teams.find((team) => team.id === match.away?.id);
+const MatchSummaryMock: React.FC<Props> = ({ match }) => {
   return (
     <MatchContainerStyled>
       {match.round ? (
@@ -24,9 +20,9 @@ const MatchSummaryMock: React.FC<Props> = ({ match, teams }) => {
         </MatchRoundTitleStyled>
       ) : null}
       <MatchMockTeamsContainerStyled>
-        <p>{home ? home.name : match.placeholder.home}</p>
+        <p>{match.home ? match.home.name : match.placeholder.home}</p>
         <p>vs</p>
-        <p>{away ? away.name : match.placeholder.away}</p>
+        <p>{match.away ? match.away.name : match.placeholder.away}</p>
       </MatchMockTeamsContainerStyled>
     </MatchContainerStyled>
   );

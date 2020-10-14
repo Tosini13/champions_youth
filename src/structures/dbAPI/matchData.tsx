@@ -17,6 +17,7 @@ export class MatchDbApi {
 export const matchDbApi = new MatchDbApi();
 
 export type MatchDataApp = {
+  id?: Id;
   home?: TeamData;
   away?: TeamData;
   placeholder: TeamsPlaceholder;
@@ -27,6 +28,7 @@ export type MatchDataApp = {
 };
 
 export type MatchDataDb = {
+  id?: Id;
   home?: Id | null;
   away?: Id | null;
   placeholder: TeamsPlaceholder;
@@ -35,3 +37,33 @@ export type MatchDataDb = {
   mode: matchModeConst;
   date?: string | Moment | null;
 };
+
+export class Match {
+  id?: Id;
+  home?: TeamData;
+  away?: TeamData;
+  placeholder: TeamsPlaceholder;
+  result?: Result | null;
+  round: string;
+  mode: matchModeConst;
+  date?: string | Moment | null;
+
+  getHome = (teamId: Id, teams: TeamData[]) => {
+    this.home = teams.find((team) => team.id === teamId);
+  };
+
+  getAway = (teamId: Id, teams: TeamData[]) => {
+    this.away = teams.find((team) => team.id === teamId);
+  };
+
+  constructor(matchDataDb: MatchDataDb, teams: TeamData[]) {
+    this.id = matchDataDb.id;
+    this.placeholder = matchDataDb.placeholder;
+    this.result = matchDataDb.result;
+    this.round = matchDataDb.round;
+    this.date = matchDataDb.date;
+    this.mode = matchDataDb.mode;
+    if (matchDataDb.home) this.getHome(matchDataDb.home, teams);
+    if (matchDataDb.away) this.getAway(matchDataDb.away, teams);
+  }
+}

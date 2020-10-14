@@ -16,13 +16,13 @@ import { useParams } from "react-router-dom";
 
 type Props = {
   tournament: TournamentData;
-  groupStage: GroupStage;
   teams: TeamData[];
+  groupStage: GroupStage;
   toggleCreate: () => void;
   createGroup: (
     tournamentId: Id,
     group: GroupDataDb,
-    matches: MatchDataDb[]
+    matches?: MatchDataDb[]
   ) => void;
 };
 
@@ -36,7 +36,7 @@ const GroupsCreate: React.FC<Props> = ({
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
   const [chosenGroup, setChosenGroup] = useState<GroupData>();
   const [groups, setGroups] = useState<GroupData[]>([]);
-  const { id } = useParams<{ id: Id }>();
+  const { tournamentId } = useParams<{ tournamentId: Id }>();
 
   const submitGroups = () => {
     console.log(groups);
@@ -44,7 +44,7 @@ const GroupsCreate: React.FC<Props> = ({
     console.log(groupsDb);
     groupsDb.forEach((group) => {
       console.log(group);
-      createGroup(id, group.groupData, group.matchesData);
+      createGroup(tournamentId, group.groupData, group.matchesData);
     });
     toggleCreate();
   };
@@ -66,10 +66,17 @@ const GroupsCreate: React.FC<Props> = ({
   };
 
   const addGroup = () => {
+    console.log(
+      groupStage,
+      groupStage.groups.length,
+      Math.ceil(teams.length / 2) - 1,
+      teams
+    );
     if (
       groupStage &&
       groupStage.groups.length < Math.ceil(teams.length / 2) - 1
     ) {
+      console.log(groupStage);
       setChosenTeams([]);
       const newGroups = groupStage?.createGroups(
         teams,
@@ -129,6 +136,14 @@ const GroupsCreate: React.FC<Props> = ({
     setChosenGroup(undefined);
   };
 
+  if (!teams.length) {
+    return (
+      <div>
+        <p>Nie ma zespołów</p>
+      </div>
+    );
+  }
+
   if (chosenGroup !== undefined) {
     return (
       <>
@@ -164,7 +179,7 @@ const mapDispatchToProps = (dispatch: any) => {
     createGroup: (
       tournamentId: Id,
       group: GroupDataDb,
-      matches: MatchDataDb[]
+      matches?: MatchDataDb[]
     ) => dispatch(createGroup(tournamentId, group, matches)),
   };
 };

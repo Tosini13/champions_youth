@@ -11,7 +11,7 @@ type Props = {
   setView: (view: menuTournamentConst) => void;
 };
 
-const TournamentMenu: React.FC<Props> = ({ view, setView }) => {
+const TournamentMenu: React.FC<Props> = ({ view, setView, children }) => {
   return (
     <TournamentDashboardMenuStyled>
       <TournamentDashboardMenuItemStyled

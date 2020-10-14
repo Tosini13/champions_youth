@@ -5,10 +5,9 @@ import { MatchDataDb } from "../../structures/dbAPI/matchData";
 export const createGroup = (
   tournamentId: Id,
   group: GroupDataDb,
-  matches: MatchDataDb[]
+  matches?: MatchDataDb[]
 ) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
-    console.log(tournamentId, group, matches);
     const firestore = getFirestore();
     firestore
       .collection("tournaments")
@@ -19,7 +18,7 @@ export const createGroup = (
       })
       .then((res: any) => {
         dispatch({ type: "CREATE_GROUP" });
-        matches.forEach((match) => {
+        matches?.forEach((match) => {
           firestore
             .collection("tournaments")
             .doc(tournamentId)

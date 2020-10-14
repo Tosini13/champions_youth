@@ -14,14 +14,16 @@ export class GroupStage {
     this.groups = groupsData;
     const groupsDb = this.groups.map((group) => {
       const teams = group.teams.map((team) => team.id);
-      const matchesData: MatchDataDb[] = group.matches.map((match) => {
-        return {
-          ...match,
-          home: match.home?.id,
-          away: match.away?.id,
-          date: match.date.format(),
-        };
-      });
+      const matchesData: MatchDataDb[] | undefined = group.matches?.map(
+        (match) => {
+          return {
+            ...match,
+            home: match.home?.id,
+            away: match.away?.id,
+            date: match.date.format(),
+          };
+        }
+      );
       const groupData: GroupDataDb = {
         name: group.name,
         teams,
@@ -295,20 +297,21 @@ export class GroupStage {
     let fieldCounter = 1;
     for (let i = 0; i < matchesQtt + 1; i++) {
       for (let j = 0; j < groups.length; j++) {
-        if (i < groups[j].matches.length) {
+        const groupMatches = groups[j].matches;
+        if (groupMatches && i < groupMatches.length) {
           if (
-            timeTeamsCounter.includes(groups[j].matches[i].home) ||
-            timeTeamsCounter.includes(groups[j].matches[i].away)
+            timeTeamsCounter.includes(groupMatches[i].home) ||
+            timeTeamsCounter.includes(groupMatches[i].away)
           ) {
             timeCounter = moment(timeCounter).add(timeUnit, "minutes");
             fieldCounter = 1;
             timeTeamsCounter = [];
           }
-          groups[j].matches[i].date = moment(timeCounter);
+          groupMatches[i].date = moment(timeCounter);
           timeTeamsCounter = [
             ...timeTeamsCounter,
-            groups[j].matches[i].home,
-            groups[j].matches[i].away,
+            groupMatches[i].home,
+            groupMatches[i].away,
           ];
           if (!(fieldCounter % tournament.fields)) {
             timeCounter = moment(timeCounter).add(timeUnit, "minutes");
@@ -316,9 +319,9 @@ export class GroupStage {
             timeTeamsCounter = [];
           }
           fieldCounter++;
-        } else if (i === groups[j].matches.length && i !== 0) {
+        } else if (groupMatches && i === groupMatches.length && i !== 0) {
           groups[j].finishAt = moment(
-            groups[j].matches[groups[j].matches.length - 1].date
+            groupMatches[groupMatches.length - 1].date
           ).add(timeUnit, "minutes");
         }
       }

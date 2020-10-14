@@ -4,7 +4,6 @@ const functions = require('firebase-functions');
 
 admin.initializeApp();
 
-
 /**
  * Callable function that creates a custom auth token with the
  * custom attribute "admin" set to true.

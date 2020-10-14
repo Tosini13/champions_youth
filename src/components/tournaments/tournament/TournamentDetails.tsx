@@ -18,12 +18,14 @@ import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
 import TournamentInfo from "./TournamentInfo";
 import { setBack } from "../../../store/actions/MenuActions";
+import { Group, GroupDataDb } from "../../../structures/dbAPI/groupData";
 
 type Props = {
-  tournament: TournamentData;
-  teams: TeamData[];
-  playoffs: GameData[];
-  tournamentId: Id;
+  tournament?: TournamentData;
+  teams?: TeamData[];
+  groups?: Group[];
+  playoffs?: GameData[];
+  tournamentId?: Id;
   setBack: (route: routerConstString) => void;
 };
 
@@ -31,6 +33,7 @@ const TournamentDetails: React.FC<Props> = ({
   tournamentId,
   tournament,
   teams,
+  groups,
   playoffs,
   setBack,
 }) => {
@@ -39,35 +42,46 @@ const TournamentDetails: React.FC<Props> = ({
   }, [setBack]);
 
   const [view, setView] = useState(menuTournamentConst.groups);
-  return (
-    <>
-      <TournamentMenu view={view} setView={setView} />
-      <ContentContainerStyled>
-        {view === menuTournamentConst.groups && tournament ? (
-          <TournamentGroups tournament={tournament} teams={teams} />
-        ) : null}
-        {/* {view === menuTournamentConst.playoffs && tournament && playoffs ? (
+  if (tournament && teams) {
+    return (
+      <>
+        <TournamentMenu view={view} setView={setView} />
+        <ContentContainerStyled>
+          {view === menuTournamentConst.groups && tournament ? (
+            <TournamentGroups
+              tournament={tournament}
+              groups={groups}
+              teams={teams}
+            />
+          ) : null}
+          {/* {view === menuTournamentConst.playoffs && tournament && playoffs ? (
           <TournamentPlayOffs tournament={tournament} playoffs={playoffs} />
         ) : null} */}
-        {view === menuTournamentConst.info && tournament ? (
-          <TournamentInfo tournament={tournament} />
-        ) : null}
-        {view === menuTournamentConst.teams && tournament ? (
-          <TournamentTeams tournamentId={tournamentId} teams={teams} />
-        ) : null}
-      </ContentContainerStyled>
-    </>
-  );
+          {view === menuTournamentConst.info && tournament ? (
+            <TournamentInfo tournament={tournament} />
+          ) : null}
+          {view === menuTournamentConst.teams && tournament ? (
+            <TournamentTeams teams={teams} />
+          ) : null}
+        </ContentContainerStyled>
+      </>
+    );
+  } else {
+    return <p>splash</p>;
+  }
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  const tournamentId = ownProps.match.params.id;
+  const tournamentId = ownProps.match.params.tournamentId;
   const tournaments = state.firestore.data.tournaments;
   const tournament = tournaments ? tournaments[tournamentId] : null;
-  const teams = state.firestore.ordered.teams;
-  const groups = state.firestore.ordered.groups;
+  const teams: TeamData[] | undefined = state.firestore.ordered.teams;
+  const groupsData: GroupDataDb[] | undefined = state.firestore.ordered.groups;
+  const groups =
+    groupsData && teams
+      ? groupsData.map((groupData) => new Group(groupData, teams))
+      : undefined; //put it to some class?!?!
   const playoffs = state.firestore.ordered.playoffs;
-  console.log(groups);
   return {
     tournament,
     teams,
@@ -90,19 +104,19 @@ export default compose(
       { collection: "tournaments" },
       {
         collection: "tournaments",
-        doc: props.match.params.id,
+        doc: props.match.params.tournamentId,
         subcollections: [{ collection: "teams", orderBy: ["name", "asc"] }],
         storeAs: "teams",
       },
       {
         collection: "tournaments",
-        doc: props.match.params.id,
+        doc: props.match.params.tournamentId,
         subcollections: [{ collection: "groups", orderBy: ["name", "asc"] }],
         storeAs: "groups",
       },
       {
         collection: "tournaments",
-        doc: props.match.params.id,
+        doc: props.match.params.tournamentId,
         subcollections: [{ collection: "playoffs", orderBy: ["id", "asc"] }],
         storeAs: "playoffs",
       },
