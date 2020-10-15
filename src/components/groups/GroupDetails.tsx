@@ -6,13 +6,13 @@ import { firestoreConnect } from "react-redux-firebase";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 
-import { Group, GroupDataDb } from "../../structures/dbAPI/groupData";
 import { GroupTeamText, GroupTitleText } from "../../styled/styledGroup";
 import MatchSummaryMock from "../matches/MatchSummaryMock";
 import { Id } from "../../const/structuresConst";
 import { MatchData } from "../../structures/match";
 import { TeamData } from "../../models/teamData";
 import { Match, MatchDataDb } from "../../structures/dbAPI/matchData";
+import { Group, GroupDataDb } from "../../models/groupData";
 
 export interface GroupsComponentProps {
   tournamentId: Id;
@@ -29,7 +29,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
 }) => {
   if (!group || !matches) return <p>splash</p>;
   return (
-    <div>
+    <div style={{ marginTop: "10px" }}>
       <GroupTitleText>{group.name}</GroupTitleText>
       <Grid
         container

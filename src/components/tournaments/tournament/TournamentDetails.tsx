@@ -18,7 +18,7 @@ import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
 import TournamentInfo from "./TournamentInfo";
 import { setBack } from "../../../store/actions/MenuActions";
-import { Group, GroupDataDb } from "../../../structures/dbAPI/groupData";
+import { Group, GroupDataDb } from "../../../models/groupData";
 
 type Props = {
   tournament?: TournamentData;

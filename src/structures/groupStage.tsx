@@ -2,9 +2,8 @@ import moment, { Moment } from "moment";
 import { TeamStructure } from "./team";
 import { TournamentData } from "../models/tournamentData";
 import { TeamData } from "../models/teamData";
-import { GroupData } from "../models/groupData";
+import { ConvertedGroup, GroupData, GroupDataDb } from "../models/groupData";
 import { MatchDataDb } from "./dbAPI/matchData";
-import { GroupDataDb, ConvertedGroup } from "./dbAPI/groupData";
 
 export class GroupStage {
   groups: GroupData[] = [];

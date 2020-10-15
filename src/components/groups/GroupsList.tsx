@@ -1,8 +1,8 @@
 import React from "react";
 
 import List from "@material-ui/core/List";
-import { Group } from "../../structures/dbAPI/groupData";
 import GroupSummary from "./GroupSummary";
+import { Group } from "../../models/groupData";
 
 export interface GroupListProps {
   groups?: Group[];

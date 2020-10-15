@@ -1,5 +1,6 @@
 import { Moment } from "moment";
 import { Id } from "../const/structuresConst";
+import { MatchDataDb } from "../structures/dbAPI/matchData";
 import { MatchData } from "../structures/match";
 import { TeamData } from "./teamData";
 
@@ -14,13 +15,41 @@ export interface GroupData {
   teamsQtt?: number;
 }
 
-export interface GroupDatabaseData {
+export interface GroupDataDb {
   name: string;
-  id?: Id;
+  id?: Id | null;
   teams: Id[];
-  matches?: MatchData[];
-  promoted?: string[];
-  finishAt?: Moment;
-  promotedQtt?: number;
-  teamsQtt?: number;
+  promoted?: string[] | null;
+  finishAt?: string | null;
+  promotedQtt?: number | null;
+  teamsQtt?: number | null;
+}
+
+export interface ConvertedGroup {
+  groupData: GroupDataDb;
+  matchesData?: MatchDataDb[];
+}
+
+export class Group {
+  name: string;
+  id?: Id | null;
+  teams: TeamData[] = [];
+  promoted?: string[] | null;
+  finishAt?: string | null;
+  promotedQtt?: number | null;
+  teamsQtt?: number | null;
+
+  getTeams = (teamsId: Id[], teams: TeamData[]) => {
+    this.teams = teams.filter((team) => teamsId.includes(team.id));
+  };
+
+  constructor(groupDataDb: GroupDataDb, teams: TeamData[]) {
+    this.id = groupDataDb.id;
+    this.name = groupDataDb.name;
+    this.finishAt = groupDataDb.finishAt;
+    this.teamsQtt = groupDataDb.teamsQtt;
+    this.promoted = groupDataDb.promoted;
+    this.promotedQtt = groupDataDb.promotedQtt;
+    this.getTeams(groupDataDb.teams, teams);
+  }
 }

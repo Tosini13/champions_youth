@@ -2,11 +2,11 @@ import React from "react";
 
 import Grid from "@material-ui/core/Grid";
 
-import { Group } from "../../structures/dbAPI/groupData";
 import { GroupTeamText, GroupTitleText } from "../../styled/styledGroup";
 import { Link, useParams } from "react-router-dom";
 import { routeConst } from "../../const/menuConst";
 import { Id } from "../../const/structuresConst";
+import { Group } from "../../models/groupData";
 
 export interface GroupsComponentProps {
   group: Group;

@@ -6,11 +6,10 @@ import GroupsChooseTeamsList from "./GroupsChooseTeamsList";
 import { TeamData } from "../../../models/teamData";
 import { GroupStage } from "../../../structures/groupStage";
 import { TournamentData } from "../../../models/tournamentData";
-import { GroupData } from "../../../models/groupData";
+import { GroupData, GroupDataDb } from "../../../models/groupData";
 import { createGroup } from "../../../store/actions/GroupActions";
 import { connect } from "react-redux";
 import { MatchDataDb } from "../../../structures/dbAPI/matchData";
-import { GroupDataDb } from "../../../structures/dbAPI/groupData";
 import { Id } from "../../../const/structuresConst";
 import { useParams } from "react-router-dom";
 

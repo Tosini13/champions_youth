@@ -12,8 +12,8 @@ import GroupsCreate from "../../groups/create/GroupsCreate";
 import { TournamentData } from "../../../models/tournamentData";
 import { GroupStage } from "../../../structures/groupStage";
 import { TeamData } from "../../../models/teamData";
-import { Group } from "../../../structures/dbAPI/groupData";
 import GroupsComponent from "../../groups/GroupsComponent";
+import { Group } from "../../../models/groupData";
 
 type Props = {
   tournament: TournamentData;

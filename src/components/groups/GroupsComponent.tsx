@@ -1,5 +1,5 @@
 import React from "react";
-import { Group } from "../../structures/dbAPI/groupData";
+import { Group } from "../../models/groupData";
 
 import GroupList from "./GroupsList";
 

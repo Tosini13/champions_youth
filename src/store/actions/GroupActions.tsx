@@ -1,5 +1,5 @@
 import { Id } from "../../const/structuresConst";
-import { GroupDataDb } from "../../structures/dbAPI/groupData";
+import { GroupDataDb } from "../../models/groupData";
 import { MatchDataDb } from "../../structures/dbAPI/matchData";
 
 export const createGroup = (
