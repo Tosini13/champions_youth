@@ -1,3 +1,4 @@
+import { PromotedTeam } from "../const/groupConst";
 import { placeMatchesTitle, roundMatchesTitle } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
 import { GameStructure } from "./game";
@@ -218,4 +219,10 @@ export type BracketData = {
   placeMatches: GameStructure[];
   placeMatchesQtt: number;
   rounds: number;
+};
+
+export type Options = {
+  rounds: number;
+  placeMatchesQtt: number;
+  roundsActive: boolean;
 };

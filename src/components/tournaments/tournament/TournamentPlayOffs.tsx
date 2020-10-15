@@ -9,13 +9,23 @@ import {
   ButtonSuccessStyled,
 } from "../../../styled/styledButtons";
 import { TournamentStructure } from "../../../structures/tournament";
-import { BracketData } from "../../../structures/bracket";
+import { BracketData, BracketStructure } from "../../../structures/bracket";
+import PlayOffsCreateDashboard from "../../playoffs/create/PlayOffsCreateDashboard";
+import { TournamentData } from "../../../models/tournamentData";
+import { TeamData } from "../../../models/teamData";
+import { GameData } from "../../../models/gameData";
 
 type Props = {
-  bracket?: BracketData;
+  tournament: TournamentData;
+  playoffs?: GameData[];
+  teams: TeamData[];
 };
 
-const TournamentPlayOffs: React.FC<Props> = ({ bracket }) => {
+const TournamentPlayOffs: React.FC<Props> = ({
+  playoffs,
+  tournament,
+  teams,
+}) => {
   const [create, setCreate] = useState<boolean>(false);
 
   const createPlayOffs = () => {
@@ -28,11 +38,11 @@ const TournamentPlayOffs: React.FC<Props> = ({ bracket }) => {
     // tournament.deletePlayOffs();
   };
 
-  if (bracket) {
+  if (false) {
     return (
       <>
         {/* <PlayOffsBracket
-          bracket={tournament.bracket}
+          playoffs={tournament.bracket}
           teams={tournament.teams}
         /> */}
         <ButtonHorizontalContainerStyled>
@@ -49,7 +59,13 @@ const TournamentPlayOffs: React.FC<Props> = ({ bracket }) => {
     );
   }
   if (create) {
-    return null;
+    return (
+      <PlayOffsCreateDashboard
+        tournament={tournament}
+        teams={teams}
+        toggleCreate={createPlayOffs}
+      />
+    );
     // return (
     //   <PlayOffsCreateDashboard
     //     tournament={tournament}

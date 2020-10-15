@@ -19,6 +19,7 @@ import { Id } from "../../../const/structuresConst";
 import TournamentInfo from "./TournamentInfo";
 import { setBack } from "../../../store/actions/MenuActions";
 import { Group, GroupDataDb } from "../../../models/groupData";
+import TournamentPlayOffs from "./TournamentPlayOffs";
 
 type Props = {
   tournament?: TournamentData;
@@ -54,9 +55,13 @@ const TournamentDetails: React.FC<Props> = ({
               teams={teams}
             />
           ) : null}
-          {/* {view === menuTournamentConst.playoffs && tournament && playoffs ? (
-          <TournamentPlayOffs tournament={tournament} playoffs={playoffs} />
-        ) : null} */}
+          {view === menuTournamentConst.playoffs && tournament && playoffs ? (
+            <TournamentPlayOffs
+              tournament={tournament}
+              playoffs={playoffs}
+              teams={teams}
+            />
+          ) : null}
           {view === menuTournamentConst.info && tournament ? (
             <TournamentInfo tournament={tournament} />
           ) : null}
