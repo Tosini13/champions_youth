@@ -10,8 +10,6 @@ const GameSummaryRecursiveMock: React.FC<Props> = ({ game, teams }) => {
   const lastMatch =
     game.previousMatchHome?.loserMatch === game ||
     game.previousMatchAway?.loserMatch === game;
-  console.log("The Match");
-  console.dir(game.match);
   const home = game.match.home
     ? game.match.home.name
     : game.match.placeholder.home;

@@ -1,9 +1,11 @@
-import { placeMatchesTitle, roundMatchesTitle } from "../const/structuresConst";
-import { TeamData } from "../models/teamData";
+import moment, { Moment } from "moment";
 import {
-  BracketDataDb,
-  bracketDbApi,
-} from "./dbAPI/bracketData";
+  placeMatchesTitle,
+  roundMatchesTitle,
+  TeamsPlaceholder,
+} from "../const/structuresConst";
+import { TeamData } from "../models/teamData";
+import { BracketDataDb, bracketDbApi } from "./dbAPI/bracketData";
 import { GameStructure } from "./game";
 
 export class BracketStructure {
@@ -11,6 +13,7 @@ export class BracketStructure {
   matchCounter = 1;
   rounds: number;
   placeMatchesQtt: number;
+  matchTime = new CountMatchTime();
 
   setRounds = (rounds: number) => {
     if (this.placeMatchesQtt && rounds * 2 < this.placeMatchesQtt) {
@@ -210,6 +213,70 @@ export class BracketStructure {
     });
   };
 
+  setPlaceholder = (game: GameStructure) => {
+    let home = "";
+    let away = "";
+    if (game.previousMatchHome) home = game.previousMatchHome.round;
+    if (game.previousMatchAway) away = game.previousMatchAway.round;
+    const placeholder: TeamsPlaceholder = {
+      home: home,
+      away: away,
+    };
+    return placeholder;
+  };
+
+  breadthFirstSearch = (
+    game: GameStructure,
+    queue: GameStructure[],
+    maxDepth: number,
+    depth: number = 0
+  ) => {
+    if (queue.includes(game) || maxDepth < depth) return false;
+    if (maxDepth === depth) {
+      //do whatever you want!
+      game.placeholder = this.setPlaceholder(game);
+      queue.push(game);
+      return false;
+    }
+    if (
+      game.previousMatchHome === undefined &&
+      game.previousMatchHome === undefined
+    )
+      return false;
+    if (game.previousMatchAway)
+      this.breadthFirstSearch(
+        game.previousMatchAway,
+        queue,
+        maxDepth,
+        depth + 1
+      );
+    if (game.previousMatchHome)
+      this.breadthFirstSearch(
+        game.previousMatchHome,
+        queue,
+        maxDepth,
+        depth + 1
+      );
+  };
+
+  setGamesData = () => {
+    //placeholder and Date
+    let games: GameStructure[] = [];
+    for (let i = 0; i < 6; i++) {
+      let queue: GameStructure[] = [];
+      this.placeMatches.forEach((rootMatch) => {
+        this.breadthFirstSearch(rootMatch, queue, i);
+      });
+      games = [...games, ...queue];
+    }
+    games.forEach((game) => {
+      game.match.date = this.matchTime.nextTime;
+      if (game.returnMatch?.date)
+        game.returnMatch.date = this.matchTime.nextTime;
+    });
+    console.log("XXXXXXXXXXXXXXXXXXXXXX");
+  };
+
   convertBracket = () => {
     const bracketDb: BracketDataDb = {
       games: bracketDbApi.convertGames(this.placeMatches),
@@ -223,6 +290,7 @@ export class BracketStructure {
     this.rounds = rounds;
     this.placeMatchesQtt = this.toValidPlaceMatches(rounds, placeMatches);
     this.createBracket();
+    this.setGamesData();
   }
 }
 
@@ -237,3 +305,16 @@ export type Options = {
   placeMatchesQtt: number;
   roundsActive: boolean;
 };
+
+export class CountMatchTime {
+  matchTime: number = 6;
+  breakTime: number = 2;
+  startTime: Moment = moment();
+  currentTime: Moment = moment();
+
+  get nextTime() {
+    const time = this.currentTime;
+    this.currentTime.add(6 + 2, "minutes");
+    return time;
+  }
+}

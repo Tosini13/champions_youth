@@ -1,5 +1,5 @@
 import { matchModeConst } from "../const/matchConst";
-import { Id } from "../const/structuresConst";
+import { Id, TeamsPlaceholder } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
 import { MatchStructure } from "./match";
 import { TeamStructure } from "./team";
@@ -13,6 +13,9 @@ export class GameStructure {
   round: string;
   match: MatchStructure;
   returnMatch?: MatchStructure;
+  homeTeam?: TeamData;
+  awayTeam?: TeamData;
+  placeholder?: TeamsPlaceholder;
 
   set setWinnerMatch(winnerMatch: GameStructure) {
     this.winnerMatch = winnerMatch;
