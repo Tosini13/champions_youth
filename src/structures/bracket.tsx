@@ -269,10 +269,11 @@ export class BracketStructure {
       });
       games = [...games, ...queue];
     }
-    games.forEach((game) => {
+    games.slice().reverse().forEach((game) => {
       game.match.date = this.matchTime.nextTime;
       if (game.returnMatch?.date)
         game.returnMatch.date = this.matchTime.nextTime;
+      console.log(game.round, game.match.date.format("mm"));
     });
     console.log("XXXXXXXXXXXXXXXXXXXXXX");
   };
