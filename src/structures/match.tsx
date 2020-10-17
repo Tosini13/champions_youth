@@ -11,7 +11,7 @@ export class MatchStructure {
   result?: Result;
   round: string;
   mode: matchModeConst;
-  date?: Moment | string;
+  date?: Moment;
 
   setHome = (team: TeamData | undefined) => {
     this.home = team;

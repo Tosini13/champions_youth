@@ -207,9 +207,13 @@ export class BracketStructure {
   initBracketWithTeams = (teams: TeamData[]) => {
     const lastMatches = this.getLastMatches(this.placeMatches[1]);
     let i = 0;
-    lastMatches.forEach((match) => {
-      match.match.home = teams[i++];
-      match.match.away = teams[i++];
+    lastMatches.forEach((game) => {
+      const homeTeam = teams[i++];
+      const awayTeam = teams[i++];
+      game.homeTeam = homeTeam;
+      game.awayTeam = awayTeam;
+      game.match.home = homeTeam;
+      game.match.away = awayTeam;
     });
   };
 
@@ -262,20 +266,25 @@ export class BracketStructure {
   setGamesData = () => {
     //placeholder and Date
     let games: GameStructure[] = [];
-    for (let i = 0; i < 6; i++) {
+    console.log(games.length, this.matchCounter);
+    let i = 0;
+    while (games.length < this.matchCounter - 1) {
       let queue: GameStructure[] = [];
       this.placeMatches.forEach((rootMatch) => {
         this.breadthFirstSearch(rootMatch, queue, i);
       });
       games = [...games, ...queue];
+      i++;
     }
-    games.slice().reverse().forEach((game) => {
-      game.match.date = this.matchTime.nextTime;
-      if (game.returnMatch?.date)
-        game.returnMatch.date = this.matchTime.nextTime;
-      console.log(game.round, game.match.date.format("mm"));
-    });
-    console.log("XXXXXXXXXXXXXXXXXXXXXX");
+    games
+      .slice()
+      .reverse()
+      .forEach((game, order) => {
+        game.match.date = this.matchTime.nextTime;
+        game.order = order + 1;
+        if (game.returnMatch?.date)
+          game.returnMatch.date = this.matchTime.nextTime;
+      });
   };
 
   convertBracket = () => {

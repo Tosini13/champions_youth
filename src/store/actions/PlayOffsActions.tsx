@@ -17,6 +17,10 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
           previousMatchHome: game.previousMatchHome,
           previousMatchAway: game.previousMatchAway,
           round: game.round,
+          placeholder: game.placeholder,
+          homeTeam: game.homeTeam,
+          awayTeam: game.awayTeam,
+          order: game.order,
         })
         .then((res: any) => {
           const match = {

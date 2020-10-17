@@ -36,13 +36,26 @@ const TournamentPlayOffs: React.FC<Props> = ({
     // tournament.deletePlayOffs();
   };
 
-  if (false) {
+  if (playOffs && playOffs.length) {
+    console.log(playOffs);
     return (
       <>
         {/* <PlayOffsBracket
           playoffs={tournament.bracket}
           teams={tournament.teams}
         /> */}
+        {playOffs.map((game) => (
+          <div
+            key={game.id}
+            style={{ textAlign: "center", fontSize: "10px", color: "white" }}
+          >
+            {game.round}
+            <p>
+              {game.homeTeam ? game.homeTeam.name : game.placeholder?.home} vs{" "}
+              {game.awayTeam ? game.awayTeam.name : game.placeholder?.away}
+            </p>
+          </div>
+        ))}
         <ButtonHorizontalContainerStyled>
           <ButtonErrorStyled
             onClick={deletePlayOffs}

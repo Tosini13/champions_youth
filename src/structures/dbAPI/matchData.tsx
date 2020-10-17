@@ -10,7 +10,7 @@ export class MatchDbApi {
       away: match.away?.id ? match.away.id : null,
       id: match.id ? match.id : null,
       result: match.result ? match.result : null,
-      date: match.date ? match.date : null,
+      date: match.date ? match.date.format() : null,
       placeholder: match.placeholder,
       round: match.round,
       mode: match.mode,
@@ -29,7 +29,7 @@ export type MatchDataApp = {
   result?: Result;
   round: string;
   mode: matchModeConst;
-  date?: string | Moment;
+  date?: Moment;
 };
 
 export type MatchDataDb = {
@@ -40,7 +40,7 @@ export type MatchDataDb = {
   result: Result | null;
   round: string;
   mode: matchModeConst;
-  date: string | Moment | null;
+  date: string | null;
 };
 
 export class Match {

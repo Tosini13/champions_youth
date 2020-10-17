@@ -112,6 +112,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
 
   const submitBracket = () => {
     const convertedBracket = bracket.convertBracket();
+    console.log(convertedBracket.games);
     createPlayoffs(tournamentId, convertedBracket.games);
     toggleCreate();
   };

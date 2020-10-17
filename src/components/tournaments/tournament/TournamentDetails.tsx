@@ -93,7 +93,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
     playOffsData && teams
       ? playOffsData.map((game) => new Game(game, teams))
       : undefined;
-  console.log(playOffs);
   return {
     tournament,
     teams,
@@ -129,7 +128,7 @@ export default compose(
       {
         collection: "tournaments",
         doc: props.match.params.tournamentId,
-        subcollections: [{ collection: "playOffs", orderBy: ["id", "asc"] }],
+        subcollections: [{ collection: "playOffs", orderBy: ["order", "asc"] }],
         storeAs: "playOffs",
       },
     ];

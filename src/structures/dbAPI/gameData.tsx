@@ -1,10 +1,11 @@
-import { Id } from "../../const/structuresConst";
+import { Id, TeamsPlaceholder } from "../../const/structuresConst";
 import { GameStructure } from "../game";
 import { MatchStructure } from "../match";
 import { matchDbApi, MatchDataDb } from "./matchData";
 
 export class GameDbApi {
-  convertGameToDb = (game: GameDataApp) => {
+  convertGameToDb = (game: GameStructure) => {
+    console.log(game);
     const gameDb: GameDataDb = {
       id: game.id,
       winnerMatch: game.winnerMatch?.id ? game.winnerMatch.id : null,
@@ -20,7 +21,12 @@ export class GameDbApi {
       returnMatch: game.returnMatch
         ? matchDbApi.convertMatchToDb(game.returnMatch)
         : null,
+      homeTeam: game.homeTeam ? game.homeTeam.id : null,
+      awayTeam: game.awayTeam ? game.awayTeam.id : null,
+      placeholder: game.placeholder ? game.placeholder : null,
+      order: game.order ? game.order : null,
     };
+    console.log(gameDb);
     return gameDb;
   };
 }
@@ -47,4 +53,8 @@ export type GameDataDb = {
   round: string;
   match: MatchDataDb; //convert to json
   returnMatch?: MatchDataDb | null;
+  homeTeam: Id | null;
+  awayTeam: Id | null;
+  placeholder: TeamsPlaceholder | null;
+  order: number | null;
 };

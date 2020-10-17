@@ -16,6 +16,7 @@ export class GameStructure {
   homeTeam?: TeamData;
   awayTeam?: TeamData;
   placeholder?: TeamsPlaceholder;
+  order?: number;
 
   set setWinnerMatch(winnerMatch: GameStructure) {
     this.winnerMatch = winnerMatch;
