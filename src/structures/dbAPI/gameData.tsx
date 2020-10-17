@@ -7,15 +7,19 @@ export class GameDbApi {
   convertGameToDb = (game: GameDataApp) => {
     const gameDb: GameDataDb = {
       id: game.id,
-      winnerMatch: game.winnerMatch?.id,
-      loserMatch: game.loserMatch?.id,
-      previousMatchHome: game.previousMatchHome?.id,
-      previousMatchAway: game.previousMatchAway?.id,
+      winnerMatch: game.winnerMatch?.id ? game.winnerMatch.id : null,
+      loserMatch: game.loserMatch?.id ? game.loserMatch.id : null,
+      previousMatchHome: game.previousMatchHome?.id
+        ? game.previousMatchHome.id
+        : null,
+      previousMatchAway: game.previousMatchAway?.id
+        ? game.previousMatchAway.id
+        : null,
       round: game.round,
-      match: matchDbApi.convertGameToDb(game.match),
+      match: matchDbApi.convertMatchToDb(game.match),
       returnMatch: game.returnMatch
-        ? matchDbApi.convertGameToDb(game.returnMatch)
-        : game.returnMatch,
+        ? matchDbApi.convertMatchToDb(game.returnMatch)
+        : null,
     };
     return gameDb;
   };
@@ -36,11 +40,11 @@ export type GameDataApp = {
 
 export type GameDataDb = {
   id: Id;
-  winnerMatch?: Id;
-  loserMatch?: Id;
-  previousMatchHome?: Id;
-  previousMatchAway?: Id;
+  winnerMatch: Id | null;
+  loserMatch: Id | null;
+  previousMatchHome: Id | null;
+  previousMatchAway: Id | null;
   round: string;
   match: MatchDataDb; //convert to json
-  returnMatch?: MatchDataDb;
+  returnMatch?: MatchDataDb | null;
 };

@@ -1,7 +1,6 @@
 import React from "react";
 
 import { ChooseListStyled } from "../../../styled/styledBracket";
-import { PromotedTeam } from "../../../const/groupConst";
 import PlayOffsChooseListElement from "./PlayOffsChooseListElement";
 import { TeamData } from "../../../models/teamData";
 

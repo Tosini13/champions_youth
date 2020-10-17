@@ -17,9 +17,11 @@ export class GroupStage {
         (match) => {
           return {
             ...match,
-            home: match.home?.id,
-            away: match.away?.id,
-            date: match.date.format(),
+            id: match.id ? match.id : null,
+            home: match.home?.id ? match.home?.id : null,
+            away: match.away?.id ? match.away?.id : null,
+            date: match.date ? match.date.format() : null,
+            result: match.result ? match.result : null,
           };
         }
       );

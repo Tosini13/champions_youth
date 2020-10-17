@@ -1,12 +1,14 @@
-import { PromotedTeam } from "../const/groupConst";
 import { placeMatchesTitle, roundMatchesTitle } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
+import {
+  BracketDataDb,
+  bracketDbApi,
+} from "./dbAPI/bracketData";
 import { GameStructure } from "./game";
-import { TeamStructure } from "./team";
 
 export class BracketStructure {
   placeMatches: GameStructure[] = [];
-  matchCounter = 0;
+  matchCounter = 1;
   rounds: number;
   placeMatchesQtt: number;
 
@@ -206,6 +208,15 @@ export class BracketStructure {
       match.match.home = teams[i++];
       match.match.away = teams[i++];
     });
+  };
+
+  convertBracket = () => {
+    const bracketDb: BracketDataDb = {
+      games: bracketDbApi.convertGames(this.placeMatches),
+      placeMatchesQtt: this.placeMatchesQtt,
+      rounds: this.rounds,
+    };
+    return bracketDb;
   };
 
   constructor(rounds: number, placeMatches: number) {

@@ -3,23 +3,30 @@ import React, { useState } from "react";
 import PlayOffsChooseList from "./PlayOffsChooseList";
 import PlayOffsCreateMenu from "./PlayOffsCreateMenu";
 import PlayOffsCreateBracketMock from "./PlayOffsCreateBracketMock";
-import { PromotedTeam } from "../../../const/groupConst";
 import { BracketStructure } from "../../../structures/bracket";
 import { TeamData } from "../../../models/teamData";
 import { TournamentData } from "../../../models/tournamentData";
 import { Options } from "../../../models/playOffsData";
+import { createPlayoffs } from "../../../store/actions/PlayOffsActions";
+import { connect } from "react-redux";
+import { GameDataDb } from "../../../structures/dbAPI/gameData";
+import { Id } from "../../../const/structuresConst";
+import { useParams } from "react-router-dom";
 
 type Props = {
   tournament: TournamentData;
   teams: TeamData[];
   toggleCreate: () => void;
+  createPlayoffs: (tournamentId: Id, game: GameDataDb[]) => void;
 };
 
 const PlayOffsCreateDashboard: React.FC<Props> = ({
   tournament,
   teams,
   toggleCreate,
+  createPlayoffs,
 }) => {
+  const { tournamentId } = useParams<{ tournamentId: Id }>();
   const [options, setOptions] = useState<Options>({
     rounds: 4,
     placeMatchesQtt: 1,
@@ -104,7 +111,8 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   };
 
   const submitBracket = () => {
-    console.log(bracket);
+    const convertedBracket = bracket.convertBracket();
+    createPlayoffs(tournamentId, convertedBracket.games);
     toggleCreate();
   };
 
@@ -128,4 +136,10 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   );
 };
 
-export default PlayOffsCreateDashboard;
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    createPlayoffs: (tournamentId: Id, game: GameDataDb[]) =>
+      dispatch(createPlayoffs(tournamentId, game)),
+  };
+};
+export default connect(null, mapDispatchToProps)(PlayOffsCreateDashboard);

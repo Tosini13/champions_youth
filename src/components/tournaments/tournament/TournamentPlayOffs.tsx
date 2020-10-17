@@ -8,21 +8,19 @@ import {
   ButtonHorizontalContainerStyled,
   ButtonSuccessStyled,
 } from "../../../styled/styledButtons";
-import { TournamentStructure } from "../../../structures/tournament";
-import { BracketData, BracketStructure } from "../../../structures/bracket";
 import PlayOffsCreateDashboard from "../../playoffs/create/PlayOffsCreateDashboard";
 import { TournamentData } from "../../../models/tournamentData";
 import { TeamData } from "../../../models/teamData";
-import { GameData } from "../../../models/gameData";
+import { Game } from "../../../models/gameData";
 
 type Props = {
   tournament: TournamentData;
-  playoffs?: GameData[];
+  playOffs?: Game[];
   teams: TeamData[];
 };
 
 const TournamentPlayOffs: React.FC<Props> = ({
-  playoffs,
+  playOffs,
   tournament,
   teams,
 }) => {

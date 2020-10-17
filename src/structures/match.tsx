@@ -1,4 +1,3 @@
-import { TeamStructure } from "./team";
 import { matchModeConst } from "../const/matchConst";
 import { Id, Result, TeamsPlaceholder } from "../const/structuresConst";
 import { Moment } from "moment";

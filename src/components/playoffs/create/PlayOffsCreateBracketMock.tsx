@@ -1,5 +1,4 @@
 import React from "react";
-import { GameData } from "../../../models/gameData";
 import { TeamData } from "../../../models/teamData";
 import { BracketStructure } from "../../../structures/bracket";
 import { GameStructure } from "../../../structures/game";

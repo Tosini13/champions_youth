@@ -13,19 +13,20 @@ import TournamentTeams from "./TournamentTeams";
 // import TournamentPlayOffs from "./TournamentPlayOffs";
 import TournamentGroups from "./TournamentGroups";
 import { TeamData } from "../../../models/teamData";
-import { GameData } from "../../../models/gameData";
+import { Game } from "../../../models/gameData";
 import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
 import TournamentInfo from "./TournamentInfo";
 import { setBack } from "../../../store/actions/MenuActions";
 import { Group, GroupDataDb } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
+import { GameDataDb } from "../../../structures/dbAPI/gameData";
 
 type Props = {
   tournament?: TournamentData;
   teams?: TeamData[];
   groups?: Group[];
-  playoffs?: GameData[];
+  playOffs?: Game[];
   tournamentId?: Id;
   setBack: (route: routerConstString) => void;
 };
@@ -35,7 +36,7 @@ const TournamentDetails: React.FC<Props> = ({
   tournament,
   teams,
   groups,
-  playoffs,
+  playOffs,
   setBack,
 }) => {
   useEffect(() => {
@@ -55,10 +56,10 @@ const TournamentDetails: React.FC<Props> = ({
               teams={teams}
             />
           ) : null}
-          {view === menuTournamentConst.playoffs && tournament && playoffs ? (
+          {view === menuTournamentConst.playoffs && tournament && playOffs ? (
             <TournamentPlayOffs
               tournament={tournament}
-              playoffs={playoffs}
+              playOffs={playOffs}
               teams={teams}
             />
           ) : null}
@@ -86,11 +87,17 @@ const mapStateToProps = (state: any, ownProps: any) => {
     groupsData && teams
       ? groupsData.map((groupData) => new Group(groupData, teams))
       : undefined; //put it to some class?!?!
-  const playoffs = state.firestore.ordered.playoffs;
+  const playOffsData: GameDataDb[] | undefined =
+    state.firestore.ordered.playOffs;
+  const playOffs =
+    playOffsData && teams
+      ? playOffsData.map((game) => new Game(game, teams))
+      : undefined;
+  console.log(playOffs);
   return {
     tournament,
     teams,
-    playoffs,
+    playOffs,
     tournamentId,
     groups,
   };
@@ -122,8 +129,8 @@ export default compose(
       {
         collection: "tournaments",
         doc: props.match.params.tournamentId,
-        subcollections: [{ collection: "playoffs", orderBy: ["id", "asc"] }],
-        storeAs: "playoffs",
+        subcollections: [{ collection: "playOffs", orderBy: ["id", "asc"] }],
+        storeAs: "playOffs",
       },
     ];
   })

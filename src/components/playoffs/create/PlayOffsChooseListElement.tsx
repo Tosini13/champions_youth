@@ -9,7 +9,6 @@ import {
   ChooseListItemStyled,
   ListItemTextStyled,
 } from "../../../styled/styledBracket";
-import { PromotedTeam } from "../../../const/groupConst";
 import { TeamData } from "../../../models/teamData";
 
 type Props = {

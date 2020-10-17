@@ -4,11 +4,16 @@ import { Id, Result, TeamsPlaceholder } from "../../const/structuresConst";
 import { TeamData } from "../../models/teamData";
 
 export class MatchDbApi {
-  convertGameToDb = (match: MatchDataApp) => {
+  convertMatchToDb = (match: MatchDataApp) => {
     const matchDb: MatchDataDb = {
-      ...match,
-      home: match.home?.id,
-      away: match.away?.id,
+      home: match.home?.id ? match.home.id : null,
+      away: match.away?.id ? match.away.id : null,
+      id: match.id ? match.id : null,
+      result: match.result ? match.result : null,
+      date: match.date ? match.date : null,
+      placeholder: match.placeholder,
+      round: match.round,
+      mode: match.mode,
     };
     return matchDb;
   };
@@ -28,14 +33,14 @@ export type MatchDataApp = {
 };
 
 export type MatchDataDb = {
-  id?: Id;
-  home?: Id | null;
-  away?: Id | null;
+  id: Id | null;
+  home: Id | null;
+  away: Id | null;
   placeholder: TeamsPlaceholder;
-  result?: Result | null;
+  result: Result | null;
   round: string;
   mode: matchModeConst;
-  date?: string | Moment | null;
+  date: string | Moment | null;
 };
 
 export class Match {
@@ -57,7 +62,7 @@ export class Match {
   };
 
   constructor(matchDataDb: MatchDataDb, teams: TeamData[]) {
-    this.id = matchDataDb.id;
+    this.id = matchDataDb.id ? matchDataDb.id : undefined;
     this.placeholder = matchDataDb.placeholder;
     this.result = matchDataDb.result;
     this.round = matchDataDb.round;

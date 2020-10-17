@@ -1,7 +1,6 @@
 import React from "react";
 import { TeamData } from "../../models/teamData";
 import { GameStructure } from "../../structures/game";
-import MatchSummary from "../matches/MatchSummary";
 
 type Props = {
   game: GameStructure;
