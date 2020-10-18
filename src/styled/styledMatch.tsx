@@ -32,18 +32,31 @@ export const MatchContainerStyled = styled.div`
   overflow: hidden;
 `;
 
-export const MatchRoundTitleStyled = styled.div<{ live: boolean }>`
+export const MatchHeaderStyled = styled.div<{ live: boolean }>`
+  display: flex;
+  justify-content: space-between;
   background-color: ${mainTheme.palette.primary.main};
   padding: 1px 6px;
   font-size: 9px;
   text-align: center;
-  color: ${mainTheme.palette.secondary.dark};
+  color: ${mainTheme.palette.secondary.light};
   ${(props) =>
     props.live
       ? `
       color: ${styledColors.icons.live};`
       : ``}
 `;
+
+const MatchHeaderPStyled = styled.p`
+  width: fit-content;
+  padding: 1px 2px;
+  margin: 0px;
+  color: ${mainTheme.palette.secondary.main};
+`;
+
+export const MatchRoundTitleStyled = styled(MatchHeaderPStyled)``;
+
+export const MatchRoundDateStyled = styled(MatchHeaderPStyled)``;
 
 export const MatchMockTeamsContainerStyled = styled.div`
   padding: 2px;

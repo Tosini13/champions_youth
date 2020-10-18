@@ -34,10 +34,21 @@ export enum routerConstString {
   tournaments = "/",
   tournament = "/tournament",
   group = "/tournament/:tournamentId/group/:groupId",
+  bracket = "/tournament/:tournamentId/playOffs/games/:gameId",
   live = "/live",
   my = "/my",
   favorites = "/favorites",
 }
+
+export const routerGenerateConst = {
+  group: (tournamentId: Id, groupId: Id) => {
+    return `/tournament/${tournamentId}/group/${groupId}`;
+  },
+
+  bracket: (tournamentId: Id, gameId: Id) => {
+    return `/tournament/${tournamentId}/playOffs/games/${gameId}`;
+  },
+};
 
 export let bottomMenuTitleConst = new Map();
 bottomMenuTitleConst.set(bottomMenuConst.tournaments, "Turnieje");

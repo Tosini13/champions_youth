@@ -17,7 +17,7 @@ export interface GameData {
 }
 
 export class Game {
-  id: Id | null;
+  id: Id;
   winnerMatch: Id | null;
   loserMatch: Id | null;
   previousMatchHome: Id | null;

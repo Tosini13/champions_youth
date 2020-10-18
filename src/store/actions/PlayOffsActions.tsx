@@ -10,7 +10,8 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
         .collection("tournaments")
         .doc(tournamentId)
         .collection("playOffs")
-        .add({
+        .doc(game.id)
+        .set({
           id: game.id,
           winnerMatch: game.winnerMatch,
           loserMatch: game.loserMatch,
@@ -23,6 +24,7 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
           order: game.order,
         })
         .then((res: any) => {
+          console.log(res);
           const match = {
             ...game.match,
             id: "match",
@@ -31,7 +33,7 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
             .collection("tournaments")
             .doc(tournamentId)
             .collection("playOffs")
-            .doc(res.id)
+            .doc(game.id)
             .collection("matches")
             .doc("match")
             .set({

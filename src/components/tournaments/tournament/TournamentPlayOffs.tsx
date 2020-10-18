@@ -12,6 +12,7 @@ import PlayOffsCreateDashboard from "../../playoffs/create/PlayOffsCreateDashboa
 import { TournamentData } from "../../../models/tournamentData";
 import { TeamData } from "../../../models/teamData";
 import { Game } from "../../../models/gameData";
+import PlayOffsBracket from "../../playoffs/PlayOffsBracket";
 
 type Props = {
   tournament: TournamentData;
@@ -33,29 +34,12 @@ const TournamentPlayOffs: React.FC<Props> = ({
 
   const deletePlayOffs = () => {
     console.log("deletePlayOffs");
-    // tournament.deletePlayOffs();
   };
 
   if (playOffs && playOffs.length) {
-    console.log(playOffs);
     return (
       <>
-        {/* <PlayOffsBracket
-          playoffs={tournament.bracket}
-          teams={tournament.teams}
-        /> */}
-        {playOffs.map((game) => (
-          <div
-            key={game.id}
-            style={{ textAlign: "center", fontSize: "10px", color: "white" }}
-          >
-            {game.round}
-            <p>
-              {game.homeTeam ? game.homeTeam.name : game.placeholder?.home} vs{" "}
-              {game.awayTeam ? game.awayTeam.name : game.placeholder?.away}
-            </p>
-          </div>
-        ))}
+        <PlayOffsBracket playOffs={playOffs} />
         <ButtonHorizontalContainerStyled>
           <ButtonErrorStyled
             onClick={deletePlayOffs}

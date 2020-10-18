@@ -1,22 +1,34 @@
+/*
 import React from "react";
-import { TeamData } from "../../models/teamData";
-import { BracketStructure } from "../../structures/bracket";
-import { GameStructure } from "../../structures/game";
-import { BracketSectionContainerStyled } from "../../styled/styledBracket";
-import GameSummaryRecursive from "../games/GameSummaryRecursive";
+import PlayOffsBracketGame from "./PlayOffsBracketGame";
 
-type Props = {
-  bracket: BracketStructure;
-  teams: TeamData[];
-};
-
-const PlayOffsBracket: React.FC<Props> = ({ bracket, teams }) => {
+const PlayOffsBracket = ({ playOffs }) => {
   return (
     <>
-      {bracket.placeMatches.map((game: GameStructure) => (
-        <BracketSectionContainerStyled key={game.round}>
-          <GameSummaryRecursive game={game} teams={teams} />
-        </BracketSectionContainerStyled>
+      {playOffs.map((game) => (
+        <PlayOffsBracketGame key={game.id} game={game} />
+      ))}
+    </>
+  );
+};
+
+export default PlayOffsBracket;
+
+*/
+
+import React from "react";
+import { Game } from "../../models/gameData";
+import PlayOffsBracketGame from "./PlayOffsBracketGame";
+
+type Props = {
+  playOffs: Game[];
+};
+
+const PlayOffsBracket: React.FC<Props> = ({ playOffs }) => {
+  return (
+    <>
+      {playOffs.map((game) => (
+        <PlayOffsBracketGame key={game.id} game={game} />
       ))}
     </>
   );

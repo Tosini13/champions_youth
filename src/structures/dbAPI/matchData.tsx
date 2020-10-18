@@ -1,4 +1,4 @@
-import { Moment } from "moment";
+import moment, { Moment } from "moment";
 import { matchModeConst } from "../../const/matchConst";
 import { Id, Result, TeamsPlaceholder } from "../../const/structuresConst";
 import { TeamData } from "../../models/teamData";
@@ -51,7 +51,7 @@ export class Match {
   result?: Result | null;
   round: string;
   mode: matchModeConst;
-  date?: string | Moment | null;
+  date?: Moment;
 
   getHome = (teamId: Id, teams: TeamData[]) => {
     this.home = teams.find((team) => team.id === teamId);
@@ -66,7 +66,7 @@ export class Match {
     this.placeholder = matchDataDb.placeholder;
     this.result = matchDataDb.result;
     this.round = matchDataDb.round;
-    this.date = matchDataDb.date;
+    this.date = matchDataDb.date ? moment(matchDataDb.date) : undefined;
     this.mode = matchDataDb.mode;
     if (matchDataDb.home) this.getHome(matchDataDb.home, teams);
     if (matchDataDb.away) this.getAway(matchDataDb.away, teams);
