@@ -66,7 +66,7 @@ const TournamentSummary: React.FC<Props> = ({
         <TournamentListItemDateStyled>
           {moment(tournament.date).format("HH:mm")}
         </TournamentListItemDateStyled>
-        {tournament.ownerId === user?.id ? (
+        {tournament.owner === user?.id ? (
           <IconButtonStarStyled aria-label="star">
             <FavoriteIcon fontSize="small" color="secondary" />
           </IconButtonStarStyled>

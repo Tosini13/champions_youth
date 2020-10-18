@@ -1,12 +1,19 @@
-import { placeMatchesTitle, roundMatchesTitle } from "../const/structuresConst";
+import moment, { Moment } from "moment";
+import {
+  placeMatchesTitle,
+  roundMatchesTitle,
+  TeamsPlaceholder,
+} from "../const/structuresConst";
+import { TeamData } from "../models/teamData";
+import { BracketDataDb, bracketDbApi } from "./dbAPI/bracketData";
 import { GameStructure } from "./game";
-import { TeamStructure } from "./team";
 
 export class BracketStructure {
   placeMatches: GameStructure[] = [];
-  matchCounter = 0;
+  matchCounter = 1;
   rounds: number;
   placeMatchesQtt: number;
+  matchTime = new CountMatchTime();
 
   setRounds = (rounds: number) => {
     if (this.placeMatchesQtt && rounds * 2 < this.placeMatchesQtt) {
@@ -197,19 +204,103 @@ export class BracketStructure {
     }
   };
 
-  initBracketWithTeams = (teams: TeamStructure[]) => {
+  initBracketWithTeams = (teams: TeamData[]) => {
     const lastMatches = this.getLastMatches(this.placeMatches[1]);
     let i = 0;
-    lastMatches.forEach((match) => {
-      match.match.home = teams[i++];
-      match.match.away = teams[i++];
+    lastMatches.forEach((game) => {
+      const homeTeam = teams[i++];
+      const awayTeam = teams[i++];
+      game.homeTeam = homeTeam;
+      game.awayTeam = awayTeam;
+      game.match.home = homeTeam;
+      game.match.away = awayTeam;
     });
+  };
+
+  setPlaceholder = (game: GameStructure) => {
+    let home = "";
+    let away = "";
+    if (game.previousMatchHome) home = game.previousMatchHome.round;
+    if (game.previousMatchAway) away = game.previousMatchAway.round;
+    const placeholder: TeamsPlaceholder = {
+      home: home,
+      away: away,
+    };
+    return placeholder;
+  };
+
+  breadthFirstSearch = (
+    game: GameStructure,
+    queue: GameStructure[],
+    maxDepth: number,
+    depth: number = 0
+  ) => {
+    if (queue.includes(game) || maxDepth < depth) return false;
+    if (maxDepth === depth) {
+      //do whatever you want!
+      game.placeholder = this.setPlaceholder(game);
+      queue.push(game);
+      return false;
+    }
+    if (
+      game.previousMatchHome === undefined &&
+      game.previousMatchHome === undefined
+    )
+      return false;
+    if (game.previousMatchAway)
+      this.breadthFirstSearch(
+        game.previousMatchAway,
+        queue,
+        maxDepth,
+        depth + 1
+      );
+    if (game.previousMatchHome)
+      this.breadthFirstSearch(
+        game.previousMatchHome,
+        queue,
+        maxDepth,
+        depth + 1
+      );
+  };
+
+  setGamesData = () => {
+    //placeholder and Date
+    let games: GameStructure[] = [];
+    console.log(games.length, this.matchCounter);
+    let i = 0;
+    while (games.length < this.matchCounter - 1) {
+      let queue: GameStructure[] = [];
+      this.placeMatches.forEach((rootMatch) => {
+        this.breadthFirstSearch(rootMatch, queue, i);
+      });
+      games = [...games, ...queue];
+      i++;
+    }
+    games
+      .slice()
+      .reverse()
+      .forEach((game, order) => {
+        game.match.date = this.matchTime.nextTime;
+        game.order = order + 1;
+        if (game.returnMatch?.date)
+          game.returnMatch.date = this.matchTime.nextTime;
+      });
+  };
+
+  convertBracket = () => {
+    const bracketDb: BracketDataDb = {
+      games: bracketDbApi.convertGames(this.placeMatches),
+      placeMatchesQtt: this.placeMatchesQtt,
+      rounds: this.rounds,
+    };
+    return bracketDb;
   };
 
   constructor(rounds: number, placeMatches: number) {
     this.rounds = rounds;
     this.placeMatchesQtt = this.toValidPlaceMatches(rounds, placeMatches);
     this.createBracket();
+    this.setGamesData();
   }
 }
 
@@ -218,3 +309,22 @@ export type BracketData = {
   placeMatchesQtt: number;
   rounds: number;
 };
+
+export type Options = {
+  rounds: number;
+  placeMatchesQtt: number;
+  roundsActive: boolean;
+};
+
+export class CountMatchTime {
+  matchTime: number = 6;
+  breakTime: number = 2;
+  startTime: Moment = moment();
+  currentTime: Moment = moment();
+
+  get nextTime() {
+    const time = this.currentTime;
+    this.currentTime.add(6 + 2, "minutes");
+    return time;
+  }
+}

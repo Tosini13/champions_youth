@@ -24,8 +24,7 @@ const getFilteredTournaments = (
     case routerConstString.my:
       if (!user) return [];
       return tournaments?.filter(
-        (tournament: TournamentData) =>
-          tournament.ownerId === user.id?.toString()
+        (tournament: TournamentData) => tournament.owner === user.id?.toString()
       );
     case routerConstString.favorites:
       if (!user) return [];

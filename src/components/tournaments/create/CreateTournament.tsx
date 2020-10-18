@@ -79,6 +79,7 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
       breakTimeInGroup: matchesInfo.breakTimeInGroup,
       matchTimeInBracket: matchesInfo.matchTimeInBracket,
       breakTimeInBracket: matchesInfo.breakTimeInBracket,
+      fields: 3,
     };
     createTournament(data);
     history.push(routerConstString.tournaments);

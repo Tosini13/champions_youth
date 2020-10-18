@@ -8,7 +8,7 @@ import ListItem from "@material-ui/core/ListItem";
 export const AddTeamFormStyled = styled.form`
   padding: 0px 5px;
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
 `;
 
@@ -32,4 +32,10 @@ export const TeamListNameStyled = styled.p`
   align-items: center;
   flex-grow: 1;
   margin: 0px 10px;
+`;
+
+export const TeamListItemImgStyled = styled.img`
+  height: 30px;
+  width: 30px;
+  margin-right: 2px;
 `;

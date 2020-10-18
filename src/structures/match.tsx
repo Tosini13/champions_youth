@@ -1,21 +1,23 @@
-import { TeamStructure } from "./team";
 import { matchModeConst } from "../const/matchConst";
 import { Id, Result, TeamsPlaceholder } from "../const/structuresConst";
+import { Moment } from "moment";
+import { TeamData } from "../models/teamData";
 
 export class MatchStructure {
   id?: Id;
-  home?: TeamStructure;
-  away?: TeamStructure;
+  home?: TeamData;
+  away?: TeamData;
   placeholder: TeamsPlaceholder;
   result?: Result;
   round: string;
   mode: matchModeConst;
+  date?: Moment;
 
-  setHome = (team: TeamStructure | undefined) => {
+  setHome = (team: TeamData | undefined) => {
     this.home = team;
   };
 
-  setAway = (team: TeamStructure | undefined) => {
+  setAway = (team: TeamData | undefined) => {
     this.away = team;
   };
 
@@ -91,9 +93,12 @@ export class MatchStructure {
 }
 
 export type MatchData = {
-  home?: TeamStructure | string;
-  away?: TeamStructure | string;
+  id: Id;
+  home?: TeamData;
+  away?: TeamData;
   placeholder: TeamsPlaceholder;
   result?: Result;
   round: string;
+  date: Moment;
+  mode: matchModeConst;
 };

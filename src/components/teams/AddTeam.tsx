@@ -2,6 +2,8 @@ import React, { ChangeEvent, useState } from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 
+import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+
 import { IconButtonStyled } from "../../styled/styledButtons";
 import { AddTeamFormStyled } from "../../styled/styledTeams";
 import { addTeamToTournament } from "../../store/actions/TeamActions";
@@ -9,14 +11,15 @@ import { Id } from "../../const/structuresConst";
 import { TeamCreateData } from "../../models/teamData";
 import { AddTeamTextFieldStyled } from "../../styled/styledForm";
 import { AddIconStyled } from "../../styled/styledIcons";
+import { useParams } from "react-router-dom";
 
 type Props = {
-  tournamentId: Id;
   addTeamToTournament: (tournamentId: Id, team: TeamCreateData) => void;
 };
 
-const AddTeam: React.FC<Props> = ({ tournamentId, addTeamToTournament }) => {
+const AddTeam: React.FC<Props> = ({ addTeamToTournament }) => {
   const { handleSubmit, register, errors } = useForm();
+  const { tournamentId } = useParams<{ tournamentId: Id }>();
 
   const [name, setName] = useState<string>("");
 
@@ -37,6 +40,9 @@ const AddTeam: React.FC<Props> = ({ tournamentId, addTeamToTournament }) => {
   return (
     <>
       <AddTeamFormStyled onSubmit={handleSubmit(onSubmit)}>
+        <IconButtonStyled style={{ marginRight: "10px" }}>
+          <AddAPhotoIcon fontSize="small" color="secondary" />
+        </IconButtonStyled>
         <AddTeamTextFieldStyled
           label="Nazwa"
           color="secondary"

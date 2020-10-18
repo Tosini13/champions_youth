@@ -2,7 +2,11 @@ import React, { useState, ChangeEvent } from "react";
 
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
-import { TeamListElementStyled } from "../../styled/styledTeams";
+import trophy from "../../images/logo/tournament_logo_trophy2.png";
+import {
+  TeamListElementStyled,
+  TeamListItemImgStyled,
+} from "../../styled/styledTeams";
 import { ListItemTextStyled } from "../../styled/styledBracket";
 import { TeamData } from "../../models/teamData";
 import {
@@ -49,6 +53,7 @@ const TeamSummary: React.FC<Props> = ({
 
   return (
     <TeamListElementStyled button>
+      <TeamListItemImgStyled src={team.logo ? team.logo : trophy} alt="logo" />
       {edit ? (
         <form onSubmit={handleEdit}>
           <EditTeamInputStyled

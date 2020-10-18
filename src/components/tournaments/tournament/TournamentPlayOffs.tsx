@@ -8,30 +8,38 @@ import {
   ButtonHorizontalContainerStyled,
   ButtonSuccessStyled,
 } from "../../../styled/styledButtons";
-import { TournamentStructure } from "../../../structures/tournament";
+import PlayOffsCreateDashboard from "../../playoffs/create/PlayOffsCreateDashboard";
+import { TournamentData } from "../../../models/tournamentData";
+import { TeamData } from "../../../models/teamData";
+import { Game } from "../../../models/gameData";
+import PlayOffsBracket from "../../playoffs/PlayOffsBracket";
 
 type Props = {
-  tournament: TournamentStructure;
+  tournament: TournamentData;
+  playOffs?: Game[];
+  teams: TeamData[];
 };
 
-const TournamentPlayOffs: React.FC<Props> = ({ tournament }) => {
+const TournamentPlayOffs: React.FC<Props> = ({
+  playOffs,
+  tournament,
+  teams,
+}) => {
   const [create, setCreate] = useState<boolean>(false);
 
-  const toggleCreate = () => {
+  const createPlayOffs = () => {
+    console.log("createPlayOffs");
     setCreate(!create);
   };
 
   const deletePlayOffs = () => {
-    tournament.deletePlayOffs();
+    console.log("deletePlayOffs");
   };
 
-  if (tournament.bracket) {
+  if (playOffs && playOffs.length) {
     return (
       <>
-        {/* <PlayOffsBracket
-          bracket={tournament.bracket}
-          teams={tournament.teams}
-        /> */}
+        <PlayOffsBracket playOffs={playOffs} />
         <ButtonHorizontalContainerStyled>
           <ButtonErrorStyled
             onClick={deletePlayOffs}
@@ -46,7 +54,13 @@ const TournamentPlayOffs: React.FC<Props> = ({ tournament }) => {
     );
   }
   if (create) {
-    return null;
+    return (
+      <PlayOffsCreateDashboard
+        tournament={tournament}
+        teams={teams}
+        toggleCreate={createPlayOffs}
+      />
+    );
     // return (
     //   <PlayOffsCreateDashboard
     //     tournament={tournament}
@@ -57,7 +71,7 @@ const TournamentPlayOffs: React.FC<Props> = ({ tournament }) => {
   return (
     <ButtonHorizontalContainerStyled>
       <ButtonSuccessStyled
-        onClick={toggleCreate}
+        onClick={createPlayOffs}
         variant="outlined"
         color="secondary"
         startIcon={<AddIcon />}

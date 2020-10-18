@@ -1,8 +1,5 @@
 import moment, { Moment } from "moment";
-import { bracketDbApi } from "./dbAPI/bracketData";
-import { BracketStructure } from "./bracket";
 import { TeamStructure } from "./team";
-import { GroupStructure } from "./group";
 import { Login } from "../const/userConst";
 import { Id } from "../const/structuresConst";
 import { TournamentCreateData } from "../models/tournamentData";
@@ -12,9 +9,12 @@ export class TournamentStructure {
   owner: Login;
   date: Moment = moment();
   name: string;
-  bracket?: BracketStructure;
-  groups?: GroupStructure[];
   teams: TeamStructure[] = [];
+  matchTimeInGroup?: number = 5;
+  breakTimeInGroup?: number = 1;
+  matchTimeInBracket?: number = 6;
+  breakTimeInBracket?: number = 2;
+  fields: number = 3;
 
   addTeam = (team: TeamStructure) => {
     this.teams = [...this.teams, team];
@@ -33,24 +33,21 @@ export class TournamentStructure {
     });
   };
 
-  deletePlayOffs = () => {
-    this.bracket = undefined;
-  };
+  // createBracket = (rounds: number, placeMatchesQtt: number) => {
+  //   this.bracket = new BracketStructure(rounds, placeMatchesQtt);
+  // };
 
-  createBracket = (rounds: number, placeMatchesQtt: number) => {
-    this.bracket = new BracketStructure(rounds, placeMatchesQtt);
-  };
-
-  convertBracket = () => {
-    if (this.bracket) {
-      return bracketDbApi.convertBracket(this.bracket);
-    }
-  };
+  // convertBracket = () => {
+  //   if (this.bracket) {
+  //     return bracketDbApi.convertBracket(this.bracket);
+  //   }
+  // };
 
   convert = () => {
     const convertedTournament: TournamentCreateData = {
       name: this.name,
       date: moment(this.date).format(),
+      fields: this.fields,
     };
     return convertedTournament;
   };
@@ -64,7 +61,11 @@ export class TournamentStructure {
 export type TournamentStructureData = {
   name: string;
   owner: Login;
-  bracket?: BracketStructure;
-  rounds?: number;
   matchPlace?: number;
+  matchTimeInGroup?: number;
+  breakTimeInGroup?: number;
+  matchTimeInBracket?: number;
+  breakTimeInBracket?: number;
+  fields?: number;
+  teams?: TeamStructure[];
 };

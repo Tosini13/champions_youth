@@ -23,14 +23,14 @@ const TeamList: React.FC<Props> = ({
   deleteTeamFromTournament,
   editTeamFromTournament,
 }) => {
-  const { id } = useParams<{ id: Id }>();
+  const { tournamentId } = useParams<{ tournamentId: Id }>();
 
   const handleDeleteTeam = (team: TeamData) => {
-    deleteTeamFromTournament(id, team.id);
+    deleteTeamFromTournament(tournamentId, team.id);
   };
 
   const handleEditTeam = (team: TeamData) => {
-    editTeamFromTournament(id, team);
+    editTeamFromTournament(tournamentId, team);
   };
 
   return (

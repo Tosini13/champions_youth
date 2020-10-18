@@ -4,6 +4,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 
 import { mainTheme } from "./styledConst";
+import { Link } from "react-router-dom";
 
 export const ButtonHorizontalContainerStyled = styled.div`
   display: flex;
