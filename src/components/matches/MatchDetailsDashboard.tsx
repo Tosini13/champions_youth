@@ -3,12 +3,14 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import DialogActions from "@material-ui/core/DialogActions";
+import SportsIcon from "@material-ui/icons/Sports";
 
 import { matchModeConst } from "../../const/matchConst";
-import { MatchData } from "../../structures/match";
+import { Match } from "../../structures/dbAPI/matchData";
+import { ButtonHorizontalContainerStyled } from "../../styled/styledButtons";
 
 type Props = {
-  match: MatchData;
+  match: Match;
   gameIsFinished?: () => boolean;
 };
 
@@ -50,11 +52,17 @@ const MatchDetailsDashboard: React.FC<Props> = ({ match, gameIsFinished }) => {
   };
 
   return (
-    <DialogActions>
+    <div>
       {match.mode === matchModeConst.notStarted ? (
-        <Button onClick={() => changeMatchMode(matchModeConst.live)}>
-          Start
-        </Button>
+        <ButtonHorizontalContainerStyled>
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => changeMatchMode(matchModeConst.live)}
+          >
+            <SportsIcon /> Rozpocznij
+          </Button>
+        </ButtonHorizontalContainerStyled>
       ) : null}
 
       {match.mode === matchModeConst.live ? (
@@ -62,7 +70,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({ match, gameIsFinished }) => {
           <IconButton onClick={handleHomeScore}>+</IconButton>
           <IconButton onClick={handleHomeLose}>-</IconButton>
           <Button onClick={() => changeMatchMode(matchModeConst.finished)}>
-            Finish
+          <SportsIcon /> Zakończ
           </Button>
           <IconButton onClick={handleAwayLose}>-</IconButton>
           <IconButton onClick={handleAwayScore}>+</IconButton>
@@ -71,15 +79,23 @@ const MatchDetailsDashboard: React.FC<Props> = ({ match, gameIsFinished }) => {
 
       {match.mode === matchModeConst.finished ? (
         <>
-          <Button onClick={() => changeMatchMode(matchModeConst.live)}>
-            Continue
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => changeMatchMode(matchModeConst.live)}
+          >
+            <SportsIcon /> Wznów
           </Button>
-          <Button onClick={() => changeMatchMode(matchModeConst.notStarted)}>
-            Reset
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => changeMatchMode(matchModeConst.notStarted)}
+          >
+            <SportsIcon /> Zresetuj
           </Button>
         </>
       ) : null}
-    </DialogActions>
+    </div>
   );
 };
 

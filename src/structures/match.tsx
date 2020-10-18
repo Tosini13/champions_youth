@@ -93,7 +93,7 @@ export class MatchStructure {
 }
 
 export type MatchData = {
-  id?: Id;
+  id: Id;
   home?: TeamData;
   away?: TeamData;
   placeholder: TeamsPlaceholder;

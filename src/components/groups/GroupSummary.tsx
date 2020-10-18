@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 
 import { GroupTeamText, GroupTitleText } from "../../styled/styledGroup";
 import { Link, useParams } from "react-router-dom";
-import { routeConst } from "../../const/menuConst";
+import { routerGenerateConst } from "../../const/menuConst";
 import { Id } from "../../const/structuresConst";
 import { Group } from "../../models/groupData";
 
@@ -16,7 +16,7 @@ const GroupSummary: React.FC<GroupsComponentProps> = ({ group }) => {
   const { tournamentId } = useParams<{ tournamentId: Id }>();
   return (
     <div>
-      <Link to={group.id ? routeConst.group(tournamentId, group.id) : ""}>
+      <Link to={group.id ? routerGenerateConst.groups(tournamentId, group.id) : ""}>
         <GroupTitleText>{group.name}</GroupTitleText>
       </Link>
       <Grid

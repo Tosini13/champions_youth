@@ -54,12 +54,12 @@ const MatchSummary: React.FC<Props> = ({ match, teams, game }) => {
           </MatchResultContainerStyled>
         </MatchTeamsAndResultStyled>
       </BracketMatchContainerStyled>
-      <MatchDetails
+      {/* <MatchDetails
         match={match}
         open={open}
         setOpen={setOpen}
         gameIsFinished={game?.isFinished}
-      />
+      /> */}
     </>
   );
 };

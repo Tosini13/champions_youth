@@ -12,14 +12,29 @@ import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import GroupDetails from "./components/groups/GroupDetails";
 import GameDetails from "./components/games/GameDetails";
+import MatchDetails from "./components/matches/MatchDetails";
 
 const App = () => {
   return (
     <BrowserRouter>
       <BodyContainer>
         <Navbar />
-        <Switch>
-          <MainContainer>
+        <MainContainer>
+          <Switch>
+            <Route
+              exact
+              path={routerConstString.login}
+              component={SignIn}
+            />
+            <Route
+              exact
+              path={routerConstString.signUp}
+              component={SignUp}
+            />
+            <Route
+              path={routerConstString.matchGroup}
+              component={MatchDetails}
+            />
             <Route
               exact
               path={routerConstString.tournaments}
@@ -33,23 +48,11 @@ const App = () => {
               <Route path={routerConstString.tournament + "/:tournamentId"} component={TournamentDetails} />
             </Switch>
             <Route
-              path={routerConstString.bracket}
-              component={GameDetails}
-            />
-            <Route
               path={routerConstString.create}
               component={CreateTournament}
             />
-            <Route
-              path={routerConstString.login}
-              component={SignIn}
-            />
-            <Route
-              path={routerConstString.signUp}
-              component={SignUp}
-            />
-          </MainContainer>
-        </Switch>
+          </Switch>
+        </MainContainer>
         <BottomNav />
       </BodyContainer>
     </BrowserRouter>

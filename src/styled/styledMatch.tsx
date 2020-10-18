@@ -85,3 +85,50 @@ export const MatchMockTeamsContainerStyled = styled.div`
     justify-content: center;
   }
 `;
+
+export const MatchDisplayContainerStyled = styled.div`
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-top: 20px;
+  color: ${mainTheme.palette.secondary.dark};
+`;
+
+export const MatchDisplayTeamContainerStyled = styled.div`
+  width: 100px;
+`;
+
+export const TeamLogoStyled = styled.img`
+  background-color: ${mainTheme.palette.primary.main};
+  padding: 2px;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+`;
+
+export const MatchDisplayTeamNameStyled = styled.p`
+  font-size: 13px;
+  padding: 2px 0px;
+  margin: 0px;
+`;
+
+export const MatchDisplayResultContainerStyled = styled.div`
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const MatchDisplayResultGoalStyled = styled.p`
+  background-color: ${mainTheme.palette.secondary.dark};
+  color: ${mainTheme.palette.primary.main};
+  border-radius: 3px;
+  width: 23px;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0px 5px;
+`;

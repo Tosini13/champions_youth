@@ -13,6 +13,8 @@ import { MatchData } from "../../structures/match";
 import { TeamData } from "../../models/teamData";
 import { Match, MatchDataDb } from "../../structures/dbAPI/matchData";
 import { Group, GroupDataDb } from "../../models/groupData";
+import { routerGenerateConst } from "../../const/menuConst";
+import { Link } from "react-router-dom";
 
 export interface GroupsComponentProps {
   tournamentId: Id;
@@ -27,6 +29,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   group,
   matches,
 }) => {
+  console.log(tournamentId);
   if (!group || !matches) return <p>splash</p>;
   return (
     <div style={{ marginTop: "10px" }}>
@@ -43,9 +46,12 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
       </Grid>
       <List>
         {matches?.map((match) => (
-          <div key={match.id}>
+          <Link
+            key={match.id}
+            to={routerGenerateConst.matchGroup(tournamentId, groupId, match.id)}
+          >
             <MatchSummaryMock match={match} />
-          </div>
+          </Link>
         ))}
       </List>
     </div>
@@ -53,7 +59,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  const tournamentId = ownProps.match.params.id;
+  const tournamentId = ownProps.match.params.tournamentId;
   const groupId = ownProps.match.params.groupId;
   const matchesData: MatchDataDb[] | undefined =
     state.firestore.ordered.matches;
@@ -76,6 +82,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props: any) => {
+    console.log(props);
     return [
       {
         collection: "tournaments",

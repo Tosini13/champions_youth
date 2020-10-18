@@ -33,20 +33,25 @@ export enum routerConstString {
   signUp = "/signup",
   tournaments = "/",
   tournament = "/tournament",
-  group = "/tournament/:tournamentId/group/:groupId",
+  group = "/tournament/:tournamentId/groups/:groupId",
   bracket = "/tournament/:tournamentId/playOffs/games/:gameId",
+  matchGroup = "/tournament/:tournamentId/groups/:groupId/matches/:matchId",
   live = "/live",
   my = "/my",
   favorites = "/favorites",
 }
 
 export const routerGenerateConst = {
-  group: (tournamentId: Id, groupId: Id) => {
-    return `/tournament/${tournamentId}/group/${groupId}`;
+  groups: (tournamentId: Id, groupId: Id) => {
+    return `/tournament/${tournamentId}/groups/${groupId}`;
   },
 
   bracket: (tournamentId: Id, gameId: Id) => {
     return `/tournament/${tournamentId}/playOffs/games/${gameId}`;
+  },
+
+  matchGroup: (tournamentId: Id, groupId: Id, matchId: Id) => {
+    return `/tournament/${tournamentId}/groups/${groupId}/matches/${matchId}`;
   },
 };
 
@@ -72,7 +77,7 @@ export const DATE_FORMAT_CONVERTED = "YYYY-MM-DD HH:mm:SS";
 
 class RouteConst {
   group = (tournamentId: Id, groupId: Id) => {
-    return `/tournament/${tournamentId}/group/${groupId}`;
+    return `/tournament/${tournamentId}/groups/${groupId}`;
   };
 
   tournament = (tournamentId: Id) => {
