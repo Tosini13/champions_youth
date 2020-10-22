@@ -11,7 +11,6 @@ import TournamentDetails from "./components/tournaments/tournament/TournamentDet
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import GroupDetails from "./components/groups/GroupDetails";
-import GameDetails from "./components/games/GameDetails";
 import MatchDetails from "./components/matches/MatchDetails";
 
 const App = () => {

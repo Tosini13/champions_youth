@@ -3,16 +3,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-
-import {
-  MatchDetailsContainerStyled,
-  MatchDetailsResultContainerStyled,
-  MatchDetailsTeamsContainerStyled,
-} from "../../styled/styledMatch";
 import MatchDetailsDashboard from "./MatchDetailsDashboard";
-import { MatchData } from "../../structures/match";
 import { Match, MatchDataDb } from "../../structures/dbAPI/matchData";
 import { TeamData } from "../../models/teamData";
 import MatchDetailsDisplay from "./MatchDetailsDisplay";
