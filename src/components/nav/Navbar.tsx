@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
@@ -24,14 +24,13 @@ import { routerConstString } from "../../const/menuConst";
 const Navbar = ({
   selectedDate,
   setSelectedDate,
-  isDateActive,
 }: {
   selectedDate: Moment;
   setSelectedDate: (menu: Moment) => void;
-  isDateActive: boolean;
 }) => {
   const history = useHistory();
   const [sideBarMenuOpened, setSideBarMenu] = useState(false);
+  const [isDateActive, setIsDateActive] = useState(false);
 
   const toggleSideBarMenu = () => {
     setSideBarMenu(!sideBarMenuOpened);
@@ -46,11 +45,22 @@ const Navbar = ({
   const goBack = () => {
     history.goBack();
   };
+
+  useEffect(() => {
+    setIsDateActive(
+      history.location.pathname ===
+        (routerConstString.tournaments ||
+          routerConstString.favorites ||
+          routerConstString.live ||
+          routerConstString.my)
+    );
+  }, [history.location.pathname]);
+
   return (
     <>
       <NavContainerStyled>
         <NavBarStyled>
-          {history.location.pathname === routerConstString.tournaments ? (
+          {isDateActive ? (
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <KeyboardDatePickerStyled
                 margin="normal"
@@ -93,7 +103,6 @@ const Navbar = ({
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
     selectedDate: state.menu.selectedDate,
-    isDateActive: state.menu.isDateActive,
   };
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
 
@@ -22,18 +22,30 @@ import { Id } from "../../const/structuresConst";
 import { setFavorites } from "../../store/actions/UserActions";
 import { UserData } from "../../models/credentialsData";
 import { ImgStyled } from "../../styled/styledLayout";
+import { getImage } from "./actions/getImage";
 
 type Props = {
   user?: UserData;
   tournament: TournamentData;
   setFavorites: (userId: Id, favoriteTournaments: Id[]) => void;
+  authorId: Id;
 };
 
 const TournamentSummary: React.FC<Props> = ({
   tournament,
   user,
   setFavorites,
+  authorId,
 }) => {
+  const [image, setImage] = useState<any>(null);
+
+  useEffect(() => {
+    if (tournament?.image && authorId) {
+      const image = getImage(tournament.image, authorId);
+      setImage(image);
+    }
+  }, [tournament, authorId]);
+
   const favorite = user?.favoriteTournaments?.includes(tournament.id);
 
   const handleToggleFavorites = () => {
@@ -57,7 +69,7 @@ const TournamentSummary: React.FC<Props> = ({
       <TournamentLinkItemStyled
         to={`${routerConstString.tournament}/${tournament.id}`}
       >
-        <ImgStyled src={trophy} alt="logo" />
+        <ImgStyled src={image ? image : trophy} alt="logo" />
         <TournamentListItemTitleStyled>
           {tournament.name}
         </TournamentListItemTitleStyled>
@@ -83,10 +95,16 @@ const TournamentSummary: React.FC<Props> = ({
   );
 };
 
+const mapStateToProps = (state: any, ownProps: any) => {
+  const authorId = state.firebase.auth.uid;
+  return {
+    authorId,
+  };
+};
 const mapDispatchToProps = (dispatch: any) => {
   return {
     setFavorites: (userId: Id, favoriteTournaments: Id[]) =>
       dispatch(setFavorites(userId, favoriteTournaments)),
   };
 };
-export default connect(null, mapDispatchToProps)(TournamentSummary);
+export default connect(mapStateToProps, mapDispatchToProps)(TournamentSummary);

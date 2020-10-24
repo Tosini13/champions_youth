@@ -12,7 +12,6 @@ import { TournamentData } from "../../models/tournamentData";
 import { routerConstString } from "../../const/menuConst";
 import { UserData } from "../../models/credentialsData";
 import { Id } from "../../const/structuresConst";
-import { setActiveDate } from "../../store/actions/MenuActions";
 
 const getFilteredTournaments = (
   view: routerConstString,
@@ -24,7 +23,7 @@ const getFilteredTournaments = (
     case routerConstString.my:
       if (!user) return [];
       return tournaments?.filter((tournament: TournamentData) => {
-        return tournament.ownerId === user.id
+        return tournament.ownerId === user.id;
       });
     case routerConstString.favorites:
       if (!user) return [];
@@ -45,21 +44,12 @@ type Props = {
   tournaments?: TournamentData[];
   history: any;
   selectedDate: Moment;
-  setActiveDate: (active: boolean) => void;
 };
 
 class TournamentsDashboard extends Component<Props> {
   handleRedirectLogin = () => {
     this.props.history.push(routerConstString.login);
   };
-
-  componentDidMount() {
-    this.props.setActiveDate(true);
-  }
-
-  componentWillUnmount() {
-    this.props.setActiveDate(false);
-  }
 
   render() {
     const { tournaments, user } = this.props;
@@ -119,14 +109,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setActiveDate: (active: boolean) => dispatch(setActiveDate(active)),
-  };
-};
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps),
   firestoreConnect((props) => {
     return [
       {

@@ -4,12 +4,12 @@ import { Id } from "../../../const/structuresConst";
 export const getImage = (image: string, authorId: Id) => {
   if (image) {
     const url = `images/${authorId}/`;
-    const storage = firebase.storage();
-    const pathReference = storage.ref(url);
     const imageId = `${url}${image}`;
     const img = localStorage.getItem(imageId);
 
     if (!img) {
+      const storage = firebase.storage();
+      const pathReference = storage.ref(url);
       pathReference
         .child(image)
         .getDownloadURL()
