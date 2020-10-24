@@ -110,14 +110,6 @@ export const TournamentListItemDateStyled = styled.p`
   color: ${mainTheme.palette.secondary.dark};
 `;
 
-export const TournamentListItemImgStyled = styled.img`
-  height: 60px;
-  width: 60px;
-  background-color: rgba(0, 0, 0, 0.2);
-  padding: 5px;
-  border-radius: 5px;
-`;
-
 export const TournamentListItemActionSideStyled = styled.div`
   display: flex;
   flex-direction: column;

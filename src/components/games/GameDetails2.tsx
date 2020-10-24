@@ -7,7 +7,7 @@ import { MatchData } from "../../structures/match";
 import { Match } from "../../models/matchData";
 import { TeamData } from "../../models/teamData";
 import MatchSummaryMock from "../matches/MatchSummaryMock";
-import { GameSummaryContainerStyled, GameTitle } from "../../styled/styledGame";
+import { DialogStyled, DialogTitle } from "../../styled/styledLayout";
 
 type Props = {
   handleClose: () => void;
@@ -24,18 +24,18 @@ const GameDetails2: React.FC<Props> = ({
 }) => {
   console.log(match);
   return (
-    <GameSummaryContainerStyled
+    <DialogStyled
       open={open}
       onClose={handleClose}
       aria-labelledby="responsive-dialog-title"
     >
       {match ? (
         <>
-          <GameTitle>{match.round}</GameTitle>
+          <DialogTitle>{match.round}</DialogTitle>
           <MatchSummaryMock match={match} />
         </>
       ) : null}
-    </GameSummaryContainerStyled>
+    </DialogStyled>
   );
 };
 

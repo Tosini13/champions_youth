@@ -1,9 +1,5 @@
 import styled from "styled-components";
 
-import Dialog from "@material-ui/core/Dialog";
-
-import { mainTheme } from "./styledConst";
-
 export const GamesContainerStyled = styled.div`
   display: flex;
   justify-content: space-between;
@@ -59,12 +55,3 @@ export const GameTitle = styled.p`
   text-align: center;
 `;
 
-export const GameSummaryContainerStyled = styled(Dialog)`
-  .MuiPaper-root {
-    padding: 3px;
-    color: ${mainTheme.palette.secondary.dark};
-    background-color: ${mainTheme.palette.primary.dark};
-    width: 90%;
-    min-width: 290px;
-  }
-`;

@@ -16,12 +16,14 @@ type Props = {
   teams?: TeamData[];
   deleteTeamFromTournament: (tournamentId: Id, teamId: Id) => void;
   editTeamFromTournament: (tournamentId: Id, team: TeamData) => void;
+  authorId: Id;
 };
 
 const TeamList: React.FC<Props> = ({
   teams,
   deleteTeamFromTournament,
   editTeamFromTournament,
+  authorId,
 }) => {
   const { tournamentId } = useParams<{ tournamentId: Id }>();
 
@@ -42,11 +44,18 @@ const TeamList: React.FC<Props> = ({
             team={team}
             handleDeleteTeam={handleDeleteTeam}
             handleEditTeam={handleEditTeam}
+            authorId={authorId}
           />
         );
       })}
     </TeamListStyled>
   );
+};
+
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    authorId: state.firebase.auth.uid,
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -58,4 +67,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(TeamList);
+export default connect(mapStateToProps, mapDispatchToProps)(TeamList);

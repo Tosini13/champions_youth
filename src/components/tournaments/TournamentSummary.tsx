@@ -12,7 +12,6 @@ import {
   TournamentLinkItemStyled,
   TournamentListItemTitleStyled,
   TournamentListItemDateStyled,
-  TournamentListItemImgStyled,
   TournamentListItemStyled,
   TournamentListItemActionSideStyled,
 } from "../../styled/styledTournament";
@@ -22,6 +21,7 @@ import { TournamentData } from "../../models/tournamentData";
 import { Id } from "../../const/structuresConst";
 import { setFavorites } from "../../store/actions/UserActions";
 import { UserData } from "../../models/credentialsData";
+import { ImgStyled } from "../../styled/styledLayout";
 
 type Props = {
   user?: UserData;
@@ -57,7 +57,7 @@ const TournamentSummary: React.FC<Props> = ({
       <TournamentLinkItemStyled
         to={`${routerConstString.tournament}/${tournament.id}`}
       >
-        <TournamentListItemImgStyled src={trophy} alt="logo" />
+        <ImgStyled src={trophy} alt="logo" />
         <TournamentListItemTitleStyled>
           {tournament.name}
         </TournamentListItemTitleStyled>

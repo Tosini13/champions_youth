@@ -1,26 +1,31 @@
 import React, { ChangeEvent, useState } from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
-import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
+import { Button } from "@material-ui/core";
 
-import { IconButtonStyled } from "../../styled/styledButtons";
 import { AddTeamFormStyled } from "../../styled/styledTeams";
 import { addTeamToTournament } from "../../store/actions/TeamActions";
 import { Id } from "../../const/structuresConst";
-import { TeamCreateData } from "../../models/teamData";
 import { AddTeamTextFieldStyled } from "../../styled/styledForm";
-import { AddIconStyled } from "../../styled/styledIcons";
-import { useParams } from "react-router-dom";
+import AddLogo from "../tournaments/create/AddLogo";
+import { TeamCreateData } from "../../models/teamData";
 
 type Props = {
-  addTeamToTournament: (tournamentId: Id, team: TeamCreateData) => void;
+  addTeamToTournament: (
+    tournamentId: Id,
+    team: TeamCreateData,
+    image: any
+  ) => void;
+  handleClose: () => void;
 };
 
-const AddTeam: React.FC<Props> = ({ addTeamToTournament }) => {
+const AddTeam: React.FC<Props> = ({ addTeamToTournament, handleClose }) => {
   const { handleSubmit, register, errors } = useForm();
   const { tournamentId } = useParams<{ tournamentId: Id }>();
 
+  const [image, setImage] = useState<any | null>(null);
   const [name, setName] = useState<string>("");
 
   const handleChange = (
@@ -32,47 +37,50 @@ const AddTeam: React.FC<Props> = ({ addTeamToTournament }) => {
   const onSubmit = (data: any) => {
     const team: TeamCreateData = {
       name,
+      logo: image ? image.name : undefined,
     };
     setName("");
-    addTeamToTournament(tournamentId, team);
+    handleClose();
+    console.log('close?');
+    addTeamToTournament(tournamentId, team, image);
   };
 
   return (
-    <>
-      <AddTeamFormStyled onSubmit={handleSubmit(onSubmit)}>
-        <IconButtonStyled style={{ marginRight: "10px" }}>
-          <AddAPhotoIcon fontSize="small" color="secondary" />
-        </IconButtonStyled>
-        <AddTeamTextFieldStyled
-          label="Nazwa"
-          color="secondary"
-          onChange={handleChange}
-          value={name}
-          inputProps={{
-            name: "name",
-            ref: register({
-              required: "Required",
-              maxLength: 255,
-            }),
-          }}
-          helperText={
-            errors.name && "Nazwa musi zawierać przynajmniej 2 znaki!"
-          }
-          error={Boolean(errors.name)}
-        />
-        {errors.username && errors.username.message}
-        <IconButtonStyled aria-label="add" type="submit">
-          <AddIconStyled />
-        </IconButtonStyled>
-      </AddTeamFormStyled>
-    </>
+    <AddTeamFormStyled onSubmit={handleSubmit(onSubmit)}>
+      <AddTeamTextFieldStyled
+        label="Nazwa"
+        color="secondary"
+        onChange={handleChange}
+        value={name}
+        inputProps={{
+          name: "name",
+          ref: register({
+            required: "Required",
+            maxLength: 255,
+          }),
+        }}
+        helperText={errors.name && "Nazwa musi zawierać przynajmniej 2 znaki!"}
+        error={Boolean(errors.name)}
+      />
+      {errors.username && errors.username.message}
+      <AddLogo image={image} setImage={setImage} />
+      <Button
+        variant="outlined"
+        color="secondary"
+        type="submit"
+        style={{ margin: "15px auto", width: "fit-content" }}
+      >
+        Dodaj
+      </Button>
+    </AddTeamFormStyled>
   );
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    addTeamToTournament: (tournamentId: Id, team: TeamCreateData) =>
-      dispatch(addTeamToTournament(tournamentId, team)),
+    addTeamToTournament: (tournamentId: Id, team: TeamCreateData, image: any) =>
+      dispatch(addTeamToTournament(tournamentId, team, image)),
   };
 };
+
 export default connect(null, mapDispatchToProps)(AddTeam);

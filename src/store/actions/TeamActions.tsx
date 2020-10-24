@@ -1,9 +1,16 @@
+import firebase from "firebase";
 import { Id } from "../../const/structuresConst";
 import { TeamCreateData, TeamData } from "../../models/teamData";
 
-export const addTeamToTournament = (tournamentId: Id, team: TeamCreateData) => {
+export const addTeamToTournament = (
+  tournamentId: Id,
+  team: TeamCreateData,
+  image?: any
+) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
+    const authorId = getState().firebase.auth.uid;
+    console.log(team);
     firestore
       .collection("tournaments")
       .doc(tournamentId)
@@ -13,6 +20,16 @@ export const addTeamToTournament = (tournamentId: Id, team: TeamCreateData) => {
       })
       .then(() => {
         dispatch({ type: "ADD_TEAM_TO_TOURNAMENT" });
+        if (image) {
+          const firestore = getFirestore();
+          const authorId = getState().firebase.auth.uid;
+          const storageRef = firebase.storage().ref();
+          const ref = storageRef.child(`images/${authorId}/${image.name}`);
+          ref
+            .put(image)
+            .then((res) => dispatch({ type: "IMAGE_UPLOADED" }))
+            .catch((err) => dispatch({ type: "IMAGE_UPLOADED_ERROR" }));
+        }
       })
       .catch((err: any) => {
         dispatch({ type: "ADD_TEAM_TO_TOURNAMENT_ERROR", err });

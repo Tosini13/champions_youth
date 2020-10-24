@@ -21,6 +21,7 @@ import { setBack } from "../../../store/actions/MenuActions";
 import { Group, GroupDataDb } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
+import { getImage } from "../actions/getImage";
 
 type Props = {
   tournament?: TournamentData;
@@ -28,10 +29,12 @@ type Props = {
   groups?: Group[];
   playOffs?: Game[];
   tournamentId?: Id;
+  authorId?: Id;
   setBack: (route: routerConstString) => void;
 };
 
 const TournamentDetails: React.FC<Props> = ({
+  authorId,
   tournamentId,
   tournament,
   teams,
@@ -39,11 +42,20 @@ const TournamentDetails: React.FC<Props> = ({
   playOffs,
   setBack,
 }) => {
+  const [image, setImage] = useState<any | null>(null);
+
   useEffect(() => {
     setBack(routerConstString.tournaments);
   }, [setBack]);
 
-  const [view, setView] = useState(menuTournamentConst.groups);
+  useEffect(() => {
+    if (tournament?.image && authorId) {
+      const image = getImage(tournament.image, authorId);
+      setImage(image);
+    }
+  }, [tournament, authorId]);
+
+  const [view, setView] = useState(menuTournamentConst.teams);
   if (tournament && teams) {
     return (
       <>
@@ -64,7 +76,7 @@ const TournamentDetails: React.FC<Props> = ({
             />
           ) : null}
           {view === menuTournamentConst.info && tournament ? (
-            <TournamentInfo tournament={tournament} />
+            <TournamentInfo tournament={tournament} image={image} />
           ) : null}
           {view === menuTournamentConst.teams && tournament ? (
             <TournamentTeams teams={teams} />
@@ -78,6 +90,7 @@ const TournamentDetails: React.FC<Props> = ({
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
+  const authorId = state.firebase.auth.uid;
   const tournamentId = ownProps.match.params.tournamentId;
   const tournaments = state.firestore.data.tournaments;
   const tournament = tournaments ? tournaments[tournamentId] : null;
@@ -94,6 +107,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
       ? playOffsData.map((game) => new Game(game, teams))
       : undefined;
   return {
+    authorId,
     tournament,
     teams,
     playOffs,

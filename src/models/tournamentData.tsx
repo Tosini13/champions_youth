@@ -15,6 +15,7 @@ export interface TournamentData {
   matchTimeInBracket?: number;
   breakTimeInBracket?: number;
   fields: number;
+  image?: string;
 }
 
 export type TournamentCreateData = Omit<TournamentData, "id" | "owner">;

@@ -16,13 +16,14 @@ import {
   TournamentTitle,
 } from "../../../styled/styledTournamentInfo";
 import { TournamentData } from "../../../models/tournamentData";
-import { TournamentListItemImgStyled } from "../../../styled/styledTournament";
 import { Id } from "../../../const/structuresConst";
 import { deleteTournament } from "../../../store/actions/TournamentActions";
 import { connect } from "react-redux";
+import { LogoStyled } from "../../../styled/styledLayout";
 
 type Props = {
   tournament: TournamentData;
+  image?: string;
   deleteTournament: (tournamentId: Id) => void;
 };
 
@@ -30,12 +31,13 @@ const TournamentInfo: React.FC<Props> = ({
   tournament,
   deleteTournament,
   children,
+  image,
 }) => {
   return (
     <MainContainerStyled>
       <MainContainerContentStyled>
         <TournamentDetailsInfoStyled>
-          <TournamentListItemImgStyled src={trophy} alt="logo" />
+          <LogoStyled src={image ? image : trophy}></LogoStyled>
           <TournamentTitle>{tournament.name}</TournamentTitle>
         </TournamentDetailsInfoStyled>
         <TournamentDetailsInfoStyled>
