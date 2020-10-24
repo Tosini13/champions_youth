@@ -99,6 +99,10 @@ export const LogoStyled = styled.div<{
     align-items: center;`}
 `;
 
+export const LogoLargeStyled = styled(LogoStyled)`
+  margin: 5px auto;
+`;
+
 export const LogoTeamStyled = styled(LogoStyled)`
   height: 30px;
   width: 30px;
