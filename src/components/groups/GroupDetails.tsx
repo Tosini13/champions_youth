@@ -14,7 +14,7 @@ import { TeamData } from "../../models/teamData";
 import { Match, MatchDataDb } from "../../structures/dbAPI/matchData";
 import { Group, GroupDataDb } from "../../models/groupData";
 import { routerGenerateConst } from "../../const/menuConst";
-import { Link } from "react-router-dom";
+import { LinkStyled } from "../../styled/styledLayout";
 
 export interface GroupsComponentProps {
   tournamentId: Id;
@@ -45,12 +45,12 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
       </Grid>
       <List>
         {matches?.map((match) => (
-          <Link
+          <LinkStyled
             key={match.id}
             to={routerGenerateConst.matchGroup(tournamentId, groupId, match.id)}
           >
             <MatchSummaryMock match={match} />
-          </Link>
+          </LinkStyled>
         ))}
       </List>
     </div>

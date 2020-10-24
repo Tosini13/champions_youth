@@ -83,6 +83,8 @@ export const MatchMockTeamsContainerStyled = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 

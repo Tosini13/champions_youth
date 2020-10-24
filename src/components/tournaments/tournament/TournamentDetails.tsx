@@ -17,7 +17,6 @@ import { Game } from "../../../models/gameData";
 import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
 import TournamentInfo from "./TournamentInfo";
-import { setBack } from "../../../store/actions/MenuActions";
 import { Group, GroupDataDb } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
@@ -40,13 +39,8 @@ const TournamentDetails: React.FC<Props> = ({
   teams,
   groups,
   playOffs,
-  setBack,
 }) => {
   const [image, setImage] = useState<any | null>(null);
-
-  useEffect(() => {
-    setBack(routerConstString.tournaments);
-  }, [setBack]);
 
   useEffect(() => {
     if (tournament?.image && authorId) {
@@ -116,14 +110,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setBack: (route: routerConstString) => dispatch(setBack(route)),
-  };
-};
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps),
   firestoreConnect((props: any) => {
     return [
       { collection: "tournaments" },

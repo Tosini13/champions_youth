@@ -25,12 +25,10 @@ const Navbar = ({
   selectedDate,
   setSelectedDate,
   isDateActive,
-  back,
 }: {
   selectedDate: Moment;
   setSelectedDate: (menu: Moment) => void;
   isDateActive: boolean;
-  back?: routerConstString;
 }) => {
   const history = useHistory();
   const [sideBarMenuOpened, setSideBarMenu] = useState(false);
@@ -46,14 +44,13 @@ const Navbar = ({
   };
 
   const goBack = () => {
-    if (back) history.push(back);
+    history.goBack();
   };
-
   return (
     <>
       <NavContainerStyled>
         <NavBarStyled>
-          {isDateActive ? (
+          {history.location.pathname === routerConstString.tournaments ? (
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <KeyboardDatePickerStyled
                 margin="normal"
@@ -97,7 +94,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
   return {
     selectedDate: state.menu.selectedDate,
     isDateActive: state.menu.isDateActive,
-    back: state.menu.back,
   };
 };
 
