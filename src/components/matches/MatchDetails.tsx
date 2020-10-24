@@ -18,6 +18,7 @@ type Props = {
 };
 
 const MatchDetails: React.FC<Props> = ({ matchData, authorId }) => {
+  console.log(matchData?.id);
   if (matchData === undefined) return <div>Splash</div>;
   return (
     <>
@@ -32,10 +33,10 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const matchId = ownProps.match.params.matchId;
   const matches: MatchDataDb[] | undefined = state.firestore.ordered.matches;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
-  const matchData =
-    matches && matchId && teams
-      ? new Match(matches[matchId], teams)
-      : undefined;
+  const match = matches?.find(
+    (match) => match.id?.toString() === matchId.toString()
+  );
+  const matchData = match && teams ? new Match(match, teams) : undefined;
   return {
     matchData,
     authorId,
@@ -45,10 +46,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props: any) => {
-    console.log(props);
     const tournamentId = props.match.params.tournamentId;
     const groupId = props.match.params.groupId;
-    console.log(tournamentId, groupId);
     return [
       {
         collection: "tournaments",
