@@ -61,7 +61,6 @@ const TeamSummary: React.FC<Props> = ({
     }
   }, [team, authorId]);
 
-  console.log(image);
   return (
     <TeamListElementStyled button>
       <LogoTeamStyled src={image ? image : trophy}></LogoTeamStyled>
