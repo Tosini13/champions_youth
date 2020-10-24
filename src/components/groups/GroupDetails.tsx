@@ -29,7 +29,6 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   group,
   matches,
 }) => {
-  console.log(tournamentId);
   if (!group || !matches) return <p>splash</p>;
   return (
     <div style={{ marginTop: "10px" }}>
@@ -82,7 +81,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
 export default compose(
   connect(mapStateToProps),
   firestoreConnect((props: any) => {
-    console.log(props);
     return [
       {
         collection: "tournaments",

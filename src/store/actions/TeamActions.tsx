@@ -10,7 +10,6 @@ export const addTeamToTournament = (
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
     const authorId = getState().firebase.auth.uid;
-    console.log(team);
     firestore
       .collection("tournaments")
       .doc(tournamentId)
@@ -21,8 +20,6 @@ export const addTeamToTournament = (
       .then(() => {
         dispatch({ type: "ADD_TEAM_TO_TOURNAMENT" });
         if (image) {
-          const firestore = getFirestore();
-          const authorId = getState().firebase.auth.uid;
           const storageRef = firebase.storage().ref();
           const ref = storageRef.child(`images/${authorId}/${image.name}`);
           ref

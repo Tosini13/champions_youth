@@ -16,7 +16,6 @@ export const createTournament = (data: TournamentCreateData, image?: any) => {
       .then((res: any) => {
         dispatch({ type: "CREATE_TOURNAMENT", data });
         if (image) {
-          const firestore = getFirestore();
           const authorId = getState().firebase.auth.uid;
           const storageRef = firebase.storage().ref();
           const ref = storageRef.child(`images/${authorId}/${image.name}`);

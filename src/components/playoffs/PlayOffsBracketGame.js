@@ -6,7 +6,7 @@ import {
   MatchHeaderStyled,
   MatchRoundTitleStyled
 } from "../../styled/styledMatch";
-import GameDetails2 from "../games/GameDetails2";
+import GameDetails from "../games/GameDetails";
 
 
 const PlayOffsBracketGame = ({ game }) => {
@@ -33,7 +33,7 @@ const PlayOffsBracketGame = ({ game }) => {
           <p>{game.awayTeam ? game.awayTeam.name : game.placeholder?.away}</p>
         </MatchMockTeamsContainerStyled>
       </MatchContainerStyled>
-      {open ? <GameDetails2 handleClose={handleClose} open={open} tournamentId={tournamentId} gameId={game.id} /> : null}
+      {open ? <GameDetails handleClose={handleClose} open={open} tournamentId={tournamentId} gameId={game.id} /> : null}
 
     </>
   );

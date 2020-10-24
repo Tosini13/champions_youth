@@ -3,14 +3,8 @@ import React from "react";
 import AddAPhotoIcon from "@material-ui/icons/AddAPhoto";
 import ClearIcon from "@material-ui/icons/Clear";
 
-import {
-  TournamentCreateLogoContainerStyled,
-  TournamentCreateLogoTextFieldStyled,
-} from "../../../styled/styledTournamentForm";
-import {
-  IconButtonStyled,
-  ButtonRemoveLogoStyled,
-} from "../../../styled/styledButtons";
+import { TournamentCreateLogoTextFieldStyled } from "../../../styled/styledTournamentForm";
+import { ButtonRemoveLogoStyled } from "../../../styled/styledButtons";
 import { LogoContainerStyled, LogoStyled } from "../../../styled/styledLayout";
 
 type Props = {

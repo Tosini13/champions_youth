@@ -38,11 +38,8 @@ const GroupsCreate: React.FC<Props> = ({
   const { tournamentId } = useParams<{ tournamentId: Id }>();
 
   const submitGroups = () => {
-    console.log(groups);
     const groupsDb = groupStage.convertToDb(groups);
-    console.log(groupsDb);
     groupsDb.forEach((group) => {
-      console.log(group);
       createGroup(tournamentId, group.groupData, group.matchesData);
     });
     toggleCreate();
@@ -65,17 +62,10 @@ const GroupsCreate: React.FC<Props> = ({
   };
 
   const addGroup = () => {
-    console.log(
-      groupStage,
-      groupStage.groups.length,
-      Math.ceil(teams.length / 2) - 1,
-      teams
-    );
     if (
       groupStage &&
       groupStage.groups.length < Math.ceil(teams.length / 2) - 1
     ) {
-      console.log(groupStage);
       setChosenTeams([]);
       const newGroups = groupStage?.createGroups(
         teams,
