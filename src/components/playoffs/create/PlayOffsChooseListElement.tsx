@@ -26,14 +26,19 @@ const PlayOffsChooseListElement: React.FC<Props> = ({
     <ChooseListItemStyled
       button
       key={element.id}
-      selected={selected}
       onClick={() => {
         addToChosenTeams(element);
       }}
     >
       <ListItemTextStyled primary={element.name} />
       <ChooseListItemSecondaryActionStyled>
-        <IconButton>{selected ? <RemoveIcon /> : <AddIcon />}</IconButton>
+        <IconButton>
+          {selected ? (
+            <RemoveIcon color="secondary" />
+          ) : (
+            <AddIcon color="secondary" />
+          )}
+        </IconButton>
       </ChooseListItemSecondaryActionStyled>
     </ChooseListItemStyled>
   );
