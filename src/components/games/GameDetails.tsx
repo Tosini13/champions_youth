@@ -26,7 +26,6 @@ const GameDetails: React.FC<Props> = ({
     <DialogStyled
       open={open}
       onClose={handleClose}
-      aria-labelledby="responsive-dialog-title"
     >
       {match ? (
         <>

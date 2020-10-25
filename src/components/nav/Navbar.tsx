@@ -54,7 +54,7 @@ const Navbar = ({
           routerConstString.live ||
           routerConstString.my)
     );
-  }, [history.location.pathname]);
+  }, [history.location]);
 
   return (
     <>

@@ -99,6 +99,6 @@ export type MatchData = {
   placeholder: TeamsPlaceholder;
   result?: Result;
   round: string;
-  date: Moment;
+  date?: Moment;
   mode: matchModeConst;
 };

@@ -7,10 +7,10 @@ import {
   MatchHeaderStyled,
   MatchRoundDateStyled,
 } from "../../styled/styledMatch";
-import { MatchData } from "../../structures/match";
+import { MatchData, MatchStructure } from "../../structures/match";
 
 type Props = {
-  match: MatchData;
+  match: MatchData | MatchStructure;
 };
 
 const MatchSummaryMock: React.FC<Props> = ({ match }) => {

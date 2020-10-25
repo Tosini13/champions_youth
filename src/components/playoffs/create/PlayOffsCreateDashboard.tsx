@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
-import PlayOffsChooseList from "./PlayOffsChooseList";
 import PlayOffsCreateMenu from "./PlayOffsCreateMenu";
 import PlayOffsCreateBracketMock from "./PlayOffsCreateBracketMock";
 import { BracketStructure } from "../../../structures/bracket";
@@ -11,7 +11,8 @@ import { createPlayoffs } from "../../../store/actions/PlayOffsActions";
 import { connect } from "react-redux";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { Id } from "../../../const/structuresConst";
-import { useParams } from "react-router-dom";
+import ChooseTeam from "./ChooseTeam";
+import { GameStructure } from "../../../structures/game";
 
 type Props = {
   tournament: TournamentData;
@@ -117,6 +118,17 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     toggleCreate();
   };
 
+  const [openTeams, setOpenTeams] = useState(false);
+
+  const handleCloseTeams = () => {
+    setOpenTeams(false);
+  };
+
+  const handleOpenTeams = (game: GameStructure) => {
+    console.log(game);
+    setOpenTeams(true);
+  };
+
   return (
     <div>
       <PlayOffsCreateMenu
@@ -127,12 +139,23 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
         toggleRoundsActive={toggleRoundsActive}
         submitBracket={submitBracket}
       />
-      <PlayOffsChooseList
+      {/* <PlayOffsChooseList
         list={teams}
         chosenTeams={chosenTeams}
         setChosenTeams={handleSetChosenTeams}
+      /> */}
+      <PlayOffsCreateBracketMock
+        bracket={bracket}
+        teams={teams}
+        handleOpenTeams={handleOpenTeams}
       />
-      <PlayOffsCreateBracketMock bracket={bracket} teams={teams} />
+      <ChooseTeam
+        open={openTeams}
+        handleClose={handleCloseTeams}
+        handleSetChosenTeams={handleSetChosenTeams}
+        teams={teams}
+        chosenTeams={chosenTeams}
+      />
     </div>
   );
 };

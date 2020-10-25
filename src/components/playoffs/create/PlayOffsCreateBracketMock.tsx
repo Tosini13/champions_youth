@@ -8,14 +8,23 @@ import GameSummaryRecursiveMock from "../../games/GameSummaryRecursiveMock";
 type Props = {
   bracket: BracketStructure;
   teams: TeamData[];
+  handleOpenTeams: (game: GameStructure) => void;
 };
 
-const PlayOffsCreateBracketMock: React.FC<Props> = ({ bracket, teams }) => {
+const PlayOffsCreateBracketMock: React.FC<Props> = ({
+  bracket,
+  teams,
+  handleOpenTeams,
+}) => {
   return (
     <>
       {bracket.placeMatches.map((game: GameStructure) => (
         <BracketSectionContainerStyled key={game.round}>
-          <GameSummaryRecursiveMock game={game} teams={teams} />
+          <GameSummaryRecursiveMock
+            game={game}
+            teams={teams}
+            handleOpenTeams={handleOpenTeams}
+          />
         </BracketSectionContainerStyled>
       ))}
     </>
