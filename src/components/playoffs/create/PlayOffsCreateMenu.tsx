@@ -12,9 +12,9 @@ import PlayOffsChooseRound from "./PlayOffsChooseRound";
 type Props = {
   toggleCreate: () => void;
   options: Options;
+  maxRounds: number;
   setRounds: (rounds: number) => void;
   setPlaceMatchesQtt: (placeMatchesQtt: number) => void;
-  toggleRoundsActive: () => void;
   submitBracket: () => void;
 };
 
@@ -24,7 +24,7 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
   setRounds,
   setPlaceMatchesQtt,
   submitBracket,
-  toggleRoundsActive,
+  maxRounds,
 }) => {
   return (
     <>
@@ -49,9 +49,9 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
         setPlaceMatchesQtt={setPlaceMatchesQtt}
       />
       <PlayOffsChooseRound
+        maxRounds={maxRounds}
         options={options}
         setRounds={setRounds}
-        toggleRoundsActive={toggleRoundsActive}
       />
     </>
   );

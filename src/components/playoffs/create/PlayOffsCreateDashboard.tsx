@@ -31,7 +31,6 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   const [options, setOptions] = useState<Options>({
     rounds: 4,
     placeMatchesQtt: 1,
-    roundsActive: false,
   });
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>(
     // | PromotedTeam[]
@@ -42,6 +41,8 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     options.rounds,
     options.placeMatchesQtt
   );
+
+  const [openTeams, setOpenTeams] = useState(false);
   const [game, setGame] = useState<GameStructure | null>(null);
   const [bracket, setBracket] = useState<BracketStructure>(bracketInit);
 
@@ -59,6 +60,14 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
       placeMatchesQtt = rounds * 2 - 1;
     }
     return placeMatchesQtt;
+  };
+
+  const maxRounds = () => {
+    let rounds = 1;
+    while (rounds * 2 < teams.length) {
+      rounds *= 2;
+    }
+    return rounds;
   };
 
   const setRounds = (rounds: number) => {
@@ -87,19 +96,11 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     }
   };
 
-  const toggleRoundsActive = () => {
-    setOptions({
-      ...options,
-      roundsActive: !options.roundsActive,
-    });
-  };
-
   const handleSetChosenTeams = (teams: TeamData[]) => {
     // | PromotedTeam[] ?!
     const rounds = validRounds(teams.length);
     const placeMatchesQtt = validPlaceMatches(rounds, options.placeMatchesQtt);
     setOptions({
-      roundsActive: false,
       rounds,
       placeMatchesQtt,
     });
@@ -113,8 +114,6 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     createPlayoffs(tournamentId, convertedBracket.games);
     toggleCreate();
   };
-
-  const [openTeams, setOpenTeams] = useState(false);
 
   const handleCloseTeams = () => {
     setGame(null);
@@ -134,10 +133,10 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     <div>
       <PlayOffsCreateMenu
         toggleCreate={toggleCreate}
+        maxRounds={maxRounds()}
         options={options}
         setRounds={setRounds}
         setPlaceMatchesQtt={setPlaceMatchesQtt}
-        toggleRoundsActive={toggleRoundsActive}
         submitBracket={submitBracket}
       />
       <PlayOffsCreateBracketMock

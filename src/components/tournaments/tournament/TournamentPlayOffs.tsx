@@ -28,7 +28,6 @@ const TournamentPlayOffs: React.FC<Props> = ({
   const [create, setCreate] = useState<boolean>(false);
 
   const createPlayOffs = () => {
-    console.log("createPlayOffs");
     setCreate(!create);
   };
 
@@ -61,12 +60,6 @@ const TournamentPlayOffs: React.FC<Props> = ({
         toggleCreate={createPlayOffs}
       />
     );
-    // return (
-    //   <PlayOffsCreateDashboard
-    //     tournament={tournament}
-    //     toggleCreate={toggleCreate}
-    //   />
-    // );
   }
   return (
     <ButtonHorizontalContainerStyled>

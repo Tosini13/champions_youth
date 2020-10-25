@@ -15,7 +15,8 @@ export const addTeamToTournament = (
       .doc(tournamentId)
       .collection("teams")
       .add({
-        ...team,
+        name: team.name,
+        logo: image && team.logo ? team.logo : null,
       })
       .then(() => {
         dispatch({ type: "ADD_TEAM_TO_TOURNAMENT" });
