@@ -35,13 +35,14 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   });
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>(
     // | PromotedTeam[]
-    teams.slice(0, options.rounds * 2)
+    // teams.slice(0, options.rounds * 2)
+    []
   );
   let bracketInit = new BracketStructure(
     options.rounds,
     options.placeMatchesQtt
   );
-  bracketInit.initBracketWithTeams(chosenTeams);
+  const [game, setGame] = useState<GameStructure | null>(null);
   const [bracket, setBracket] = useState<BracketStructure>(bracketInit);
 
   const validRounds = (rounds: number) => {
@@ -67,7 +68,6 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     }
     const chosen = teams.slice(0, rounds * 2);
     const bracket = new BracketStructure(rounds, placeMatchesQtt);
-    bracket.initBracketWithTeams(chosen);
     setOptions({
       ...options,
       rounds,
@@ -78,9 +78,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
 
   const setPlaceMatchesQtt = (placeMatchesQtt: number) => {
     if (placeMatchesQtt % 2) {
-      const chosen = teams.slice(0, options.rounds * 2);
       const bracket = new BracketStructure(options.rounds, placeMatchesQtt);
-      bracket.initBracketWithTeams(chosen);
       setOptions({
         ...options,
         placeMatchesQtt,
@@ -100,8 +98,6 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     // | PromotedTeam[] ?!
     const rounds = validRounds(teams.length);
     const placeMatchesQtt = validPlaceMatches(rounds, options.placeMatchesQtt);
-    const bracket = new BracketStructure(rounds, placeMatchesQtt);
-    bracket.initBracketWithTeams(teams);
     setOptions({
       roundsActive: false,
       rounds,
@@ -121,12 +117,17 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   const [openTeams, setOpenTeams] = useState(false);
 
   const handleCloseTeams = () => {
+    setGame(null);
     setOpenTeams(false);
   };
 
   const handleOpenTeams = (game: GameStructure) => {
-    console.log(game);
+    setGame(game);
     setOpenTeams(true);
+  };
+
+  const handleUpdateBracket = (newBracket: BracketStructure) => {
+    setBracket(newBracket);
   };
 
   return (
@@ -139,23 +140,23 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
         toggleRoundsActive={toggleRoundsActive}
         submitBracket={submitBracket}
       />
-      {/* <PlayOffsChooseList
-        list={teams}
-        chosenTeams={chosenTeams}
-        setChosenTeams={handleSetChosenTeams}
-      /> */}
       <PlayOffsCreateBracketMock
-        bracket={bracket}
+        placeMatches={bracket.placeMatches}
         teams={teams}
         handleOpenTeams={handleOpenTeams}
       />
-      <ChooseTeam
-        open={openTeams}
-        handleClose={handleCloseTeams}
-        handleSetChosenTeams={handleSetChosenTeams}
-        teams={teams}
-        chosenTeams={chosenTeams}
-      />
+      {game ? (
+        <ChooseTeam
+          open={openTeams}
+          bracket={bracket}
+          handleUpdateBracket={handleUpdateBracket}
+          handleClose={handleCloseTeams}
+          handleSetChosenTeams={handleSetChosenTeams}
+          teams={teams}
+          chosenTeams={chosenTeams}
+          game={game}
+        />
+      ) : null}
     </div>
   );
 };

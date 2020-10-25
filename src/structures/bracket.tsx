@@ -266,7 +266,6 @@ export class BracketStructure {
   setGamesData = () => {
     //placeholder and Date
     let games: GameStructure[] = [];
-    console.log(games.length, this.matchCounter);
     let i = 0;
     while (games.length < this.matchCounter - 1) {
       let queue: GameStructure[] = [];
@@ -285,6 +284,18 @@ export class BracketStructure {
         if (game.returnMatch?.date)
           game.returnMatch.date = this.matchTime.nextTime;
       });
+  };
+
+  updateGame = (target: GameStructure) => {
+    const getGame = (game: GameStructure) => {
+      if (game.id === target.id) {
+        game = target;
+        return false;
+      }
+      if (game.previousMatchHome) getGame(game.previousMatchHome);
+      if (game.previousMatchAway) getGame(game.previousMatchAway);
+    };
+    this.placeMatches.forEach((game) => getGame(game));
   };
 
   convertBracket = () => {

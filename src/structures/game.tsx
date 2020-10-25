@@ -18,6 +18,18 @@ export class GameStructure {
   placeholder?: TeamsPlaceholder;
   order?: number;
 
+  set setHomeTeam(team: TeamData | undefined) {
+    this.homeTeam = team;
+    this.match.setHome(team);
+    if (this.returnMatch) this.returnMatch.setAway(team);
+  }
+
+  set setAwayTeam(team: TeamData | undefined) {
+    this.awayTeam = team;
+    this.match.setAway(team);
+    if (this.returnMatch) this.returnMatch.setHome(team);
+  }
+
   set setWinnerMatch(winnerMatch: GameStructure) {
     this.winnerMatch = winnerMatch;
   }

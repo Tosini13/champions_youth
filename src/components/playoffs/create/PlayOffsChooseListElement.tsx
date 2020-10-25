@@ -15,12 +15,14 @@ type Props = {
   element: TeamData; // | PromotedTeam
   selected: boolean;
   addToChosenTeams: (chosenTeam: TeamData) => void; // | PromotedTeam
+  available: boolean;
 };
 
 const PlayOffsChooseListElement: React.FC<Props> = ({
   element,
   selected,
   addToChosenTeams,
+  available,
 }) => {
   return (
     <ChooseListItemStyled

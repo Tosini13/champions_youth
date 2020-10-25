@@ -8,19 +8,34 @@ type Props = {
   list: TeamData[]; // | PromotedTeam[]
   chosenTeams: TeamData[]; // | PromotedTeam[]
   setChosenTeams: (teams: TeamData[]) => void; // | PromotedTeam[]
+  handleChooseTeam: (team?: TeamData) => void;
+  gameTeam?: TeamData;
 };
 
 const PlayOffsChooseList: React.FC<Props> = ({
   list,
   chosenTeams,
   setChosenTeams,
+  handleChooseTeam,
+  gameTeam,
 }) => {
   const addToChosenTeams = (element: TeamData) => {
     // | PromotedTeam
     if (chosenTeams.includes(element)) {
-      setChosenTeams([...chosenTeams.filter((chosen) => chosen !== element)]);
+      if (gameTeam === element) {
+        setChosenTeams([...chosenTeams.filter((chosen) => chosen !== element)]);
+        handleChooseTeam(undefined);
+      }
     } else {
-      setChosenTeams([...chosenTeams, element]);
+      if (gameTeam && chosenTeams.includes(gameTeam)) {
+        setChosenTeams([
+          ...chosenTeams.filter((chosen) => chosen !== gameTeam),
+          element,
+        ]);
+      } else {
+        setChosenTeams([...chosenTeams, element]);
+      }
+      handleChooseTeam(element);
     }
   };
 
@@ -31,6 +46,7 @@ const PlayOffsChooseList: React.FC<Props> = ({
           key={element.id}
           element={element}
           selected={chosenTeams.includes(element)}
+          available={gameTeam !== element}
           addToChosenTeams={addToChosenTeams}
         />
       ))}
