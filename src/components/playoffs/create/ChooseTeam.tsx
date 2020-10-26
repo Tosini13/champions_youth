@@ -8,6 +8,8 @@ import { GameStructure } from "../../../structures/game";
 import { DialogStyled } from "../../../styled/styledLayout";
 import PlayOffsChooseList from "./PlayOffsChooseList";
 import MatchSummaryMock from "../../matches/MatchSummaryMock";
+import { PromotedGroupsTeams, PromotedTeam } from "../../../const/groupConst";
+import { Group } from "../../../models/groupData";
 
 const GAME_SIDE = {
   HOME: "HOME",
@@ -15,7 +17,8 @@ const GAME_SIDE = {
 };
 
 type Props = {
-  teams: TeamData[];
+  teams?: TeamData[];
+  groups?: Group[];
   chosenTeams: TeamData[]; // | PromotedTeam[]
   handleClose: () => void;
   handleSetChosenTeams: (teams: TeamData[]) => void; // | PromotedTeam[]
@@ -29,6 +32,7 @@ const ChooseTeam: React.FC<Props> = ({
   handleClose,
   open,
   teams,
+  groups,
   chosenTeams,
   handleSetChosenTeams,
   game,
@@ -74,7 +78,8 @@ const ChooseTeam: React.FC<Props> = ({
         </Button>
       </Grid>
       <PlayOffsChooseList
-        list={teams}
+        teams={teams}
+        groups={groups}
         handleChooseTeam={handleChooseTeam}
         chosenTeams={chosenTeams}
         gameTeam={getAvailableTeam()}

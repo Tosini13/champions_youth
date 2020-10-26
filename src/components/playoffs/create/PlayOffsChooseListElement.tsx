@@ -10,28 +10,21 @@ import {
   ListItemTextStyled,
 } from "../../../styled/styledBracket";
 import { TeamData } from "../../../models/teamData";
+import { PromotedTeam } from "../../../const/groupConst";
 
 type Props = {
-  element: TeamData; // | PromotedTeam
+  element: TeamData;
   selected: boolean;
   addToChosenTeams: (chosenTeam: TeamData) => void; // | PromotedTeam
-  available: boolean;
 };
 
 const PlayOffsChooseListElement: React.FC<Props> = ({
   element,
   selected,
   addToChosenTeams,
-  available,
 }) => {
   return (
-    <ChooseListItemStyled
-      button
-      key={element.id}
-      onClick={() => {
-        addToChosenTeams(element);
-      }}
-    >
+    <ChooseListItemStyled button onClick={() => addToChosenTeams(element)}>
       <ListItemTextStyled primary={element.name} />
       <ChooseListItemSecondaryActionStyled>
         <IconButton>

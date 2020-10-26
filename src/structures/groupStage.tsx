@@ -4,6 +4,7 @@ import { TournamentData } from "../models/tournamentData";
 import { TeamData } from "../models/teamData";
 import { ConvertedGroup, GroupData, GroupDataDb } from "../models/groupData";
 import { MatchDataDb } from "./dbAPI/matchData";
+import { PromotedTeam } from "../const/groupConst";
 
 export class GroupStage {
   groups: GroupData[] = [];
@@ -29,7 +30,7 @@ export class GroupStage {
         name: group.name,
         teams,
         finishAt: group.finishAt ? group.finishAt?.format() : null,
-        promoted: group.promoted ? group.promoted : null,
+        promoted: group.promoted,
         promotedQtt: group.promotedQtt ? group.promotedQtt : null,
         teamsQtt: group.teamsQtt ? group.teamsQtt : null,
       };
@@ -70,6 +71,7 @@ export class GroupStage {
         teamsQtt: teamsInGroup,
         teams: [],
         matches: [],
+        promoted: [],
       };
       groups.push(group);
     }
@@ -78,9 +80,9 @@ export class GroupStage {
   };
 
   initPromoted(groupName: string, teamsQtt: number) {
-    let promoted = [];
+    let promoted: PromotedTeam[] = [];
     for (let i = 0; i < teamsQtt; i++) {
-      promoted[i] = groupName + " - " + (i + 1) + " miejsce";
+      promoted[i] = { name: groupName + " - " + (i + 1) + " miejsce" };
     }
     return promoted;
   }

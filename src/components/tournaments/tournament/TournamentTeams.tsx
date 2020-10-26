@@ -16,7 +16,6 @@ const TournamentTeams: React.FC<Props> = ({ teams }) => {
 
   const handleClose = () => {
     setOpened(false);
-    console.log('close!', opened);
   };
 
   const handleOpen = () => {

@@ -21,6 +21,7 @@ import { Group, GroupDataDb } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { getImage } from "../actions/getImage";
+import { PromotedGroupsTeams, PromotedTeam } from "../../../const/groupConst";
 
 type Props = {
   tournament?: TournamentData;
@@ -49,6 +50,13 @@ const TournamentDetails: React.FC<Props> = ({
     }
   }, [tournament, authorId]);
 
+  // const promotedGroupsTeams: PromotedGroupsTeams = [[]];
+  // groups?.forEach((group) => {
+  //   if (group.id && group.promoted) {
+  //     const id: any = group.id;
+  //     promotedGroupsTeams[id] = group.promoted;
+  //   }
+  // });
   const [view, setView] = useState(menuTournamentConst.playoffs);
   if (tournament && teams) {
     return (
@@ -67,6 +75,7 @@ const TournamentDetails: React.FC<Props> = ({
               tournament={tournament}
               playOffs={playOffs}
               teams={teams}
+              groups={groups}
             />
           ) : null}
           {view === menuTournamentConst.info && tournament ? (

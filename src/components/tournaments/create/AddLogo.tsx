@@ -23,7 +23,6 @@ const AddLogo: React.FC<Props> = ({ image, setImage }) => {
   };
 
   const getUrl = () => {
-    console.log(image);
     if (image) {
       return URL.createObjectURL(image);
     } else {

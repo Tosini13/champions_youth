@@ -13,10 +13,13 @@ import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { Id } from "../../../const/structuresConst";
 import ChooseTeam from "./ChooseTeam";
 import { GameStructure } from "../../../structures/game";
+import { PromotedGroupsTeams, PromotedTeam } from "../../../const/groupConst";
+import { Group } from "../../../models/groupData";
 
 type Props = {
   tournament: TournamentData;
-  teams: TeamData[];
+  teams?: TeamData[];
+  groups?: Group[];
   toggleCreate: () => void;
   createPlayoffs: (tournamentId: Id, game: GameDataDb[]) => void;
 };
@@ -24,6 +27,7 @@ type Props = {
 const PlayOffsCreateDashboard: React.FC<Props> = ({
   tournament,
   teams,
+  groups,
   toggleCreate,
   createPlayoffs,
 }) => {
@@ -62,9 +66,18 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     return placeMatchesQtt;
   };
 
+  const countPromoted = () => {
+    let teamsQtt = 0;
+    groups?.forEach((group) => teamsQtt += group.promoted.length);
+    return teamsQtt;
+  };
+
   const maxRounds = () => {
     let rounds = 1;
-    while (rounds * 2 < teams.length) {
+    let teamsQtt = 0;
+    if (teams) teamsQtt = teams.length;
+    if (groups) teamsQtt = countPromoted();
+    while (rounds * 2 < teamsQtt) {
       rounds *= 2;
     }
     return rounds;
@@ -75,13 +88,13 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     if (placeMatchesQtt >= rounds * 2) {
       placeMatchesQtt = rounds * 2 - 1;
     }
-    const chosen = teams.slice(0, rounds * 2);
+    // const chosen = teams.slice(0, rounds * 2);
     const bracket = new BracketStructure(rounds, placeMatchesQtt);
     setOptions({
       ...options,
       rounds,
     });
-    setChosenTeams(chosen);
+    // setChosenTeams(chosen);
     setBracket(bracket);
   };
 
@@ -141,7 +154,6 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
       />
       <PlayOffsCreateBracketMock
         placeMatches={bracket.placeMatches}
-        teams={teams}
         handleOpenTeams={handleOpenTeams}
       />
       {game ? (
@@ -152,6 +164,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
           handleClose={handleCloseTeams}
           handleSetChosenTeams={handleSetChosenTeams}
           teams={teams}
+          groups={groups}
           chosenTeams={chosenTeams}
           game={game}
         />

@@ -41,7 +41,6 @@ const AddTeam: React.FC<Props> = ({ addTeamToTournament, handleClose }) => {
     };
     setName("");
     handleClose();
-    console.log('close?');
     addTeamToTournament(tournamentId, team, image);
   };
 

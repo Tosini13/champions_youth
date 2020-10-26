@@ -2,18 +2,15 @@ import React from "react";
 
 import { Button } from "@material-ui/core";
 
-import { TeamData } from "../../models/teamData";
 import { GameStructure } from "../../structures/game";
 import MatchSummaryMock from "../matches/MatchSummaryMock";
 
 type Props = {
   game: GameStructure;
-  teams: TeamData[];
   handleOpenTeams: (game: GameStructure) => void;
 };
 const GameSummaryRecursiveMock: React.FC<Props> = ({
   game,
-  teams,
   handleOpenTeams,
 }) => {
   const lastMatch =
@@ -26,14 +23,12 @@ const GameSummaryRecursiveMock: React.FC<Props> = ({
       {!lastMatch && game.previousMatchHome ? (
         <GameSummaryRecursiveMock
           game={game.previousMatchHome}
-          teams={teams}
           handleOpenTeams={handleOpenTeams}
         />
       ) : null}
       {!lastMatch && game.previousMatchAway ? (
         <GameSummaryRecursiveMock
           game={game.previousMatchAway}
-          teams={teams}
           handleOpenTeams={handleOpenTeams}
         />
       ) : null}
