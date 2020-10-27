@@ -99,6 +99,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const tournament = tournaments ? tournaments[tournamentId] : null;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
   const groupsData: GroupDataDb[] | undefined = state.firestore.ordered.groups;
+  console.log(groupsData);
   const groups =
     groupsData && teams
       ? groupsData.map((groupData) => new Group(groupData, teams))

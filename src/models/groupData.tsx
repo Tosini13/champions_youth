@@ -43,7 +43,6 @@ export class Group {
   getTeams = (teamsId: Id[], teams: TeamData[]) => {
     this.teams = teams.filter((team) => teamsId.includes(team.id));
   };
-
   constructor(groupDataDb: GroupDataDb, teams: TeamData[]) {
     this.id = groupDataDb.id;
     this.name = groupDataDb.name;

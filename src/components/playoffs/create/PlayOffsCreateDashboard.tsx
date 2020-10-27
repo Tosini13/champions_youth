@@ -37,7 +37,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     placeMatchesQtt: 1,
   });
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>(
-    // | PromotedTeam[]
+    // 
     // teams.slice(0, options.rounds * 2)
     []
   );

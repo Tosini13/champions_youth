@@ -23,24 +23,52 @@ const PlayOffsChooseList: React.FC<Props> = ({
   handleChooseTeam,
   gameTeam,
 }) => {
-  const addToChosenTeams = (element: TeamData) => {
-    // | PromotedTeam
-    if (chosenTeams.includes(element)) {
-      if (gameTeam === element) {
-        setChosenTeams([...chosenTeams.filter((chosen) => chosen !== element)]);
+  const addToChosenTeams = (element: TeamData | PromotedTeam) => {
+    if (groups?.length) {
+      addPromoted(element as PromotedTeam);
+    } else {
+      addTeam(element as TeamData);
+    }
+  };
+
+  const addTeam = (team: TeamData) => {
+    if (chosenTeams.includes(team)) {
+      if (gameTeam === team) {
+        setChosenTeams([...chosenTeams.filter((chosen) => chosen !== team)]);
         handleChooseTeam(undefined);
       }
     } else {
       if (gameTeam && chosenTeams.includes(gameTeam)) {
         setChosenTeams([
           ...chosenTeams.filter((chosen) => chosen !== gameTeam),
-          element,
+          team,
         ]);
       } else {
-        setChosenTeams([...chosenTeams, element]);
+        setChosenTeams([...chosenTeams, team]);
       }
-      handleChooseTeam(element);
+      handleChooseTeam(team);
     }
+  };
+
+  const addPromoted = (promoted: PromotedTeam) => {
+    // if (chosenTeams.includes(promoted)) {
+    //   if (gameTeam === promoted) {
+    //     setChosenTeams([
+    //       ...chosenTeams.filter((chosen) => chosen !== promoted),
+    //     ]);
+    //     handleChooseTeam(undefined);
+    //   }
+    // } else {
+    //   if (gameTeam && chosenTeams.includes(gameTeam)) {
+    //     setChosenTeams([
+    //       ...chosenTeams.filter((chosen) => chosen !== gameTeam),
+    //       promoted,
+    //     ]);
+    //   } else {
+    //     setChosenTeams([...chosenTeams, promoted]);
+    //   }
+    //   handleChooseTeam(promoted);
+    // }
   };
 
   return (
@@ -56,9 +84,10 @@ const PlayOffsChooseList: React.FC<Props> = ({
         ))}
       {groups?.map((group) => (
         <div key={group.id}>
-          {group.promoted.map((promoted, i) => (
-            <p key={i}>{promoted.name}</p>
-          ))}
+          {group.promoted.map((promoted, i) => {
+            console.log(promoted);
+            return <p key={i}>{promoted.name}</p>;
+          })}
         </div>
       ))}
     </ChooseListStyled>

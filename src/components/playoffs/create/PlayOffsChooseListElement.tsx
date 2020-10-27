@@ -13,9 +13,9 @@ import { TeamData } from "../../../models/teamData";
 import { PromotedTeam } from "../../../const/groupConst";
 
 type Props = {
-  element: TeamData;
+  element: TeamData | PromotedTeam;
   selected: boolean;
-  addToChosenTeams: (chosenTeam: TeamData) => void; // | PromotedTeam
+  addToChosenTeams: (chosenTeam: TeamData | PromotedTeam) => void;
 };
 
 const PlayOffsChooseListElement: React.FC<Props> = ({
