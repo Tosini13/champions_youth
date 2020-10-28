@@ -2,6 +2,7 @@ import { matchModeConst } from "../const/matchConst";
 import { Id, Result, TeamsPlaceholder } from "../const/structuresConst";
 import { Moment } from "moment";
 import { TeamData } from "../models/teamData";
+import { Placeholder } from "../const/groupConst";
 
 export class MatchStructure {
   id?: Id;
@@ -19,6 +20,14 @@ export class MatchStructure {
 
   setAway = (team: TeamData | undefined) => {
     this.away = team;
+  };
+
+  setHomePlaceholder = (team: Placeholder | undefined) => {
+    this.placeholder.home = team;
+  };
+
+  setAwayPlaceholder = (team: Placeholder | undefined) => {
+    this.placeholder.away = team;
   };
 
   homeScored = () => {

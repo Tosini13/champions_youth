@@ -5,9 +5,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-import { BracketNavSelectStyled } from "../../../styled/styledBracket";
-import { roundMatchesTitle } from "../../../const/structuresConst";
-import { Options } from "../../../structures/bracket";
+import { BracketNavSelectStyled } from "../../../../styled/styledBracket";
+import { roundMatchesTitle } from "../../../../const/structuresConst";
+import { Options } from "../../../../structures/bracket";
 
 const style = {
   formControlLabel: {

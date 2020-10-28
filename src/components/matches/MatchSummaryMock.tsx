@@ -8,12 +8,18 @@ import {
   MatchRoundDateStyled,
 } from "../../styled/styledMatch";
 import { MatchData, MatchStructure } from "../../structures/match";
+import { Placeholder } from "../../const/groupConst";
 
 type Props = {
   match: MatchData | MatchStructure;
 };
 
 const MatchSummaryMock: React.FC<Props> = ({ match }) => {
+  const displayPlaceholder = (placeholder?: Placeholder | string) => {
+    const obj = placeholder as Placeholder;
+    return obj.name ? obj.name : obj;
+  };
+
   return (
     <MatchContainerStyled>
       <MatchHeaderStyled live={false}>
@@ -27,9 +33,17 @@ const MatchSummaryMock: React.FC<Props> = ({ match }) => {
         ) : null}
       </MatchHeaderStyled>
       <MatchMockTeamsContainerStyled>
-        <p>{match.home ? match.home.name : match.placeholder.home}</p>
+        <p>
+          {match.home
+            ? match.home.name
+            : displayPlaceholder(match.placeholder.home)}
+        </p>
         <p>vs</p>
-        <p>{match.away ? match.away.name : match.placeholder.away}</p>
+        <p>
+          {match.away
+            ? match.away.name
+            : displayPlaceholder(match.placeholder.away)}
+        </p>
       </MatchMockTeamsContainerStyled>
     </MatchContainerStyled>
   );

@@ -1,3 +1,4 @@
+import { Placeholder } from "../const/groupConst";
 import { matchModeConst } from "../const/matchConst";
 import { Id, TeamsPlaceholder } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
@@ -28,6 +29,22 @@ export class GameStructure {
     this.awayTeam = team;
     this.match.setAway(team);
     if (this.returnMatch) this.returnMatch.setHome(team);
+  }
+
+  set setHomePlaceholder(team: Placeholder | undefined) {
+    if (this.placeholder) {
+      this.placeholder.home = team;
+      this.match.setHomePlaceholder(team);
+      if (this.returnMatch) this.returnMatch.setAwayPlaceholder(team);
+    }
+  }
+
+  set setAwayPlaceholder(team: Placeholder | undefined) {
+    if (this.placeholder) {
+      this.placeholder.away = team;
+      this.match.setAwayPlaceholder(team);
+      if (this.returnMatch) this.returnMatch.setHomePlaceholder(team);
+    }
   }
 
   set setWinnerMatch(winnerMatch: GameStructure) {

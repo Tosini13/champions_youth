@@ -6,8 +6,8 @@ import {
   ButtonHorizontalContainerStyled,
   ButtonSuccessStyled,
 } from "../../../styled/styledButtons";
-import PlayOffsChooseLastMatchPlace from "./PlayOffsChooseLastMatchPlace";
-import PlayOffsChooseRound from "./PlayOffsChooseRound";
+import PlayOffsChooseLastMatchPlace from "./options/PlayOffsChooseLastMatchPlace";
+import PlayOffsChooseRound from "./options/PlayOffsChooseRound";
 
 type Props = {
   toggleCreate: () => void;

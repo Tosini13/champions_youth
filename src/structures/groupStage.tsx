@@ -82,7 +82,10 @@ export class GroupStage {
   initPromoted(groupName: string, teamsQtt: number) {
     let promoted: PromotedTeam[] = [];
     for (let i = 0; i < teamsQtt; i++) {
-      promoted[i] = { name: groupName + " - " + (i + 1) + " miejsce" };
+      promoted[i] = {
+        place: i + 1,
+        name: groupName + " - " + (i + 1) + " miejsce",
+      };
     }
     return promoted;
   }

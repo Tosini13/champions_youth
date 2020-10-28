@@ -11,10 +11,15 @@ import { createPlayoffs } from "../../../store/actions/PlayOffsActions";
 import { connect } from "react-redux";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { Id } from "../../../const/structuresConst";
-import ChooseTeam from "./ChooseTeam";
+import ChooseTeam from "./chooseTeams/teams/ChooseTeam";
 import { GameStructure } from "../../../structures/game";
-import { PromotedGroupsTeams, PromotedTeam } from "../../../const/groupConst";
+import {
+  Placeholder,
+  PromotedGroupsTeams,
+  PromotedTeam,
+} from "../../../const/groupConst";
 import { Group } from "../../../models/groupData";
+import Choose from "./chooseTeams/Choose";
 
 type Props = {
   tournament: TournamentData;
@@ -31,16 +36,31 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   toggleCreate,
   createPlayoffs,
 }) => {
+  const countPromoted = () => {
+    let teamsQtt = 0;
+    groups?.forEach((group) => (teamsQtt += group.promoted.length));
+    return teamsQtt;
+  };
+
+  const maxRounds = () => {
+    let rounds = 1;
+    let teamsQtt = 0;
+    if (teams) teamsQtt = teams.length;
+    if (groups && !groups.length) teamsQtt = countPromoted();
+    while (rounds * 2 < teamsQtt) {
+      rounds *= 2;
+    }
+    return rounds;
+  };
+
+  const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
+  const [chosenPromoted, setChosenPromoted] = useState<Placeholder[]>([]);
   const { tournamentId } = useParams<{ tournamentId: Id }>();
   const [options, setOptions] = useState<Options>({
-    rounds: 4,
+    rounds: maxRounds(),
     placeMatchesQtt: 1,
   });
-  const [chosenTeams, setChosenTeams] = useState<TeamData[]>(
-    // 
-    // teams.slice(0, options.rounds * 2)
-    []
-  );
+
   let bracketInit = new BracketStructure(
     options.rounds,
     options.placeMatchesQtt
@@ -50,52 +70,19 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   const [game, setGame] = useState<GameStructure | null>(null);
   const [bracket, setBracket] = useState<BracketStructure>(bracketInit);
 
-  const validRounds = (rounds: number) => {
-    var i = 1;
-    while (i * 2 < rounds) {
-      i = i * 2;
-    }
-    return i;
-  };
-
-  const validPlaceMatches = (rounds: number, placeMatches: number) => {
-    let placeMatchesQtt = placeMatches;
-    if (placeMatchesQtt > rounds * 2) {
-      placeMatchesQtt = rounds * 2 - 1;
-    }
-    return placeMatchesQtt;
-  };
-
-  const countPromoted = () => {
-    let teamsQtt = 0;
-    groups?.forEach((group) => teamsQtt += group.promoted.length);
-    return teamsQtt;
-  };
-
-  const maxRounds = () => {
-    let rounds = 1;
-    let teamsQtt = 0;
-    if (teams) teamsQtt = teams.length;
-    if (groups) teamsQtt = countPromoted();
-    while (rounds * 2 < teamsQtt) {
-      rounds *= 2;
-    }
-    return rounds;
-  };
-
   const setRounds = (rounds: number) => {
     let placeMatchesQtt = options.placeMatchesQtt;
     if (placeMatchesQtt >= rounds * 2) {
       placeMatchesQtt = rounds * 2 - 1;
     }
-    // const chosen = teams.slice(0, rounds * 2);
     const bracket = new BracketStructure(rounds, placeMatchesQtt);
     setOptions({
       ...options,
       rounds,
     });
-    // setChosenTeams(chosen);
     setBracket(bracket);
+    setChosenTeams([]);
+    setChosenPromoted([]);
   };
 
   const setPlaceMatchesQtt = (placeMatchesQtt: number) => {
@@ -106,19 +93,9 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
         placeMatchesQtt,
       });
       setBracket(bracket);
+      setChosenTeams([]);
+      setChosenPromoted([]);
     }
-  };
-
-  const handleSetChosenTeams = (teams: TeamData[]) => {
-    // | PromotedTeam[] ?!
-    const rounds = validRounds(teams.length);
-    const placeMatchesQtt = validPlaceMatches(rounds, options.placeMatchesQtt);
-    setOptions({
-      rounds,
-      placeMatchesQtt,
-    });
-    setChosenTeams(teams);
-    setBracket(bracket);
   };
 
   const submitBracket = () => {
@@ -138,10 +115,6 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     setOpenTeams(true);
   };
 
-  const handleUpdateBracket = (newBracket: BracketStructure) => {
-    setBracket(newBracket);
-  };
-
   return (
     <div>
       <PlayOffsCreateMenu
@@ -157,16 +130,17 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
         handleOpenTeams={handleOpenTeams}
       />
       {game ? (
-        <ChooseTeam
+        <Choose
           open={openTeams}
           bracket={bracket}
-          handleUpdateBracket={handleUpdateBracket}
           handleClose={handleCloseTeams}
-          handleSetChosenTeams={handleSetChosenTeams}
           teams={teams}
           groups={groups}
-          chosenTeams={chosenTeams}
           game={game}
+          chosenTeams={chosenTeams}
+          setChosenTeams={setChosenTeams}
+          chosenPromoted={chosenPromoted}
+          setChosenPromoted={setChosenPromoted}
         />
       ) : null}
     </div>

@@ -7,6 +7,7 @@ import {
   MatchRoundTitleStyled
 } from "../../styled/styledMatch";
 import GameDetails from "../games/GameDetails";
+import { Placeholder } from "../../const/groupConst";
 
 
 const PlayOffsBracketGame = ({ game }) => {
@@ -21,6 +22,11 @@ const PlayOffsBracketGame = ({ game }) => {
     setOpen(false);
   };
 
+  const displayPlaceholder = (placeholder) => {
+    const obj = placeholder;
+    return obj.name ? obj.name : obj;
+  };
+
   return (
     <>
       <MatchContainerStyled onClick={handleClickOpen}>
@@ -28,9 +34,9 @@ const PlayOffsBracketGame = ({ game }) => {
           <MatchRoundTitleStyled>{game.round}</MatchRoundTitleStyled>
         </MatchHeaderStyled>
         <MatchMockTeamsContainerStyled>
-          <p>{game.homeTeam ? game.homeTeam.name : game.placeholder?.home}</p>
+          <p>{game.homeTeam ? game.homeTeam.name : displayPlaceholder(game.placeholder.home)}</p>
           <p>vs</p>
-          <p>{game.awayTeam ? game.awayTeam.name : game.placeholder?.away}</p>
+          <p>{game.awayTeam ? game.awayTeam.name : displayPlaceholder(game.placeholder.away)}</p>
         </MatchMockTeamsContainerStyled>
       </MatchContainerStyled>
       {open ? <GameDetails handleClose={handleClose} open={open} tournamentId={tournamentId} gameId={game.id} /> : null}
