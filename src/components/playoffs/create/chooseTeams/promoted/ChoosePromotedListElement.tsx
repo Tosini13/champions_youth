@@ -9,7 +9,6 @@ import {
   ChooseListItemStyled,
   ListItemTextStyled,
 } from "../../../../../styled/styledBracket";
-import { TeamData } from "../../../../../models/teamData";
 import { PromotedTeam } from "../../../../../const/groupConst";
 import { Id } from "../../../../../const/structuresConst";
 

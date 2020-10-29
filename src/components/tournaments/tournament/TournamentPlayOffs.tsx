@@ -13,7 +13,6 @@ import { TournamentData } from "../../../models/tournamentData";
 import { TeamData } from "../../../models/teamData";
 import { Game } from "../../../models/gameData";
 import PlayOffsBracket from "../../playoffs/PlayOffsBracket";
-import { PromotedGroupsTeams, PromotedTeam } from "../../../const/groupConst";
 import { Group } from "../../../models/groupData";
 
 type Props = {

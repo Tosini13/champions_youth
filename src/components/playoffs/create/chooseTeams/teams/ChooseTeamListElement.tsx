@@ -10,7 +10,6 @@ import {
   ListItemTextStyled,
 } from "../../../../../styled/styledBracket";
 import { TeamData } from "../../../../../models/teamData";
-import { PromotedTeam } from "../../../../../const/groupConst";
 
 type Props = {
   element: TeamData;

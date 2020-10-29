@@ -11,13 +11,8 @@ import { createPlayoffs } from "../../../store/actions/PlayOffsActions";
 import { connect } from "react-redux";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { Id } from "../../../const/structuresConst";
-import ChooseTeam from "./chooseTeams/teams/ChooseTeam";
 import { GameStructure } from "../../../structures/game";
-import {
-  Placeholder,
-  PromotedGroupsTeams,
-  PromotedTeam,
-} from "../../../const/groupConst";
+import { Placeholder } from "../../../const/groupConst";
 import { Group } from "../../../models/groupData";
 import Choose from "./chooseTeams/Choose";
 
@@ -46,7 +41,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     let rounds = 1;
     let teamsQtt = 0;
     if (teams) teamsQtt = teams.length;
-    if (groups && !groups.length) teamsQtt = countPromoted();
+    if (groups?.length) teamsQtt = countPromoted();
     while (rounds * 2 < teamsQtt) {
       rounds *= 2;
     }
@@ -77,8 +72,8 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     }
     const bracket = new BracketStructure(rounds, placeMatchesQtt);
     setOptions({
-      ...options,
       rounds,
+      placeMatchesQtt,
     });
     setBracket(bracket);
     setChosenTeams([]);

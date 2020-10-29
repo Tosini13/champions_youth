@@ -3,16 +3,11 @@ import React from "react";
 import { ChooseListStyled } from "../../../../../styled/styledBracket";
 import PlayOffsChooseListElement from "./ChooseTeamListElement";
 import { TeamData } from "../../../../../models/teamData";
-import {
-  PromotedGroupsTeams,
-  PromotedTeam,
-} from "../../../../../const/groupConst";
-import { Group } from "../../../../../models/groupData";
 
 type Props = {
   teams?: TeamData[];
-  chosenTeams: TeamData[]; // | PromotedTeam[]
-  setChosenTeams: (teams: TeamData[]) => void; // | PromotedTeam[]
+  chosenTeams: TeamData[];
+  setChosenTeams: (teams: TeamData[]) => void;
   handleChooseTeam: (team?: TeamData) => void;
   gameTeam?: TeamData;
 };

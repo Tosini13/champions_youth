@@ -55,7 +55,11 @@ export const BracketNavSelectStyled = styled(FormGroup)`
   min-width: 100px;
 `;
 
-export const ChooseListStyled = styled(List)``;
+export const ChooseListStyled = styled(List)`
+  max-height: 50vh;
+  overflow: auto;
+  margin: 5px 0px;
+`;
 
 export const ChooseListItemStyled = styled(ListItem)`
   background-color: ${mainTheme.palette.primary.main};

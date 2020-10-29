@@ -6,8 +6,8 @@ export type PromotedTeam = {
 };
 
 export type Placeholder = {
-  id: Id;
-  place: number;
+  id?: Id;
+  place?: number;
   name: string;
 };
 

@@ -1,16 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Button, Grid } from "@material-ui/core";
-
-import { TeamData } from "../../../../../models/teamData";
 import { BracketStructure } from "../../../../../structures/bracket";
 import { GameStructure } from "../../../../../structures/game";
-import { DialogStyled } from "../../../../../styled/styledLayout";
-import MatchSummaryMock from "../../../../matches/MatchSummaryMock";
 import {
   Placeholder,
-  PromotedGroupsTeams,
-  PromotedTeam,
 } from "../../../../../const/groupConst";
 import { Group } from "../../../../../models/groupData";
 import ChoosePromotedList from "./ChoosePromotedList";

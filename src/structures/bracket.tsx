@@ -223,8 +223,8 @@ export class BracketStructure {
     if (game.previousMatchHome) home = game.previousMatchHome.round;
     if (game.previousMatchAway) away = game.previousMatchAway.round;
     const placeholder: TeamsPlaceholder = {
-      home: home,
-      away: away,
+      home: { name: home },
+      away: { name: away },
     };
     return placeholder;
   };
@@ -266,15 +266,15 @@ export class BracketStructure {
   setGamesData = () => {
     //placeholder and Date
     let games: GameStructure[] = [];
-    let i = 0;
-    while (games.length < this.matchCounter - 1) {
+
+    for (let i = 0; games.length < this.matchCounter - 1; i++) {
       let queue: GameStructure[] = [];
       this.placeMatches.forEach((rootMatch) => {
         this.breadthFirstSearch(rootMatch, queue, i);
       });
       games = [...games, ...queue];
-      i++;
     }
+
     games
       .slice()
       .reverse()

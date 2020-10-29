@@ -1,10 +1,8 @@
 import React from "react";
 
 import { ChooseListStyled } from "../../../../../styled/styledBracket";
-import { TeamData } from "../../../../../models/teamData";
 import {
   Placeholder,
-  PromotedGroupsTeams,
   PromotedTeam,
 } from "../../../../../const/groupConst";
 import { Group } from "../../../../../models/groupData";
@@ -62,7 +60,7 @@ const ChoosePromotedList: React.FC<Props> = ({
     }
   };
 
-  const doesChosenTeamsIncludes = (place: number, id?: Id | null) => {
+  const doesChosenTeamsIncludes = (place?: number, id?: Id | null) => {
     return Boolean(
       chosenTeams.find((chosen) => {
         return chosen.id === id && chosen.place === place;

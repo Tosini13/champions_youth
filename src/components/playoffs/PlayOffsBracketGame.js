@@ -7,7 +7,6 @@ import {
   MatchRoundTitleStyled
 } from "../../styled/styledMatch";
 import GameDetails from "../games/GameDetails";
-import { Placeholder } from "../../const/groupConst";
 
 
 const PlayOffsBracketGame = ({ game }) => {
@@ -22,11 +21,6 @@ const PlayOffsBracketGame = ({ game }) => {
     setOpen(false);
   };
 
-  const displayPlaceholder = (placeholder) => {
-    const obj = placeholder;
-    return obj.name ? obj.name : obj;
-  };
-
   return (
     <>
       <MatchContainerStyled onClick={handleClickOpen}>
@@ -34,9 +28,9 @@ const PlayOffsBracketGame = ({ game }) => {
           <MatchRoundTitleStyled>{game.round}</MatchRoundTitleStyled>
         </MatchHeaderStyled>
         <MatchMockTeamsContainerStyled>
-          <p>{game.homeTeam ? game.homeTeam.name : displayPlaceholder(game.placeholder.home)}</p>
+          <p>{game.homeTeam ? game.homeTeam.name : game.placeholder.home.name}</p>
           <p>vs</p>
-          <p>{game.awayTeam ? game.awayTeam.name : displayPlaceholder(game.placeholder.away)}</p>
+          <p>{game.awayTeam ? game.awayTeam.name : game.placeholder.away.name}</p>
         </MatchMockTeamsContainerStyled>
       </MatchContainerStyled>
       {open ? <GameDetails handleClose={handleClose} open={open} tournamentId={tournamentId} gameId={game.id} /> : null}
@@ -46,39 +40,3 @@ const PlayOffsBracketGame = ({ game }) => {
 };
 
 export default PlayOffsBracketGame;
-
-/*import React from "react";
-import { Link, useParams } from "react-router-dom";
-import { routerGenerateConst } from "../../const/menuConst";
-import { Id } from "../../const/structuresConst";
-
-import { Game } from "../../models/gameData";
-import { LinkStyled } from "../../styled/styledLayout";
-import {
-  MatchContainerStyled,
-  MatchMockTeamsContainerStyled,
-  MatchRoundTitleStyled,
-} from "../../styled/styledMatch";
-
-type Props = {
-  game: Game;
-};
-
-const PlayOffsBracketGame: React.FC<Props> = ({ game }) => {
-  const { tournamentId } = useParams<{ tournamentId: Id }>();
-  return (
-    <LinkStyled to={routerGenerateConst.bracket(tournamentId, game.id)}>
-      <MatchContainerStyled>
-        <MatchRoundTitleStyled live={false}>{game.round}</MatchRoundTitleStyled>
-        <MatchMockTeamsContainerStyled>
-          <p>{game.homeTeam ? game.homeTeam.name : game.placeholder?.home}</p>
-          <p>vs</p>
-          <p>{game.awayTeam ? game.awayTeam.name : game.placeholder?.away}</p>
-        </MatchMockTeamsContainerStyled>
-      </MatchContainerStyled>
-    </LinkStyled>
-  );
-};
-
-export default PlayOffsBracketGame;
-*/

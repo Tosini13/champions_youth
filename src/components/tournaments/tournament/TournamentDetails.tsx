@@ -10,7 +10,6 @@ import {
 } from "../../../const/menuConst";
 import TournamentMenu from "./TournamentMenu";
 import TournamentTeams from "./TournamentTeams";
-// import TournamentPlayOffs from "./TournamentPlayOffs";
 import TournamentGroups from "./TournamentGroups";
 import { TeamData } from "../../../models/teamData";
 import { Game } from "../../../models/gameData";
@@ -21,7 +20,6 @@ import { Group, GroupDataDb } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { getImage } from "../actions/getImage";
-import { PromotedGroupsTeams, PromotedTeam } from "../../../const/groupConst";
 
 type Props = {
   tournament?: TournamentData;

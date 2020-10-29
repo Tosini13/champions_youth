@@ -11,7 +11,7 @@ import { Group } from "../../../../models/groupData";
 import ChoosePromoted from "./promoted/ChoosePromoted";
 import ChooseTeam from "./teams/ChooseTeam";
 import { BracketStructure } from "../../../../structures/bracket";
-import { Placeholder, PromotedTeam } from "../../../../const/groupConst";
+import { Placeholder } from "../../../../const/groupConst";
 
 type Props = {
   teams?: TeamData[];
