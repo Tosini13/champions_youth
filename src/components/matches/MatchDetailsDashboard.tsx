@@ -2,7 +2,6 @@ import React from "react";
 
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import DialogActions from "@material-ui/core/DialogActions";
 import SportsIcon from "@material-ui/icons/Sports";
 
 import { matchModeConst } from "../../const/matchConst";

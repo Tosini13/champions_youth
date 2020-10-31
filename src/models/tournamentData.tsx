@@ -5,7 +5,7 @@ import { Login } from "../const/userConst";
 export interface TournamentData {
   id: Id;
   name: string;
-  owner: Login;
+  ownerId: Login;
   date?: Moment | string;
   time?: Moment | string;
   city?: string;
@@ -15,6 +15,7 @@ export interface TournamentData {
   matchTimeInBracket?: number;
   breakTimeInBracket?: number;
   fields: number;
+  image?: string;
 }
 
-export type TournamentCreateData = Omit<TournamentData, "id" | "owner">;
+export type TournamentCreateData = Omit<TournamentData, "id" | "ownerId">;

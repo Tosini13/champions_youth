@@ -21,6 +21,7 @@ type Props = {
 };
 
 const MatchSummary: React.FC<Props> = ({ match, teams, game }) => {
+  console.log(match.id);
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOpen = () => {

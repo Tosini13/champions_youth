@@ -58,7 +58,7 @@ export const BottomNavigationStyled = styled(BottomNavigation)`
   min-height: 55px;
   overflow: hidden;
   box-shadow: 0px -3px 8px rgba(0, 0, 0, 0.24);
-  z-index: 10;
+  z-index: 9;
 `;
 
 export const BottomNavigationActionLinkStyled = styled(Link)`

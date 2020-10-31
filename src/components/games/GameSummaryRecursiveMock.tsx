@@ -1,33 +1,46 @@
 import React from "react";
-import { TeamData } from "../../models/teamData";
+
+import { Button } from "@material-ui/core";
+
 import { GameStructure } from "../../structures/game";
+import MatchSummaryMock from "../matches/MatchSummaryMock";
 
 type Props = {
   game: GameStructure;
-  teams: TeamData[];
+  handleOpenTeams: (game: GameStructure) => void;
 };
-const GameSummaryRecursiveMock: React.FC<Props> = ({ game, teams }) => {
+const GameSummaryRecursiveMock: React.FC<Props> = ({
+  game,
+  handleOpenTeams,
+}) => {
   const lastMatch =
     game.previousMatchHome?.loserMatch === game ||
     game.previousMatchAway?.loserMatch === game;
-  const home = game.match.home
-    ? game.match.home.name
-    : game.match.placeholder.home;
-  const away = game.match.away
-    ? game.match.away.name
-    : game.match.placeholder.away;
   return (
     <>
-      <div style={{ color: "white" }}>
-        <p>{game.round}</p>
-        {home} vs {away}
-      </div>
+      <MatchSummaryMock match={game.match} />
       {/* <MatchSummary match={game.match} teams={teams} /> */}
       {!lastMatch && game.previousMatchHome ? (
-        <GameSummaryRecursiveMock game={game.previousMatchHome} teams={teams} />
+        <GameSummaryRecursiveMock
+          game={game.previousMatchHome}
+          handleOpenTeams={handleOpenTeams}
+        />
       ) : null}
       {!lastMatch && game.previousMatchAway ? (
-        <GameSummaryRecursiveMock game={game.previousMatchAway} teams={teams} />
+        <GameSummaryRecursiveMock
+          game={game.previousMatchAway}
+          handleOpenTeams={handleOpenTeams}
+        />
+      ) : null}
+      {game.previousMatchHome === undefined ||
+      game.previousMatchAway === undefined ? (
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => handleOpenTeams(game)}
+        >
+          Wybierz zespoły
+        </Button>
       ) : null}
     </>
   );

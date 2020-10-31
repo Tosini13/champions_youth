@@ -9,5 +9,4 @@ export interface PlayOffsData {
 export type Options = {
   rounds: number;
   placeMatchesQtt: number;
-  roundsActive: boolean;
 };

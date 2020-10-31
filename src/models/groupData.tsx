@@ -1,4 +1,5 @@
 import { Moment } from "moment";
+import { PromotedTeam } from "../const/groupConst";
 import { Id } from "../const/structuresConst";
 import { MatchDataDb } from "../structures/dbAPI/matchData";
 import { MatchData } from "../structures/match";
@@ -9,7 +10,7 @@ export interface GroupData {
   id?: Id;
   teams: TeamData[];
   matches?: MatchData[];
-  promoted?: string[];
+  promoted: PromotedTeam[];
   finishAt?: Moment;
   promotedQtt?: number;
   teamsQtt?: number;
@@ -19,7 +20,7 @@ export interface GroupDataDb {
   name: string;
   id?: Id | null;
   teams: Id[];
-  promoted?: string[] | null;
+  promoted: PromotedTeam[];
   finishAt?: string | null;
   promotedQtt?: number | null;
   teamsQtt?: number | null;
@@ -34,7 +35,7 @@ export class Group {
   name: string;
   id?: Id | null;
   teams: TeamData[] = [];
-  promoted?: string[] | null;
+  promoted: PromotedTeam[];
   finishAt?: string | null;
   promotedQtt?: number | null;
   teamsQtt?: number | null;
@@ -42,7 +43,6 @@ export class Group {
   getTeams = (teamsId: Id[], teams: TeamData[]) => {
     this.teams = teams.filter((team) => teamsId.includes(team.id));
   };
-
   constructor(groupDataDb: GroupDataDb, teams: TeamData[]) {
     this.id = groupDataDb.id;
     this.name = groupDataDb.name;

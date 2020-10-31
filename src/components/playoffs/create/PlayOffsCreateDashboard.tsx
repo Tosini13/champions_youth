@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 
-import PlayOffsChooseList from "./PlayOffsChooseList";
 import PlayOffsCreateMenu from "./PlayOffsCreateMenu";
 import PlayOffsCreateBracketMock from "./PlayOffsCreateBracketMock";
 import { BracketStructure } from "../../../structures/bracket";
@@ -11,11 +11,28 @@ import { createPlayoffs } from "../../../store/actions/PlayOffsActions";
 import { connect } from "react-redux";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { Id } from "../../../const/structuresConst";
-import { useParams } from "react-router-dom";
+import { GameStructure } from "../../../structures/game";
+import { Placeholder } from "../../../const/groupConst";
+import { Group } from "../../../models/groupData";
+import Choose from "./chooseTeams/Choose";
+
+const shuffle = (arr: any) => {
+  let indexes: any[] = [];
+  let newArr: any[] = [];
+  while (indexes.length < arr.length) {
+    const j = Math.floor(Math.random() * arr.length);
+    if (!indexes.includes(j)) {
+      indexes.push(j);
+      newArr.push(arr[j]);
+    }
+  }
+  return newArr;
+};
 
 type Props = {
   tournament: TournamentData;
-  teams: TeamData[];
+  teams?: TeamData[];
+  groups?: Group[];
   toggleCreate: () => void;
   createPlayoffs: (tournamentId: Id, game: GameDataDb[]) => void;
 };
@@ -23,116 +40,131 @@ type Props = {
 const PlayOffsCreateDashboard: React.FC<Props> = ({
   tournament,
   teams,
+  groups,
   toggleCreate,
   createPlayoffs,
 }) => {
+  const countPromoted = () => {
+    let teamsQtt = 0;
+    groups?.forEach((group) => (teamsQtt += group.promoted.length));
+    return teamsQtt;
+  };
+
+  const maxRounds = () => {
+    let rounds = 1;
+    let teamsQtt = 0;
+    if (teams) teamsQtt = teams.length;
+    if (groups?.length) teamsQtt = countPromoted();
+    while (rounds * 2 < teamsQtt) {
+      rounds *= 2;
+    }
+    return rounds;
+  };
+
+  const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
+  const [chosenPromoted, setChosenPromoted] = useState<Placeholder[]>([]);
   const { tournamentId } = useParams<{ tournamentId: Id }>();
   const [options, setOptions] = useState<Options>({
-    rounds: 4,
+    rounds: maxRounds(),
     placeMatchesQtt: 1,
-    roundsActive: false,
   });
-  const [chosenTeams, setChosenTeams] = useState<TeamData[]>(
-    // | PromotedTeam[]
-    teams.slice(0, options.rounds * 2)
-  );
+
   let bracketInit = new BracketStructure(
     options.rounds,
     options.placeMatchesQtt
   );
-  bracketInit.initBracketWithTeams(chosenTeams);
+
+  const [openTeams, setOpenTeams] = useState(false);
+  const [game, setGame] = useState<GameStructure | null>(null);
   const [bracket, setBracket] = useState<BracketStructure>(bracketInit);
-
-  const validRounds = (rounds: number) => {
-    var i = 1;
-    while (i * 2 < rounds) {
-      i = i * 2;
-    }
-    return i;
-  };
-
-  const validPlaceMatches = (rounds: number, placeMatches: number) => {
-    let placeMatchesQtt = placeMatches;
-    if (placeMatchesQtt > rounds * 2) {
-      placeMatchesQtt = rounds * 2 - 1;
-    }
-    return placeMatchesQtt;
-  };
 
   const setRounds = (rounds: number) => {
     let placeMatchesQtt = options.placeMatchesQtt;
     if (placeMatchesQtt >= rounds * 2) {
       placeMatchesQtt = rounds * 2 - 1;
     }
-    const chosen = teams.slice(0, rounds * 2);
     const bracket = new BracketStructure(rounds, placeMatchesQtt);
-    bracket.initBracketWithTeams(chosen);
     setOptions({
-      ...options,
       rounds,
+      placeMatchesQtt,
     });
-    setChosenTeams(chosen);
     setBracket(bracket);
+    setChosenTeams([]);
+    setChosenPromoted([]);
   };
 
   const setPlaceMatchesQtt = (placeMatchesQtt: number) => {
     if (placeMatchesQtt % 2) {
-      const chosen = teams.slice(0, options.rounds * 2);
       const bracket = new BracketStructure(options.rounds, placeMatchesQtt);
-      bracket.initBracketWithTeams(chosen);
       setOptions({
         ...options,
         placeMatchesQtt,
       });
       setBracket(bracket);
+      setChosenTeams([]);
+      setChosenPromoted([]);
     }
   };
 
-  const toggleRoundsActive = () => {
-    setOptions({
-      ...options,
-      roundsActive: !options.roundsActive,
-    });
-  };
-
-  const handleSetChosenTeams = (teams: TeamData[]) => {
-    // | PromotedTeam[] ?!
-    const rounds = validRounds(teams.length);
-    const placeMatchesQtt = validPlaceMatches(rounds, options.placeMatchesQtt);
-    const bracket = new BracketStructure(rounds, placeMatchesQtt);
-    bracket.initBracketWithTeams(teams);
-    setOptions({
-      roundsActive: false,
-      rounds,
-      placeMatchesQtt,
-    });
-    setChosenTeams(teams);
+  const setAutoTeams = () => {
+    const bracket = new BracketStructure(
+      options.rounds,
+      options.placeMatchesQtt
+    );
+    if (groups?.length) {
+      const used = bracket.initBracketWithPromoted(groups);
+      setChosenPromoted(used);
+    } else {
+      bracket.initBracketWithTeams(shuffle(teams));
+    }
     setBracket(bracket);
   };
 
   const submitBracket = () => {
     const convertedBracket = bracket.convertBracket();
-    console.log(convertedBracket.games);
     createPlayoffs(tournamentId, convertedBracket.games);
     toggleCreate();
+  };
+
+  const handleCloseTeams = () => {
+    setGame(null);
+    setOpenTeams(false);
+  };
+
+  const handleOpenTeams = (game: GameStructure) => {
+    setGame(game);
+    setOpenTeams(true);
   };
 
   return (
     <div>
       <PlayOffsCreateMenu
         toggleCreate={toggleCreate}
+        maxRounds={maxRounds()}
         options={options}
         setRounds={setRounds}
         setPlaceMatchesQtt={setPlaceMatchesQtt}
-        toggleRoundsActive={toggleRoundsActive}
+        setAutoTeams={setAutoTeams}
         submitBracket={submitBracket}
       />
-      <PlayOffsChooseList
-        list={teams}
-        chosenTeams={chosenTeams}
-        setChosenTeams={handleSetChosenTeams}
+      <PlayOffsCreateBracketMock
+        placeMatches={bracket.placeMatches}
+        handleOpenTeams={handleOpenTeams}
       />
-      <PlayOffsCreateBracketMock bracket={bracket} teams={teams} />
+      {game ? (
+        <Choose
+          open={openTeams}
+          bracket={bracket}
+          handleClose={handleCloseTeams}
+          teams={teams}
+          groups={groups}
+          game={game}
+          chosenTeams={chosenTeams}
+          setChosenTeams={setChosenTeams}
+          chosenPromoted={chosenPromoted}
+          setChosenPromoted={setChosenPromoted}
+        />
+      ) : null}
     </div>
   );
 };

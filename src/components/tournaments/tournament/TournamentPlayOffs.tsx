@@ -13,22 +13,24 @@ import { TournamentData } from "../../../models/tournamentData";
 import { TeamData } from "../../../models/teamData";
 import { Game } from "../../../models/gameData";
 import PlayOffsBracket from "../../playoffs/PlayOffsBracket";
+import { Group } from "../../../models/groupData";
 
 type Props = {
   tournament: TournamentData;
   playOffs?: Game[];
   teams: TeamData[];
+  groups?: Group[];
 };
 
 const TournamentPlayOffs: React.FC<Props> = ({
   playOffs,
   tournament,
   teams,
+  groups,
 }) => {
   const [create, setCreate] = useState<boolean>(false);
 
   const createPlayOffs = () => {
-    console.log("createPlayOffs");
     setCreate(!create);
   };
 
@@ -58,15 +60,10 @@ const TournamentPlayOffs: React.FC<Props> = ({
       <PlayOffsCreateDashboard
         tournament={tournament}
         teams={teams}
+        groups={groups}
         toggleCreate={createPlayOffs}
       />
     );
-    // return (
-    //   <PlayOffsCreateDashboard
-    //     tournament={tournament}
-    //     toggleCreate={toggleCreate}
-    //   />
-    // );
   }
   return (
     <ButtonHorizontalContainerStyled>

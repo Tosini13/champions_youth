@@ -8,35 +8,42 @@ import {
   ChooseListItemSecondaryActionStyled,
   ChooseListItemStyled,
   ListItemTextStyled,
-} from "../../../styled/styledBracket";
-import { TeamData } from "../../../models/teamData";
+} from "../../../../../styled/styledBracket";
+import { PromotedTeam } from "../../../../../const/groupConst";
+import { Id } from "../../../../../const/structuresConst";
 
 type Props = {
-  element: TeamData; // | PromotedTeam
+  element: PromotedTeam;
   selected: boolean;
-  addToChosenTeams: (chosenTeam: TeamData) => void; // | PromotedTeam
+  groupId?: Id | null;
+  addToChosenTeams: (chosenTeam: PromotedTeam, groupId: Id) => void;
 };
 
-const PlayOffsChooseListElement: React.FC<Props> = ({
+const ChoosePromotedListElement: React.FC<Props> = ({
   element,
   selected,
+  groupId,
   addToChosenTeams,
 }) => {
   return (
     <ChooseListItemStyled
       button
-      key={element.id}
-      selected={selected}
       onClick={() => {
-        addToChosenTeams(element);
+        if (groupId) addToChosenTeams(element, groupId);
       }}
     >
       <ListItemTextStyled primary={element.name} />
       <ChooseListItemSecondaryActionStyled>
-        <IconButton>{selected ? <RemoveIcon /> : <AddIcon />}</IconButton>
+        <IconButton>
+          {selected ? (
+            <RemoveIcon color="secondary" />
+          ) : (
+            <AddIcon color="secondary" />
+          )}
+        </IconButton>
       </ChooseListItemSecondaryActionStyled>
     </ChooseListItemStyled>
   );
 };
 
-export default PlayOffsChooseListElement;
+export default ChoosePromotedListElement;

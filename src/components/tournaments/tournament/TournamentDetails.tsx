@@ -10,17 +10,16 @@ import {
 } from "../../../const/menuConst";
 import TournamentMenu from "./TournamentMenu";
 import TournamentTeams from "./TournamentTeams";
-// import TournamentPlayOffs from "./TournamentPlayOffs";
 import TournamentGroups from "./TournamentGroups";
 import { TeamData } from "../../../models/teamData";
 import { Game } from "../../../models/gameData";
 import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
 import TournamentInfo from "./TournamentInfo";
-import { setBack } from "../../../store/actions/MenuActions";
 import { Group, GroupDataDb } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
+import { getImage } from "../actions/getImage";
 
 type Props = {
   tournament?: TournamentData;
@@ -28,22 +27,35 @@ type Props = {
   groups?: Group[];
   playOffs?: Game[];
   tournamentId?: Id;
+  authorId?: Id;
   setBack: (route: routerConstString) => void;
 };
 
 const TournamentDetails: React.FC<Props> = ({
+  authorId,
   tournamentId,
   tournament,
   teams,
   groups,
   playOffs,
-  setBack,
 }) => {
-  useEffect(() => {
-    setBack(routerConstString.tournaments);
-  }, [setBack]);
+  const [image, setImage] = useState<any | null>(null);
 
-  const [view, setView] = useState(menuTournamentConst.groups);
+  useEffect(() => {
+    if (tournament?.image && authorId) {
+      const image = getImage(tournament.image, authorId);
+      setImage(image);
+    }
+  }, [tournament, authorId]);
+
+  // const promotedGroupsTeams: PromotedGroupsTeams = [[]];
+  // groups?.forEach((group) => {
+  //   if (group.id && group.promoted) {
+  //     const id: any = group.id;
+  //     promotedGroupsTeams[id] = group.promoted;
+  //   }
+  // });
+  const [view, setView] = useState(menuTournamentConst.playoffs);
   if (tournament && teams) {
     return (
       <>
@@ -61,10 +73,11 @@ const TournamentDetails: React.FC<Props> = ({
               tournament={tournament}
               playOffs={playOffs}
               teams={teams}
+              groups={groups}
             />
           ) : null}
           {view === menuTournamentConst.info && tournament ? (
-            <TournamentInfo tournament={tournament} />
+            <TournamentInfo tournament={tournament} image={image} />
           ) : null}
           {view === menuTournamentConst.teams && tournament ? (
             <TournamentTeams teams={teams} />
@@ -78,6 +91,7 @@ const TournamentDetails: React.FC<Props> = ({
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
+  const authorId = state.firebase.auth.uid;
   const tournamentId = ownProps.match.params.tournamentId;
   const tournaments = state.firestore.data.tournaments;
   const tournament = tournaments ? tournaments[tournamentId] : null;
@@ -94,6 +108,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
       ? playOffsData.map((game) => new Game(game, teams))
       : undefined;
   return {
+    authorId,
     tournament,
     teams,
     playOffs,
@@ -102,14 +117,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setBack: (route: routerConstString) => dispatch(setBack(route)),
-  };
-};
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps),
   firestoreConnect((props: any) => {
     return [
       { collection: "tournaments" },

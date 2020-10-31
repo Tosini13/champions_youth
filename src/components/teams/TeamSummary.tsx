@@ -1,12 +1,9 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 import trophy from "../../images/logo/tournament_logo_trophy2.png";
-import {
-  TeamListElementStyled,
-  TeamListItemImgStyled,
-} from "../../styled/styledTeams";
+import { TeamListElementStyled } from "../../styled/styledTeams";
 import { ListItemTextStyled } from "../../styled/styledBracket";
 import { TeamData } from "../../models/teamData";
 import {
@@ -18,17 +15,22 @@ import {
 } from "../../styled/styledIcons";
 
 import { EditTeamInputStyled } from "../../styled/styledForm";
+import { Id } from "../../const/structuresConst";
+import { LogoTeamStyled } from "../../styled/styledLayout";
+import { getImage } from "../tournaments/actions/getImage";
 
 type Props = {
   team: TeamData;
   handleDeleteTeam: (team: TeamData) => void;
   handleEditTeam: (team: TeamData) => void;
+  authorId: Id;
 };
 
 const TeamSummary: React.FC<Props> = ({
   team,
   handleDeleteTeam,
   handleEditTeam,
+  authorId,
 }) => {
   const handleDelete = () => {
     handleDeleteTeam(team);
@@ -50,10 +52,18 @@ const TeamSummary: React.FC<Props> = ({
 
   const [edit, setEdit] = useState<boolean>(false);
   const [name, setName] = useState<string>(team.name);
+  const [image, setImage] = useState<any>(null);
+
+  useEffect(() => {
+    if (team?.logo && authorId) {
+      const image = getImage(team.logo, authorId);
+      setImage(image);
+    }
+  }, [team, authorId]);
 
   return (
     <TeamListElementStyled button>
-      <TeamListItemImgStyled src={team.logo ? team.logo : trophy} alt="logo" />
+      <LogoTeamStyled src={image ? image : trophy}></LogoTeamStyled>
       {edit ? (
         <form onSubmit={handleEdit}>
           <EditTeamInputStyled

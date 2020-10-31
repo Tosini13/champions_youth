@@ -11,7 +11,6 @@ import TournamentDetails from "./components/tournaments/tournament/TournamentDet
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import GroupDetails from "./components/groups/GroupDetails";
-import GameDetails from "./components/games/GameDetails";
 import MatchDetails from "./components/matches/MatchDetails";
 
 const App = () => {
@@ -32,6 +31,11 @@ const App = () => {
               component={SignUp}
             />
             <Route
+              exact
+              path={routerConstString.create}
+              component={CreateTournament}
+            />
+            <Route
               path={routerConstString.matchGroup}
               component={MatchDetails}
             />
@@ -47,10 +51,6 @@ const App = () => {
               <Route path={routerConstString.group} component={GroupDetails} />
               <Route path={routerConstString.tournament + "/:tournamentId"} component={TournamentDetails} />
             </Switch>
-            <Route
-              path={routerConstString.create}
-              component={CreateTournament}
-            />
           </Switch>
         </MainContainer>
         <BottomNav />

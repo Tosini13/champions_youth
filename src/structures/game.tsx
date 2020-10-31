@@ -1,3 +1,4 @@
+import { Placeholder } from "../const/groupConst";
 import { matchModeConst } from "../const/matchConst";
 import { Id, TeamsPlaceholder } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
@@ -18,6 +19,34 @@ export class GameStructure {
   placeholder?: TeamsPlaceholder;
   order?: number;
 
+  set setHomeTeam(team: TeamData | undefined) {
+    this.homeTeam = team;
+    this.match.setHome(team);
+    if (this.returnMatch) this.returnMatch.setAway(team);
+  }
+
+  set setAwayTeam(team: TeamData | undefined) {
+    this.awayTeam = team;
+    this.match.setAway(team);
+    if (this.returnMatch) this.returnMatch.setHome(team);
+  }
+
+  set setHomePlaceholder(team: Placeholder | undefined) {
+    if (this.placeholder) {
+      this.placeholder.home = team;
+      this.match.setHomePlaceholder(team);
+      if (this.returnMatch) this.returnMatch.setAwayPlaceholder(team);
+    }
+  }
+
+  set setAwayPlaceholder(team: Placeholder | undefined) {
+    if (this.placeholder) {
+      this.placeholder.away = team;
+      this.match.setAwayPlaceholder(team);
+      if (this.returnMatch) this.returnMatch.setHomePlaceholder(team);
+    }
+  }
+
   set setWinnerMatch(winnerMatch: GameStructure) {
     this.winnerMatch = winnerMatch;
   }
@@ -37,16 +66,16 @@ export class GameStructure {
   }
 
   setHomeString = (placeHolder: string) => {
-    this.match.placeholder.home = placeHolder;
+    this.match.placeholder.home = { name: placeHolder };
     if (this.returnMatch) {
-      this.returnMatch.placeholder.away = placeHolder;
+      this.returnMatch.placeholder.away = { name: placeHolder };
     }
   };
 
   setAwayString = (placeHolder: string) => {
-    this.match.placeholder.away = placeHolder;
+    this.match.placeholder.away = { name: placeHolder };
     if (this.returnMatch) {
-      this.returnMatch.placeholder.home = placeHolder;
+      this.returnMatch.placeholder.home = { name: placeHolder };
     }
   };
 

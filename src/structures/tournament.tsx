@@ -33,16 +33,6 @@ export class TournamentStructure {
     });
   };
 
-  // createBracket = (rounds: number, placeMatchesQtt: number) => {
-  //   this.bracket = new BracketStructure(rounds, placeMatchesQtt);
-  // };
-
-  // convertBracket = () => {
-  //   if (this.bracket) {
-  //     return bracketDbApi.convertBracket(this.bracket);
-  //   }
-  // };
-
   convert = () => {
     const convertedTournament: TournamentCreateData = {
       name: this.name,

@@ -17,6 +17,7 @@ import CreateTournamentLocation from "./Location";
 import CreateTournamentMatchesInfo from "./MatchesInfo";
 import VerticalStepper from "./VerticalStepper";
 import { setBack } from "../../../store/actions/MenuActions";
+import AddLogo from "./AddLogo";
 
 export type BasicInfoDataForm = {
   name: string;
@@ -37,7 +38,7 @@ export type MatchesInfoForm = {
 };
 
 type Props = {
-  createTournament: (data: TournamentCreateData) => void;
+  createTournament: (data: TournamentCreateData, image?: any) => void;
   setBack: (route: routerConstString) => void;
 };
 
@@ -53,6 +54,9 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
     name: "",
     date: moment(),
   });
+
+  const [image, setImage] = useState<any | null>(null);
+
   const [location, setLocation] = useState<LocationDataForm>({
     city: "",
     address: "",
@@ -81,7 +85,7 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
       breakTimeInBracket: matchesInfo.breakTimeInBracket,
       fields: 3,
     };
-    createTournament(data);
+    createTournament(data, image);
     history.push(routerConstString.tournaments);
   };
 
@@ -89,12 +93,15 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
     switch (step) {
       case 0:
         return (
-          <CreateTournamentBasicInfo
-            register={register}
-            errors={errors}
-            basicInfo={basicInfo}
-            setBasicInfo={setBasicInfo}
-          />
+          <>
+            <CreateTournamentBasicInfo
+              register={register}
+              errors={errors}
+              basicInfo={basicInfo}
+              setBasicInfo={setBasicInfo}
+            />
+            <AddLogo image={image} setImage={setImage} />
+          </>
         );
       case 1:
         return (
@@ -142,8 +149,8 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    createTournament: (data: TournamentCreateData) =>
-      dispatch(createTournament(data)),
+    createTournament: (data: TournamentCreateData, image?: any) =>
+      dispatch(createTournament(data, image)),
     setBack: (route: routerConstString) => dispatch(setBack(route)),
   };
 };

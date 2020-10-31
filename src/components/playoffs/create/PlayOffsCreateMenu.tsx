@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import React from "react";
 import { Options } from "../../../structures/bracket";
 
@@ -6,15 +7,16 @@ import {
   ButtonHorizontalContainerStyled,
   ButtonSuccessStyled,
 } from "../../../styled/styledButtons";
-import PlayOffsChooseLastMatchPlace from "./PlayOffsChooseLastMatchPlace";
-import PlayOffsChooseRound from "./PlayOffsChooseRound";
+import PlayOffsChooseLastMatchPlace from "./options/PlayOffsChooseLastMatchPlace";
+import PlayOffsChooseRound from "./options/PlayOffsChooseRound";
 
 type Props = {
   toggleCreate: () => void;
   options: Options;
+  maxRounds: number;
   setRounds: (rounds: number) => void;
   setPlaceMatchesQtt: (placeMatchesQtt: number) => void;
-  toggleRoundsActive: () => void;
+  setAutoTeams: () => void;
   submitBracket: () => void;
 };
 
@@ -23,8 +25,9 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
   options,
   setRounds,
   setPlaceMatchesQtt,
+  setAutoTeams,
   submitBracket,
-  toggleRoundsActive,
+  maxRounds,
 }) => {
   return (
     <>
@@ -44,14 +47,17 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
           Stwórz
         </ButtonSuccessStyled>
       </ButtonHorizontalContainerStyled>
+      <Button variant="outlined" color="secondary" onClick={setAutoTeams}>
+        Losuj
+      </Button>
       <PlayOffsChooseLastMatchPlace
         options={options}
         setPlaceMatchesQtt={setPlaceMatchesQtt}
       />
       <PlayOffsChooseRound
+        maxRounds={maxRounds}
         options={options}
         setRounds={setRounds}
-        toggleRoundsActive={toggleRoundsActive}
       />
     </>
   );

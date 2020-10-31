@@ -5,8 +5,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 
-import { BracketNavSelectStyled } from "../../../styled/styledBracket";
-import { Options } from "../../../structures/bracket";
+import { BracketNavSelectStyled } from "../../../../styled/styledBracket";
+import { Options } from "../../../../structures/bracket";
 
 type Props = {
   options: Options;

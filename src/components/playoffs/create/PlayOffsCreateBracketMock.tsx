@@ -1,21 +1,25 @@
 import React from "react";
-import { TeamData } from "../../../models/teamData";
-import { BracketStructure } from "../../../structures/bracket";
 import { GameStructure } from "../../../structures/game";
 import { BracketSectionContainerStyled } from "../../../styled/styledBracket";
 import GameSummaryRecursiveMock from "../../games/GameSummaryRecursiveMock";
 
 type Props = {
-  bracket: BracketStructure;
-  teams: TeamData[];
+  placeMatches: GameStructure[];
+  handleOpenTeams: (game: GameStructure) => void;
 };
 
-const PlayOffsCreateBracketMock: React.FC<Props> = ({ bracket, teams }) => {
+const PlayOffsCreateBracketMock: React.FC<Props> = ({
+  placeMatches,
+  handleOpenTeams,
+}) => {
   return (
     <>
-      {bracket.placeMatches.map((game: GameStructure) => (
+      {placeMatches.map((game: GameStructure) => (
         <BracketSectionContainerStyled key={game.round}>
-          <GameSummaryRecursiveMock game={game} teams={teams} />
+          <GameSummaryRecursiveMock
+            game={game}
+            handleOpenTeams={handleOpenTeams}
+          />
         </BracketSectionContainerStyled>
       ))}
     </>

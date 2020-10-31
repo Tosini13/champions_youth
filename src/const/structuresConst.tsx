@@ -1,3 +1,5 @@
+import { Placeholder } from "./groupConst";
+
 export enum structuresConst {
   groups = "GROUPS",
   playOffs = "PLAY_OFFS",
@@ -38,8 +40,8 @@ export type Result = {
 };
 
 export type TeamsPlaceholder = {
-  home: string;
-  away: string;
+  home?: Placeholder;
+  away?: Placeholder;
 };
 
 export type Id = string;

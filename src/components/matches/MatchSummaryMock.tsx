@@ -7,10 +7,10 @@ import {
   MatchHeaderStyled,
   MatchRoundDateStyled,
 } from "../../styled/styledMatch";
-import { MatchData } from "../../structures/match";
+import { MatchData, MatchStructure } from "../../structures/match";
 
 type Props = {
-  match: MatchData;
+  match: MatchData | MatchStructure;
 };
 
 const MatchSummaryMock: React.FC<Props> = ({ match }) => {
@@ -27,9 +27,21 @@ const MatchSummaryMock: React.FC<Props> = ({ match }) => {
         ) : null}
       </MatchHeaderStyled>
       <MatchMockTeamsContainerStyled>
-        <p>{match.home ? match.home.name : match.placeholder.home}</p>
+        <p>
+          {match.home
+            ? match.home.name
+            : match.placeholder.home
+            ? match.placeholder.home.name
+            : "brak zespołu"}
+        </p>
         <p>vs</p>
-        <p>{match.away ? match.away.name : match.placeholder.away}</p>
+        <p>
+          {match.away
+            ? match.away.name
+            : match.placeholder.away
+            ? match.placeholder.away.name
+            : "brak zespołu"}
+        </p>
       </MatchMockTeamsContainerStyled>
     </MatchContainerStyled>
   );

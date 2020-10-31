@@ -56,17 +56,19 @@ export const BracketNavSelectStyled = styled(FormGroup)`
 `;
 
 export const ChooseListStyled = styled(List)`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 5px;
+  max-height: 50vh;
+  overflow: auto;
+  margin: 5px 0px;
 `;
 
 export const ChooseListItemStyled = styled(ListItem)`
-  background-color: ${mainTheme.palette.secondary.main};
+  background-color: ${mainTheme.palette.primary.main};
+  color: ${mainTheme.palette.secondary.main};
   border-radius: 3px;
   padding: 0px 5px;
+  margin: 4px 0px;
   &:hover {
-    background-color: ${mainTheme.palette.secondary.main};
+    background-color: ${mainTheme.palette.primary.main};
   }
 `;
 

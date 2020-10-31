@@ -8,7 +8,8 @@ import ListItem from "@material-ui/core/ListItem";
 export const AddTeamFormStyled = styled.form`
   padding: 0px 5px;
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
 `;
 

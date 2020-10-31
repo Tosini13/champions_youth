@@ -12,8 +12,6 @@ const GameSummaryRecursive: React.FC<Props> = ({ game, teams }) => {
   const lastMatch =
     game.previousMatchHome?.loserMatch === game ||
     game.previousMatchAway?.loserMatch === game;
-  console.log("The Match");
-  console.dir(game.match);
   return (
     <>
       {game.match.home?.name} vs {game.match.away?.name}
