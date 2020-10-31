@@ -1,4 +1,5 @@
 import moment, { Moment } from "moment";
+import { Placeholder } from "../const/groupConst";
 import {
   placeMatchesTitle,
   roundMatchesTitle,
@@ -205,16 +206,42 @@ export class BracketStructure {
   };
 
   initBracketWithTeams = (teams: TeamData[]) => {
-    const lastMatches = this.getLastMatches(this.placeMatches[1]);
+    const lastMatches = this.getLastMatches(this.placeMatches[1]).reverse();
     let i = 0;
     lastMatches.forEach((game) => {
       const homeTeam = teams[i++];
-      const awayTeam = teams[i++];
       game.homeTeam = homeTeam;
-      game.awayTeam = awayTeam;
       game.match.home = homeTeam;
+    });
+    lastMatches.forEach((game) => {
+      const awayTeam = teams[i++];
+      game.awayTeam = awayTeam;
       game.match.away = awayTeam;
     });
+  };
+
+  initBracketWithPlaceholders = (placeholders: Placeholder[]) => {
+    const lastMatches = this.getLastMatches(this.placeMatches[1]).reverse();
+    let i = 0;
+    console.log(lastMatches);
+    console.log(placeholders);
+    lastMatches.forEach((game) => {
+      const homePlaceholder = placeholders[i++];
+      game.placeholder = { ...game.placeholder, home: homePlaceholder };
+      game.match.placeholder = {
+        ...game.match.placeholder,
+        home: homePlaceholder,
+      };
+    });
+    lastMatches.forEach((game) => {
+      const awayPlaceholder = placeholders[i++];
+      game.placeholder = { ...game.placeholder, away: awayPlaceholder };
+      game.match.placeholder = {
+        ...game.match.placeholder,
+        away: awayPlaceholder,
+      };
+    });
+    return placeholders.slice(0, i);
   };
 
   setPlaceholder = (game: GameStructure) => {

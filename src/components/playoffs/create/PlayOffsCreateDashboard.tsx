@@ -16,6 +16,39 @@ import { Placeholder } from "../../../const/groupConst";
 import { Group } from "../../../models/groupData";
 import Choose from "./chooseTeams/Choose";
 
+const shuffle = (arr: any) => {
+  let indexes: any[] = [];
+  let newArr: any[] = [];
+  while (indexes.length < arr.length) {
+    const j = Math.floor(Math.random() * arr.length);
+    if (!indexes.includes(j)) {
+      indexes.push(j);
+      newArr.push(arr[j]);
+    }
+  }
+  return newArr;
+};
+
+const getGroupsPromoted = (groups: Group[]) => {
+  const promoted: Placeholder[] = [];
+  let maxLength = 0;
+  groups.forEach((group) =>
+    maxLength < group.promoted.length
+      ? (maxLength = group.promoted.length)
+      : null
+  );
+  for (let i = 0; i < maxLength; i++) {
+    groups.forEach((group) => {
+      const promotedTeam = {
+        ...group.promoted[i],
+        id: group.id ? group.id : undefined,
+      };
+      if (promotedTeam) promoted.push(promotedTeam);
+    });
+  }
+  return promoted;
+};
+
 type Props = {
   tournament: TournamentData;
   teams?: TeamData[];
@@ -93,6 +126,23 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     }
   };
 
+  const setAutoTeams = () => {
+    const bracket = new BracketStructure(
+      options.rounds,
+      options.placeMatchesQtt
+    );
+    if (groups?.length) {
+      const promoted = getGroupsPromoted(groups);
+      console.log(promoted);
+      const used =bracket.initBracketWithPlaceholders(promoted);
+      console.log(used);
+      setChosenPromoted(used);
+    } else {
+      bracket.initBracketWithTeams(shuffle(teams));
+    }
+    setBracket(bracket);
+  };
+
   const submitBracket = () => {
     const convertedBracket = bracket.convertBracket();
     console.log(convertedBracket.games);
@@ -118,6 +168,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
         options={options}
         setRounds={setRounds}
         setPlaceMatchesQtt={setPlaceMatchesQtt}
+        setAutoTeams={setAutoTeams}
         submitBracket={submitBracket}
       />
       <PlayOffsCreateBracketMock

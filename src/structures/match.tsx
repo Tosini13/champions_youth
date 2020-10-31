@@ -94,8 +94,8 @@ export class MatchStructure {
   constructor(round: string) {
     this.round = round;
     this.placeholder = {
-      home: "no team",
-      away: "no team",
+      home: { name: "no team" },
+      away: { name: "no team" },
     };
     this.mode = matchModeConst.notStarted;
   }

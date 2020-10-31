@@ -40,8 +40,8 @@ export type Result = {
 };
 
 export type TeamsPlaceholder = {
-  home?: string | Placeholder;
-  away?: string | Placeholder;
+  home?: Placeholder;
+  away?: Placeholder;
 };
 
 export type Id = string;

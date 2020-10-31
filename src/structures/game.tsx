@@ -66,16 +66,16 @@ export class GameStructure {
   }
 
   setHomeString = (placeHolder: string) => {
-    this.match.placeholder.home = placeHolder;
+    this.match.placeholder.home = { name: placeHolder };
     if (this.returnMatch) {
-      this.returnMatch.placeholder.away = placeHolder;
+      this.returnMatch.placeholder.away = { name: placeHolder };
     }
   };
 
   setAwayString = (placeHolder: string) => {
-    this.match.placeholder.away = placeHolder;
+    this.match.placeholder.away = { name: placeHolder };
     if (this.returnMatch) {
-      this.returnMatch.placeholder.home = placeHolder;
+      this.returnMatch.placeholder.home = { name: placeHolder };
     }
   };
 

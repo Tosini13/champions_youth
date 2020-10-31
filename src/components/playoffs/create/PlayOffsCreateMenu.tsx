@@ -1,3 +1,4 @@
+import { Button } from "@material-ui/core";
 import React from "react";
 import { Options } from "../../../structures/bracket";
 
@@ -15,6 +16,7 @@ type Props = {
   maxRounds: number;
   setRounds: (rounds: number) => void;
   setPlaceMatchesQtt: (placeMatchesQtt: number) => void;
+  setAutoTeams: () => void;
   submitBracket: () => void;
 };
 
@@ -23,6 +25,7 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
   options,
   setRounds,
   setPlaceMatchesQtt,
+  setAutoTeams,
   submitBracket,
   maxRounds,
 }) => {
@@ -44,6 +47,9 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
           Stwórz
         </ButtonSuccessStyled>
       </ButtonHorizontalContainerStyled>
+      <Button variant="outlined" color="secondary" onClick={setAutoTeams}>
+        Losuj
+      </Button>
       <PlayOffsChooseLastMatchPlace
         options={options}
         setPlaceMatchesQtt={setPlaceMatchesQtt}
