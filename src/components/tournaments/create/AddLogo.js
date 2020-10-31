@@ -18,9 +18,6 @@ const AddLogo = ({ image, setImage }) => {
         }
         try {
             const compressedFile = await imageCompression(image, options);
-            console.log(compressedFile);
-            console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
-            console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
             setImage(compressedFile);
         } catch (error) {
             console.log(error);

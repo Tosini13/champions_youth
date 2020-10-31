@@ -24,7 +24,7 @@ const PlayOffsChooseLastMatchPlace: React.FC<Props> = ({
     }
   };
 
-  let places = [];
+  let places: number[] = [];
   if (options.rounds) {
     for (let i = 1; i < options.rounds * 2; i += 2) {
       places.push(i);

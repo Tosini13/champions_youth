@@ -3,6 +3,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import moment, { Moment } from "moment";
+import { Rosetta, Translator } from "react-rosetta";
 
 import Button from "@material-ui/core/Button";
 
@@ -12,6 +13,7 @@ import { TournamentData } from "../../models/tournamentData";
 import { routerConstString } from "../../const/menuConst";
 import { UserData } from "../../models/credentialsData";
 import { Id } from "../../const/structuresConst";
+import tournamentDashboardDict from "../../locale/tournamentDashboard";
 
 const getFilteredTournaments = (
   view: routerConstString,
@@ -44,6 +46,7 @@ type Props = {
   tournaments?: TournamentData[];
   history: any;
   selectedDate: Moment;
+  locale: string;
 };
 
 class TournamentsDashboard extends Component<Props> {
@@ -54,32 +57,39 @@ class TournamentsDashboard extends Component<Props> {
   render() {
     const { tournaments, user } = this.props;
     return (
-      <div>
-        {!tournaments?.length && user ? (
-          <NoContentTitle>Brak turniejów</NoContentTitle>
-        ) : null}
-        {!tournaments?.length && !user ? (
-          <NoContentContainer>
+      <Rosetta
+        translations={tournamentDashboardDict}
+        locale={this.props.locale}
+      >
+        <div>
+          {!tournaments?.length && user ? (
             <NoContentTitle>
-              Aby dodać turniej musisz być zalogowany!
+              <Translator id={"noTournaments"} />
             </NoContentTitle>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={this.handleRedirectLogin}
-            >
-              Zaloguj
-            </Button>
-          </NoContentContainer>
-        ) : null}
-        {tournaments?.map((tournament: TournamentData) => (
-          <TournamentSummary
-            key={tournament.id}
-            tournament={tournament}
-            user={user}
-          />
-        ))}
-      </div>
+          ) : null}
+          {!tournaments?.length && !user ? (
+            <NoContentContainer>
+              <NoContentTitle>
+                <Translator id={"mustBeLoggedInToAddTournament"} />
+              </NoContentTitle>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={this.handleRedirectLogin}
+              >
+                <Translator id={"logIn"} />
+              </Button>
+            </NoContentContainer>
+          ) : null}
+          {tournaments?.map((tournament: TournamentData) => (
+            <TournamentSummary
+              key={tournament.id}
+              tournament={tournament}
+              user={user}
+            />
+          ))}
+        </div>
+      </Rosetta>
     );
   }
 }
@@ -106,6 +116,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
     user,
     selectedDate,
     menu: state.menu,
+    locale: state.dictionary.locale,
   };
 };
 

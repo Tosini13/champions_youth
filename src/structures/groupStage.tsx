@@ -106,7 +106,7 @@ export class GroupStage {
 
   shuffle(arr: any[]) {
     let indexes: any[] = [];
-    let newArr = [];
+    let newArr: any[] = [];
     while (indexes.length < arr.length) {
       const j = Math.floor(Math.random() * arr.length);
       if (!indexes.includes(j)) {
@@ -130,7 +130,7 @@ export class GroupStage {
     let restTeams = 0; //in one group!
     let add = 0;
     const teamsQtt = teams.length;
-    let groups = [];
+    let groups: GroupData[] = [];
     if (groupsQtt !== 1) {
       restTeams = teamsQtt % groupsQtt;
     }
@@ -190,7 +190,7 @@ export class GroupStage {
     if (teams.length > 3) {
       return this.bergerAlgorithm(teams, returnGames);
     } else if (teams.length === 3) {
-      let matches = [];
+      let matches: any[] = [];
       matches.push(this.initMatch(teams[0], teams[1], 1));
       matches.push(this.initMatch(teams[1], teams[2], 2));
       matches.push(this.initMatch(teams[2], teams[0], 3));
@@ -201,7 +201,7 @@ export class GroupStage {
       }
       return matches;
     } else if (teams.length === 2) {
-      let matches = [];
+      let matches: any[] = [];
       matches.push(this.initMatch(teams[0], teams[1], 1));
       if (returnGames) {
         matches.push(this.initMatch(teams[0], teams[1], 1));
@@ -218,7 +218,7 @@ export class GroupStage {
     const matchesInRound = teamsQtt / 2;
     const ghost = isOdd ? teams[teamsQtt - 2] : teams[teamsQtt - 1];
     let roundsQtt = 1;
-    let matches = [];
+    let matches: any = [];
     let hostTeams = teams.slice(0, teamsQtt / 2).reverse();
     let awayTeams = teams.slice(
       teamsQtt / 2,
@@ -228,8 +228,8 @@ export class GroupStage {
       let newHost: any = [];
       let newAway: any = [];
       for (let i = 0; i < matchesInRound; i++) {
-        let home = null;
-        let away = null;
+        let home: any = null;
+        let away: any = null;
         if (i === 0 && roundsQtt % 2 === 0) {
           away = hostTeams.pop();
           home = ghost;

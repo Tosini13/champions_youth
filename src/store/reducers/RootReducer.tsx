@@ -9,6 +9,7 @@ import menuReducer from "./MenuReducer";
 import groupReducer from "./GroupReducer";
 import teamReducer from "./TeamReducer";
 import playOffsReducer from "./PlayOffsReducer";
+import dictionaryReducer from "./DictionaryReducer";
 
 const rootReducer = combineReducers({
   tournament: tournamentReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   router: routerReducer,
   user: userReducer,
   menu: menuReducer,
+  dictionary: dictionaryReducer,
   auth: authReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer,
