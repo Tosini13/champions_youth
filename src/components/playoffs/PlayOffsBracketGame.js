@@ -28,9 +28,9 @@ const PlayOffsBracketGame = ({ game }) => {
           <MatchRoundTitleStyled>{game.round}</MatchRoundTitleStyled>
         </MatchHeaderStyled>
         <MatchMockTeamsContainerStyled>
-          <p>{game.homeTeam ? game.homeTeam.name : game.placeholder.home.name}</p>
+          <p>{game.homeTeam ? game.homeTeam.name : game.placeholder.home ? game.placeholder.home.name : 'brak zespołu'}</p>
           <p>vs</p>
-          <p>{game.awayTeam ? game.awayTeam.name : game.placeholder.away.name}</p>
+          <p>{game.awayTeam ? game.awayTeam.name : game.placeholder.away ? game.placeholder.away.name : 'brak zespołu'}</p>
         </MatchMockTeamsContainerStyled>
       </MatchContainerStyled>
       {open ? <GameDetails handleClose={handleClose} open={open} tournamentId={tournamentId} gameId={game.id} /> : null}

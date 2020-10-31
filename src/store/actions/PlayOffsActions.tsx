@@ -4,7 +4,6 @@ import { GameDataDb } from "../../structures/dbAPI/gameData";
 export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
-    console.log(games);
     games.forEach((game: GameDataDb) => {
       firestore
         .collection("tournaments")
@@ -24,7 +23,6 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
           order: game.order,
         })
         .then((res: any) => {
-          console.log(res);
           const match = {
             ...game.match,
             id: "match",

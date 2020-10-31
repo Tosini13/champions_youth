@@ -5,7 +5,6 @@ import { matchDbApi, MatchDataDb } from "./matchData";
 
 export class GameDbApi {
   convertGameToDb = (game: GameStructure) => {
-    console.log(game);
     const gameDb: GameDataDb = {
       id: game.id,
       winnerMatch: game.winnerMatch?.id ? game.winnerMatch.id : null,
@@ -26,7 +25,6 @@ export class GameDbApi {
       placeholder: game.placeholder ? game.placeholder : null,
       order: game.order ? game.order : null,
     };
-    console.log(gameDb);
     return gameDb;
   };
 }

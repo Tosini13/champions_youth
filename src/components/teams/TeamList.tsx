@@ -37,17 +37,15 @@ const TeamList: React.FC<Props> = ({
 
   return (
     <TeamListStyled>
-      {teams?.map((team: TeamData) => {
-        return (
-          <TeamSummary
-            key={team.id}
-            team={team}
-            handleDeleteTeam={handleDeleteTeam}
-            handleEditTeam={handleEditTeam}
-            authorId={authorId}
-          />
-        );
-      })}
+      {teams?.map((team: TeamData) => (
+        <TeamSummary
+          key={team.id}
+          team={team}
+          handleDeleteTeam={handleDeleteTeam}
+          handleEditTeam={handleEditTeam}
+          authorId={authorId}
+        />
+      ))}
     </TeamListStyled>
   );
 };

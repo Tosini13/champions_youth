@@ -5,6 +5,7 @@ import {
   roundMatchesTitle,
   TeamsPlaceholder,
 } from "../const/structuresConst";
+import { Group } from "../models/groupData";
 import { TeamData } from "../models/teamData";
 import { BracketDataDb, bracketDbApi } from "./dbAPI/bracketData";
 import { GameStructure } from "./game";
@@ -220,28 +221,54 @@ export class BracketStructure {
     });
   };
 
-  initBracketWithPlaceholders = (placeholders: Placeholder[]) => {
+  initBracketWithPromoted = (groups: Group[]) => {
     const lastMatches = this.getLastMatches(this.placeMatches[1]).reverse();
-    let i = 0;
-    console.log(lastMatches);
-    console.log(placeholders);
+    let promoted: Placeholder[] = [];
+    let used: Placeholder[] = [];
+    let groupPromotedQtt = 0;
+    groups.forEach((group) =>
+      groupPromotedQtt < group.promoted.length
+        ? (groupPromotedQtt = group.promoted.length)
+        : null
+    );
+    for (let i = 0; i < groupPromotedQtt; i++) {
+      groups.forEach((group) => {
+        const team = {
+          ...group.promoted[i],
+          id: group.id ? group.id : undefined,
+        };
+        if (team) promoted.push(team);
+      });
+    }
     lastMatches.forEach((game) => {
-      const homePlaceholder = placeholders[i++];
-      game.placeholder = { ...game.placeholder, home: homePlaceholder };
+      const homePlaceholder = promoted.shift();
+      if (homePlaceholder === undefined) return false;
+      game.placeholder = { home: homePlaceholder };
       game.match.placeholder = {
-        ...game.match.placeholder,
         home: homePlaceholder,
       };
+      used.push(homePlaceholder);
     });
-    lastMatches.forEach((game) => {
-      const awayPlaceholder = placeholders[i++];
+    lastMatches.reverse().forEach((game) => {
+      if (game.placeholder?.away !== undefined) return false;
+      let awayPlaceholder = promoted.shift();
+      if (awayPlaceholder === undefined) return false;
+      if (
+        groups.length > 1 &&
+        awayPlaceholder?.id === game.placeholder?.home?.id
+      ) {
+        const substitute = promoted.shift();
+        promoted.unshift(awayPlaceholder);
+        awayPlaceholder = substitute;
+      }
       game.placeholder = { ...game.placeholder, away: awayPlaceholder };
       game.match.placeholder = {
         ...game.match.placeholder,
         away: awayPlaceholder,
       };
+      if (awayPlaceholder) used.push(awayPlaceholder);
     });
-    return placeholders.slice(0, i);
+    return used;
   };
 
   setPlaceholder = (game: GameStructure) => {

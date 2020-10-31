@@ -29,26 +29,6 @@ const shuffle = (arr: any) => {
   return newArr;
 };
 
-const getGroupsPromoted = (groups: Group[]) => {
-  const promoted: Placeholder[] = [];
-  let maxLength = 0;
-  groups.forEach((group) =>
-    maxLength < group.promoted.length
-      ? (maxLength = group.promoted.length)
-      : null
-  );
-  for (let i = 0; i < maxLength; i++) {
-    groups.forEach((group) => {
-      const promotedTeam = {
-        ...group.promoted[i],
-        id: group.id ? group.id : undefined,
-      };
-      if (promotedTeam) promoted.push(promotedTeam);
-    });
-  }
-  return promoted;
-};
-
 type Props = {
   tournament: TournamentData;
   teams?: TeamData[];
@@ -132,10 +112,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
       options.placeMatchesQtt
     );
     if (groups?.length) {
-      const promoted = getGroupsPromoted(groups);
-      console.log(promoted);
-      const used =bracket.initBracketWithPlaceholders(promoted);
-      console.log(used);
+      const used = bracket.initBracketWithPromoted(groups);
       setChosenPromoted(used);
     } else {
       bracket.initBracketWithTeams(shuffle(teams));
@@ -145,7 +122,6 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
 
   const submitBracket = () => {
     const convertedBracket = bracket.convertBracket();
-    console.log(convertedBracket.games);
     createPlayoffs(tournamentId, convertedBracket.games);
     toggleCreate();
   };
