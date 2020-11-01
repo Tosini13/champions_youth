@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Rosetta, Translator } from "react-rosetta";
 
 import { TeamData } from "../../../models/teamData";
 import AddTeam from "../../teams/AddTeam";
@@ -6,12 +8,15 @@ import TeamList from "../../teams/TeamList";
 
 import { Button } from "@material-ui/core";
 import { DialogStyled, DialogTitle } from "../../../styled/styledLayout";
+import tournamentDetailsDict from "../../../locale/tournamentDetails";
+import { LOCALE } from "../../../locale/config";
 
 type Props = {
   teams?: TeamData[];
+  locale: LOCALE;
 };
 
-const TournamentTeams: React.FC<Props> = ({ teams }) => {
+const TournamentTeams: React.FC<Props> = ({ teams, locale }) => {
   const [opened, setOpened] = useState<boolean>(false);
 
   const handleClose = () => {
@@ -23,27 +28,37 @@ const TournamentTeams: React.FC<Props> = ({ teams }) => {
   };
 
   return (
-    <>
-      <DialogStyled
-        onClose={handleClose}
-        aria-labelledby="simple-dialog-title"
-        open={opened}
-        color="primary"
-      >
-        <DialogTitle>Dodaj zespół</DialogTitle>
-        <AddTeam handleClose={handleClose} />
-      </DialogStyled>
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={handleOpen}
-        style={{ margin: "5px auto", width: "fit-content" }}
-      >
-        Dodaj zespół
-      </Button>
-      <TeamList teams={teams} />
-    </>
+    <Rosetta translations={tournamentDetailsDict} locale={locale}>
+      <>
+        <DialogStyled
+          onClose={handleClose}
+          aria-labelledby="simple-dialog-title"
+          open={opened}
+          color="primary"
+        >
+          <DialogTitle>
+            <Translator id="addTeam" />
+          </DialogTitle>
+          <AddTeam handleClose={handleClose} />
+        </DialogStyled>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={handleOpen}
+          style={{ margin: "5px auto", width: "fit-content" }}
+        >
+          <Translator id="add" />
+        </Button>
+        <TeamList teams={teams} />
+      </>
+    </Rosetta>
   );
 };
 
-export default TournamentTeams;
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
+};
+
+export default connect(mapStateToProps)(TournamentTeams);

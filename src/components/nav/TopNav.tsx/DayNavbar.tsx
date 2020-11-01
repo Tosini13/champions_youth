@@ -1,4 +1,5 @@
 import React from "react";
+import { Rosetta, Translator } from "react-rosetta";
 import moment, { Moment } from "moment";
 import "moment/locale/pl";
 
@@ -15,15 +16,20 @@ import {
   DayDateStyled,
 } from "../../../styled/styledNav";
 import { DATE_FORMAT_SHOW } from "../../../const/menuConst";
+import { connect } from "react-redux";
+import { LOCALE } from "../../../locale/config";
+import menuDict from "../../../locale/menu";
 
 const DayNavbar = ({
   selectedDate,
   setSelectedDate,
   isDateActive,
+  locale,
 }: {
   selectedDate: Moment;
   setSelectedDate: (date: Moment) => void;
   isDateActive: boolean;
+  locale: LOCALE;
 }) => {
   const handleDayBack = () => {
     setSelectedDate(moment(date).subtract(1, "day"));
@@ -34,33 +40,42 @@ const DayNavbar = ({
   };
 
   const showNameDay = (date: Moment) => {
-    if (moment().isSame(date, "day")) return "dzisiaj";
-    if (moment().add(1, "day").isSame(date, "day")) return "jutro";
-    if (moment().subtract(1, "day").isSame(date, "day")) return "wczoraj";
+    if (moment().isSame(date, "day")) return <Translator id="today" />;
+    if (moment().add(1, "day").isSame(date, "day"))
+      return <Translator id="tomorrow" />;
+    if (moment().subtract(1, "day").isSame(date, "day"))
+      return <Translator id="yesterday" />;
     return date.format("dddd");
   };
 
-  const date = moment(selectedDate).locale("pl");
+  const date = moment(selectedDate).locale(locale);
   return (
-    <DayNavbarContainerStyled>
-      <IconButtonArrowBeforeStyled
-        active={isDateActive ? 1 : 0}
-        onClick={handleDayBack}
-      >
-        <NavigateBeforeIcon fontSize="large" />
-      </IconButtonArrowBeforeStyled>
-      <div>
-        <DayNameStyled>{showNameDay(date)}</DayNameStyled>
-        <DayDateStyled>{date.format(DATE_FORMAT_SHOW)}</DayDateStyled>
-      </div>
-      <IconButtonArrowNextStyled
-        active={isDateActive ? 1 : 0}
-        onClick={handleDayNext}
-      >
-        <NavigateNextIcon fontSize="large" />
-      </IconButtonArrowNextStyled>
-    </DayNavbarContainerStyled>
+    <Rosetta translations={menuDict} locale={locale}>
+      <DayNavbarContainerStyled>
+        <IconButtonArrowBeforeStyled
+          active={isDateActive ? 1 : 0}
+          onClick={handleDayBack}
+        >
+          <NavigateBeforeIcon fontSize="large" />
+        </IconButtonArrowBeforeStyled>
+        <div>
+          <DayNameStyled>{showNameDay(date)}</DayNameStyled>
+          <DayDateStyled>{date.format(DATE_FORMAT_SHOW)}</DayDateStyled>
+        </div>
+        <IconButtonArrowNextStyled
+          active={isDateActive ? 1 : 0}
+          onClick={handleDayNext}
+        >
+          <NavigateNextIcon fontSize="large" />
+        </IconButtonArrowNextStyled>
+      </DayNavbarContainerStyled>
+    </Rosetta>
   );
 };
 
-export default DayNavbar;
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
+};
+export default connect(mapStateToProps)(DayNavbar);

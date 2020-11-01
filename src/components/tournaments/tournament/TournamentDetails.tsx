@@ -48,14 +48,7 @@ const TournamentDetails: React.FC<Props> = ({
     }
   }, [tournament, authorId]);
 
-  // const promotedGroupsTeams: PromotedGroupsTeams = [[]];
-  // groups?.forEach((group) => {
-  //   if (group.id && group.promoted) {
-  //     const id: any = group.id;
-  //     promotedGroupsTeams[id] = group.promoted;
-  //   }
-  // });
-  const [view, setView] = useState(menuTournamentConst.playoffs);
+  const [view, setView] = useState(menuTournamentConst.teams);
   if (tournament && teams) {
     return (
       <>

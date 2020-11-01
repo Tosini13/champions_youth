@@ -21,7 +21,7 @@ const MenuSideBar = ({
     );
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     const loggedIn = Boolean(state.firebase.auth.uid);
     return {
         loggedIn,

@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { Rosetta, Translator } from "react-rosetta";
 
 import EventAvailableIcon from "@material-ui/icons/EventAvailable";
 import ScheduleIcon from "@material-ui/icons/Schedule";
@@ -20,11 +21,14 @@ import { Id } from "../../../const/structuresConst";
 import { deleteTournament } from "../../../store/actions/TournamentActions";
 import { connect } from "react-redux";
 import { LogoStyled } from "../../../styled/styledLayout";
+import tournamentDetailsDict from "../../../locale/tournamentDetails";
+import { LOCALE } from "../../../locale/config";
 
 type Props = {
   tournament: TournamentData;
   image?: string;
   deleteTournament: (tournamentId: Id) => void;
+  locale: LOCALE;
 };
 
 const TournamentInfo: React.FC<Props> = ({
@@ -32,56 +36,65 @@ const TournamentInfo: React.FC<Props> = ({
   deleteTournament,
   children,
   image,
+  locale,
 }) => {
   return (
-    <MainContainerStyled>
-      <MainContainerContentStyled>
-        <TournamentDetailsInfoStyled>
-          <LogoStyled src={image ? image : trophy}></LogoStyled>
-          <TournamentTitle>{tournament.name}</TournamentTitle>
-        </TournamentDetailsInfoStyled>
-        <TournamentDetailsInfoStyled>
-          <EventAvailableIcon fontSize="small" />
-          <TournamentDetailsInfoContentStyled>
-            {moment(tournament.date).format("yyyy MMMM DD")}
-          </TournamentDetailsInfoContentStyled>
-        </TournamentDetailsInfoStyled>
-        <TournamentDetailsInfoStyled>
-          <ScheduleIcon fontSize="small" />
-          <TournamentDetailsInfoContentStyled>
-            {moment(tournament.date).format("HH:mm")}
-          </TournamentDetailsInfoContentStyled>
-        </TournamentDetailsInfoStyled>
-        {tournament.address?.localeCompare("") &&
-        tournament.city?.localeCompare("") ? (
+    <Rosetta translations={tournamentDetailsDict} locale={locale}>
+      <MainContainerStyled>
+        <MainContainerContentStyled>
           <TournamentDetailsInfoStyled>
-            <PlaceIcon fontSize="small" />
+            <LogoStyled src={image ? image : trophy}></LogoStyled>
+            <TournamentTitle>{tournament.name}</TournamentTitle>
+          </TournamentDetailsInfoStyled>
+          <TournamentDetailsInfoStyled>
+            <EventAvailableIcon fontSize="small" />
             <TournamentDetailsInfoContentStyled>
-              <ALinkStyled
-                href={`https://www.google.com/maps/search/?api=1&query=${tournament.address
-                  .split(" ")
-                  .join("+")}+${tournament.city.split(" ").join("+")}`}
-                target="_blank"
-              >
-                {tournament.address} {tournament.city}
-              </ALinkStyled>
+              {moment(tournament.date).locale(locale).format("yyyy MMMM DD")}
             </TournamentDetailsInfoContentStyled>
           </TournamentDetailsInfoStyled>
-        ) : null}
-      </MainContainerContentStyled>
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={() => {
-          deleteTournament(tournament.id);
-        }}
-        style={{ margin: "5px auto", width: "fit-content" }}
-      >
-        Usuń Turniej
-      </Button>
-      {children}
-    </MainContainerStyled>
+          <TournamentDetailsInfoStyled>
+            <ScheduleIcon fontSize="small" />
+            <TournamentDetailsInfoContentStyled>
+              {moment(tournament.date).format("HH:mm")}
+            </TournamentDetailsInfoContentStyled>
+          </TournamentDetailsInfoStyled>
+          {tournament.address?.localeCompare("") &&
+          tournament.city?.localeCompare("") ? (
+            <TournamentDetailsInfoStyled>
+              <PlaceIcon fontSize="small" />
+              <TournamentDetailsInfoContentStyled>
+                <ALinkStyled
+                  href={`https://www.google.com/maps/search/?api=1&query=${tournament.address
+                    .split(" ")
+                    .join("+")}+${tournament.city.split(" ").join("+")}`}
+                  target="_blank"
+                >
+                  {tournament.address} {tournament.city}
+                </ALinkStyled>
+              </TournamentDetailsInfoContentStyled>
+            </TournamentDetailsInfoStyled>
+          ) : null}
+        </MainContainerContentStyled>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => {
+            deleteTournament(tournament.id);
+          }}
+          style={{ margin: "5px auto", width: "fit-content" }}
+        >
+          <Translator id="deleteTournament" />
+        </Button>
+        {children}
+      </MainContainerStyled>
+    </Rosetta>
   );
+};
+
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -90,4 +103,4 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(deleteTournament(favoriteTournaments)),
   };
 };
-export default connect(null, mapDispatchToProps)(TournamentInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(TournamentInfo);

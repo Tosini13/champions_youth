@@ -61,6 +61,11 @@ export const DialogTitle = styled.p`
   text-align: center;
 `;
 
+export const FlagImgStyled = styled.img`
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+`;
 export const ImgStyled = styled.img`
   height: 60px;
   width: 60px;
@@ -106,4 +111,10 @@ export const LogoLargeStyled = styled(LogoStyled)`
 export const LogoTeamStyled = styled(LogoStyled)`
   height: 30px;
   width: 30px;
+`;
+
+export const FlagStyled = styled(LogoStyled)`
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
 `;

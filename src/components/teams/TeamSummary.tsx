@@ -52,18 +52,18 @@ const TeamSummary: React.FC<Props> = ({
 
   const [edit, setEdit] = useState<boolean>(false);
   const [name, setName] = useState<string>(team.name);
-  const [image, setImage] = useState<any>(null);
+  const [logo, setLogo] = useState<any>(null);
 
   useEffect(() => {
     if (team?.logo && authorId) {
       const image = getImage(team.logo, authorId);
-      setImage(image);
+      setLogo(image);
     }
   }, [team, authorId]);
 
   return (
     <TeamListElementStyled button>
-      <LogoTeamStyled src={image ? image : trophy}></LogoTeamStyled>
+      <LogoTeamStyled src={logo ? logo : trophy}></LogoTeamStyled>
       {edit ? (
         <form onSubmit={handleEdit}>
           <EditTeamInputStyled

@@ -18,7 +18,6 @@ type Props = {
 };
 
 const MatchDetails: React.FC<Props> = ({ matchData, authorId }) => {
-  console.log(matchData?.id);
   if (matchData === undefined) return <div>Splash</div>;
   return (
     <>

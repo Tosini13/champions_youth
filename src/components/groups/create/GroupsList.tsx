@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { Rosetta, Translator } from "react-rosetta";
 
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
@@ -12,51 +14,66 @@ import {
   GroupHeaderContainer,
 } from "../../../styled/styledGroup";
 import { GroupData } from "../../../models/groupData";
+import { LOCALE } from "../../../locale/config";
+import tournamentDetailsDict from "../../../locale/tournamentDetails";
 
 export interface GroupListProps {
   groups: GroupData[];
   handleChooseGroup: (group: GroupData) => void;
+  locale: LOCALE;
 }
 
-const GroupList: React.FC<GroupListProps> = ({ groups, handleChooseGroup }) => {
+const GroupList: React.FC<GroupListProps> = ({
+  groups,
+  handleChooseGroup,
+  locale,
+}) => {
   return (
-    <List style={{ color: "white" }}>
-      {groups.map((group) => (
-        <GroupContainer key={group.id}>
-          <GroupHeaderContainer>
-            <GroupTitleText>{group.name}</GroupTitleText>
-            <Grid
-              container
-              direction="row"
-              justify="space-around"
-              alignItems="flex-start"
-            >
-              {group.teams?.map((team) => (
-                <GroupTeamText key={team.id}>{team.name}</GroupTeamText>
+    <Rosetta translations={tournamentDetailsDict} locale={locale}>
+      <List style={{ color: "white" }}>
+        {groups.map((group) => (
+          <GroupContainer key={group.id}>
+            <GroupHeaderContainer>
+              <GroupTitleText>{group.name}</GroupTitleText>
+              <Grid
+                container
+                direction="row"
+                justify="space-around"
+                alignItems="flex-start"
+              >
+                {group.teams?.map((team) => (
+                  <GroupTeamText key={team.id}>{team.name}</GroupTeamText>
+                ))}
+              </Grid>
+            </GroupHeaderContainer>
+            <List>
+              {group.matches?.map((match) => (
+                <div key={match.id}>
+                  <MatchSummaryMock match={match} />
+                </div>
               ))}
-            </Grid>
-          </GroupHeaderContainer>
-          <List>
-            {group.matches?.map((match) => (
-              <div key={match.id}>
-                <MatchSummaryMock match={match} />
-              </div>
-            ))}
-          </List>
-          <Button
-            variant="outlined"
-            color="secondary"
-            style={{ width: "100%" }}
-            onClick={() => {
-              handleChooseGroup(group);
-            }}
-          >
-            Dodaj
-          </Button>
-        </GroupContainer>
-      ))}
-    </List>
+            </List>
+            <Button
+              variant="outlined"
+              color="secondary"
+              style={{ width: "100%" }}
+              onClick={() => {
+                handleChooseGroup(group);
+              }}
+            >
+              <Translator id="add" />
+            </Button>
+          </GroupContainer>
+        ))}
+      </List>
+    </Rosetta>
   );
 };
 
-export default GroupList;
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
+};
+
+export default connect(mapStateToProps)(GroupList);

@@ -47,14 +47,16 @@ const Navbar = ({
   };
 
   useEffect(() => {
-    setIsDateActive(
-      history.location.pathname ===
-        (routerConstString.tournaments ||
-          routerConstString.favorites ||
-          routerConstString.live ||
-          routerConstString.my)
-    );
-  }, [history.location]);
+    return history.listen((location) => {
+      setIsDateActive(
+        location.pathname ===
+          (routerConstString.tournaments ||
+            routerConstString.favorites ||
+            routerConstString.live ||
+            routerConstString.my)
+      );
+    });
+  }, [history]);
 
   return (
     <>

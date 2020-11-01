@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
+import { Rosetta, Translator } from "react-rosetta";
 
 import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -16,50 +17,58 @@ import { routerConstString } from "../../../const/menuConst";
 import { signOut } from "../../../store/actions/AuthActions";
 import { Id } from "../../../const/structuresConst";
 import { UserData } from "../../../models/credentialsData";
+import Language from "../Language";
+import menuDict from "../../../locale/menu";
+import { LOCALE } from "../../../locale/config";
 
 type Props = {
   signOut: () => void;
   toggleSideBarMenu: () => void;
   user: UserData | undefined;
+  locale: LOCALE;
 };
 
 const SignedInMenu: React.FC<Props> = ({
   toggleSideBarMenu,
   signOut,
   user,
+  locale,
 }) => {
   const handleSignOut = () => {
     signOut();
     toggleSideBarMenu();
   };
   return (
-    <List>
-      <ListItem>
-        <ListItemIcon>
-          <AccountCircleIcon />
-        </ListItemIcon>
-        <ListItemText primary={user?.login} />
-      </ListItem>
-      <ListItem>
-        <MenuLinkStyled
-          to={routerConstString.create}
-          onClick={toggleSideBarMenu}
-        >
+    <Rosetta translations={menuDict} locale={locale}>
+      <List>
+        <ListItem>
           <ListItemIcon>
-            <AddCircleOutlineIcon />
+            <AccountCircleIcon />
           </ListItemIcon>
-          <ListItemText primary="Stwórz turniej" />
-        </MenuLinkStyled>
-      </ListItem>
-      <ListItem button>
-        <MenuLinkStyled to={routerConstString.login} onClick={handleSignOut}>
-          <ListItemIcon>
-            <LockIcon />
-          </ListItemIcon>
-          <ListItemText primary="Wyloguj" />
-        </MenuLinkStyled>
-      </ListItem>
-    </List>
+          <ListItemText primary={user?.login} />
+          <Language />
+        </ListItem>
+        <ListItem>
+          <MenuLinkStyled
+            to={routerConstString.create}
+            onClick={toggleSideBarMenu}
+          >
+            <ListItemIcon>
+              <AddCircleOutlineIcon />
+            </ListItemIcon>
+            <ListItemText primary={<Translator id="createTournament" />} />
+          </MenuLinkStyled>
+        </ListItem>
+        <ListItem button>
+          <MenuLinkStyled to={routerConstString.login} onClick={handleSignOut}>
+            <ListItemIcon>
+              <LockIcon />
+            </ListItemIcon>
+            <ListItemText primary={<Translator id="logOut" />} />
+          </MenuLinkStyled>
+        </ListItem>
+      </List>
+    </Rosetta>
   );
 };
 
@@ -72,6 +81,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
   }
   return {
     user,
+    locale: state.dictionary.locale,
   };
 };
 
