@@ -1,18 +1,19 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import tournamentMenuDict from "../../../locale/tournamentMenu";
+import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { menuTournamentConst } from "../../../const/menuConst";
 import {
   TournamentDashboardMenuItemStyled,
   TournamentDashboardMenuStyled,
 } from "../../../styled/styledTournament";
 import { connect } from "react-redux";
+import { LOCALE } from "../../../locale/config";
 
 type Props = {
   view: menuTournamentConst;
   setView: (view: menuTournamentConst) => void;
-  locale: string;
+  locale: LOCALE;
 };
 
 const TournamentMenu: React.FC<Props> = ({
@@ -21,9 +22,8 @@ const TournamentMenu: React.FC<Props> = ({
   locale,
   children,
 }) => {
-  console.log(locale);
   return (
-    <Rosetta translations={tournamentMenuDict} locale={locale}>
+    <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <TournamentDashboardMenuStyled>
         <TournamentDashboardMenuItemStyled
           onClick={() => {

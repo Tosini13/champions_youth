@@ -5,7 +5,10 @@ export const menu = {
   signIn: "Zaloguj",
   signUp: "Zarejestruj",
   TOURNAMENTS: "Turnieje",
-  LIVE: "Live",
+  LIVE: "Na żywo",
   MY: "Moje",
   FAVORITES: "Ulubione",
+  today: "Dzisiaj",
+  tomorrow: "Jutro",
+  yesterday: "Wczoraj",
 };

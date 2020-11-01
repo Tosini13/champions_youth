@@ -1,4 +1,4 @@
-export const LOCALE = {
-  english: "en",
-  polish: "pl",
-};
+export enum LOCALE {
+  polish = "pl",
+  english = "en",
+}

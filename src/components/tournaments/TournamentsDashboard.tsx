@@ -14,6 +14,7 @@ import { routerConstString } from "../../const/menuConst";
 import { UserData } from "../../models/credentialsData";
 import { Id } from "../../const/structuresConst";
 import tournamentDashboardDict from "../../locale/tournamentDashboard";
+import { LOCALE } from "../../locale/config";
 
 const getFilteredTournaments = (
   view: routerConstString,
@@ -46,7 +47,7 @@ type Props = {
   tournaments?: TournamentData[];
   history: any;
   selectedDate: Moment;
-  locale: string;
+  locale: LOCALE;
 };
 
 class TournamentsDashboard extends Component<Props> {

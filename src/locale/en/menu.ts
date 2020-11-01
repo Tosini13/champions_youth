@@ -8,4 +8,7 @@ export const menu = {
   LIVE: "Live",
   MY: "My",
   FAVORITES: "Favorites",
+  today: "Today",
+  tomorrow: "Tomorrow",
+  yesterday: "Yesterday",
 };

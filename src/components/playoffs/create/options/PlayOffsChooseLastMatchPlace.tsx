@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { Rosetta, Translator } from "react-rosetta";
 
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -7,15 +9,19 @@ import Select from "@material-ui/core/Select";
 
 import { BracketNavSelectStyled } from "../../../../styled/styledBracket";
 import { Options } from "../../../../structures/bracket";
+import { LOCALE } from "../../../../locale/config";
+import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 
 type Props = {
   options: Options;
   setPlaceMatchesQtt: (placeMatchesQtt: number) => void;
+  locale: LOCALE;
 };
 
 const PlayOffsChooseLastMatchPlace: React.FC<Props> = ({
   options,
   setPlaceMatchesQtt,
+  locale,
 }) => {
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const placeMatchesQtt = event.target.value as number;
@@ -31,29 +37,39 @@ const PlayOffsChooseLastMatchPlace: React.FC<Props> = ({
     }
   }
   return (
-    <BracketNavSelectStyled row>
-      <FormLabel component="legend">Places:</FormLabel>
-      <FormControlLabel
-        label=""
-        labelPlacement="start"
-        control={
-          <Select
-            color="secondary"
-            value={options.placeMatchesQtt}
-            onChange={handleChange}
-          >
-            {places.map((place) => {
-              return (
-                <MenuItem key={place} value={place}>
-                  {place}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        }
-      />
-    </BracketNavSelectStyled>
+    <Rosetta translations={tournamentDetailsDict} locale={locale}>
+      <BracketNavSelectStyled row>
+        <FormLabel component="legend">
+          <Translator id="placeMatches" />
+        </FormLabel>
+        <FormControlLabel
+          label=""
+          labelPlacement="start"
+          control={
+            <Select
+              color="secondary"
+              value={options.placeMatchesQtt}
+              onChange={handleChange}
+            >
+              {places.map((place) => {
+                return (
+                  <MenuItem key={place} value={place}>
+                    {place}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          }
+        />
+      </BracketNavSelectStyled>
+    </Rosetta>
   );
 };
 
-export default PlayOffsChooseLastMatchPlace;
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
+};
+
+export default connect(mapStateToProps)(PlayOffsChooseLastMatchPlace);

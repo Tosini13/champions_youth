@@ -15,10 +15,11 @@ import { routerConstString } from "../../../const/menuConst";
 import Language from "../Language";
 import { connect } from "react-redux";
 import menuDict from "../../../locale/menu";
+import { LOCALE } from "../../../locale/config";
 
 type Props = {
   toggleSideBarMenu: () => void;
-  locale: string;
+  locale: LOCALE;
 };
 
 const SignedOutMenu: React.FC<Props> = ({ toggleSideBarMenu, locale }) => {

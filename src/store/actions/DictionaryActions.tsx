@@ -1,9 +1,11 @@
+import { LOCALE } from "../../locale/config";
+
 export interface DictionaryActions {
   type: string;
-  locale?: string;
+  locale?: LOCALE;
 }
 
-export const setLocale = (locale: string) => {
+export const setLocale = (locale: LOCALE) => {
   return {
     type: "LANGUAGE_SET",
     locale,

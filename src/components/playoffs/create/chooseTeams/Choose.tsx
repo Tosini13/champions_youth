@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Rosetta, Translator } from "react-rosetta";
 
 import { Button, Grid } from "@material-ui/core";
 
@@ -12,6 +14,8 @@ import ChoosePromoted from "./promoted/ChoosePromoted";
 import ChooseTeam from "./teams/ChooseTeam";
 import { BracketStructure } from "../../../../structures/bracket";
 import { Placeholder } from "../../../../const/groupConst";
+import { LOCALE } from "../../../../locale/config";
+import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 
 type Props = {
   teams?: TeamData[];
@@ -24,6 +28,7 @@ type Props = {
   setChosenTeams: (teams: TeamData[]) => void;
   chosenPromoted: Placeholder[];
   setChosenPromoted: (teams: Placeholder[]) => void;
+  locale: LOCALE;
 };
 
 const Choose: React.FC<Props> = ({
@@ -37,58 +42,67 @@ const Choose: React.FC<Props> = ({
   setChosenTeams,
   chosenPromoted,
   setChosenPromoted,
+  locale,
 }) => {
   const [gameSide, setGameSide] = useState(GAME_SIDE.HOME);
   return (
-    <DialogStyled open={open} onClose={handleClose}>
-      <MatchSummaryMock match={game.match} />
-      <Grid container justify="space-around">
+    <Rosetta translations={tournamentDetailsDict} locale={locale}>
+      <DialogStyled open={open} onClose={handleClose}>
+        <MatchSummaryMock match={game.match} />
+        <Grid container justify="space-around">
+          <Button
+            variant={gameSide === GAME_SIDE.HOME ? "contained" : "outlined"}
+            color="secondary"
+            onClick={() => setGameSide(GAME_SIDE.HOME)}
+          >
+            <Translator id="host" />
+          </Button>
+          <Button
+            variant={gameSide === GAME_SIDE.AWAY ? "contained" : "outlined"}
+            color="secondary"
+            onClick={() => setGameSide(GAME_SIDE.AWAY)}
+          >
+            <Translator id="guest" />
+          </Button>
+        </Grid>
+        {groups && groups?.length > 0 ? (
+          <ChoosePromoted
+            chosenTeams={chosenPromoted}
+            setChosenPromoted={setChosenPromoted}
+            bracket={bracket}
+            groups={groups}
+            game={game}
+            gameSide={gameSide}
+          />
+        ) : (
+          <ChooseTeam
+            chosenTeams={chosenTeams}
+            setChosenTeams={setChosenTeams}
+            bracket={bracket}
+            teams={teams}
+            game={game}
+            gameSide={gameSide}
+          />
+        )}
         <Button
-          variant={gameSide === GAME_SIDE.HOME ? "contained" : "outlined"}
+          variant="outlined"
           color="secondary"
-          onClick={() => setGameSide(GAME_SIDE.HOME)}
+          onClick={handleClose}
+          style={{
+            margin: "0px 5px 5px 5px",
+          }}
         >
-          Gospodarz
+          <Translator id="ok" />
         </Button>
-        <Button
-          variant={gameSide === GAME_SIDE.AWAY ? "contained" : "outlined"}
-          color="secondary"
-          onClick={() => setGameSide(GAME_SIDE.AWAY)}
-        >
-          Gość
-        </Button>
-      </Grid>
-      {groups && groups?.length > 0 ? (
-        <ChoosePromoted
-          chosenTeams={chosenPromoted}
-          setChosenPromoted={setChosenPromoted}
-          bracket={bracket}
-          groups={groups}
-          game={game}
-          gameSide={gameSide}
-        />
-      ) : (
-        <ChooseTeam
-          chosenTeams={chosenTeams}
-          setChosenTeams={setChosenTeams}
-          bracket={bracket}
-          teams={teams}
-          game={game}
-          gameSide={gameSide}
-        />
-      )}
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={handleClose}
-        style={{
-          margin: "0px 5px 5px 5px",
-        }}
-      >
-        Ok
-      </Button>
-    </DialogStyled>
+      </DialogStyled>
+    </Rosetta>
   );
 };
 
-export default Choose;
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
+};
+
+export default connect(mapStateToProps)(Choose);

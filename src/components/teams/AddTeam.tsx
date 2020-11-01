@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
+import { Rosetta, Translator } from "react-rosetta";
 
 import { Button } from "@material-ui/core";
 
@@ -11,6 +12,8 @@ import { Id } from "../../const/structuresConst";
 import { AddTeamTextFieldStyled } from "../../styled/styledForm";
 import AddLogo from "../tournaments/create/AddLogo";
 import { TeamCreateData } from "../../models/teamData";
+import { LOCALE } from "../../locale/config";
+import tournamentDetailsDict from "../../locale/tournamentDetails";
 
 type Props = {
   addTeamToTournament: (
@@ -19,9 +22,14 @@ type Props = {
     image: any
   ) => void;
   handleClose: () => void;
+  locale: LOCALE;
 };
 
-const AddTeam: React.FC<Props> = ({ addTeamToTournament, handleClose }) => {
+const AddTeam: React.FC<Props> = ({
+  addTeamToTournament,
+  handleClose,
+  locale,
+}) => {
   const { handleSubmit, register, errors } = useForm();
   const { tournamentId } = useParams<{ tournamentId: Id }>();
 
@@ -45,34 +53,44 @@ const AddTeam: React.FC<Props> = ({ addTeamToTournament, handleClose }) => {
   };
 
   return (
-    <AddTeamFormStyled onSubmit={handleSubmit(onSubmit)}>
-      <AddTeamTextFieldStyled
-        label="Nazwa"
-        color="secondary"
-        onChange={handleChange}
-        value={name}
-        inputProps={{
-          name: "name",
-          ref: register({
-            required: "Required",
-            maxLength: 255,
-          }),
-        }}
-        helperText={errors.name && "Nazwa musi zawierać przynajmniej 2 znaki!"}
-        error={Boolean(errors.name)}
-      />
-      {errors.username && errors.username.message}
-      <AddLogo image={image} setImage={setImage} />
-      <Button
-        variant="outlined"
-        color="secondary"
-        type="submit"
-        style={{ margin: "15px auto", width: "fit-content" }}
-      >
-        Dodaj
-      </Button>
-    </AddTeamFormStyled>
+    <Rosetta translations={tournamentDetailsDict} locale={locale}>
+      <AddTeamFormStyled onSubmit={handleSubmit(onSubmit)}>
+        <AddTeamTextFieldStyled
+          label="Nazwa"
+          color="secondary"
+          onChange={handleChange}
+          value={name}
+          inputProps={{
+            name: "name",
+            ref: register({
+              required: "Required",
+              maxLength: 255,
+            }),
+          }}
+          helperText={
+            errors.name && <Translator id="nameRequired" />
+          }
+          error={Boolean(errors.name)}
+        />
+        {errors.username && errors.username.message}
+        <AddLogo image={image} setImage={setImage} />
+        <Button
+          variant="outlined"
+          color="secondary"
+          type="submit"
+          style={{ margin: "15px auto", width: "fit-content" }}
+        >
+          <Translator id="addTeam" />
+        </Button>
+      </AddTeamFormStyled>
+    </Rosetta>
   );
+};
+
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -82,4 +100,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(AddTeam);
+export default connect(mapStateToProps, mapDispatchToProps)(AddTeam);

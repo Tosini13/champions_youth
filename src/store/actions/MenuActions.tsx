@@ -6,7 +6,6 @@ export interface MenuActions {
   selectedDate?: Moment;
   isDateActive?: boolean;
   back?: routerConstString;
-  locale?: string;
 }
 
 export const setSelectedDate = (selectedDate: Moment) => {

@@ -1,6 +1,8 @@
 import { Button } from "@material-ui/core";
 import React from "react";
 import { Options } from "../../../structures/bracket";
+import { connect } from "react-redux";
+import { Rosetta, Translator } from "react-rosetta";
 
 import {
   ButtonErrorStyled,
@@ -9,6 +11,8 @@ import {
 } from "../../../styled/styledButtons";
 import PlayOffsChooseLastMatchPlace from "./options/PlayOffsChooseLastMatchPlace";
 import PlayOffsChooseRound from "./options/PlayOffsChooseRound";
+import { LOCALE } from "../../../locale/config";
+import tournamentDetailsDict from "../../../locale/tournamentDetails";
 
 type Props = {
   toggleCreate: () => void;
@@ -18,6 +22,7 @@ type Props = {
   setPlaceMatchesQtt: (placeMatchesQtt: number) => void;
   setAutoTeams: () => void;
   submitBracket: () => void;
+  locale: LOCALE;
 };
 
 const PlayOffsCreateMenu: React.FC<Props> = ({
@@ -28,39 +33,48 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
   setAutoTeams,
   submitBracket,
   maxRounds,
+  locale
 }) => {
   return (
-    <>
-      <ButtonHorizontalContainerStyled>
-        <ButtonErrorStyled
-          variant="outlined"
-          color="secondary"
-          onClick={toggleCreate}
-        >
-          Anuluj
-        </ButtonErrorStyled>
-        <ButtonSuccessStyled
-          variant="outlined"
-          color="secondary"
-          onClick={submitBracket}
-        >
-          Stwórz
-        </ButtonSuccessStyled>
-      </ButtonHorizontalContainerStyled>
-      <Button variant="outlined" color="secondary" onClick={setAutoTeams}>
-        Losuj
-      </Button>
-      <PlayOffsChooseLastMatchPlace
-        options={options}
-        setPlaceMatchesQtt={setPlaceMatchesQtt}
-      />
-      <PlayOffsChooseRound
-        maxRounds={maxRounds}
-        options={options}
-        setRounds={setRounds}
-      />
-    </>
+    <Rosetta translations={tournamentDetailsDict} locale={locale}>
+      <>
+        <ButtonHorizontalContainerStyled>
+          <ButtonErrorStyled
+            variant="outlined"
+            color="secondary"
+            onClick={toggleCreate}
+          >
+          <Translator id="cancel" />
+          </ButtonErrorStyled>
+          <ButtonSuccessStyled
+            variant="outlined"
+            color="secondary"
+            onClick={submitBracket}
+          >
+          <Translator id="create" />
+          </ButtonSuccessStyled>
+        </ButtonHorizontalContainerStyled>
+        <Button variant="outlined" color="secondary" onClick={setAutoTeams}>
+          <Translator id="draw" />
+        </Button>
+        <PlayOffsChooseLastMatchPlace
+          options={options}
+          setPlaceMatchesQtt={setPlaceMatchesQtt}
+        />
+        <PlayOffsChooseRound
+          maxRounds={maxRounds}
+          options={options}
+          setRounds={setRounds}
+        />
+      </>
+    </Rosetta>
   );
 };
 
-export default PlayOffsCreateMenu;
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
+};
+
+export default connect(mapStateToProps)(PlayOffsCreateMenu);

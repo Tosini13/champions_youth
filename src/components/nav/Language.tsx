@@ -20,8 +20,8 @@ import enFlag from "../../images/flags/us.png";
 import languageDict from "../../locale/language";
 
 export interface LanguageProps {
-  locale: string;
-  setLocale: (locale: string) => void;
+  locale: LOCALE;
+  setLocale: (locale: LOCALE) => void;
 }
 
 const Language: React.FC<LanguageProps> = ({ locale, setLocale }) => {
@@ -31,16 +31,16 @@ const Language: React.FC<LanguageProps> = ({ locale, setLocale }) => {
     setOpen(true);
   };
 
-  const handleClose = (locale: string) => {
+  const handleClose = (locale: LOCALE) => {
     setOpen(false);
   };
 
-  const handleSetLocale = (locale: string) => {
+  const handleSetLocale = (locale: LOCALE) => {
     setLocale(locale);
     setOpen(false);
   };
 
-  const getFlag = (locale: string) => {
+  const getFlag = (locale: LOCALE) => {
     switch (locale) {
       case LOCALE.polish:
         return plFlag;
@@ -101,7 +101,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setLocale: (locale: string) => dispatch(setLocale(locale)),
+    setLocale: (locale: LOCALE) => dispatch(setLocale(locale)),
   };
 };
 

@@ -19,12 +19,13 @@ import { Id } from "../../../const/structuresConst";
 import { UserData } from "../../../models/credentialsData";
 import Language from "../Language";
 import menuDict from "../../../locale/menu";
+import { LOCALE } from "../../../locale/config";
 
 type Props = {
   signOut: () => void;
   toggleSideBarMenu: () => void;
   user: UserData | undefined;
-  locale: string;
+  locale: LOCALE;
 };
 
 const SignedInMenu: React.FC<Props> = ({

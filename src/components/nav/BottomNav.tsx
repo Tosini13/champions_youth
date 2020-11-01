@@ -11,7 +11,6 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import {
   bottomMenuConst,
   routerConst,
-  bottomMenuTitleConst,
   routerConstString,
 } from "../../const/menuConst";
 import {
@@ -21,9 +20,10 @@ import {
 } from "../../styled/styledNav";
 import menuDict from "../../locale/menu";
 import { connect } from "react-redux";
+import { LOCALE } from "../../locale/config";
 
 type Props = {
-  locale: string;
+  locale: LOCALE;
 };
 
 const BottomNav: React.FC<Props> = ({ locale }) => {

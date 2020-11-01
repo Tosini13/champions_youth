@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { Rosetta, Translator } from "react-rosetta";
 
 import GroupsCreateCreateMenu from "./GroupsCreateCreateMenu";
 import GroupList from "./GroupsList";
@@ -8,10 +10,11 @@ import { GroupStage } from "../../../structures/groupStage";
 import { TournamentData } from "../../../models/tournamentData";
 import { GroupData, GroupDataDb } from "../../../models/groupData";
 import { createGroup } from "../../../store/actions/GroupActions";
-import { connect } from "react-redux";
 import { MatchDataDb } from "../../../structures/dbAPI/matchData";
 import { Id } from "../../../const/structuresConst";
 import { useParams } from "react-router-dom";
+import { LOCALE } from "../../../locale/config";
+import tournamentDetailsDict from "../../../locale/tournamentDetails";
 
 type Props = {
   tournament: TournamentData;
@@ -23,6 +26,7 @@ type Props = {
     group: GroupDataDb,
     matches?: MatchDataDb[]
   ) => void;
+  locale: LOCALE;
 };
 
 const GroupsCreate: React.FC<Props> = ({
@@ -31,6 +35,7 @@ const GroupsCreate: React.FC<Props> = ({
   teams,
   toggleCreate,
   createGroup,
+  locale,
 }) => {
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
   const [chosenGroup, setChosenGroup] = useState<GroupData>();
@@ -127,9 +132,13 @@ const GroupsCreate: React.FC<Props> = ({
 
   if (!teams.length) {
     return (
-      <div>
-        <p>Nie ma zespołów</p>
-      </div>
+      <Rosetta translations={tournamentDetailsDict} locale={locale}>
+        <div>
+          <p>
+            <Translator id="noTeams" />
+          </p>
+        </div>
+      </Rosetta>
     );
   }
 
@@ -163,6 +172,12 @@ const GroupsCreate: React.FC<Props> = ({
   );
 };
 
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
+};
+
 const mapDispatchToProps = (dispatch: any) => {
   return {
     createGroup: (
@@ -172,4 +187,4 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(createGroup(tournamentId, group, matches)),
   };
 };
-export default connect(null, mapDispatchToProps)(GroupsCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupsCreate);
