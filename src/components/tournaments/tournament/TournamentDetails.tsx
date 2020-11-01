@@ -48,7 +48,7 @@ const TournamentDetails: React.FC<Props> = ({
     }
   }, [tournament, authorId]);
 
-  const [view, setView] = useState(menuTournamentConst.teams);
+  const [view, setView] = useState(menuTournamentConst.info);
   if (tournament && teams) {
     return (
       <>

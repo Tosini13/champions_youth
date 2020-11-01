@@ -17,7 +17,10 @@ export const TeamListStyled = styled(List)`
   padding: 2px 0px;
   margin: 5px 0px;
   width: 100%;
-  div:last-child {
+  > div {
+    border-bottom: ${mainTheme.palette.primary.main} solid 0.1px;
+  }
+  > div:last-child {
     border: none;
   }
 `;

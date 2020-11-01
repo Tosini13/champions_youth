@@ -47,7 +47,7 @@ const TournamentTeams: React.FC<Props> = ({ teams, locale }) => {
           onClick={handleOpen}
           style={{ margin: "5px auto", width: "fit-content" }}
         >
-          <Translator id="add" />
+          <Translator id="addTeam" />
         </Button>
         <TeamList teams={teams} />
       </>

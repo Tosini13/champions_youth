@@ -4,7 +4,6 @@ import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { Rosetta, Translator } from "react-rosetta";
 
-import List from "@material-ui/core/List";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -12,7 +11,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import LockIcon from "@material-ui/icons/Lock";
 import ListItem from "@material-ui/core/ListItem";
 
-import { MenuLinkStyled } from "../../../styled/styledNav";
+import { ListStyled, MenuLinkStyled } from "../../../styled/styledNav";
 import { routerConstString } from "../../../const/menuConst";
 import { signOut } from "../../../store/actions/AuthActions";
 import { Id } from "../../../const/structuresConst";
@@ -40,34 +39,41 @@ const SignedInMenu: React.FC<Props> = ({
   };
   return (
     <Rosetta translations={menuDict} locale={locale}>
-      <List>
-        <ListItem>
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          <ListItemText primary={user?.login} />
-          <Language />
-        </ListItem>
-        <ListItem>
-          <MenuLinkStyled
-            to={routerConstString.create}
-            onClick={toggleSideBarMenu}
-          >
+      <>
+        <ListStyled>
+          <ListItem>
             <ListItemIcon>
-              <AddCircleOutlineIcon />
+              <AccountCircleIcon />
             </ListItemIcon>
-            <ListItemText primary={<Translator id="createTournament" />} />
-          </MenuLinkStyled>
-        </ListItem>
-        <ListItem button>
-          <MenuLinkStyled to={routerConstString.login} onClick={handleSignOut}>
-            <ListItemIcon>
-              <LockIcon />
-            </ListItemIcon>
-            <ListItemText primary={<Translator id="logOut" />} />
-          </MenuLinkStyled>
-        </ListItem>
-      </List>
+            <ListItemText primary={user?.login} />
+            <Language />
+          </ListItem>
+          <ListItem button>
+            <MenuLinkStyled
+              to={routerConstString.create}
+              onClick={toggleSideBarMenu}
+            >
+              <ListItemIcon>
+                <AddCircleOutlineIcon />
+              </ListItemIcon>
+              <ListItemText primary={<Translator id="createTournament" />} />
+            </MenuLinkStyled>
+          </ListItem>
+        </ListStyled>
+        <ListStyled>
+          <ListItem button>
+            <MenuLinkStyled
+              to={routerConstString.login}
+              onClick={handleSignOut}
+            >
+              <ListItemIcon>
+                <LockIcon />
+              </ListItemIcon>
+              <ListItemText primary={<Translator id="logOut" />} />
+            </MenuLinkStyled>
+          </ListItem>
+        </ListStyled>
+      </>
     </Rosetta>
   );
 };
