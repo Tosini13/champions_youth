@@ -16,6 +16,7 @@ import { StylesProvider } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/core/styles";
 
 import { mainTheme } from './styled/styledConst';
+import SplashScreen from './components/global/SplashScreen';
 
 export const store = createStore(
   rootReducer,
@@ -28,7 +29,7 @@ export const store = createStore(
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector(state => state.firebase.auth)
-  if (!isLoaded(auth)) return <div>Splash!!!</div>
+  if (!isLoaded(auth)) return <SplashScreen />
   return children
 }
 

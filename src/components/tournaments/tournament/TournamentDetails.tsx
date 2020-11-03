@@ -20,6 +20,7 @@ import { Group, GroupDataDb } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { getImage } from "../actions/getImage";
+import SplashScreen from "../../global/SplashScreen";
 
 type Props = {
   tournament?: TournamentData;
@@ -79,7 +80,7 @@ const TournamentDetails: React.FC<Props> = ({
       </>
     );
   } else {
-    return <p>splash</p>;
+    return <SplashScreen />;
   }
 };
 
