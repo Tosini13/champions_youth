@@ -11,24 +11,56 @@ import { ButtonHorizontalContainerStyled } from "../../styled/styledButtons";
 type Props = {
   match: Match;
   gameIsFinished?: () => boolean;
+  updateMode: (mode: matchModeConst) => void;
 };
 
-const MatchDetailsDashboard: React.FC<Props> = ({ match, gameIsFinished }) => {
-  const changeMatchMode = (mode: matchModeConst) => {
-    switch (mode) {
+const MatchDetailsDashboard: React.FC<Props> = ({
+  match,
+  gameIsFinished,
+  updateMode,
+}) => {
+  
+  const changeMatchMode = () => {
+    switch (match.mode) {
       case matchModeConst.live:
-        if (match.mode === matchModeConst.finished) {
-          console.log("continue");
-        } else {
-          console.log("startMatch");
-        }
-        break;
+        return (
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => updateMode(matchModeConst.finished)}
+          >
+            <SportsIcon /> Finish
+          </Button>
+        );
       case matchModeConst.finished:
-        console.log("finishMatch");
-        break;
+        return (
+          <>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => updateMode(matchModeConst.notStarted)}
+            >
+              <SportsIcon /> Reset
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => updateMode(matchModeConst.live)}
+            >
+              <SportsIcon /> Continue
+            </Button>
+          </>
+        );
       case matchModeConst.notStarted:
-        console.log("resetMatch");
-        break;
+        return (
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => updateMode(matchModeConst.live)}
+          >
+            <SportsIcon /> Start
+          </Button>
+        );
       default:
         console.log("continueMatch");
     }
@@ -51,50 +83,21 @@ const MatchDetailsDashboard: React.FC<Props> = ({ match, gameIsFinished }) => {
   };
 
   return (
-    <div>
-      {match.mode === matchModeConst.notStarted ? (
-        <ButtonHorizontalContainerStyled>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => changeMatchMode(matchModeConst.live)}
-          >
-            <SportsIcon /> Rozpocznij
-          </Button>
-        </ButtonHorizontalContainerStyled>
-      ) : null}
-
+    <ButtonHorizontalContainerStyled>
       {match.mode === matchModeConst.live ? (
         <>
           <IconButton onClick={handleHomeScore}>+</IconButton>
           <IconButton onClick={handleHomeLose}>-</IconButton>
-          <Button onClick={() => changeMatchMode(matchModeConst.finished)}>
-          <SportsIcon /> Zakończ
-          </Button>
+        </>
+      ) : null}
+      {changeMatchMode()}
+      {match.mode === matchModeConst.live ? (
+        <>
           <IconButton onClick={handleAwayLose}>-</IconButton>
           <IconButton onClick={handleAwayScore}>+</IconButton>
         </>
       ) : null}
-
-      {match.mode === matchModeConst.finished ? (
-        <>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => changeMatchMode(matchModeConst.live)}
-          >
-            <SportsIcon /> Wznów
-          </Button>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => changeMatchMode(matchModeConst.notStarted)}
-          >
-            <SportsIcon /> Zresetuj
-          </Button>
-        </>
-      ) : null}
-    </div>
+    </ButtonHorizontalContainerStyled>
   );
 };
 

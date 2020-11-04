@@ -15,6 +15,7 @@ import { Match, MatchDataDb } from "../../structures/dbAPI/matchData";
 import { Group, GroupDataDb } from "../../models/groupData";
 import { routerGenerateConst } from "../../const/menuConst";
 import { LinkStyled } from "../../styled/styledLayout";
+import SplashScreen from "../global/SplashScreen";
 
 export interface GroupsComponentProps {
   tournamentId: Id;
@@ -29,7 +30,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   group,
   matches,
 }) => {
-  if (!group || !matches) return <p>splash</p>;
+  if (!group || !matches) return <SplashScreen />;
   return (
     <div style={{ marginTop: "10px" }}>
       <GroupTitleText>{group.name}</GroupTitleText>

@@ -18,14 +18,17 @@ export const createGroup = (
       })
       .then((res: any) => {
         dispatch({ type: "CREATE_GROUP" });
+        console.log(matches);
         matches?.forEach((match) => {
+          console.log(match);
           firestore
             .collection("tournaments")
             .doc(tournamentId)
             .collection("groups")
             .doc(res.id)
             .collection("matches")
-            .add({
+            .doc(match.id?.toString())
+            .set({
               ...match,
             })
             .then(() => {

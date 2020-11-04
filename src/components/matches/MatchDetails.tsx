@@ -4,68 +4,102 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
 import MatchDetailsDashboard from "./MatchDetailsDashboard";
-import { Match, MatchDataDb } from "../../structures/dbAPI/matchData";
+import { Match } from "../../structures/dbAPI/matchData";
 import { TeamData } from "../../models/teamData";
 import MatchDetailsDisplay from "./MatchDetailsDisplay";
 import { Id } from "../../const/structuresConst";
+import SplashScreen from "../global/SplashScreen";
+import { matchModeConst } from "../../const/matchConst";
+import { updateGroupMatchMode } from "../../store/actions/MatchActions";
 
 type Props = {
-  matchData?: Match;
-  open: boolean;
-  setOpen: (open: boolean) => void;
-  gameIsFinished?: () => boolean;
+  matchData: Match;
   authorId: Id;
+  tournamentId: Id;
+  groupId: Id;
+  gameId: Id;
+  matchId: Id;
+  updateGroupMatchMode: (
+    tournamentId: Id,
+    groupId: Id,
+    matchId: Id,
+    mode: matchModeConst
+  ) => void;
 };
 
-const MatchDetails: React.FC<Props> = ({ matchData, authorId }) => {
-  if (matchData === undefined) return <div>Splash</div>;
+const MatchDetails: React.FC<Props> = ({
+  matchData,
+  authorId,
+  tournamentId,
+  groupId,
+  gameId,
+  matchId,
+  updateGroupMatchMode,
+}) => {
+  if (matchData === undefined) return <SplashScreen />;
+
+  const updateMode = (mode: matchModeConst) => {
+    console.log(matchData);
+    updateGroupMatchMode(tournamentId, groupId, matchId, mode);
+  };
   return (
     <>
       <MatchDetailsDisplay match={matchData} authorId={authorId} />
-      <MatchDetailsDashboard match={matchData} />
+      <MatchDetailsDashboard match={matchData} updateMode={updateMode} />
     </>
   );
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
+  const { tournamentId, groupId, gameId, matchId } = ownProps.match.params;
   const authorId = state.firebase.auth.uid;
-  const matchId = ownProps.match.params.matchId;
-  const matches: MatchDataDb[] | undefined = state.firestore.ordered.matches;
+  const matches = state.firestore.data.matches;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
-  const match = matches?.find(
-    (match) => match.id?.toString() === matchId.toString()
-  );
+  const match = matches ? matches[matchId] : undefined;
   const matchData = match && teams ? new Match(match, teams) : undefined;
   return {
     matchData,
     authorId,
+    tournamentId,
+    groupId,
+    gameId,
+    matchId,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    updateGroupMatchMode: (
+      tournamentId: Id,
+      groundId: Id,
+      matchId: Id,
+      mode: matchModeConst
+    ) => dispatch(updateGroupMatchMode(tournamentId, groundId, matchId, mode)),
   };
 };
 
 export default compose(
-  connect(mapStateToProps),
   firestoreConnect((props: any) => {
-    const tournamentId = props.match.params.tournamentId;
-    const groupId = props.match.params.groupId;
     return [
       {
         collection: "tournaments",
-        doc: tournamentId,
+        doc: props.match.params.tournamentId,
+        subcollections: [{ collection: "teams" }],
+        storeAs: "teams",
+      },
+      {
+        collection: "tournaments",
+        doc: props.match.params.tournamentId,
         subcollections: [
           {
             collection: "groups",
-            doc: groupId,
+            doc: props.match.params.groupId,
             subcollections: [{ collection: "matches" }],
           },
         ],
         storeAs: "matches",
       },
-      {
-        collection: "tournaments",
-        doc: tournamentId,
-        subcollections: [{ collection: "teams" }],
-        storeAs: "teams",
-      },
     ];
-  })
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
 )(MatchDetails);
