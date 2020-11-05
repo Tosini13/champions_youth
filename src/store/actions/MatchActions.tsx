@@ -1,25 +1,39 @@
 import { matchModeConst } from "../../const/matchConst";
-import { Id } from "../../const/structuresConst";
+import { Id, Result } from "../../const/structuresConst";
 
-export const updateGroupMatchMode = (
-  tournamentId: Id,
-  groundId: Id,
-  matchId: Id,
-  mode: matchModeConst
-) => {
+export type UpdateGroupMatch = {
+  tournamentId: Id;
+  groupId: Id;
+  matchId: Id;
+  mode?: matchModeConst;
+  result?: Result;
+};
+
+export const updateGroupMatch = ({
+  tournamentId,
+  groupId,
+  matchId,
+  mode,
+  result,
+}: UpdateGroupMatch) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
-    console.log(mode);
     const firestore = getFirestore();
     firestore
       .collection("tournaments")
       .doc(tournamentId)
       .collection("groups")
-      .doc(groundId)
+      .doc(groupId)
       .collection("matches")
       .doc(matchId)
-      .update({
-        mode,
-      })
+      .update(
+        mode && result
+          ? { mode, result }
+          : mode
+          ? { mode }
+          : result
+          ? { result }
+          : {}
+      )
       .then(() => {
         dispatch({ type: "UPDATE_GROUP_MATCH_MODE" });
       })

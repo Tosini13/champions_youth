@@ -88,18 +88,6 @@ export const MatchMockTeamsContainerStyled = styled.div`
   }
 `;
 
-export const MatchDisplayContainerStyled = styled.div`
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  margin-top: 20px;
-  color: ${mainTheme.palette.secondary.dark};
-`;
-
-export const MatchDisplayTeamContainerStyled = styled.div`
-  width: 100px;
-`;
-
 export const TeamLogoStyled = styled.img`
   background-color: ${mainTheme.palette.primary.main};
   padding: 2px;
@@ -112,13 +100,7 @@ export const MatchDisplayTeamNameStyled = styled.p`
   font-size: 13px;
   padding: 2px 0px;
   margin: 0px;
-`;
-
-export const MatchDisplayResultContainerStyled = styled.div`
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  color: ${mainTheme.palette.secondary.dark};
 `;
 
 export const MatchDisplayResultGoalStyled = styled.p`
@@ -133,4 +115,19 @@ export const MatchDisplayResultGoalStyled = styled.p`
   font-size: 15px;
   font-weight: 600;
   margin: 0px 5px;
+`;
+
+export const LiveMarkStyled = styled.p<{ live: boolean }>`
+  color: ${styledColors.icons.live};
+  font-size: 15px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.3s;
+  padding: 2px;
+  margin: 0px;
+  ${(props) =>
+    props.live
+      ? `
+      opacity: 1;`
+      : ``}
 `;

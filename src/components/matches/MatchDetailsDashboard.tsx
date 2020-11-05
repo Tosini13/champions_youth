@@ -3,63 +3,79 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import SportsIcon from "@material-ui/icons/Sports";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 
 import { matchModeConst } from "../../const/matchConst";
 import { Match } from "../../structures/dbAPI/matchData";
-import { ButtonHorizontalContainerStyled } from "../../styled/styledButtons";
+import { Grid } from "@material-ui/core";
+import { Result } from "../../const/structuresConst";
 
 type Props = {
   match: Match;
   gameIsFinished?: () => boolean;
   updateMode: (mode: matchModeConst) => void;
+  updateResult: (result: Result) => void;
+  resetMatch: () => void;
 };
 
 const MatchDetailsDashboard: React.FC<Props> = ({
   match,
   gameIsFinished,
   updateMode,
+  updateResult,
+  resetMatch,
 }) => {
-  
   const changeMatchMode = () => {
     switch (match.mode) {
       case matchModeConst.live:
         return (
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => updateMode(matchModeConst.finished)}
-          >
-            <SportsIcon /> Finish
-          </Button>
-        );
-      case matchModeConst.finished:
-        return (
-          <>
+          <Grid item>
             <Button
               variant="outlined"
               color="secondary"
-              onClick={() => updateMode(matchModeConst.notStarted)}
+              onClick={() => updateMode(matchModeConst.finished)}
             >
-              <SportsIcon /> Reset
+              <SportsIcon /> Finish
             </Button>
+          </Grid>
+        );
+      case matchModeConst.finished:
+        return (
+          <Grid item xs={12}>
+            <Grid container justify="space-evenly" alignItems="center">
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => resetMatch()}
+                >
+                  <SportsIcon /> Reset
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={() => updateMode(matchModeConst.live)}
+                >
+                  <SportsIcon /> Continue
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        );
+      case matchModeConst.notStarted:
+        return (
+          <Grid item>
             <Button
               variant="outlined"
               color="secondary"
               onClick={() => updateMode(matchModeConst.live)}
             >
-              <SportsIcon /> Continue
+              <SportsIcon /> Start
             </Button>
-          </>
-        );
-      case matchModeConst.notStarted:
-        return (
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => updateMode(matchModeConst.live)}
-          >
-            <SportsIcon /> Start
-          </Button>
+          </Grid>
         );
       default:
         console.log("continueMatch");
@@ -70,34 +86,59 @@ const MatchDetailsDashboard: React.FC<Props> = ({
   };
 
   const handleHomeScore = () => {
-    console.log("home scored");
+    updateResult({
+      home: match.result ? match.result.home + 1 : 0,
+      away: match.result ? match.result.away : 0,
+    });
   };
   const handleAwayScore = () => {
-    console.log("away scored");
+    updateResult({
+      home: match.result ? match.result.home : 0,
+      away: match.result ? match.result.away + 1 : 0,
+    });
   };
   const handleHomeLose = () => {
-    console.log("home lost");
+    updateResult({
+      home: match.result ? match.result.home - 1 : 0,
+      away: match.result ? match.result.away : 0,
+    });
   };
   const handleAwayLose = () => {
-    console.log("away lost");
+    updateResult({
+      home: match.result ? match.result.home : 0,
+      away: match.result ? match.result.away - 1 : 0,
+    });
   };
 
   return (
-    <ButtonHorizontalContainerStyled>
+    <Grid
+      container
+      justify="space-evenly"
+      alignItems="center"
+      style={{ marginTop: "50px" }}
+    >
       {match.mode === matchModeConst.live ? (
-        <>
-          <IconButton onClick={handleHomeScore}>+</IconButton>
-          <IconButton onClick={handleHomeLose}>-</IconButton>
-        </>
+        <Grid item>
+          <IconButton color="secondary" onClick={handleHomeScore}>
+            <AddIcon />
+          </IconButton>
+          <IconButton color="secondary" onClick={handleHomeLose}>
+            <RemoveIcon />
+          </IconButton>
+        </Grid>
       ) : null}
       {changeMatchMode()}
       {match.mode === matchModeConst.live ? (
-        <>
-          <IconButton onClick={handleAwayLose}>-</IconButton>
-          <IconButton onClick={handleAwayScore}>+</IconButton>
-        </>
+        <Grid item>
+          <IconButton color="secondary" onClick={handleAwayLose}>
+            <RemoveIcon />
+          </IconButton>
+          <IconButton color="secondary" onClick={handleAwayScore}>
+            <AddIcon />
+          </IconButton>
+        </Grid>
       ) : null}
-    </ButtonHorizontalContainerStyled>
+    </Grid>
   );
 };
 

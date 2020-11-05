@@ -7,10 +7,13 @@ import MatchDetailsDashboard from "./MatchDetailsDashboard";
 import { Match } from "../../structures/dbAPI/matchData";
 import { TeamData } from "../../models/teamData";
 import MatchDetailsDisplay from "./MatchDetailsDisplay";
-import { Id } from "../../const/structuresConst";
+import { Id, Result } from "../../const/structuresConst";
 import SplashScreen from "../global/SplashScreen";
 import { matchModeConst } from "../../const/matchConst";
-import { updateGroupMatchMode } from "../../store/actions/MatchActions";
+import {
+  UpdateGroupMatch,
+  updateGroupMatch,
+} from "../../store/actions/MatchActions";
 
 type Props = {
   matchData: Match;
@@ -19,12 +22,13 @@ type Props = {
   groupId: Id;
   gameId: Id;
   matchId: Id;
-  updateGroupMatchMode: (
-    tournamentId: Id,
-    groupId: Id,
-    matchId: Id,
-    mode: matchModeConst
-  ) => void;
+  updateGroupMatch: ({
+    tournamentId,
+    groupId,
+    matchId,
+    mode,
+    result,
+  }: UpdateGroupMatch) => void;
 };
 
 const MatchDetails: React.FC<Props> = ({
@@ -34,18 +38,36 @@ const MatchDetails: React.FC<Props> = ({
   groupId,
   gameId,
   matchId,
-  updateGroupMatchMode,
+  updateGroupMatch,
 }) => {
   if (matchData === undefined) return <SplashScreen />;
 
   const updateMode = (mode: matchModeConst) => {
-    console.log(matchData);
-    updateGroupMatchMode(tournamentId, groupId, matchId, mode);
+    updateGroupMatch({ tournamentId, groupId, matchId, mode });
   };
+
+  const updateResult = (result: Result) => {
+    updateGroupMatch({ tournamentId, groupId, matchId, result });
+  };
+
+  const resetMatch = () => {
+    const mode = matchModeConst.notStarted;
+    const result: Result = {
+      home: 0,
+      away: 0,
+    };
+    updateGroupMatch({ tournamentId, groupId, matchId, mode, result });
+  };
+
   return (
     <>
       <MatchDetailsDisplay match={matchData} authorId={authorId} />
-      <MatchDetailsDashboard match={matchData} updateMode={updateMode} />
+      <MatchDetailsDashboard
+        match={matchData}
+        updateMode={updateMode}
+        updateResult={updateResult}
+        resetMatch={resetMatch}
+      />
     </>
   );
 };
@@ -69,12 +91,16 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateGroupMatchMode: (
-      tournamentId: Id,
-      groundId: Id,
-      matchId: Id,
-      mode: matchModeConst
-    ) => dispatch(updateGroupMatchMode(tournamentId, groundId, matchId, mode)),
+    updateGroupMatch: ({
+      tournamentId,
+      groupId,
+      matchId,
+      mode,
+      result,
+    }: UpdateGroupMatch) =>
+      dispatch(
+        updateGroupMatch({ tournamentId, groupId, matchId, mode, result })
+      ),
   };
 };
 
