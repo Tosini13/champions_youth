@@ -124,9 +124,6 @@ const GroupsCreate: React.FC<Props> = ({
   };
 
   const handleAcceptTeams = () => {
-    console.log(
-      groupStage?.initGroupMatches(teams, groupStage.groups, tournament, false)
-    );
     setChosenGroup(undefined);
   };
 

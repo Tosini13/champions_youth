@@ -18,18 +18,21 @@ export const createGroup = (
       })
       .then((res: any) => {
         dispatch({ type: "CREATE_GROUP" });
-        console.log(matches);
         matches?.forEach((match) => {
-          console.log(match);
           firestore
             .collection("tournaments")
             .doc(tournamentId)
             .collection("groups")
             .doc(res.id)
             .collection("matches")
-            .doc(match.id?.toString())
+            .doc(`Match${match.id}`)
             .set({
-              ...match,
+              home: match.home,
+              away: match.away,
+              date: match.date,
+              mode: match.mode,
+              result: match.result,
+              round: match.round,
             })
             .then(() => {
               dispatch({ type: "CREATE_MATCHES_TO_GROUP" });
@@ -40,7 +43,7 @@ export const createGroup = (
         });
       })
       .catch((err: any) => {
-        dispatch({ type: "ADD_TEAM_TO_TOURNAMENT_ERROR", err });
+        dispatch({ type: "CREATE_GROUP_ERROR", err });
       });
   };
 };
