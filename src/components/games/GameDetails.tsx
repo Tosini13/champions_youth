@@ -7,13 +7,18 @@ import { MatchData } from "../../structures/match";
 import { Match } from "../../models/matchData";
 import { TeamData } from "../../models/teamData";
 import MatchSummaryMock from "../matches/MatchSummaryMock";
-import { DialogStyled, DialogTitle } from "../../styled/styledLayout";
+import { DialogStyled, DialogTitle, LinkStyled } from "../../styled/styledLayout";
+import { routerGenerateConst } from "../../const/menuConst";
+import { Id } from "../../const/structuresConst";
+import { matchGame } from "../../store/actions/PlayOffsActions";
 
 type Props = {
   handleClose: () => void;
   open: boolean;
   match?: MatchData;
   returnMatch?: MatchData;
+  gameId: Id;
+  tournamentId: Id;
 };
 
 const GameDetails: React.FC<Props> = ({
@@ -21,23 +26,40 @@ const GameDetails: React.FC<Props> = ({
   open,
   match,
   returnMatch,
+  gameId,
+  tournamentId,
 }) => {
   return (
-    <DialogStyled
-      open={open}
-      onClose={handleClose}
-    >
+    <DialogStyled open={open} onClose={handleClose}>
       {match ? (
-        <>
+        <LinkStyled
+          to={routerGenerateConst.matchPlayOffs(
+            tournamentId,
+            gameId,
+            matchGame.match
+          )}
+        >
           <DialogTitle>{match.round}</DialogTitle>
           <MatchSummaryMock match={match} />
-        </>
+        </LinkStyled>
+      ) : null}
+      {returnMatch ? (
+        <LinkStyled
+          to={routerGenerateConst.matchPlayOffs(
+            tournamentId,
+            gameId,
+            matchGame.returnMatch
+          )}
+        >
+          <DialogTitle>{returnMatch.round}</DialogTitle>
+          <MatchSummaryMock match={returnMatch} />
+        </LinkStyled>
       ) : null}
     </DialogStyled>
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: any, ownProps: any) => {
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
   const matchData = state.firestore.data.bracketMatches
     ? state.firestore.data.bracketMatches.match
@@ -52,6 +74,8 @@ const mapStateToProps = (state: any) => {
   return {
     match,
     returnMatch,
+    gameId: ownProps.gameId,
+    tournamentId: ownProps.tournamentId,
   };
 };
 
