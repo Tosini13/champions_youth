@@ -17,6 +17,8 @@ type Props = {
   updateMode: (mode: matchModeConst) => void;
   updateResult: (result: Result) => void;
   resetMatch: () => void;
+  startMatch: () => void;
+  finishMatch: () => void;
 };
 
 const MatchDetailsDashboard: React.FC<Props> = ({
@@ -25,6 +27,8 @@ const MatchDetailsDashboard: React.FC<Props> = ({
   updateMode,
   updateResult,
   resetMatch,
+  startMatch,
+  finishMatch,
 }) => {
   const changeMatchMode = () => {
     switch (match.mode) {
@@ -34,7 +38,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
             <Button
               variant="outlined"
               color="secondary"
-              onClick={() => updateMode(matchModeConst.finished)}
+              onClick={() => finishMatch()}
             >
               <SportsIcon /> Finish
             </Button>
@@ -71,7 +75,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
             <Button
               variant="outlined"
               color="secondary"
-              onClick={() => updateMode(matchModeConst.live)}
+              onClick={() => startMatch()}
             >
               <SportsIcon /> Start
             </Button>

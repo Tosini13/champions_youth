@@ -6,11 +6,11 @@ import { firestoreConnect } from "react-redux-firebase";
 import { MatchData } from "../../structures/match";
 import { Match } from "../../models/matchData";
 import { TeamData } from "../../models/teamData";
-import MatchSummaryMock from "../matches/MatchSummaryMock";
 import { DialogStyled, DialogTitle, LinkStyled } from "../../styled/styledLayout";
 import { routerGenerateConst } from "../../const/menuConst";
 import { Id } from "../../const/structuresConst";
 import { matchGame } from "../../store/actions/PlayOffsActions";
+import MatchSummary from "../matches/MatchSummary/MatchSummary";
 
 type Props = {
   handleClose: () => void;
@@ -40,7 +40,7 @@ const GameDetails: React.FC<Props> = ({
           )}
         >
           <DialogTitle>{match.round}</DialogTitle>
-          <MatchSummaryMock match={match} />
+          <MatchSummary match={match} />
         </LinkStyled>
       ) : null}
       {returnMatch ? (
@@ -52,7 +52,7 @@ const GameDetails: React.FC<Props> = ({
           )}
         >
           <DialogTitle>{returnMatch.round}</DialogTitle>
-          <MatchSummaryMock match={returnMatch} />
+          <MatchSummary match={returnMatch} />
         </LinkStyled>
       ) : null}
     </DialogStyled>

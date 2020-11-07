@@ -16,10 +16,18 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
         .collection("playOffs")
         .doc(`Game${game.id}`)
         .set({
-          winnerMatch: game.winnerMatch,
-          loserMatch: game.loserMatch,
-          previousMatchHome: game.previousMatchHome,
-          previousMatchAway: game.previousMatchAway,
+          winnerMatch:
+            game.winnerMatch !== null ? `Game${game.winnerMatch}` : null,
+          loserMatch:
+            game.loserMatch !== null ? `Game${game.loserMatch}` : null,
+          previousMatchHome:
+            game.previousMatchHome !== null
+              ? `Game${game.previousMatchHome}`
+              : null,
+          previousMatchAway:
+            game.previousMatchAway !== null
+              ? `Game${game.previousMatchAway}`
+              : null,
           round: game.round,
           placeholder: game.placeholder,
           homeTeam: game.homeTeam,

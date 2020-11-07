@@ -7,7 +7,7 @@ export type UpdateMatch = {
   gameId?: Id;
   matchId: Id;
   mode?: matchModeConst;
-  result?: Result;
+  result?: Result | null;
 };
 
 type UpdateGroupMatch = Omit<UpdateMatch, "gameId">;
