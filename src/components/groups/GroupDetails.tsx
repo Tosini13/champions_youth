@@ -50,7 +50,6 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
             key={match.id}
             to={routerGenerateConst.matchGroup(tournamentId, groupId, match.id)}
           >
-            {/* <MatchSummaryMock match={match} /> */}
             <MatchSummary match={match} />
           </LinkStyled>
         ))}

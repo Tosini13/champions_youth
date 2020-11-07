@@ -10,10 +10,7 @@ import MatchDetailsDisplay from "./MatchDetailsDisplay";
 import { Id, Result } from "../../const/structuresConst";
 import SplashScreen from "../global/SplashScreen";
 import { matchModeConst } from "../../const/matchConst";
-import {
-  UpdateGroupMatch,
-  updateGroupMatch,
-} from "../../store/actions/MatchActions";
+import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
 
 type Props = {
   matchData: Match;
@@ -22,13 +19,14 @@ type Props = {
   groupId: Id;
   gameId: Id;
   matchId: Id;
-  updateGroupMatch: ({
+  updateMatch: ({
     tournamentId,
     groupId,
+    gameId,
     matchId,
     mode,
     result,
-  }: UpdateGroupMatch) => void;
+  }: UpdateMatch) => void;
 };
 
 const MatchDetails: React.FC<Props> = ({
@@ -38,16 +36,18 @@ const MatchDetails: React.FC<Props> = ({
   groupId,
   gameId,
   matchId,
-  updateGroupMatch,
+  updateMatch,
 }) => {
   if (matchData === undefined) return <SplashScreen />;
 
   const updateMode = (mode: matchModeConst) => {
-    updateGroupMatch({ tournamentId, groupId, matchId, mode });
+    console.log(gameId, groupId);
+    updateMatch({ tournamentId, groupId, gameId, matchId, mode });
   };
 
   const updateResult = (result: Result) => {
-    updateGroupMatch({ tournamentId, groupId, matchId, result });
+    console.log(gameId, groupId);
+    updateMatch({ tournamentId, groupId, gameId, matchId, result });
   };
 
   const resetMatch = () => {
@@ -56,7 +56,8 @@ const MatchDetails: React.FC<Props> = ({
       home: 0,
       away: 0,
     };
-    updateGroupMatch({ tournamentId, groupId, matchId, mode, result });
+    console.log(gameId, groupId);
+    updateMatch({ tournamentId, groupId, gameId, matchId, mode, result });
   };
 
   return (
@@ -75,8 +76,9 @@ const MatchDetails: React.FC<Props> = ({
 const mapStateToProps = (state: any, ownProps: any) => {
   const { tournamentId, groupId, gameId, matchId } = ownProps.match.params;
   const authorId = state.firebase.auth.uid;
-  const matches = state.firestore.data.matches;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
+
+  const matches = state.firestore.data.matches;
   const match = matches ? matches[matchId] : undefined;
   const matchData = match && teams ? new Match(match, teams) : undefined;
   return {
@@ -91,41 +93,67 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    updateGroupMatch: ({
+    updateMatch: ({
       tournamentId,
       groupId,
+      gameId,
       matchId,
       mode,
       result,
-    }: UpdateGroupMatch) =>
+    }: UpdateMatch) =>
       dispatch(
-        updateGroupMatch({ tournamentId, groupId, matchId, mode, result })
+        updateMatch({ tournamentId, groupId, gameId, matchId, mode, result })
       ),
   };
 };
 
 export default compose(
   firestoreConnect((props: any) => {
-    return [
-      {
-        collection: "tournaments",
-        doc: props.match.params.tournamentId,
-        subcollections: [{ collection: "teams" }],
-        storeAs: "teams",
-      },
-      {
-        collection: "tournaments",
-        doc: props.match.params.tournamentId,
-        subcollections: [
-          {
-            collection: "groups",
-            doc: props.match.params.groupId,
-            subcollections: [{ collection: "matches" }],
-          },
-        ],
-        storeAs: "matches",
-      },
-    ];
+    if (props.match.params.groupId) {
+      return [
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [{ collection: "teams" }],
+          storeAs: "teams",
+        },
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [
+            {
+              collection: "groups",
+              doc: props.match.params.groupId,
+              subcollections: [{ collection: "matches" }],
+            },
+          ],
+          storeAs: "matches",
+        },
+      ];
+    }
+    if (props.match.params.gameId) {
+      return [
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [{ collection: "teams" }],
+          storeAs: "teams",
+        },
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [
+            {
+              collection: "playOffs",
+              doc: props.match.params.gameId,
+              subcollections: [{ collection: "matches" }],
+            },
+          ],
+          storeAs: "matches",
+        },
+      ];
+    }
+    return [];
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(MatchDetails);

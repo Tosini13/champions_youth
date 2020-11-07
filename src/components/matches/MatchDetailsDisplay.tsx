@@ -46,7 +46,11 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
             src={imageHome ? imageHome : trophy}
           ></LogoLargeStyled>
           <MatchDisplayTeamNameStyled>
-            {match.home ? match.home?.name : match.placeholder.home}
+            {match.home
+              ? match.home.name
+              : match.placeholder.home
+              ? match.placeholder.home.name
+              : "brak zespołu"}
           </MatchDisplayTeamNameStyled>
         </Grid>
       </Grid>
@@ -85,7 +89,11 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
           </Grid>
           <Grid item>
             <MatchDisplayTeamNameStyled>
-              {match.away ? match.away?.name : match.placeholder.away}
+              {match.away
+                ? match.away.name
+                : match.placeholder.away
+                ? match.placeholder.away.name
+                : "brak zespołu"}
             </MatchDisplayTeamNameStyled>
           </Grid>
         </Grid>

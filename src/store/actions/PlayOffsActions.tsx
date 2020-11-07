@@ -1,6 +1,11 @@
 import { Id } from "../../const/structuresConst";
 import { GameDataDb } from "../../structures/dbAPI/gameData";
 
+export enum matchGame {
+  match = "match",
+  returnMatch = "returnMatch",
+}
+
 export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
@@ -9,9 +14,8 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
         .collection("tournaments")
         .doc(tournamentId)
         .collection("playOffs")
-        .doc(game.id)
+        .doc(`Game${game.id}`)
         .set({
-          id: game.id,
           winnerMatch: game.winnerMatch,
           loserMatch: game.loserMatch,
           previousMatchHome: game.previousMatchHome,
@@ -25,15 +29,15 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
         .then((res: any) => {
           const match = {
             ...game.match,
-            id: "match",
+            id: matchGame.match,
           };
           firestore
             .collection("tournaments")
             .doc(tournamentId)
             .collection("playOffs")
-            .doc(game.id)
+            .doc(`Game${game.id}`)
             .collection("matches")
-            .doc("match")
+            .doc(matchGame.match)
             .set({
               ...match,
             })
@@ -47,7 +51,7 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
           if (game.returnMatch) {
             const returnMatch = {
               ...game.match,
-              id: "returnMatch",
+              id: matchGame.returnMatch,
             };
             firestore
               .collection("tournaments")
@@ -55,7 +59,7 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
               .collection("playOffs")
               .doc(game.id.toString())
               .collection("matches")
-              .doc("returnMatch")
+              .doc(matchGame.returnMatch)
               .set({
                 ...returnMatch,
               })
