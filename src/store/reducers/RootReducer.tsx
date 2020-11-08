@@ -10,11 +10,15 @@ import groupReducer from "./GroupReducer";
 import teamReducer from "./TeamReducer";
 import playOffsReducer from "./PlayOffsReducer";
 import dictionaryReducer from "./DictionaryReducer";
+import matchReducer from "./MatchReducer";
+import gameReducer from "./GameReducer";
 
 const rootReducer = combineReducers({
   tournament: tournamentReducer,
   group: groupReducer,
+  game: gameReducer,
   playOffs: playOffsReducer,
+  match: matchReducer,
   team: teamReducer,
   router: routerReducer,
   user: userReducer,

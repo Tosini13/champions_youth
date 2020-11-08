@@ -36,6 +36,7 @@ export enum routerConstString {
   group = "/tournament/:tournamentId/groups/:groupId",
   bracket = "/tournament/:tournamentId/playOffs/games/:gameId",
   matchGroup = "/tournament/:tournamentId/groups/:groupId/matches/:matchId",
+  matchPlayOffs = "/tournament/:tournamentId/game/:gameId/matches/:matchId",
   live = "/live",
   my = "/my",
   favorites = "/favorites",
@@ -52,6 +53,10 @@ export const routerGenerateConst = {
 
   matchGroup: (tournamentId: Id, groupId: Id, matchId: Id) => {
     return `/tournament/${tournamentId}/groups/${groupId}/matches/${matchId}`;
+  },
+
+  matchPlayOffs: (tournamentId: Id, gameId: Id, matchId: Id) => {
+    return `/tournament/${tournamentId}/game/${gameId}/matches/${matchId}`;
   },
 };
 

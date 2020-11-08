@@ -80,7 +80,7 @@ const AddTeam: React.FC<Props> = ({
           type="submit"
           style={{ margin: "15px auto", width: "fit-content" }}
         >
-          <Translator id="addTeam" />
+          <Translator id="add" />
         </Button>
       </AddTeamFormStyled>
     </Rosetta>

@@ -40,6 +40,10 @@ const App = () => {
               component={MatchDetails}
             />
             <Route
+              path={routerConstString.matchPlayOffs}
+              component={MatchDetails}
+            />
+            <Route
               exact
               path={routerConstString.tournaments}
               component={TournamentsDashboard}

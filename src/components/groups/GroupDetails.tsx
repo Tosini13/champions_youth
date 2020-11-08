@@ -7,7 +7,6 @@ import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 
 import { GroupTeamText, GroupTitleText } from "../../styled/styledGroup";
-import MatchSummaryMock from "../matches/MatchSummaryMock";
 import { Id } from "../../const/structuresConst";
 import { MatchData } from "../../structures/match";
 import { TeamData } from "../../models/teamData";
@@ -15,6 +14,8 @@ import { Match, MatchDataDb } from "../../structures/dbAPI/matchData";
 import { Group, GroupDataDb } from "../../models/groupData";
 import { routerGenerateConst } from "../../const/menuConst";
 import { LinkStyled } from "../../styled/styledLayout";
+import SplashScreen from "../global/SplashScreen";
+import MatchSummary from "../matches/MatchSummary/MatchSummary";
 
 export interface GroupsComponentProps {
   tournamentId: Id;
@@ -29,7 +30,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   group,
   matches,
 }) => {
-  if (!group || !matches) return <p>splash</p>;
+  if (!group || !matches) return <SplashScreen />;
   return (
     <div style={{ marginTop: "10px" }}>
       <GroupTitleText>{group.name}</GroupTitleText>
@@ -49,7 +50,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
             key={match.id}
             to={routerGenerateConst.matchGroup(tournamentId, groupId, match.id)}
           >
-            <MatchSummaryMock match={match} />
+            <MatchSummary match={match} />
           </LinkStyled>
         ))}
       </List>

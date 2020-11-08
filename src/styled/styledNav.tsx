@@ -3,8 +3,13 @@ import { Link } from "react-router-dom";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import { KeyboardDatePicker } from "@material-ui/pickers";
+import List from "@material-ui/core/List";
 
 import { mainTheme, styledColors } from "./styledConst";
+
+export const ListStyled = styled(List)`
+  padding: 0px;
+`;
 
 export const MenuSideBarContainerStyled = styled.div<{ opened: boolean }>`
   position: absolute;
@@ -16,6 +21,17 @@ export const MenuSideBarContainerStyled = styled.div<{ opened: boolean }>`
   transition: transform 0.3s, box-shadow 0.5s;
   background-color: ${mainTheme.palette.primary.main};
   color: ${mainTheme.palette.secondary.main};
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  ul:first-child > li,
+  ul:first-child > div {
+    border-bottom: ${mainTheme.palette.primary.dark} solid 0.5px;
+  }
+  ul:last-child > li,
+  ul:last-child > div {
+    border-top: ${mainTheme.palette.primary.dark} solid 0.5px;
+  }
 
   transform: ${(props) =>
     props.opened

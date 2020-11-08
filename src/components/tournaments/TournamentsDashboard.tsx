@@ -15,6 +15,7 @@ import { UserData } from "../../models/credentialsData";
 import { Id } from "../../const/structuresConst";
 import tournamentDashboardDict from "../../locale/tournamentDashboard";
 import { LOCALE } from "../../locale/config";
+import SplashScreen from "../global/SplashScreen";
 
 const getFilteredTournaments = (
   view: routerConstString,
@@ -57,6 +58,8 @@ class TournamentsDashboard extends Component<Props> {
 
   render() {
     const { tournaments, user } = this.props;
+    if (tournaments === undefined && user !== undefined)
+      return <SplashScreen />;
     return (
       <Rosetta
         translations={tournamentDashboardDict}
