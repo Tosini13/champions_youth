@@ -8,10 +8,16 @@ export type UpdateMatch = {
   matchId: Id;
   mode?: matchModeConst;
   result?: Result | null;
+  homeTeam?: Id | null;
+  awayTeam?: Id | null;
 };
 
 type UpdateGroupMatch = Omit<UpdateMatch, "gameId">;
 type UpdatePlayOffsMatch = Omit<UpdateMatch, "groupId">;
+type ToUpdatePlayOffsMatch = Omit<
+  UpdatePlayOffsMatch,
+  "tournamentId" | "matchId" | "gameId"
+>;
 
 export const updateMatch = ({
   tournamentId,
@@ -20,8 +26,9 @@ export const updateMatch = ({
   matchId,
   mode,
   result,
+  homeTeam,
+  awayTeam,
 }: UpdateMatch) => {
-  console.log(gameId, groupId);
   if (groupId) {
     return updateGroupMatch({ tournamentId, groupId, matchId, mode, result });
   }
@@ -32,6 +39,8 @@ export const updateMatch = ({
       matchId,
       mode,
       result,
+      homeTeam,
+      awayTeam,
     });
   }
 };
@@ -76,6 +85,8 @@ const updatePlayOffsMatch = ({
   matchId,
   mode,
   result,
+  homeTeam,
+  awayTeam,
 }: UpdatePlayOffsMatch) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
@@ -86,15 +97,7 @@ const updatePlayOffsMatch = ({
       .doc(gameId)
       .collection("matches")
       .doc(matchId)
-      .update(
-        mode && result
-          ? { mode, result }
-          : mode
-          ? { mode }
-          : result
-          ? { result }
-          : {}
-      )
+      .update(getToUpdate({ mode, result, homeTeam, awayTeam }))
       .then(() => {
         dispatch({ type: "UPDATE_PLAYOFFS_MATCH" });
       })
@@ -102,4 +105,31 @@ const updatePlayOffsMatch = ({
         dispatch({ type: "UPDATE_PLAYOFFS_MATCH_ERROR", err });
       });
   };
+};
+
+const getToUpdate = ({
+  mode,
+  result,
+  homeTeam,
+  awayTeam,
+}: ToUpdatePlayOffsMatch) => {
+  if (mode && result) {
+    return {
+      mode,
+      result,
+    };
+  }
+  if (mode !== undefined) {
+    return { mode };
+  }
+  if (result !== undefined) {
+    return { result };
+  }
+  if (homeTeam !== undefined) {
+    return { home: homeTeam };
+  }
+  if (awayTeam !== undefined) {
+    return { away: awayTeam };
+  }
+  return {};
 };

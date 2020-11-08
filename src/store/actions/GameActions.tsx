@@ -1,5 +1,4 @@
-import { matchModeConst } from "../../const/matchConst";
-import { Id, Result } from "../../const/structuresConst";
+import { Id } from "../../const/structuresConst";
 
 export type UpdateGame = {
   tournamentId: Id;
@@ -19,9 +18,7 @@ export const updateGame = ({
   awayTeam,
   returnMatch,
 }: UpdateGame) => {
-  console.log(homeTeam, awayTeam);
   if (homeTeam !== undefined) {
-    console.log(homeTeam);
     return updateGameHomeTeam({ tournamentId, gameId, homeTeam, returnMatch });
   }
   if (awayTeam !== undefined) {

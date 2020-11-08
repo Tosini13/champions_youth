@@ -14,6 +14,7 @@ import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
 import { Game } from "../../models/gameData";
 import { GameDataDb } from "../../structures/dbAPI/gameData";
 import { updateGame, UpdateGame } from "../../store/actions/GameActions";
+import { matchGame } from "../../store/actions/PlayOffsActions";
 
 type Props = {
   nextWinner?: GameDataDb;
@@ -32,6 +33,8 @@ type Props = {
     matchId,
     mode,
     result,
+    homeTeam,
+    awayTeam,
   }: UpdateMatch) => void;
   updateGame: ({
     tournamentId,
@@ -57,7 +60,7 @@ const MatchDetails: React.FC<Props> = ({
 }) => {
   if (matchData === undefined) return <SplashScreen />;
 
-  const getWinnerTeam = ( reset?: boolean) => {
+  const getWinnerTeam = (reset?: boolean) => {
     if (reset) return null;
     if (!matchData.result) return undefined;
     if (matchData.result?.home > matchData.result?.away) {
@@ -69,7 +72,7 @@ const MatchDetails: React.FC<Props> = ({
     return undefined;
   };
 
-  const getLoserTeam = ( reset?: boolean) => {
+  const getLoserTeam = (reset?: boolean) => {
     if (reset) return null;
     if (!matchData.result) return undefined;
     if (matchData.result?.home > matchData.result?.away) {
@@ -80,26 +83,54 @@ const MatchDetails: React.FC<Props> = ({
     }
   };
 
-  const updateNextGames = (winner?: GameDataDb, loser?: GameDataDb, reset?: boolean) => {
+  const updateNextGames = (
+    winner?: GameDataDb,
+    loser?: GameDataDb,
+    reset?: boolean
+  ) => {
     if (winner?.previousMatchHome === gameId) {
+      const homeTeam = getWinnerTeam(reset);
+      updateMatch({
+        tournamentId,
+        groupId,
+        gameId: winner.id,
+        matchId: matchGame.match,
+        homeTeam,
+      });
       updateGame({
         tournamentId,
         gameId: winner.id,
-        homeTeam: getWinnerTeam(reset),
+        homeTeam,
         returnMatch: false,
       });
     }
 
     if (winner?.previousMatchAway === gameId) {
+      const awayTeam = getWinnerTeam(reset);
+      updateMatch({
+        tournamentId,
+        groupId,
+        gameId: winner.id,
+        matchId: matchGame.match,
+        awayTeam,
+      });
       updateGame({
         tournamentId,
         gameId: winner.id,
-        awayTeam: getWinnerTeam(reset),
+        awayTeam,
         returnMatch: false,
       });
     }
 
     if (loser?.previousMatchHome === gameId) {
+      const homeTeam = getLoserTeam(reset);
+      updateMatch({
+        tournamentId,
+        groupId,
+        gameId: loser.id,
+        matchId: matchGame.match,
+        homeTeam,
+      });
       updateGame({
         tournamentId,
         gameId: loser.id,
@@ -109,6 +140,14 @@ const MatchDetails: React.FC<Props> = ({
     }
 
     if (loser?.previousMatchAway === gameId) {
+      const awayTeam = getLoserTeam(reset);
+      updateMatch({
+        tournamentId,
+        groupId,
+        gameId: loser.id,
+        matchId: matchGame.match,
+        awayTeam,
+      });
       updateGame({
         tournamentId,
         gameId: loser.id,
@@ -213,9 +252,20 @@ const mapDispatchToProps = (dispatch: any) => {
       matchId,
       mode,
       result,
+      homeTeam,
+      awayTeam,
     }: UpdateMatch) =>
       dispatch(
-        updateMatch({ tournamentId, groupId, gameId, matchId, mode, result })
+        updateMatch({
+          tournamentId,
+          groupId,
+          gameId,
+          matchId,
+          mode,
+          result,
+          homeTeam,
+          awayTeam,
+        })
       ),
     updateGame: ({
       tournamentId,
