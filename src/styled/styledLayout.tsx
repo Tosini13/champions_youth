@@ -67,11 +67,15 @@ export const FlagImgStyled = styled.img`
   border-radius: 50%;
 `;
 export const ImgStyled = styled.img`
-  height: 60px;
-  width: 60px;
-  background-color: rgba(0, 0, 0, 0.2);
+  max-height: 60px;
+  max-width: 60px;
   padding: 5px;
   border-radius: 5px;
+`;
+
+export const TeamImgStyled = styled(ImgStyled)`
+  height: 30px;
+  width: 30px;
 `;
 
 export const LogoContainerStyled = styled.div`

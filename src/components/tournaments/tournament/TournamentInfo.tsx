@@ -7,7 +7,6 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import PlaceIcon from "@material-ui/icons/Place";
 import Button from "@material-ui/core/Button";
 
-import trophy from "../../../images/logo/tournament_logo_trophy2.png";
 import {
   ALinkStyled,
   MainContainerContentStyled,
@@ -20,13 +19,13 @@ import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
 import { deleteTournament } from "../../../store/actions/TournamentActions";
 import { connect } from "react-redux";
-import { LogoStyled } from "../../../styled/styledLayout";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
+import Logo, { SIZE_LOGO } from "../../global/Logo";
 
 type Props = {
   tournament: TournamentData;
-  image?: string;
+  image: string;
   deleteTournament: (tournamentId: Id) => void;
   locale: LOCALE;
 };
@@ -43,7 +42,7 @@ const TournamentInfo: React.FC<Props> = ({
       <MainContainerStyled>
         <MainContainerContentStyled>
           <TournamentDetailsInfoStyled>
-            <LogoStyled src={image ? image : trophy}></LogoStyled>
+            <Logo src={image} size={SIZE_LOGO.lg} />
             <TournamentTitle>{tournament.name}</TournamentTitle>
           </TournamentDetailsInfoStyled>
           <TournamentDetailsInfoStyled>

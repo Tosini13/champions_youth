@@ -101,6 +101,7 @@ export const MatchDisplayTeamNameStyled = styled.p`
   padding: 2px 0px;
   margin: 0px;
   color: ${mainTheme.palette.secondary.dark};
+  text-align: center;
 `;
 
 export const MatchDisplayResultGoalStyled = styled.p`

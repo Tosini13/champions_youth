@@ -2,7 +2,6 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
-import trophy from "../../images/logo/tournament_logo_trophy2.png";
 import { TeamListElementStyled } from "../../styled/styledTeams";
 import { ListItemTextStyled } from "../../styled/styledBracket";
 import { TeamData } from "../../models/teamData";
@@ -16,8 +15,8 @@ import {
 
 import { EditTeamInputStyled } from "../../styled/styledForm";
 import { Id } from "../../const/structuresConst";
-import { LogoTeamStyled } from "../../styled/styledLayout";
 import { getImage } from "../tournaments/actions/getImage";
+import Logo, { SIZE_LOGO } from "../global/Logo";
 
 type Props = {
   team: TeamData;
@@ -63,7 +62,7 @@ const TeamSummary: React.FC<Props> = ({
 
   return (
     <TeamListElementStyled button>
-      <LogoTeamStyled src={logo ? logo : trophy}></LogoTeamStyled>
+      <Logo src={logo} size={SIZE_LOGO.sm} />
       {edit ? (
         <form onSubmit={handleEdit}>
           <EditTeamInputStyled
@@ -82,7 +81,10 @@ const TeamSummary: React.FC<Props> = ({
         </form>
       ) : (
         <>
-          <ListItemTextStyled primary={team.name} />
+          <ListItemTextStyled
+            primary={team.name}
+            style={{ marginLeft: "5px" }}
+          />
           <ListItemSecondaryAction>
             <TeamsListIconButtonStyled onClick={handleDelete}>
               <DeleteIconStyled />
