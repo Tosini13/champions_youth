@@ -42,7 +42,7 @@ const LogoStyled = styled.img<{
 
 export interface LogoProps {
   size: SIZE_LOGO;
-  src: string;
+  src?: string;
 }
 
 const Logo: React.FC<LogoProps> = ({ size, src }) => {
@@ -52,7 +52,7 @@ const Logo: React.FC<LogoProps> = ({ size, src }) => {
 
   return (
     <LogoContainer size={size}>
-      <LogoStyled onError={handleError} src={src} size={size} />
+      <LogoStyled onError={handleError} src={src ? src : trophy} size={size} />
     </LogoContainer>
   );
 };
