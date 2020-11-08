@@ -47,3 +47,32 @@ export const createGroup = (
       });
   };
 };
+
+export type GroupPlayOffs = {
+  gameId: Id;
+  place: number;
+  home: boolean;
+};
+export const updateGroupPromoted = (
+  tournamentId: Id,
+  groupId: Id,
+  playOffs: GroupPlayOffs[]
+) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .collection("groups")
+      .doc(groupId)
+      .update({
+        playOffs: playOffs,
+      })
+      .then((res: any) => {
+        dispatch({ type: "UPDATE_GROUP" });
+      })
+      .catch((err: any) => {
+        dispatch({ type: "UPDATE_GROUP_ERROR", err });
+      });
+  };
+};

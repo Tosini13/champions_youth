@@ -15,6 +15,10 @@ import { GameStructure } from "../../../structures/game";
 import { Placeholder } from "../../../const/groupConst";
 import { Group } from "../../../models/groupData";
 import Choose from "./chooseTeams/Choose";
+import {
+  GroupPlayOffs,
+  updateGroupPromoted,
+} from "../../../store/actions/GroupActions";
 
 const shuffle = (arr: any) => {
   let indexes: any[] = [];
@@ -35,6 +39,11 @@ type Props = {
   groups?: Group[];
   toggleCreate: () => void;
   createPlayoffs: (tournamentId: Id, game: GameDataDb[]) => void;
+  updateGroupPromoted: (
+    tournamentId: Id,
+    groupId: Id,
+    playOffs: GroupPlayOffs[]
+  ) => void;
 };
 
 const PlayOffsCreateDashboard: React.FC<Props> = ({
@@ -43,6 +52,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   groups,
   toggleCreate,
   createPlayoffs,
+  updateGroupPromoted,
 }) => {
   const countPromoted = () => {
     let teamsQtt = 0;
@@ -121,7 +131,33 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   };
 
   const submitBracket = () => {
+    if (chosenTeams.length === 0 && chosenPromoted.length === 0)
+      console.log("teams are not chosen!");
     const convertedBracket = bracket.convertBracket();
+    let groupPromoted = [];
+    convertedBracket.games.forEach((game) => {
+      if (game.placeholder?.home?.id && game.placeholder?.home?.place) {
+        if (!groupPromoted[game.placeholder.home.id])
+          groupPromoted[game.placeholder.home.id] = [] as GroupPlayOffs[];
+        groupPromoted[game.placeholder.home.id].push({
+          gameId: `Game${game.id}`,
+          place: game.placeholder.home.place,
+          home: true,
+        });
+      }
+      if (game.placeholder?.away?.id && game.placeholder?.away?.place) {
+        if (!groupPromoted[game.placeholder.away.id])
+          groupPromoted[game.placeholder.away.id] = [] as GroupPlayOffs[];
+        groupPromoted[game.placeholder.away.id].push({
+          gameId: `Game${game.id}`,
+          place: game.placeholder.away.place,
+          home: false,
+        });
+      }
+    });
+    Object.keys(groupPromoted).forEach((groupId) => {
+      updateGroupPromoted(tournamentId, groupId, groupPromoted[groupId]);
+    });
     createPlayoffs(tournamentId, convertedBracket.games);
     toggleCreate();
   };
@@ -173,6 +209,11 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     createPlayoffs: (tournamentId: Id, game: GameDataDb[]) =>
       dispatch(createPlayoffs(tournamentId, game)),
+    updateGroupPromoted: (
+      tournamentId: Id,
+      groupId: Id,
+      playOffs: GroupPlayOffs[]
+    ) => dispatch(updateGroupPromoted(tournamentId, groupId, playOffs)),
   };
 };
 export default connect(null, mapDispatchToProps)(PlayOffsCreateDashboard);

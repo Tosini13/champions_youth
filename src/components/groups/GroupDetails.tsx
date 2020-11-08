@@ -16,6 +16,7 @@ import { routerGenerateConst } from "../../const/menuConst";
 import { LinkStyled } from "../../styled/styledLayout";
 import SplashScreen from "../global/SplashScreen";
 import MatchSummary from "../matches/MatchSummary/MatchSummary";
+import { Button } from "@material-ui/core";
 
 export interface GroupsComponentProps {
   tournamentId: Id;
@@ -32,29 +33,56 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
 }) => {
   if (!group || !matches) return <SplashScreen />;
   return (
-    <div style={{ marginTop: "10px" }}>
-      <GroupTitleText>{group.name}</GroupTitleText>
-      <Grid
-        container
-        direction="row"
-        justify="space-around"
-        alignItems="flex-start"
-      >
-        {group.teams?.map((team) => (
-          <GroupTeamText key={team.id}>{team.name}</GroupTeamText>
-        ))}
+    <Grid
+      container
+      justify="space-between"
+      direction="column"
+      alignItems="stretch"
+      style={{ marginTop: "10px" }}
+    >
+      <Grid item>
+        <GroupTitleText>{group.name}</GroupTitleText>
+        <Grid
+          container
+          direction="row"
+          justify="space-around"
+          alignItems="flex-start"
+        >
+          {group.teams?.map((team) => (
+            <GroupTeamText key={team.id}>{team.name}</GroupTeamText>
+          ))}
+        </Grid>
       </Grid>
-      <List>
-        {matches?.map((match) => (
-          <LinkStyled
-            key={match.id}
-            to={routerGenerateConst.matchGroup(tournamentId, groupId, match.id)}
-          >
-            <MatchSummary match={match} />
-          </LinkStyled>
-        ))}
-      </List>
-    </div>
+      <Grid item>
+        <List>
+          {matches?.map((match) => (
+            <LinkStyled
+              key={match.id}
+              to={routerGenerateConst.matchGroup(
+                tournamentId,
+                groupId,
+                match.id
+              )}
+            >
+              <MatchSummary match={match} />
+            </LinkStyled>
+          ))}
+        </List>
+      </Grid>
+      <Grid item>
+        <Grid container justify="center" alignItems="center">
+          <Grid item>
+            <Button
+              variant="outlined"
+              color="secondary"
+              style={{ margin: "0px auto" }}
+            >
+              Finish Group
+            </Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 
