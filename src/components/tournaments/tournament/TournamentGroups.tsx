@@ -18,12 +18,16 @@ import GroupsComponent from "../../groups/GroupsComponent";
 import { Group } from "../../../models/groupData";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
+import { Id } from "../../../const/structuresConst";
+import { deleteGroups } from "../../../store/actions/GroupActions";
 
 type Props = {
   tournament: TournamentData;
   groups?: Group[];
   teams: TeamData[];
   locale: LOCALE;
+  tournamentId: Id;
+  deleteGroups: (tournamentId: Id) => void;
 };
 
 const TournamentGroups: React.FC<Props> = ({
@@ -31,6 +35,8 @@ const TournamentGroups: React.FC<Props> = ({
   teams,
   groups,
   locale,
+  tournamentId,
+  deleteGroups,
 }) => {
   const [create, setCreate] = useState<boolean>(false);
 
@@ -38,8 +44,8 @@ const TournamentGroups: React.FC<Props> = ({
     setCreate(!create);
   };
 
-  const deleteGroups = () => {
-    console.log("To delete!");
+  const handleDeleteGroups = () => {
+    deleteGroups(tournamentId);
   };
 
   return (
@@ -48,16 +54,16 @@ const TournamentGroups: React.FC<Props> = ({
         {groups?.length ? (
           <>
             <GroupsComponent groups={groups} />
-            <ButtonHorizontalContainerStyled>
+            {/* <ButtonHorizontalContainerStyled>
               <ButtonErrorStyled
-                onClick={deleteGroups}
+                onClick={handleDeleteGroups}
                 variant="outlined"
                 color="secondary"
                 startIcon={<DeleteIcon />}
               >
-                <Translator id='deleteGroupStage' />
+                <Translator id="deleteGroupStage" />
               </ButtonErrorStyled>
-            </ButtonHorizontalContainerStyled>
+            </ButtonHorizontalContainerStyled> */}
           </>
         ) : null}
         {create ? (
@@ -76,7 +82,7 @@ const TournamentGroups: React.FC<Props> = ({
               color="secondary"
               startIcon={<AddIcon />}
             >
-            <Translator id='createGroupStage' />
+              <Translator id="createGroupStage" />
             </ButtonSuccessStyled>
           </ButtonHorizontalContainerStyled>
         ) : null}
@@ -91,4 +97,9 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
-export default connect(mapStateToProps)(TournamentGroups);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    deleteGroups: (tournamentId: Id) => dispatch(deleteGroups(tournamentId)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TournamentGroups);

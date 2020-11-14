@@ -74,7 +74,7 @@ const TournamentInfo: React.FC<Props> = ({
             </TournamentDetailsInfoStyled>
           ) : null}
         </MainContainerContentStyled>
-        <Button
+        {/* <Button
           variant="outlined"
           color="secondary"
           onClick={() => {
@@ -83,7 +83,7 @@ const TournamentInfo: React.FC<Props> = ({
           style={{ margin: "5px auto", width: "fit-content" }}
         >
           <Translator id="deleteTournament" />
-        </Button>
+        </Button> */}
         {children}
       </MainContainerStyled>
     </Rosetta>

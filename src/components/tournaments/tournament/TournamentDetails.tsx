@@ -49,7 +49,7 @@ const TournamentDetails: React.FC<Props> = ({
     }
   }, [tournament, authorId]);
 
-  const [view, setView] = useState(menuTournamentConst.playoffs);
+  const [view, setView] = useState(menuTournamentConst.info);
   if (tournament && teams) {
     return (
       <>
@@ -60,6 +60,7 @@ const TournamentDetails: React.FC<Props> = ({
               tournament={tournament}
               groups={groups}
               teams={teams}
+              tournamentId={tournamentId}
             />
           ) : null}
           {view === menuTournamentConst.playoffs && tournament && playOffs ? (

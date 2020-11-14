@@ -50,7 +50,7 @@ const TournamentPlayOffs: React.FC<Props> = ({
         {playOffs?.length ? (
           <>
             <PlayOffsBracket playOffs={playOffs} />
-            <ButtonHorizontalContainerStyled>
+            {/* <ButtonHorizontalContainerStyled>
               <ButtonErrorStyled
                 onClick={deletePlayOffs}
                 variant="outlined"
@@ -59,7 +59,7 @@ const TournamentPlayOffs: React.FC<Props> = ({
               >
                 <Translator id="deletePlayOff" />
               </ButtonErrorStyled>
-            </ButtonHorizontalContainerStyled>
+            </ButtonHorizontalContainerStyled> */}
           </>
         ) : null}
         {create ? (
