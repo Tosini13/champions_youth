@@ -76,3 +76,32 @@ export const updateGroupPromoted = (
       });
   };
 };
+
+export type GroupMode = {
+  gameId: Id;
+  place: number;
+  finished: boolean;
+};
+export const updateGroupMode = (
+  tournamentId: Id,
+  groupId: Id,
+  finished: boolean
+) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .collection("groups")
+      .doc(groupId)
+      .update({
+        finished: finished,
+      })
+      .then((res: any) => {
+        dispatch({ type: "UPDATE_GROUP" });
+      })
+      .catch((err: any) => {
+        dispatch({ type: "UPDATE_GROUP_ERROR", err });
+      });
+  };
+};
