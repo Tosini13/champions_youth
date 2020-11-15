@@ -29,11 +29,13 @@ type Props = {
   playOffs?: Game[];
   tournamentId?: Id;
   authorId?: Id;
+  isOwner: boolean;
   setBack: (route: routerConstString) => void;
 };
 
 const TournamentDetails: React.FC<Props> = ({
   authorId,
+  isOwner,
   tournamentId,
   tournament,
   teams,
@@ -61,6 +63,7 @@ const TournamentDetails: React.FC<Props> = ({
               groups={groups}
               teams={teams}
               tournamentId={tournamentId}
+              isOwner={isOwner}
             />
           ) : null}
           {view === menuTournamentConst.playoffs && tournament && playOffs ? (
@@ -69,13 +72,18 @@ const TournamentDetails: React.FC<Props> = ({
               playOffs={playOffs}
               teams={teams}
               groups={groups}
+              isOwner={isOwner}
             />
           ) : null}
           {view === menuTournamentConst.info && tournament ? (
-            <TournamentInfo tournament={tournament} image={image} />
+            <TournamentInfo
+              tournament={tournament}
+              image={image}
+              isOwner={isOwner}
+            />
           ) : null}
           {view === menuTournamentConst.teams && tournament ? (
-            <TournamentTeams teams={teams} />
+            <TournamentTeams teams={teams} isOwner={isOwner} />
           ) : null}
         </ContentContainerStyled>
       </>
@@ -90,6 +98,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const tournamentId = ownProps.match.params.tournamentId;
   const tournaments = state.firestore.data.tournaments;
   const tournament = tournaments ? tournaments[tournamentId] : null;
+  const isOwner = tournament && tournament.ownerId === authorId;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
   const groupsData: GroupDataDb[] | undefined = state.firestore.ordered.groups;
   const groups =
@@ -103,6 +112,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
       ? playOffsData.map((game) => new Game(game, teams))
       : undefined;
   return {
+    isOwner,
     authorId,
     tournament,
     teams,

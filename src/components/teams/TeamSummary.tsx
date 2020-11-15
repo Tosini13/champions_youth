@@ -22,14 +22,16 @@ type Props = {
   team: TeamData;
   handleDeleteTeam: (team: TeamData) => void;
   handleEditTeam: (team: TeamData) => void;
-  authorId: Id;
+  userId: Id;
+  isOwner: boolean;
 };
 
 const TeamSummary: React.FC<Props> = ({
   team,
   handleDeleteTeam,
   handleEditTeam,
-  authorId,
+  userId,
+  isOwner,
 }) => {
   const handleDelete = () => {
     handleDeleteTeam(team);
@@ -54,11 +56,11 @@ const TeamSummary: React.FC<Props> = ({
   const [logo, setLogo] = useState<any>(null);
 
   useEffect(() => {
-    if (team?.logo && authorId) {
-      const image = getImage(team.logo, authorId);
+    if (team?.logo && userId) {
+      const image = getImage(team.logo, userId);
       setLogo(image);
     }
-  }, [team, authorId]);
+  }, [team, userId]);
 
   return (
     <TeamListElementStyled button>
@@ -85,14 +87,16 @@ const TeamSummary: React.FC<Props> = ({
             primary={team.name}
             style={{ marginLeft: "5px" }}
           />
-          <ListItemSecondaryAction>
-            <TeamsListIconButtonStyled onClick={handleDelete}>
-              <DeleteIconStyled />
-            </TeamsListIconButtonStyled>
-            <TeamsListIconButtonStyled onClick={() => setEdit(true)}>
-              <EditIconStyled />
-            </TeamsListIconButtonStyled>
-          </ListItemSecondaryAction>
+          {isOwner ? (
+            <ListItemSecondaryAction>
+              <TeamsListIconButtonStyled onClick={handleDelete}>
+                <DeleteIconStyled />
+              </TeamsListIconButtonStyled>
+              <TeamsListIconButtonStyled onClick={() => setEdit(true)}>
+                <EditIconStyled />
+              </TeamsListIconButtonStyled>
+            </ListItemSecondaryAction>
+          ) : null}
         </>
       )}
     </TeamListElementStyled>

@@ -18,6 +18,7 @@ import PlayOffsBracket from "../../playoffs/PlayOffsBracket";
 import { Group } from "../../../models/groupData";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
+import { Typography } from "@material-ui/core";
 
 type Props = {
   tournament: TournamentData;
@@ -25,6 +26,7 @@ type Props = {
   teams: TeamData[];
   groups?: Group[];
   locale: LOCALE;
+  isOwner: boolean;
 };
 
 const TournamentPlayOffs: React.FC<Props> = ({
@@ -33,6 +35,7 @@ const TournamentPlayOffs: React.FC<Props> = ({
   teams,
   groups,
   locale,
+  isOwner,
 }) => {
   const [create, setCreate] = useState<boolean>(false);
 
@@ -50,7 +53,9 @@ const TournamentPlayOffs: React.FC<Props> = ({
         {playOffs?.length ? (
           <>
             <PlayOffsBracket playOffs={playOffs} />
-            {/* <ButtonHorizontalContainerStyled>
+            {isOwner
+              ? {
+                  /* <ButtonHorizontalContainerStyled>
               <ButtonErrorStyled
                 onClick={deletePlayOffs}
                 variant="outlined"
@@ -59,7 +64,9 @@ const TournamentPlayOffs: React.FC<Props> = ({
               >
                 <Translator id="deletePlayOff" />
               </ButtonErrorStyled>
-            </ButtonHorizontalContainerStyled> */}
+            </ButtonHorizontalContainerStyled> */
+                }
+              : null}
           </>
         ) : null}
         {create ? (
@@ -70,7 +77,12 @@ const TournamentPlayOffs: React.FC<Props> = ({
             toggleCreate={createPlayOffs}
           />
         ) : null}
-        {!playOffs?.length && !create ? (
+        {!playOffs?.length && !isOwner && !create ? (
+          <Typography>
+            <Translator id="noPlayOffs" />
+          </Typography>
+        ) : null}
+        {!playOffs?.length && isOwner && !create ? (
           <ButtonHorizontalContainerStyled>
             <ButtonSuccessStyled
               onClick={createPlayOffs}

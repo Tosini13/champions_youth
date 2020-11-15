@@ -14,9 +14,10 @@ import { LOCALE } from "../../../locale/config";
 type Props = {
   teams?: TeamData[];
   locale: LOCALE;
+  isOwner: boolean;
 };
 
-const TournamentTeams: React.FC<Props> = ({ teams, locale }) => {
+const TournamentTeams: React.FC<Props> = ({ teams, locale, isOwner }) => {
   const [opened, setOpened] = useState<boolean>(false);
 
   const handleClose = () => {
@@ -49,7 +50,7 @@ const TournamentTeams: React.FC<Props> = ({ teams, locale }) => {
         >
           <Translator id="addTeam" />
         </Button>
-        <TeamList teams={teams} />
+        <TeamList teams={teams} isOwner={isOwner} />
       </>
     </Rosetta>
   );
