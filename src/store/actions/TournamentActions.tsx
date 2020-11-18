@@ -33,6 +33,7 @@ export const createTournament = (data: TournamentCreateData, image?: any) => {
 
 export const deleteTournament = (tournamentId: Id) => {
   const path = `/tournaments/${tournamentId}`;
+  console.log(path);
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
     deleteFn({ path: path })

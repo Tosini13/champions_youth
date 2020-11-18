@@ -80,6 +80,7 @@ const TournamentDetails: React.FC<Props> = ({
               tournament={tournament}
               image={image}
               isOwner={isOwner}
+              tournamentId={tournamentId}
             />
           ) : null}
           {view === menuTournamentConst.teams && tournament ? (

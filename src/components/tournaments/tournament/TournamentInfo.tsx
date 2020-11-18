@@ -29,6 +29,7 @@ type Props = {
   deleteTournament: (tournamentId: Id) => void;
   locale: LOCALE;
   isOwner: boolean;
+  tournamentId: Id;
 };
 
 const TournamentInfo: React.FC<Props> = ({
@@ -38,6 +39,7 @@ const TournamentInfo: React.FC<Props> = ({
   image,
   locale,
   isOwner,
+  tournamentId,
 }) => {
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
@@ -76,20 +78,18 @@ const TournamentInfo: React.FC<Props> = ({
             </TournamentDetailsInfoStyled>
           ) : null}
         </MainContainerContentStyled>
-        {isOwner
-          ? {
-              /* <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => {
-            deleteTournament(tournament.id);
-          }}
-          style={{ margin: "5px auto", width: "fit-content" }}
-        >
-          <Translator id="deleteTournament" />
-        </Button> */
-            }
-          : null}
+        {isOwner ? (
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => {
+              deleteTournament(tournamentId);
+            }}
+            style={{ margin: "5px auto", width: "fit-content" }}
+          >
+            <Translator id="deleteTournament" />
+          </Button>
+        ) : null}
         {children}
       </MainContainerStyled>
     </Rosetta>
