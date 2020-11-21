@@ -62,6 +62,11 @@ const GroupsCreate: React.FC<Props> = ({
         tournament,
         false
       );
+      let newChosenTeams: TeamData[] = [];
+      newGroups.forEach(
+        (newGroup) => (newChosenTeams = [...newChosenTeams, ...newGroup.teams])
+      );
+      setChosenTeams([...chosenTeams, ...newChosenTeams]);
       setGroups(newGroups);
     }
   };
@@ -117,6 +122,7 @@ const GroupsCreate: React.FC<Props> = ({
       chosenGroup?.teams.push(team);
       setChosenTeams([...chosenTeams, team]);
     }
+    groupStage.initGroupMatches(chosenTeams, groups, tournament, false);
   };
 
   const handleChooseGroup = (group: GroupData) => {
