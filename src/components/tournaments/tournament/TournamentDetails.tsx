@@ -59,15 +59,16 @@ const TournamentDetails: React.FC<Props> = ({
         <ContentContainerStyled>
           {view === menuTournamentConst.groups && tournament ? (
             <TournamentGroups
+              tournamentId={tournamentId}
               tournament={tournament}
               groups={groups}
               teams={teams}
-              tournamentId={tournamentId}
               isOwner={isOwner}
             />
           ) : null}
           {view === menuTournamentConst.playoffs && tournament && playOffs ? (
             <TournamentPlayOffs
+              tournamentId={tournamentId}
               tournament={tournament}
               playOffs={playOffs}
               teams={teams}

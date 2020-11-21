@@ -31,16 +31,25 @@ export const createTournament = (data: TournamentCreateData, image?: any) => {
   };
 };
 
-export const deleteTournament = (tournamentId: Id) => {
+export const deleteTournament = (
+  tournamentId: Id,
+  callBackSuccess?: () => void,
+  callBackError?: () => void
+) => {
   const path = `/tournaments/${tournamentId}`;
-  console.log(path);
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
     deleteFn({ path: path })
       .then(function (result: any) {
+        if (callBackSuccess) {
+          callBackSuccess();
+        }
         dispatch({ type: "DELETE_TOURNAMENT" });
       })
       .catch(function (err: any) {
+        if (callBackError) {
+          callBackError();
+        }
         dispatch({ type: "DELETE_TOURNAMENT_ERROR", err });
       });
   };

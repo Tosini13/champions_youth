@@ -22,11 +22,18 @@ import { connect } from "react-redux";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
 import Logo, { SIZE_LOGO } from "../../global/Logo";
+import { setInProgress } from "../../global/InProgress";
+import { useHistory } from "react-router-dom";
+import { routerConstString } from "../../../const/menuConst";
 
 type Props = {
   tournament: TournamentData;
   image: string;
-  deleteTournament: (tournamentId: Id) => void;
+  deleteTournament: (
+    tournamentId: Id,
+    callBackSuccess?: () => void,
+    callBackError?: () => void
+  ) => void;
   locale: LOCALE;
   isOwner: boolean;
   tournamentId: Id;
@@ -41,6 +48,21 @@ const TournamentInfo: React.FC<Props> = ({
   isOwner,
   tournamentId,
 }) => {
+  const history = useHistory();
+  const handleDelete = () => {
+    setInProgress(true);
+    deleteTournament(
+      tournamentId,
+      () => {
+        setInProgress(false);
+        history.push(routerConstString.tournaments);
+      },
+      () => {
+        setInProgress(false);
+      }
+    );
+  };
+
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <MainContainerStyled>
@@ -82,9 +104,7 @@ const TournamentInfo: React.FC<Props> = ({
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => {
-              deleteTournament(tournamentId);
-            }}
+            onClick={handleDelete}
             style={{ margin: "5px auto", width: "fit-content" }}
           >
             <Translator id="deleteTournament" />
@@ -104,8 +124,12 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    deleteTournament: (favoriteTournaments: Id) =>
-      dispatch(deleteTournament(favoriteTournaments)),
+    deleteTournament: (
+      tournamentId: Id,
+      callBackSuccess?: () => void,
+      callBackError?: () => void
+    ) =>
+      dispatch(deleteTournament(tournamentId, callBackSuccess, callBackError)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TournamentInfo);

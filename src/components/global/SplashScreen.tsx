@@ -12,6 +12,7 @@ const BackdropStyled = styled(Backdrop)`
 export interface SplashScreenProps {}
 
 const SplashScreen: React.FC<SplashScreenProps> = () => {
+  
   return (
     <BackdropStyled open={true}>
       <CircularProgress color="secondary" />

@@ -43,8 +43,8 @@ exports.recursiveDelete = functions
   })
   .https.onCall(async (data, context) => {
     // Only allow admin users to execute this function.
-    console.log('context.auth.token', context.auth.token);
-    console.log('context.auth.token.admin', context.auth.token.admin);
+    // console.log('context.auth.token', context.auth.token);
+    // console.log('context.auth.token.admin', context.auth.token.admin);
     if (!(context.auth && context.auth.token)) {
       throw new functions.https.HttpsError(
         'permission-denied',
@@ -53,12 +53,12 @@ exports.recursiveDelete = functions
     }
 
     const path = data.path;
-    console.log(
-      `User ${context.auth.uid} has requested to delete path ${path}`
-    );
-    console.log('functions.config().fb.token', functions.config().fb.token);
-    console.log('process.env.GCLOUD_PROJECT', process.env.GCLOUD_PROJECT);
-    console.log('path', path);
+    // console.log(
+    //   `User ${context.auth.uid} has requested to delete path ${path}`
+    // );
+    // console.log('functions.config().fb.token', functions.config().fb.token);
+    // console.log('process.env.GCLOUD_PROJECT', process.env.GCLOUD_PROJECT);
+    // console.log('path', path);
     //1//0chZ-hIjjiDpCCgYIARAAGAwSNwF-L9IrsgQP4l3dZaYrCU_GMzux3ek3Ojc9RKaOnjZF49hMf5gf42_Lp559scD6fWomkJNLvKA
     // Run a recursive delete on the given document or collection path.
     // The 'token' must be set in the functions config, and can be generated

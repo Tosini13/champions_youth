@@ -12,6 +12,7 @@ import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/SignUp";
 import GroupDetails from "./components/groups/GroupDetails";
 import MatchDetails from "./components/matches/MatchDetails";
+import InProgress from "./components/global/InProgress";
 
 const App = () => {
   return (
@@ -59,6 +60,7 @@ const App = () => {
         </MainContainer>
         <BottomNav />
       </BodyContainer>
+      <InProgress />
     </BrowserRouter>
   );
 };

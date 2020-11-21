@@ -107,21 +107,26 @@ export const updateGroupMode = (
   };
 };
 
-export const deleteGroups = (tournamentId: Id) => {
-  console.log("group action delete");
+export const deleteGroups = (
+  tournamentId: Id,
+  callBackSuccess?: () => void,
+  callBackError?: () => void
+) => {
   const path = `/tournaments/${tournamentId}/groups`;
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
-    console.log(path);
     deleteFn({ path: path })
       .then(function (result) {
+        if (callBackSuccess) {
+          callBackSuccess();
+        }
         dispatch({ type: "DELETE_ALL_GROUPS_FROM_TOURNAMENT" });
-        console.log("Delete success: " + JSON.stringify(result));
       })
       .catch(function (err) {
+        if (callBackError) {
+          callBackError();
+        }
         dispatch({ type: "DELETE_ALL_GROUPS_FROM_TOURNAMENT_ERROR", err });
-        console.log("Delete failed, see console,");
-        console.log(err);
       });
   };
 };
