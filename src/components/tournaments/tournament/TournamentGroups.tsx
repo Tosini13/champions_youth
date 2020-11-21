@@ -18,12 +18,23 @@ import GroupsComponent from "../../groups/GroupsComponent";
 import { Group } from "../../../models/groupData";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
+import { Id } from "../../../const/structuresConst";
+import { deleteGroups } from "../../../store/actions/GroupActions";
+import { Typography } from "@material-ui/core";
+import { setInProgress } from "../../global/InProgress";
 
 type Props = {
   tournament: TournamentData;
   groups?: Group[];
   teams: TeamData[];
   locale: LOCALE;
+  tournamentId: Id;
+  deleteGroups: (
+    tournamentId: Id,
+    callBackSuccess?: () => void,
+    callBackError?: () => void
+  ) => void;
+  isOwner: boolean;
 };
 
 const TournamentGroups: React.FC<Props> = ({
@@ -31,6 +42,9 @@ const TournamentGroups: React.FC<Props> = ({
   teams,
   groups,
   locale,
+  tournamentId,
+  deleteGroups,
+  isOwner,
 }) => {
   const [create, setCreate] = useState<boolean>(false);
 
@@ -38,8 +52,17 @@ const TournamentGroups: React.FC<Props> = ({
     setCreate(!create);
   };
 
-  const deleteGroups = () => {
-    console.log("To delete!");
+  const handleDelete = () => {
+    setInProgress(true);
+    deleteGroups(
+      tournamentId,
+      () => {
+        setInProgress(false);
+      },
+      () => {
+        setInProgress(false);
+      }
+    );
   };
 
   return (
@@ -48,16 +71,18 @@ const TournamentGroups: React.FC<Props> = ({
         {groups?.length ? (
           <>
             <GroupsComponent groups={groups} />
-            <ButtonHorizontalContainerStyled>
-              <ButtonErrorStyled
-                onClick={deleteGroups}
-                variant="outlined"
-                color="secondary"
-                startIcon={<DeleteIcon />}
-              >
-                <Translator id='deleteGroupStage' />
-              </ButtonErrorStyled>
-            </ButtonHorizontalContainerStyled>
+            {isOwner ? (
+              <ButtonHorizontalContainerStyled>
+                <ButtonErrorStyled
+                  onClick={handleDelete}
+                  variant="outlined"
+                  color="secondary"
+                  startIcon={<DeleteIcon />}
+                >
+                  <Translator id="deleteGroupStage" />
+                </ButtonErrorStyled>
+              </ButtonHorizontalContainerStyled>
+            ) : null}
           </>
         ) : null}
         {create ? (
@@ -68,7 +93,12 @@ const TournamentGroups: React.FC<Props> = ({
             teams={teams}
           />
         ) : null}
-        {!create && !groups?.length ? (
+        {!create && !groups?.length && !isOwner ? (
+          <Typography>
+            <Translator id="noGroup" />
+          </Typography>
+        ) : null}
+        {!create && !groups?.length && isOwner ? (
           <ButtonHorizontalContainerStyled>
             <ButtonSuccessStyled
               onClick={toggleCreate}
@@ -76,7 +106,7 @@ const TournamentGroups: React.FC<Props> = ({
               color="secondary"
               startIcon={<AddIcon />}
             >
-            <Translator id='createGroupStage' />
+              <Translator id="createGroupStage" />
             </ButtonSuccessStyled>
           </ButtonHorizontalContainerStyled>
         ) : null}
@@ -91,4 +121,13 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
-export default connect(mapStateToProps)(TournamentGroups);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    deleteGroups: (
+      tournamentId: Id,
+      callBackSuccess?: () => void,
+      callBackError?: () => void
+    ) => dispatch(deleteGroups(tournamentId, callBackSuccess, callBackError)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TournamentGroups);

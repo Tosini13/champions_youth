@@ -2,7 +2,6 @@ import React, { useState, ChangeEvent, useEffect } from "react";
 
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
-import trophy from "../../images/logo/tournament_logo_trophy2.png";
 import { TeamListElementStyled } from "../../styled/styledTeams";
 import { ListItemTextStyled } from "../../styled/styledBracket";
 import { TeamData } from "../../models/teamData";
@@ -16,21 +15,23 @@ import {
 
 import { EditTeamInputStyled } from "../../styled/styledForm";
 import { Id } from "../../const/structuresConst";
-import { LogoTeamStyled } from "../../styled/styledLayout";
 import { getImage } from "../tournaments/actions/getImage";
+import Logo, { SIZE_LOGO } from "../global/Logo";
 
 type Props = {
   team: TeamData;
   handleDeleteTeam: (team: TeamData) => void;
   handleEditTeam: (team: TeamData) => void;
-  authorId: Id;
+  userId: Id;
+  isOwner: boolean;
 };
 
 const TeamSummary: React.FC<Props> = ({
   team,
   handleDeleteTeam,
   handleEditTeam,
-  authorId,
+  userId,
+  isOwner,
 }) => {
   const handleDelete = () => {
     handleDeleteTeam(team);
@@ -55,15 +56,15 @@ const TeamSummary: React.FC<Props> = ({
   const [logo, setLogo] = useState<any>(null);
 
   useEffect(() => {
-    if (team?.logo && authorId) {
-      const image = getImage(team.logo, authorId);
+    if (team?.logo && userId) {
+      const image = getImage(team.logo, userId);
       setLogo(image);
     }
-  }, [team, authorId]);
+  }, [team, userId]);
 
   return (
     <TeamListElementStyled button>
-      <LogoTeamStyled src={logo ? logo : trophy}></LogoTeamStyled>
+      <Logo src={logo} size={SIZE_LOGO.sm} />
       {edit ? (
         <form onSubmit={handleEdit}>
           <EditTeamInputStyled
@@ -82,15 +83,20 @@ const TeamSummary: React.FC<Props> = ({
         </form>
       ) : (
         <>
-          <ListItemTextStyled primary={team.name} />
-          <ListItemSecondaryAction>
-            <TeamsListIconButtonStyled onClick={handleDelete}>
-              <DeleteIconStyled />
-            </TeamsListIconButtonStyled>
-            <TeamsListIconButtonStyled onClick={() => setEdit(true)}>
-              <EditIconStyled />
-            </TeamsListIconButtonStyled>
-          </ListItemSecondaryAction>
+          <ListItemTextStyled
+            primary={team.name}
+            style={{ marginLeft: "5px" }}
+          />
+          {isOwner ? (
+            <ListItemSecondaryAction>
+              <TeamsListIconButtonStyled onClick={handleDelete}>
+                <DeleteIconStyled />
+              </TeamsListIconButtonStyled>
+              <TeamsListIconButtonStyled onClick={() => setEdit(true)}>
+                <EditIconStyled />
+              </TeamsListIconButtonStyled>
+            </ListItemSecondaryAction>
+          ) : null}
         </>
       )}
     </TeamListElementStyled>

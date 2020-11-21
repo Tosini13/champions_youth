@@ -22,7 +22,7 @@
     "browser-image-compression": "^1.0.12",
     "compress.js": "^1.1.2",
     "date-fns": "^2.16.1",
-    "firebase": "^7.22.0",
+    "firebase": "^7.21.0",
     "moment": "^2.29.0",
     "react": "^16.13.1",
     "react-datetime-picker": "^3.0.4",

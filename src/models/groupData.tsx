@@ -1,6 +1,7 @@
 import { Moment } from "moment";
 import { PromotedTeam } from "../const/groupConst";
 import { Id } from "../const/structuresConst";
+import { GroupPlayOffs } from "../store/actions/GroupActions";
 import { MatchDataDb } from "../structures/dbAPI/matchData";
 import { MatchData } from "../structures/match";
 import { TeamData } from "./teamData";
@@ -24,6 +25,8 @@ export interface GroupDataDb {
   finishAt?: string | null;
   promotedQtt?: number | null;
   teamsQtt?: number | null;
+  playOffs?: GroupPlayOffs[];
+  finished?: boolean;
 }
 
 export interface ConvertedGroup {
@@ -39,6 +42,8 @@ export class Group {
   finishAt?: string | null;
   promotedQtt?: number | null;
   teamsQtt?: number | null;
+  playOffs?: GroupPlayOffs[];
+  finished?: boolean;
 
   getTeams = (teamsId: Id[], teams: TeamData[]) => {
     this.teams = teams.filter((team) => teamsId.includes(team.id));
@@ -50,6 +55,8 @@ export class Group {
     this.teamsQtt = groupDataDb.teamsQtt;
     this.promoted = groupDataDb.promoted;
     this.promotedQtt = groupDataDb.promotedQtt;
+    this.playOffs = groupDataDb.playOffs;
+    this.finished = groupDataDb.finished;
     this.getTeams(groupDataDb.teams, teams);
   }
 }

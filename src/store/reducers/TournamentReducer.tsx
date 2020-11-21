@@ -23,7 +23,7 @@ const tournamentReducer = (state = initState, action: any) => {
       console.log("tournament deleted");
       return state;
     case "DELETE_TOURNAMENT_ERROR":
-      console.log("tournament deletion error", action.err);
+      console.log("DELETE_TOURNAMENT_ERROR", action.err);
       return state;
     default:
       return state;

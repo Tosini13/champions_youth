@@ -6,7 +6,6 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import StarIcon from "@material-ui/icons/Star";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
-import trophy from "../../images/logo/tournament_logo_trophy2.png";
 import { routerConstString } from "../../const/menuConst";
 import {
   TournamentLinkItemStyled,
@@ -21,8 +20,8 @@ import { TournamentData } from "../../models/tournamentData";
 import { Id } from "../../const/structuresConst";
 import { setFavorites } from "../../store/actions/UserActions";
 import { UserData } from "../../models/credentialsData";
-import { ImgStyled } from "../../styled/styledLayout";
 import { getImage } from "./actions/getImage";
+import Logo, { SIZE_LOGO } from "../global/Logo";
 
 type Props = {
   user?: UserData;
@@ -69,7 +68,7 @@ const TournamentSummary: React.FC<Props> = ({
       <TournamentLinkItemStyled
         to={`${routerConstString.tournament}/${tournament.id}`}
       >
-        <ImgStyled src={image ? image : trophy} alt="logo" />
+        <Logo src={image} size={SIZE_LOGO.lg} />
         <TournamentListItemTitleStyled>
           {tournament.name}
         </TournamentListItemTitleStyled>

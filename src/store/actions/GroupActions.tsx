@@ -1,3 +1,4 @@
+import firebase from "firebase";
 import { Id } from "../../const/structuresConst";
 import { GroupDataDb } from "../../models/groupData";
 import { MatchDataDb } from "../../structures/dbAPI/matchData";
@@ -44,6 +45,88 @@ export const createGroup = (
       })
       .catch((err: any) => {
         dispatch({ type: "CREATE_GROUP_ERROR", err });
+      });
+  };
+};
+
+export type GroupPlayOffs = {
+  gameId: Id;
+  place: number;
+  home: boolean;
+};
+export const updateGroupPromoted = (
+  tournamentId: Id,
+  groupId: Id,
+  playOffs: GroupPlayOffs[]
+) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .collection("groups")
+      .doc(groupId)
+      .update({
+        playOffs: playOffs,
+      })
+      .then((res: any) => {
+        dispatch({ type: "UPDATE_GROUP" });
+      })
+      .catch((err: any) => {
+        dispatch({ type: "UPDATE_GROUP_ERROR", err });
+      });
+  };
+};
+
+export type GroupMode = {
+  gameId: Id;
+  place: number;
+  finished: boolean;
+};
+export const updateGroupMode = (
+  tournamentId: Id,
+  groupId: Id,
+  finished: boolean
+) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .collection("groups")
+      .doc(groupId)
+      .update({
+        finished: finished,
+      })
+      .then((res: any) => {
+        dispatch({ type: "UPDATE_GROUP" });
+      })
+      .catch((err: any) => {
+        dispatch({ type: "UPDATE_GROUP_ERROR", err });
+      });
+  };
+};
+
+export const deleteGroups = (
+  tournamentId: Id,
+  callBackSuccess?: () => void,
+  callBackError?: () => void
+) => {
+  const path = `/tournaments/${tournamentId}/groups`;
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
+    deleteFn({ path: path })
+      .then(function (result) {
+        if (callBackSuccess) {
+          callBackSuccess();
+        }
+        dispatch({ type: "DELETE_ALL_GROUPS_FROM_TOURNAMENT" });
+      })
+      .catch(function (err) {
+        if (callBackError) {
+          callBackError();
+        }
+        dispatch({ type: "DELETE_ALL_GROUPS_FROM_TOURNAMENT_ERROR", err });
       });
   };
 };

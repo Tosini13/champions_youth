@@ -1,3 +1,4 @@
+import firebase from "firebase";
 import { Id } from "../../const/structuresConst";
 import { GameDataDb } from "../../structures/dbAPI/gameData";
 
@@ -85,5 +86,29 @@ export const createPlayoffs = (tournamentId: Id, games: GameDataDb[]) => {
           dispatch({ type: "CREATE_GAME_ERROR", err });
         });
     });
+  };
+};
+
+export const deletePlayOffs = (
+  tournamentId: Id,
+  callBackSuccess?: () => void,
+  callBackError?: () => void
+) => {
+  const path = `/tournaments/${tournamentId}/playOffs`;
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
+    deleteFn({ path: path })
+      .then(function (result) {
+        if (callBackSuccess) {
+          callBackSuccess();
+        }
+        dispatch({ type: "DELETE_ALL_GROUPS_FROM_TOURNAMENT" });
+      })
+      .catch(function (err) {
+        if (callBackError) {
+          callBackError();
+        }
+        dispatch({ type: "DELETE_ALL_GROUPS_FROM_TOURNAMENT_ERROR", err });
+      });
   };
 };

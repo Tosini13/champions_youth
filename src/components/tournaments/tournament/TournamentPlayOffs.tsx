@@ -18,21 +18,35 @@ import PlayOffsBracket from "../../playoffs/PlayOffsBracket";
 import { Group } from "../../../models/groupData";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
+import { Typography } from "@material-ui/core";
+import { deletePlayOffs } from "../../../store/actions/PlayOffsActions";
+import { Id } from "../../../const/structuresConst";
+import { setInProgress } from "../../global/InProgress";
 
 type Props = {
+  tournamentId: Id;
   tournament: TournamentData;
   playOffs?: Game[];
   teams: TeamData[];
   groups?: Group[];
   locale: LOCALE;
+  isOwner: boolean;
+  deletePlayOffs: (
+    tournamentId: Id,
+    callBackSuccess?: () => void,
+    callBackError?: () => void
+  ) => void;
 };
 
 const TournamentPlayOffs: React.FC<Props> = ({
+  tournamentId,
   playOffs,
   tournament,
   teams,
   groups,
   locale,
+  isOwner,
+  deletePlayOffs,
 }) => {
   const [create, setCreate] = useState<boolean>(false);
 
@@ -40,8 +54,17 @@ const TournamentPlayOffs: React.FC<Props> = ({
     setCreate(!create);
   };
 
-  const deletePlayOffs = () => {
-    console.log("deletePlayOffs");
+  const handleDelete = () => {
+    setInProgress(true);
+    deletePlayOffs(
+      tournamentId,
+      () => {
+        setInProgress(false);
+      },
+      () => {
+        setInProgress(false);
+      }
+    );
   };
 
   return (
@@ -50,16 +73,18 @@ const TournamentPlayOffs: React.FC<Props> = ({
         {playOffs?.length ? (
           <>
             <PlayOffsBracket playOffs={playOffs} />
-            <ButtonHorizontalContainerStyled>
-              <ButtonErrorStyled
-                onClick={deletePlayOffs}
-                variant="outlined"
-                color="secondary"
-                startIcon={<DeleteIcon />}
-              >
-                <Translator id="deletePlayOff" />
-              </ButtonErrorStyled>
-            </ButtonHorizontalContainerStyled>
+            {isOwner ? (
+              <ButtonHorizontalContainerStyled>
+                <ButtonErrorStyled
+                  onClick={handleDelete}
+                  variant="outlined"
+                  color="secondary"
+                  startIcon={<DeleteIcon />}
+                >
+                  <Translator id="deletePlayOff" />
+                </ButtonErrorStyled>
+              </ButtonHorizontalContainerStyled>
+            ) : null}
           </>
         ) : null}
         {create ? (
@@ -70,7 +95,12 @@ const TournamentPlayOffs: React.FC<Props> = ({
             toggleCreate={createPlayOffs}
           />
         ) : null}
-        {!playOffs?.length && !create ? (
+        {!playOffs?.length && !isOwner && !create ? (
+          <Typography>
+            <Translator id="noPlayOffs" />
+          </Typography>
+        ) : null}
+        {!playOffs?.length && isOwner && !create ? (
           <ButtonHorizontalContainerStyled>
             <ButtonSuccessStyled
               onClick={createPlayOffs}
@@ -93,4 +123,13 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
-export default connect(mapStateToProps)(TournamentPlayOffs);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    deletePlayOffs: (
+      tournamentId: Id,
+      callBackSuccess?: () => void,
+      callBackError?: () => void
+    ) => dispatch(deletePlayOffs(tournamentId, callBackSuccess, callBackError)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TournamentPlayOffs);

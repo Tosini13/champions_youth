@@ -7,7 +7,6 @@ import ScheduleIcon from "@material-ui/icons/Schedule";
 import PlaceIcon from "@material-ui/icons/Place";
 import Button from "@material-ui/core/Button";
 
-import trophy from "../../../images/logo/tournament_logo_trophy2.png";
 import {
   ALinkStyled,
   MainContainerContentStyled,
@@ -20,15 +19,24 @@ import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
 import { deleteTournament } from "../../../store/actions/TournamentActions";
 import { connect } from "react-redux";
-import { LogoStyled } from "../../../styled/styledLayout";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
+import Logo, { SIZE_LOGO } from "../../global/Logo";
+import { setInProgress } from "../../global/InProgress";
+import { useHistory } from "react-router-dom";
+import { routerConstString } from "../../../const/menuConst";
 
 type Props = {
   tournament: TournamentData;
-  image?: string;
-  deleteTournament: (tournamentId: Id) => void;
+  image: string;
+  deleteTournament: (
+    tournamentId: Id,
+    callBackSuccess?: () => void,
+    callBackError?: () => void
+  ) => void;
   locale: LOCALE;
+  isOwner: boolean;
+  tournamentId: Id;
 };
 
 const TournamentInfo: React.FC<Props> = ({
@@ -37,13 +45,30 @@ const TournamentInfo: React.FC<Props> = ({
   children,
   image,
   locale,
+  isOwner,
+  tournamentId,
 }) => {
+  const history = useHistory();
+  const handleDelete = () => {
+    setInProgress(true);
+    deleteTournament(
+      tournamentId,
+      () => {
+        setInProgress(false);
+        history.push(routerConstString.tournaments);
+      },
+      () => {
+        setInProgress(false);
+      }
+    );
+  };
+
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <MainContainerStyled>
         <MainContainerContentStyled>
           <TournamentDetailsInfoStyled>
-            <LogoStyled src={image ? image : trophy}></LogoStyled>
+            <Logo src={image} size={SIZE_LOGO.lg} />
             <TournamentTitle>{tournament.name}</TournamentTitle>
           </TournamentDetailsInfoStyled>
           <TournamentDetailsInfoStyled>
@@ -75,16 +100,16 @@ const TournamentInfo: React.FC<Props> = ({
             </TournamentDetailsInfoStyled>
           ) : null}
         </MainContainerContentStyled>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={() => {
-            deleteTournament(tournament.id);
-          }}
-          style={{ margin: "5px auto", width: "fit-content" }}
-        >
-          <Translator id="deleteTournament" />
-        </Button>
+        {isOwner ? (
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleDelete}
+            style={{ margin: "5px auto", width: "fit-content" }}
+          >
+            <Translator id="deleteTournament" />
+          </Button>
+        ) : null}
         {children}
       </MainContainerStyled>
     </Rosetta>
@@ -99,8 +124,12 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    deleteTournament: (favoriteTournaments: Id) =>
-      dispatch(deleteTournament(favoriteTournaments)),
+    deleteTournament: (
+      tournamentId: Id,
+      callBackSuccess?: () => void,
+      callBackError?: () => void
+    ) =>
+      dispatch(deleteTournament(tournamentId, callBackSuccess, callBackError)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TournamentInfo);

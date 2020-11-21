@@ -22,8 +22,7 @@ const MenuSideBar = ({
 };
 
 const mapStateToProps = (state) => {
-    const auth = state.firebase.auth;
-    const loggedIn = Boolean(auth !== undefined && auth !== null);
+    const loggedIn = Boolean(state.firebase.auth.uid);
     return {
         loggedIn,
     };

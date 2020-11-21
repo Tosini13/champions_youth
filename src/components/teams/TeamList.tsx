@@ -16,14 +16,16 @@ type Props = {
   teams?: TeamData[];
   deleteTeamFromTournament: (tournamentId: Id, teamId: Id) => void;
   editTeamFromTournament: (tournamentId: Id, team: TeamData) => void;
-  authorId: Id;
+  userId: Id;
+  isOwner: boolean;
 };
 
 const TeamList: React.FC<Props> = ({
   teams,
   deleteTeamFromTournament,
   editTeamFromTournament,
-  authorId,
+  userId,
+  isOwner,
 }) => {
   const { tournamentId } = useParams<{ tournamentId: Id }>();
 
@@ -43,7 +45,8 @@ const TeamList: React.FC<Props> = ({
           team={team}
           handleDeleteTeam={handleDeleteTeam}
           handleEditTeam={handleEditTeam}
-          authorId={authorId}
+          userId={userId}
+          isOwner={isOwner}
         />
       ))}
     </TeamListStyled>
@@ -51,8 +54,9 @@ const TeamList: React.FC<Props> = ({
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
+  console.log(state);
   return {
-    authorId: state.firebase.auth.uid,
+    userId: state.firebase.auth.uid,
   };
 };
 

@@ -3,14 +3,13 @@ import React, { useState, useEffect } from "react";
 import { matchModeConst } from "../../const/matchConst";
 import { Id } from "../../const/structuresConst";
 
-import trophy from "../../images/logo/tournament_logo_trophy2.png";
 import { Match } from "../../structures/dbAPI/matchData";
-import { LogoLargeStyled } from "../../styled/styledLayout";
 import {
   MatchDisplayTeamNameStyled,
   MatchDisplayResultGoalStyled,
   LiveMarkStyled,
 } from "../../styled/styledMatch";
+import Logo, { SIZE_LOGO } from "../global/Logo";
 import { getImage } from "../tournaments/actions/getImage";
 
 export interface MatchDetailsDisplayProps {
@@ -38,13 +37,12 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
   }, [match, authorId]);
 
   const isStarted: boolean = match.mode !== matchModeConst.notStarted;
+
   return (
-    <Grid container justify="space-evenly" alignItems="center">
-      <Grid item>
+    <Grid container alignItems="center" style={{ paddingTop: "10px" }}>
+      <Grid item xs={4}>
         <Grid container direction="column" alignItems="center">
-          <LogoLargeStyled
-            src={imageHome ? imageHome : trophy}
-          ></LogoLargeStyled>
+          <Logo src={imageHome} size={SIZE_LOGO.lg} />
           <MatchDisplayTeamNameStyled>
             {match.home
               ? match.home.name
@@ -54,7 +52,7 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
           </MatchDisplayTeamNameStyled>
         </Grid>
       </Grid>
-      <Grid item>
+      <Grid item xs={4}>
         <Grid container direction="column" justify="center" alignItems="center">
           <Grid item>
             <LiveMarkStyled live={match.mode === matchModeConst.live}>
@@ -80,12 +78,10 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
           </Grid>
         </Grid>
       </Grid>
-      <Grid item>
+      <Grid item xs={4}>
         <Grid container direction="column" alignItems="center">
           <Grid item>
-            <LogoLargeStyled
-              src={imageAway ? imageAway : trophy}
-            ></LogoLargeStyled>
+            <Logo src={imageAway} size={SIZE_LOGO.lg} />
           </Grid>
           <Grid item>
             <MatchDisplayTeamNameStyled>
