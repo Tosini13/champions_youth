@@ -208,17 +208,21 @@ export class BracketStructure {
 
   initBracketWithTeams = (teams: TeamData[]) => {
     const lastMatches = this.getLastMatches(this.placeMatches[1]).reverse();
+    let chosen: TeamData[] = [];
     let i = 0;
     lastMatches.forEach((game) => {
       const homeTeam = teams[i++];
+      chosen.push(homeTeam);
       game.homeTeam = homeTeam;
       game.match.home = homeTeam;
     });
     lastMatches.forEach((game) => {
       const awayTeam = teams[i++];
+      chosen.push(awayTeam);
       game.awayTeam = awayTeam;
       game.match.away = awayTeam;
     });
+    return chosen;
   };
 
   initBracketWithPromoted = (groups: Group[]) => {
