@@ -2,9 +2,7 @@ import React from "react";
 
 import { BracketStructure } from "../../../../../structures/bracket";
 import { GameStructure } from "../../../../../structures/game";
-import {
-  Placeholder,
-} from "../../../../../const/groupConst";
+import { Placeholder } from "../../../../../const/groupConst";
 import { Group } from "../../../../../models/groupData";
 import ChoosePromotedList from "./ChoosePromotedList";
 import { Id } from "../../../../../const/structuresConst";
@@ -37,11 +35,11 @@ const ChoosePromoted: React.FC<Props> = ({
 
   const handleChooseTeam = (groupId: Id, team?: Placeholder) => {
     if (team === undefined && gameSide === GAME_SIDE.HOME)
-      game.setHomeTeam = undefined;
+      game.setHomePlaceholder = undefined;
     if (team && gameSide === GAME_SIDE.HOME && game.placeholder)
       game.setHomePlaceholder = { ...team, id: groupId };
     if (team === undefined && gameSide === GAME_SIDE.AWAY)
-      game.setAwayTeam = undefined;
+      game.setAwayPlaceholder = undefined;
     if (team && gameSide === GAME_SIDE.AWAY && game.placeholder)
       game.setAwayPlaceholder = { ...team, id: groupId };
     bracket.updateGame(game);

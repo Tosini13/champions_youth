@@ -56,7 +56,9 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
 }) => {
   const countPromoted = () => {
     let teamsQtt = 0;
-    groups?.forEach((group) => (teamsQtt += group.promoted.length));
+    groups?.forEach((group) => {
+      teamsQtt += group.promoted.length;
+    });
     return teamsQtt;
   };
 
@@ -125,14 +127,16 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
       const used = bracket.initBracketWithPromoted(groups);
       setChosenPromoted(used);
     } else {
-      bracket.initBracketWithTeams(shuffle(teams));
+      const used = bracket.initBracketWithTeams(shuffle(teams));
+      setChosenTeams(used);
     }
     setBracket(bracket);
   };
 
   const submitBracket = () => {
-    if (chosenTeams.length === 0 && chosenPromoted.length === 0)
+    if (chosenTeams.length === 0 && chosenPromoted.length === 0) {
       console.log("teams are not chosen!");
+    }
     const convertedBracket = bracket.convertBracket();
     let groupPromoted = [];
     convertedBracket.games.forEach((game) => {

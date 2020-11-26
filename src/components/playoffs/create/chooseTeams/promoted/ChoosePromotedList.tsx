@@ -1,10 +1,7 @@
 import React from "react";
 
 import { ChooseListStyled } from "../../../../../styled/styledBracket";
-import {
-  Placeholder,
-  PromotedTeam,
-} from "../../../../../const/groupConst";
+import { Placeholder, PromotedTeam } from "../../../../../const/groupConst";
 import { Group } from "../../../../../models/groupData";
 import ChoosePromotedListElement from "./ChoosePromotedListElement";
 import { Id } from "../../../../../const/structuresConst";
@@ -36,7 +33,6 @@ const ChoosePromotedList: React.FC<Props> = ({
     ) {
       return false;
     }
-    console.log(team);
 
     if (doesChosenTeamsIncludes(game.place, game.id)) {
       if (gameTeam && comparePlaceholders(gameTeam, game)) {
