@@ -1,10 +1,6 @@
 import moment, { Moment } from "moment";
 import { Placeholder } from "../const/groupConst";
-import {
-  placeMatchesTitle,
-  roundMatchesTitle,
-  TeamsPlaceholder,
-} from "../const/structuresConst";
+import { placeMatchesTitle, roundMatchesTitle } from "../const/structuresConst";
 import { Group } from "../models/groupData";
 import { TeamData } from "../models/teamData";
 import { BracketDataDb, bracketDbApi } from "./dbAPI/bracketData";
@@ -81,25 +77,25 @@ export class BracketStructure {
     totalMatches: number,
     currentMatch: number
   ) => {
-    let match = rootGame; //get final
+    let game = rootGame; //get final
     let roundCounter = totalMatches;
     let partMatches = totalMatches / 2;
     currentMatch++;
     while (
-      match.previousMatchHome &&
-      match.previousMatchAway &&
+      game.previousMatchHome &&
+      game.previousMatchAway &&
       roundCounter > 1
     ) {
       if (currentMatch <= partMatches) {
-        match = match.previousMatchHome;
+        game = game.previousMatchHome;
         partMatches = partMatches - roundCounter / 4;
       } else {
-        match = match.previousMatchAway;
+        game = game.previousMatchAway;
         partMatches = partMatches + roundCounter / 4;
       }
       roundCounter /= 2;
     }
-    return match;
+    return game;
   };
 
   countSmallLastRound = (placeMatch: number) => {
@@ -139,7 +135,7 @@ export class BracketStructure {
   getPlaceRoundTitle = (round: number) => {
     let title = placeMatchesTitle.get(round);
     if (title) return title;
-    return `o ${round} miejsce`;
+    return `${round}th place`;
   };
 
   createRound = (
@@ -276,15 +272,36 @@ export class BracketStructure {
   };
 
   setPlaceholder = (game: GameStructure) => {
-    let home = "";
-    let away = "";
-    if (game.previousMatchHome) home = game.previousMatchHome.round;
-    if (game.previousMatchAway) away = game.previousMatchAway.round;
-    const placeholder: TeamsPlaceholder = {
-      home: { name: home },
-      away: { name: away },
-    };
-    return placeholder;
+    if (game.previousMatchHome === undefined) return false;
+    if (game.previousMatchAway === undefined) return false;
+    let home: Placeholder | undefined;
+    let away: Placeholder | undefined;
+    if (game.previousMatchHome?.winnerMatch === game) {
+      home = {
+        name: game.previousMatchHome.round,
+        place: "winner",
+      };
+    }
+    if (game.previousMatchHome?.loserMatch === game) {
+      home = {
+        name: game.previousMatchHome.round,
+        place: "loser",
+      };
+    }
+    if (game.previousMatchAway?.winnerMatch === game) {
+      away = {
+        name: game.previousMatchAway.round,
+        place: "winner",
+      };
+    }
+    if (game.previousMatchAway?.loserMatch === game) {
+      away = {
+        name: game.previousMatchAway.round,
+        place: "loser",
+      };
+    }
+    game.setHomePlaceholder = home;
+    game.setAwayPlaceholder = away;
   };
 
   breadthFirstSearch = (
@@ -296,7 +313,7 @@ export class BracketStructure {
     if (queue.includes(game) || maxDepth < depth) return false;
     if (maxDepth === depth) {
       //do whatever you want!
-      game.placeholder = this.setPlaceholder(game);
+      this.setPlaceholder(game);
       queue.push(game);
       return false;
     }

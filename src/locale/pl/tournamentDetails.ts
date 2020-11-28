@@ -13,7 +13,6 @@ export const tournamentDetails = {
   addTeam: "Dodaj zespół",
   nameRequired: "Nazwa musi zawierać przynajmniej 2 znaki!",
   noTeams: "Brak zadeklarowanych zespołów",
-  noTeam: "Brak zespołu",
   cancel: "Anuluj",
   create: "Stwórz",
   add: "Dodaj",
@@ -23,5 +22,8 @@ export const tournamentDetails = {
   guest: "Gość",
   ok: "Ok",
   draw: "Losuj",
-  chooseTeams: "Wybierz zespoły",
+  winner: "Zwycięzca",
+  loser: "Przegrany",
+  noTeam: "Brak Zespołu",
+  place: "miejsce",
 };

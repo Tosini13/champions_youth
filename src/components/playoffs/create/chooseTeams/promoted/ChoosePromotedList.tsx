@@ -56,7 +56,7 @@ const ChoosePromotedList: React.FC<Props> = ({
     }
   };
 
-  const doesChosenTeamsIncludes = (place?: number, id?: Id | null) => {
+  const doesChosenTeamsIncludes = (place?: number | string, id?: Id | null) => {
     return Boolean(
       chosenTeams.find((chosen) => {
         return chosen.id === id && chosen.place === place;

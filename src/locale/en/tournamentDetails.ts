@@ -13,7 +13,6 @@ export const tournamentDetails = {
   addTeam: "Add team",
   nameRequired: "Name must contain at least 2 characters!",
   noTeams: "There's no teams declared",
-  noTeam: "No team",
   cancel: "Cancel",
   create: "Create",
   add: "Add",
@@ -24,4 +23,8 @@ export const tournamentDetails = {
   ok: "Ok",
   draw: "Draw",
   chooseTeams: "Choose teams",
+  winner: "Winner",
+  loser: "Loser",
+  noTeam: "No Team",
+  place: "place",
 };
