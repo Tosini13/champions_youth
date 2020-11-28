@@ -136,6 +136,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   const submitBracket = () => {
     if (chosenTeams.length === 0 && chosenPromoted.length === 0) {
       console.log("teams are not chosen!");
+      return false;
     }
     const convertedBracket = bracket.convertBracket();
     let groupPromoted = [];

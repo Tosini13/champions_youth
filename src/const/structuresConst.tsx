@@ -14,17 +14,17 @@ export enum constraintsConst {
 }
 
 export enum roundsStringConst {
-  final = "Finał",
-  semiFinal = "Półfinał",
-  quarterFinal = "Ćwierćfinał",
-  sixteen = "1/16 finału",
-  thirtyTwo = "1/32 finału",
-  sixtyFour = "1/64 finału",
+  final = "Final",
+  semiFinal = "Semi-final",
+  quarterFinal = "Quarter-final",
+  sixteen = "1/16 finals",
+  thirtyTwo = "1/32 finals",
+  sixtyFour = "1/64 finals",
 }
 
 export let placeMatchesTitle = new Map();
-placeMatchesTitle.set(1, "Finał");
-placeMatchesTitle.set(3, "o 3 miejsce");
+placeMatchesTitle.set(1, "Final");
+placeMatchesTitle.set(3, "3rd place");
 
 export let roundMatchesTitle = new Map();
 roundMatchesTitle.set(1, roundsStringConst.final);

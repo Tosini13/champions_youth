@@ -32,19 +32,25 @@ export class GameStructure {
   }
 
   set setHomePlaceholder(team: Placeholder | undefined) {
-    if (this.placeholder) {
-      this.placeholder.home = team;
-      this.match.setHomePlaceholder(team);
-      if (this.returnMatch) this.returnMatch.setAwayPlaceholder(team);
+    if (!this.placeholder) {
+      this.placeholder = {
+        home: undefined,
+      };
     }
+    this.placeholder.home = team;
+    this.match.setHomePlaceholder(team);
+    if (this.returnMatch) this.returnMatch.setAwayPlaceholder(team);
   }
 
   set setAwayPlaceholder(team: Placeholder | undefined) {
-    if (this.placeholder) {
-      this.placeholder.away = team;
-      this.match.setAwayPlaceholder(team);
-      if (this.returnMatch) this.returnMatch.setHomePlaceholder(team);
+    if (!this.placeholder) {
+      this.placeholder = {
+        away: undefined,
+      };
     }
+    this.placeholder.away = team;
+    this.match.setAwayPlaceholder(team);
+    if (this.returnMatch) this.returnMatch.setHomePlaceholder(team);
   }
 
   set setWinnerMatch(winnerMatch: GameStructure) {

@@ -7,9 +7,8 @@ export type PromotedTeam = {
 
 export type Placeholder = {
   id?: Id;
-  place?: number;
+  place?: number | string;
   name: string;
 };
-
 
 export type PromotedGroupsTeams = [PromotedTeam[]];

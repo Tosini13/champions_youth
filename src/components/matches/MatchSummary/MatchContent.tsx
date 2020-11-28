@@ -1,8 +1,14 @@
 import React from "react";
+import { Rosetta } from "react-rosetta";
+import { connect } from "react-redux";
+
 import { MatchData } from "../../../structures/match";
 import { Grid, Typography } from "@material-ui/core";
 import styled from "styled-components";
 import { matchModeConst } from "../../../const/matchConst";
+import { LOCALE } from "../../../locale/config";
+import matchDict from "../../../locale/matchDict";
+import ShowTeam from "../ShowTeam";
 
 const TeamName = styled(Typography)`
   text-overflow: ellipsis;
@@ -41,66 +47,72 @@ const Divider = styled(Typography)`
 
 export interface MatchContentProps {
   match: MatchData;
+  locale: LOCALE;
 }
 
-const MatchContent: React.FC<MatchContentProps> = ({ match }) => {
+const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
   const isResult = match.mode !== matchModeConst.notStarted;
   return (
-    <Grid container wrap="nowrap" alignItems="center">
-      <Grid item xs={10}>
-        <Grid
-          container
-          justify="space-evenly"
-          alignItems="center"
-          wrap="nowrap"
-        >
-          <Grid item xs={5}>
-            <HostName color="secondary">
-              {match.home
-                ? match.home.name
-                : match.placeholder.home
-                ? match.placeholder.home.name
-                : "brak zespołu"}
-            </HostName>
+    <Rosetta translations={matchDict} locale={locale}>
+      <Grid container wrap="nowrap" alignItems="center">
+        <Grid item xs={10}>
+          <Grid
+            container
+            justify="space-evenly"
+            alignItems="center"
+            wrap="nowrap"
+          >
+            <Grid item xs={5}>
+              <HostName color="secondary">
+                <ShowTeam
+                  team={match.home}
+                  placeholder={match?.placeholder?.home}
+                />
+              </HostName>
+            </Grid>
+            <Grid item xs={2}>
+              <Divider color="secondary">vs</Divider>
+            </Grid>
+            <Grid item xs={5}>
+              <GuestName color="secondary">
+                <ShowTeam
+                  team={match.away}
+                  placeholder={match?.placeholder?.away}
+                />
+              </GuestName>
+            </Grid>
           </Grid>
-          <Grid item xs={2}>
-            <Divider color="secondary">vs</Divider>
-          </Grid>
-          <Grid item xs={5}>
-            <GuestName color="secondary">
-              {match.away
-                ? match.away.name
-                : match.placeholder.away
-                ? match.placeholder.away.name
-                : "brak zespołu"}
-            </GuestName>
+        </Grid>
+        <Grid item xs={2}>
+          <Grid
+            container
+            justify="space-evenly"
+            alignItems="center"
+            wrap="nowrap"
+          >
+            <ResultGoal item>
+              <Goal color="secondary">
+                {isResult ? match.result?.home : null}
+              </Goal>
+            </ResultGoal>
+            <Grid item>
+              <Divider color="secondary">:</Divider>
+            </Grid>
+            <ResultGoal item>
+              <Goal color="secondary">
+                {isResult ? match.result?.away : null}
+              </Goal>
+            </ResultGoal>
           </Grid>
         </Grid>
       </Grid>
-      <Grid item xs={2}>
-        <Grid
-          container
-          justify="space-evenly"
-          alignItems="center"
-          wrap="nowrap"
-        >
-          <ResultGoal item>
-            <Goal color="secondary">
-              {isResult ? match.result?.home : null}
-            </Goal>
-          </ResultGoal>
-          <Grid item>
-            <Divider color="secondary">:</Divider>
-          </Grid>
-          <ResultGoal item>
-            <Goal color="secondary">
-              {isResult ? match.result?.away : null}
-            </Goal>
-          </ResultGoal>
-        </Grid>
-      </Grid>
-    </Grid>
+    </Rosetta>
   );
 };
 
-export default MatchContent;
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
+};
+export default connect(mapStateToProps)(MatchContent);

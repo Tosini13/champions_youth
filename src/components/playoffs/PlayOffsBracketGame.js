@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { Rosetta, Translator } from "react-rosetta";
+import { Rosetta } from "react-rosetta";
 
 import {
   MatchContainerStyled,
@@ -11,6 +11,7 @@ import {
 } from "../../styled/styledMatch";
 import GameDetails from "../games/GameDetails";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
+import ShowTeam from "../matches/ShowTeam";
 
 
 const PlayOffsBracketGame = ({ game, locale }) => {
@@ -33,9 +34,19 @@ const PlayOffsBracketGame = ({ game, locale }) => {
             <MatchRoundTitleStyled>{game.round}</MatchRoundTitleStyled>
           </MatchHeaderStyled>
           <MatchMockTeamsContainerStyled>
-            <p>{game.homeTeam ? game.homeTeam.name : game.placeholder.home ? game.placeholder.home.name : <Translator id="noTeam" />}</p>
+            <p>
+              <ShowTeam
+                team={game.homeTeam}
+                placeholder={game?.placeholder?.home}
+              />
+            </p>
             <p>vs</p>
-            <p>{game.awayTeam ? game.awayTeam.name : game.placeholder.away ? game.placeholder.away.name : <Translator id="noTeam" />}</p>
+            <p>
+              <ShowTeam
+                team={game.awayTeam}
+                placeholder={game?.placeholder?.away}
+              />
+            </p>
           </MatchMockTeamsContainerStyled>
         </MatchContainerStyled>
         {open ? <GameDetails handleClose={handleClose} open={open} tournamentId={tournamentId} gameId={game.id} /> : null}
