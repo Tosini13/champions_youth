@@ -20,13 +20,14 @@ import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
 import { Id } from "../../../const/structuresConst";
 import { deleteGroups } from "../../../store/actions/GroupActions";
-import { Typography } from "@material-ui/core";
 import { setInProgress } from "../../global/InProgress";
+import InfoStatic from "../../global/InfoStatic";
 
 type Props = {
   tournament: TournamentData;
   groups?: Group[];
   teams: TeamData[];
+  playOffs: boolean;
   locale: LOCALE;
   tournamentId: Id;
   deleteGroups: (
@@ -40,6 +41,7 @@ type Props = {
 const TournamentGroups: React.FC<Props> = ({
   tournament,
   teams,
+  playOffs,
   groups,
   locale,
   tournamentId,
@@ -49,10 +51,18 @@ const TournamentGroups: React.FC<Props> = ({
   const [create, setCreate] = useState<boolean>(false);
 
   const toggleCreate = () => {
+    if (playOffs) {
+      console.log("playOffs are created!");
+      return false;
+    }
     setCreate(!create);
   };
 
   const handleDelete = () => {
+    if (playOffs) {
+      console.log("playOffs are created!");
+      return false;
+    }
     setInProgress(true);
     deleteGroups(
       tournamentId,
@@ -78,6 +88,7 @@ const TournamentGroups: React.FC<Props> = ({
                   variant="outlined"
                   color="secondary"
                   startIcon={<DeleteIcon />}
+                  disabled={playOffs}
                 >
                   <Translator id="deleteGroupStage" />
                 </ButtonErrorStyled>
@@ -94,17 +105,23 @@ const TournamentGroups: React.FC<Props> = ({
           />
         ) : null}
         {!create && !groups?.length && !isOwner ? (
-          <Typography>
+          <InfoStatic>
             <Translator id="noGroup" />
-          </Typography>
+          </InfoStatic>
         ) : null}
-        {!create && !groups?.length && isOwner ? (
+        {!create && !groups?.length && isOwner && !teams.length ? (
+          <InfoStatic>
+            <Translator id="noTeams" />
+          </InfoStatic>
+        ) : null}
+        {!create && !groups?.length && isOwner && teams.length ? (
           <ButtonHorizontalContainerStyled>
             <ButtonSuccessStyled
               onClick={toggleCreate}
               variant="outlined"
               color="secondary"
               startIcon={<AddIcon />}
+              disabled={playOffs}
             >
               <Translator id="createGroupStage" />
             </ButtonSuccessStyled>

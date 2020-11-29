@@ -6,18 +6,24 @@ import { TeamData } from "../../../models/teamData";
 import AddTeam from "../../teams/AddTeam";
 import TeamList from "../../teams/TeamList";
 
-import { Button } from "@material-ui/core";
 import { DialogStyled, DialogTitle } from "../../../styled/styledLayout";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
+import { ButtonStyled } from "../../../styled/styledButtons";
 
 type Props = {
   teams?: TeamData[];
   locale: LOCALE;
   isOwner: boolean;
+  isCreated: boolean;
 };
 
-const TournamentTeams: React.FC<Props> = ({ teams, locale, isOwner }) => {
+const TournamentTeams: React.FC<Props> = ({
+  teams,
+  locale,
+  isOwner,
+  isCreated,
+}) => {
   const [opened, setOpened] = useState<boolean>(false);
 
   const handleClose = () => {
@@ -42,15 +48,18 @@ const TournamentTeams: React.FC<Props> = ({ teams, locale, isOwner }) => {
           </DialogTitle>
           <AddTeam handleClose={handleClose} />
         </DialogStyled>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={handleOpen}
-          style={{ margin: "5px auto", width: "fit-content" }}
-        >
-          <Translator id="addTeam" />
-        </Button>
-        <TeamList teams={teams} isOwner={isOwner} />
+        {isOwner ? (
+          <ButtonStyled
+            variant="outlined"
+            color="secondary"
+            onClick={handleOpen}
+            style={{ margin: "5px auto", width: "fit-content" }}
+            disabled={isCreated}
+          >
+            <Translator id="addTeam" />
+          </ButtonStyled>
+        ) : null}
+        <TeamList teams={teams} isOwner={isOwner} isCreated={isCreated} />
       </>
     </Rosetta>
   );

@@ -18,10 +18,10 @@ import PlayOffsBracket from "../../playoffs/PlayOffsBracket";
 import { Group } from "../../../models/groupData";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
-import { Typography } from "@material-ui/core";
 import { deletePlayOffs } from "../../../store/actions/PlayOffsActions";
 import { Id } from "../../../const/structuresConst";
 import { setInProgress } from "../../global/InProgress";
+import InfoStatic from "../../global/InfoStatic";
 
 type Props = {
   tournamentId: Id;
@@ -96,11 +96,16 @@ const TournamentPlayOffs: React.FC<Props> = ({
           />
         ) : null}
         {!playOffs?.length && !isOwner && !create ? (
-          <Typography>
+          <InfoStatic>
             <Translator id="noPlayOffs" />
-          </Typography>
+          </InfoStatic>
         ) : null}
-        {!playOffs?.length && isOwner && !create ? (
+        {!playOffs?.length && isOwner && !create && !teams.length ? (
+          <InfoStatic>
+            <Translator id="noTeams" />
+          </InfoStatic>
+        ) : null}
+        {!playOffs?.length && isOwner && !create && teams.length ? (
           <ButtonHorizontalContainerStyled>
             <ButtonSuccessStyled
               onClick={createPlayOffs}

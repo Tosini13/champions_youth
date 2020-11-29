@@ -25,7 +25,6 @@ type Props = {
 };
 
 const MatchSummaryMock: React.FC<Props> = ({ match, locale }) => {
-  console.log(match);
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <MatchContainerStyled>

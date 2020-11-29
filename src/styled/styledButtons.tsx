@@ -73,15 +73,22 @@ export const ALinkStyled = styled.a`
   color: ${mainTheme.palette.secondary.main};
 `;
 
-export const ButtonSuccessStyled = styled(Button)`
+export const ButtonStyled = styled(Button)`
+  &.Mui-disabled {
+    border-color: rgba(150, 150, 150, 0.26);
+    color: rgba(150, 150, 150, 0.26);
+  }
+`;
+
+export const ButtonSuccessStyled = styled(ButtonStyled)`
   color: ${mainTheme.palette.success.main};
 `;
 
-export const ButtonErrorStyled = styled(Button)`
+export const ButtonErrorStyled = styled(ButtonStyled)`
   color: ${mainTheme.palette.error.main};
 `;
 
-export const ButtonInfoStyled = styled(Button)`
+export const ButtonInfoStyled = styled(ButtonStyled)`
   color: ${mainTheme.palette.info.main};
 `;
 

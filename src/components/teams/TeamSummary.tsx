@@ -24,6 +24,7 @@ type Props = {
   handleEditTeam: (team: TeamData) => void;
   userId: Id;
   isOwner: boolean;
+  isCreated: boolean;
 };
 
 const TeamSummary: React.FC<Props> = ({
@@ -32,6 +33,7 @@ const TeamSummary: React.FC<Props> = ({
   handleEditTeam,
   userId,
   isOwner,
+  isCreated,
 }) => {
   const handleDelete = () => {
     handleDeleteTeam(team);
@@ -87,7 +89,7 @@ const TeamSummary: React.FC<Props> = ({
             primary={team.name}
             style={{ marginLeft: "5px" }}
           />
-          {isOwner ? (
+          {isOwner && !isCreated ? (
             <ListItemSecondaryAction>
               <TeamsListIconButtonStyled onClick={handleDelete}>
                 <DeleteIconStyled />
