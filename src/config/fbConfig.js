@@ -21,5 +21,8 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 
-firebase.firestore();
+firebase.firestore().settings({
+  ignoreUndefinedProperties: true,
+});
+
 export default firebase;

@@ -27,4 +27,5 @@ export const tournamentDetails = {
   loser: "Loser",
   noTeam: "No Team",
   place: "place",
+  matchesCreated: "Teams cannot be changed when matches are created",
 };

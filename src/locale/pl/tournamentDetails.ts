@@ -26,4 +26,5 @@ export const tournamentDetails = {
   loser: "Przegrany",
   noTeam: "Brak Zespołu",
   place: "miejsce",
+  matchesCreated: "Drużyny nie mogą być zmienione gdy mecze zostały stworzone",
 };

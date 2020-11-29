@@ -19,6 +19,7 @@ export const MainContainer = styled.main`
   flex-grow: 1;
   background-color: ${mainTheme.palette.primary.dark};
   padding: 0px 5px;
+  position: relative;
 `;
 
 export const NoContentContainer = styled.div`
