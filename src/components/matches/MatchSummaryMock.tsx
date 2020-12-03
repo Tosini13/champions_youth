@@ -1,6 +1,5 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
-import { isNumber } from "util";
 
 import {
   MatchContainerStyled,
@@ -10,17 +9,17 @@ import {
   MatchRoundDateStyled,
 } from "../../styled/styledMatch";
 import { MatchData, MatchStructure } from "../../structures/match";
-import { connect } from "react-redux";
 import { LOCALE } from "../../locale/config";
 import matchDict from "../../locale/matchDict";
 import styled from "styled-components";
+import ShowTeam from "./ShowTeam";
 
 export const PlaceLabel = styled.span`
   margin-left: 2px;
 `;
 
 type Props = {
-  match: MatchData | MatchStructure;
+  match: MatchStructure | MatchData;
   locale: LOCALE;
 };
 
@@ -42,41 +41,17 @@ const MatchSummaryMock: React.FC<Props> = ({ match, locale }) => {
         </MatchHeaderStyled>
         <MatchMockTeamsContainerStyled>
           <p>
-            {match.home
-              ? match.home.name
-              : match.placeholder?.home
-              ? `${match.placeholder.home.name}  `
-              : "no Team"}
-            {match?.placeholder?.home?.place ? (
-              <PlaceLabel>
-                <Translator id={match.placeholder.home.place.toString()} />
-              </PlaceLabel>
-            ) : null}
-            {isNumber(match?.placeholder?.home?.place) ? (
-              <PlaceLabel>
-                <Translator id="place" />
-              </PlaceLabel>
-            ) : null}
+            <ShowTeam
+              team={match.home}
+              placeholder={match?.placeholder?.home}
+            />
           </p>
           <p>vs</p>
           <p>
-            {match.away ? (
-              match.away.name
-            ) : match.placeholder?.away ? (
-              `${match.placeholder.away.name}  `
-            ) : (
-              <Translator id="noTeam" />
-            )}
-            {match?.placeholder?.away?.place ? (
-              <PlaceLabel>
-                <Translator id={match.placeholder.away.place.toString()} />
-              </PlaceLabel>
-            ) : null}
-            {isNumber(match?.placeholder?.away?.place) ? (
-              <PlaceLabel>
-                <Translator id="place" />
-              </PlaceLabel>
-            ) : null}
+            <ShowTeam
+              team={match.away}
+              placeholder={match?.placeholder?.away}
+            />
           </p>
         </MatchMockTeamsContainerStyled>
       </MatchContainerStyled>
@@ -84,9 +59,4 @@ const MatchSummaryMock: React.FC<Props> = ({ match, locale }) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-export default connect(mapStateToProps)(MatchSummaryMock);
+export default MatchSummaryMock;

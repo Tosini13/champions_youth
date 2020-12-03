@@ -34,14 +34,18 @@ const ChoosePromoted: React.FC<Props> = ({
   };
 
   const handleChooseTeam = (groupId: Id, team?: Placeholder) => {
-    if (team === undefined && gameSide === GAME_SIDE.HOME)
+    if (team === undefined && gameSide === GAME_SIDE.HOME) {
       game.setHomePlaceholder = undefined;
-    if (team && gameSide === GAME_SIDE.HOME && game.placeholder)
+    }
+    if (team && gameSide === GAME_SIDE.HOME) {
       game.setHomePlaceholder = { ...team, id: groupId };
-    if (team === undefined && gameSide === GAME_SIDE.AWAY)
+    }
+    if (team === undefined && gameSide === GAME_SIDE.AWAY) {
       game.setAwayPlaceholder = undefined;
-    if (team && gameSide === GAME_SIDE.AWAY && game.placeholder)
+    }
+    if (team && gameSide === GAME_SIDE.AWAY) {
       game.setAwayPlaceholder = { ...team, id: groupId };
+    }
     bracket.updateGame(game);
   };
 

@@ -25,7 +25,7 @@ const GameSummaryRecursiveMock: React.FC<Props> = ({
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <>
-        <MatchSummaryMock match={game.match} />
+        <MatchSummaryMock match={game.match} locale={locale} />
         {!lastMatch && game.previousMatchHome ? (
           <GameSummaryRecursiveMock
             game={game.previousMatchHome}

@@ -48,7 +48,7 @@ const Choose: React.FC<Props> = ({
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <DialogStyled open={open} onClose={handleClose}>
-        <MatchSummaryMock match={game.match} />
+        <MatchSummaryMock match={game.match} locale={locale} />
         <Grid container justify="space-around">
           <Button
             variant={gameSide === GAME_SIDE.HOME ? "contained" : "outlined"}
