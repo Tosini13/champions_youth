@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 import LockIcon from "@material-ui/icons/Lock";
 import ListItem from "@material-ui/core/ListItem";
 
@@ -61,6 +62,12 @@ const SignedInMenu: React.FC<Props> = ({
           </ListItem>
         </ListStyled>
         <ListStyled>
+          <ListItem>
+            <ListItemIcon>
+              <FlashOnIcon />
+            </ListItemIcon>
+            <ListItemText primary={<Translator id="version" />} /> 1.0
+          </ListItem>
           <ListItem button>
             <MenuLinkStyled
               to={routerConstString.login}
