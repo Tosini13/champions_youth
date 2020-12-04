@@ -49,7 +49,7 @@ const GroupList: React.FC<GroupListProps> = ({
             <List>
               {group.matches?.map((match) => (
                 <div key={match.id}>
-                  <MatchSummaryMock match={match} />
+                  <MatchSummaryMock match={match} locale={locale} />
                 </div>
               ))}
             </List>

@@ -71,7 +71,7 @@ export class GroupStage {
         teamsQtt: teamsInGroup,
         teams: [],
         matches: [],
-        promoted: [],
+        promoted: this.initPromoted(groupName, teamsInGroup),
       };
       groups.push(group);
     }
