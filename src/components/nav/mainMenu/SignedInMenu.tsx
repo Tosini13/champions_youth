@@ -21,6 +21,8 @@ import Language from "../Language";
 import menuDict from "../../../locale/menu";
 import { LOCALE } from "../../../locale/config";
 
+const VERSION = process.env.REACT_APP_VERSION;
+
 type Props = {
   signOut: () => void;
   toggleSideBarMenu: () => void;
@@ -38,6 +40,7 @@ const SignedInMenu: React.FC<Props> = ({
     signOut();
     toggleSideBarMenu();
   };
+  console.log();
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <>
@@ -66,7 +69,7 @@ const SignedInMenu: React.FC<Props> = ({
             <ListItemIcon>
               <FlashOnIcon />
             </ListItemIcon>
-            <ListItemText primary={<Translator id="version" />} /> 1.0
+            <ListItemText primary={<Translator id="version" />} /> {VERSION}
           </ListItem>
           <ListItem button>
             <MenuLinkStyled
