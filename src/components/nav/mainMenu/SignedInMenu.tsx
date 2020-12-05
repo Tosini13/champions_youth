@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import FlashOnIcon from "@material-ui/icons/FlashOn";
 import LockIcon from "@material-ui/icons/Lock";
 import ListItem from "@material-ui/core/ListItem";
 
@@ -19,6 +20,8 @@ import { UserData } from "../../../models/credentialsData";
 import Language from "../Language";
 import menuDict from "../../../locale/menu";
 import { LOCALE } from "../../../locale/config";
+
+const VERSION = process.env.REACT_APP_VERSION;
 
 type Props = {
   signOut: () => void;
@@ -37,6 +40,7 @@ const SignedInMenu: React.FC<Props> = ({
     signOut();
     toggleSideBarMenu();
   };
+  console.log();
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <>
@@ -61,6 +65,12 @@ const SignedInMenu: React.FC<Props> = ({
           </ListItem>
         </ListStyled>
         <ListStyled>
+          <ListItem>
+            <ListItemIcon>
+              <FlashOnIcon />
+            </ListItemIcon>
+            <ListItemText primary={<Translator id="version" />} /> {VERSION}
+          </ListItem>
           <ListItem button>
             <MenuLinkStyled
               to={routerConstString.login}

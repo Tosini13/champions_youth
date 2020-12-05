@@ -4,6 +4,7 @@ export const menu = {
   loggedOut: "Logged out",
   signIn: "Sign in",
   signUp: "Sign up",
+  version: "version",
   TOURNAMENTS: "Tournaments",
   LIVE: "Live",
   MY: "My",
