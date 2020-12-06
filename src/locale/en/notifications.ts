@@ -5,6 +5,7 @@ export const notifications = {
   doDeleteTournament: "Do you really want to delete the tournament?",
   teamsNotChosenToPlayOffs: "Choose teams to create play-offs",
   deletePlayOffsToDeleteGroups: "Firstly delete play-offs",
+  doCreateGroup: "Do you really want to create groups?",
   yes: "Yes",
   no: "No",
   ok: "Ok",

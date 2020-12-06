@@ -23,6 +23,8 @@ import { deleteGroups } from "../../../store/actions/GroupActions";
 import { setInProgress } from "../../global/InProgress";
 import InfoStatic from "../../global/InfoStatic";
 import { useNotification } from "../../global/Notification";
+import { useHistory } from "react-router-dom";
+import { routerGenerateConst } from "../../../const/menuConst";
 
 type Props = {
   tournament: TournamentData;
@@ -49,6 +51,7 @@ const TournamentGroups: React.FC<Props> = ({
   deleteGroups,
   isOwner,
 }) => {
+  const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [create, setCreate] = useState<boolean>(false);
 
@@ -138,7 +141,9 @@ const TournamentGroups: React.FC<Props> = ({
         {!create && !groups?.length && isOwner && teams.length ? (
           <ButtonHorizontalContainerStyled>
             <ButtonSuccessStyled
-              onClick={toggleCreate}
+              onClick={() => {
+                history.push(routerGenerateConst.createGroups(tournamentId));
+              }}
               variant="outlined"
               color="secondary"
               startIcon={<AddIcon />}

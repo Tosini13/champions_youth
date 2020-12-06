@@ -33,6 +33,7 @@ export enum routerConstString {
   signUp = "/signup",
   tournaments = "/",
   tournament = "/tournament",
+  createGroups = "/tournament/:tournamentId/groups/add",
   group = "/tournament/:tournamentId/groups/:groupId",
   bracket = "/tournament/:tournamentId/playOffs/games/:gameId",
   matchGroup = "/tournament/:tournamentId/groups/:groupId/matches/:matchId",
@@ -43,6 +44,10 @@ export enum routerConstString {
 }
 
 export const routerGenerateConst = {
+  createGroups: (tournamentId: Id) => {
+    return `/tournament/${tournamentId}/groups/add`;
+  },
+
   groups: (tournamentId: Id, groupId: Id) => {
     return `/tournament/${tournamentId}/groups/${groupId}`;
   },

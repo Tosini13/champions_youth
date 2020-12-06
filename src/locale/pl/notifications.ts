@@ -5,6 +5,7 @@ export const notifications = {
   doDeleteTournament: "Czy na pewno chcesz usunąć ten turniej?",
   teamsNotChosenToPlayOffs: "Wybierz zespoły, aby stworzyć fazę pucharową",
   deletePlayOffsToDeleteGroups: "Usuń najpierw fazę pucharową",
+  doCreateGroup: "Czy na pewno chcesz stworzyć fazę grupową?",
   yes: "Tak",
   no: "Nie",
   ok: "Ok",
