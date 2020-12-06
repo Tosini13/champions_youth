@@ -19,6 +19,7 @@ import {
   GroupPlayOffs,
   updateGroupPromoted,
 } from "../../../store/actions/GroupActions";
+import { useNotification } from "../../global/Notification";
 
 const shuffle = (arr: any) => {
   let indexes: any[] = [];
@@ -54,6 +55,8 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
   createPlayoffs,
   updateGroupPromoted,
 }) => {
+  const { setQuestion, setAnswers, openNotification } = useNotification();
+
   const countPromoted = () => {
     let teamsQtt = 0;
     groups?.forEach((group) => {
@@ -135,7 +138,9 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
 
   const submitBracket = () => {
     if (chosenTeams.length === 0 && chosenPromoted.length === 0) {
-      console.log("teams are not chosen!");
+      setQuestion("teamsNotChosenToPlayOffs");
+      setAnswers([{ title: "ok" }]);
+      openNotification();
       return false;
     }
     const convertedBracket = bracket.convertBracket();

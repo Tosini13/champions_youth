@@ -17,6 +17,7 @@ import { EditTeamInputStyled } from "../../styled/styledForm";
 import { Id } from "../../const/structuresConst";
 import { getImage } from "../tournaments/actions/getImage";
 import Logo, { SIZE_LOGO } from "../global/Logo";
+import { useNotification } from "../global/Notification";
 
 type Props = {
   team: TeamData;
@@ -35,8 +36,24 @@ const TeamSummary: React.FC<Props> = ({
   isOwner,
   isCreated,
 }) => {
-  const handleDelete = () => {
+  const { setQuestion, setAnswers, openNotification } = useNotification();
+
+  const handleExecuteDelete = () => {
     handleDeleteTeam(team);
+  };
+
+  const handleDelete = () => {
+    setQuestion("doDeleteTeam");
+    setAnswers([
+      {
+        title: "yes",
+        action: handleExecuteDelete,
+      },
+      {
+        title: "no",
+      },
+    ]);
+    openNotification();
   };
 
   const handleEdit = () => {
