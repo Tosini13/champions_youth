@@ -22,6 +22,7 @@ import { deletePlayOffs } from "../../../store/actions/PlayOffsActions";
 import { Id } from "../../../const/structuresConst";
 import { setInProgress } from "../../global/InProgress";
 import InfoStatic from "../../global/InfoStatic";
+import { useNotification } from "../../global/Notification";
 
 type Props = {
   tournamentId: Id;
@@ -48,13 +49,14 @@ const TournamentPlayOffs: React.FC<Props> = ({
   isOwner,
   deletePlayOffs,
 }) => {
+  const { setQuestion, setAnswers, openNotification } = useNotification();
   const [create, setCreate] = useState<boolean>(false);
 
   const createPlayOffs = () => {
     setCreate(!create);
   };
 
-  const handleDelete = () => {
+  const handleExecuteDelete = () => {
     setInProgress(true);
     deletePlayOffs(
       tournamentId,
@@ -65,6 +67,20 @@ const TournamentPlayOffs: React.FC<Props> = ({
         setInProgress(false);
       }
     );
+  };
+
+  const handleDelete = () => {
+    setQuestion("doDeletePlayOffs");
+    setAnswers([
+      {
+        title: "yes",
+        action: handleExecuteDelete,
+      },
+      {
+        title: "no",
+      },
+    ]);
+    openNotification();
   };
 
   return (

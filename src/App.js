@@ -13,6 +13,7 @@ import SignUp from "./components/auth/SignUp";
 import GroupDetails from "./components/groups/GroupDetails";
 import MatchDetails from "./components/matches/MatchDetails";
 import InProgress from "./components/global/InProgress";
+import Notification from "./components/global/Notification";
 
 const App = () => {
   return (
@@ -61,6 +62,7 @@ const App = () => {
         <BottomNav />
       </BodyContainer>
       <InProgress />
+      <Notification />
     </BrowserRouter>
   );
 };

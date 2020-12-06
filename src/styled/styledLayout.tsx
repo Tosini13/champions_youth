@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { mainTheme } from "./styledConst";
 
-import Dialog from "@material-ui/core/Dialog";
+import { Dialog } from "@material-ui/core";
 
 export const BodyContainer = styled.div`
   display: flex;

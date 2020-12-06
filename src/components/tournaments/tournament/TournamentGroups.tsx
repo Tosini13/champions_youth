@@ -22,6 +22,7 @@ import { Id } from "../../../const/structuresConst";
 import { deleteGroups } from "../../../store/actions/GroupActions";
 import { setInProgress } from "../../global/InProgress";
 import InfoStatic from "../../global/InfoStatic";
+import { useNotification } from "../../global/Notification";
 
 type Props = {
   tournament: TournamentData;
@@ -48,6 +49,7 @@ const TournamentGroups: React.FC<Props> = ({
   deleteGroups,
   isOwner,
 }) => {
+  const { setQuestion, setAnswers, openNotification } = useNotification();
   const [create, setCreate] = useState<boolean>(false);
 
   const toggleCreate = () => {
@@ -58,11 +60,7 @@ const TournamentGroups: React.FC<Props> = ({
     setCreate(!create);
   };
 
-  const handleDelete = () => {
-    if (playOffs) {
-      console.log("playOffs are created!");
-      return false;
-    }
+  const handleExecuteDelete = () => {
     setInProgress(true);
     deleteGroups(
       tournamentId,
@@ -73,6 +71,29 @@ const TournamentGroups: React.FC<Props> = ({
         setInProgress(false);
       }
     );
+  };
+
+  const handleDelete = () => {
+    if (playOffs) {
+      setQuestion("deletePlayOffsToDeleteGroups");
+      setAnswers([
+        {
+          title: "ok",
+        },
+      ]);
+    } else {
+      setQuestion("doDeleteGroups");
+      setAnswers([
+        {
+          title: "yes",
+          action: handleExecuteDelete,
+        },
+        {
+          title: "no",
+        },
+      ]);
+    }
+    openNotification();
   };
 
   return (

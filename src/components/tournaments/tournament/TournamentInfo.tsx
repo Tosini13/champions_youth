@@ -25,6 +25,7 @@ import Logo, { SIZE_LOGO } from "../../global/Logo";
 import { setInProgress } from "../../global/InProgress";
 import { useHistory } from "react-router-dom";
 import { routerConstString } from "../../../const/menuConst";
+import { useNotification } from "../../global/Notification";
 
 type Props = {
   tournament: TournamentData;
@@ -48,8 +49,10 @@ const TournamentInfo: React.FC<Props> = ({
   isOwner,
   tournamentId,
 }) => {
+  const { setQuestion, setAnswers, openNotification } = useNotification();
   const history = useHistory();
-  const handleDelete = () => {
+
+  const handleExecuteDelete = () => {
     setInProgress(true);
     deleteTournament(
       tournamentId,
@@ -61,6 +64,20 @@ const TournamentInfo: React.FC<Props> = ({
         setInProgress(false);
       }
     );
+  };
+
+  const handleDelete = () => {
+    setQuestion("doDeleteTournament");
+    setAnswers([
+      {
+        title: "yes",
+        action: handleExecuteDelete,
+      },
+      {
+        title: "no",
+      },
+    ]);
+    openNotification();
   };
 
   return (
