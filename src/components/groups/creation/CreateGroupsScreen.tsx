@@ -15,6 +15,8 @@ import useCreateGroup from "../../../hooks/useCreateGroup";
 import { GroupModel } from "../../../NewModels/Group";
 import { LOCALE } from "../../../locale/config";
 import { Id } from "../../../const/structuresConst";
+import { MatchTime } from "../../../NewModels/Matches";
+import GroupSettings from "./GroupSettings";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
@@ -31,6 +33,9 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   locale,
   userId,
 }) => {
+  const [openSettings, setOpenSettings] = useState<boolean>(false);
+  const [time, setTime] = useState<MatchTime | undefined>();
+  const [returnMatches, setReturnMatches] = useState<boolean>(false);
   const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
     undefined
   );
@@ -38,6 +43,10 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   const [groups, setGroups] = useState<GroupModel[]>([]);
 
   const { initGroupMatches } = useCreateGroup();
+
+  const handleCloseSettings = () => {
+    setOpenSettings(false);
+  };
 
   const createNewGroup = () => {
     let groupN = "";
@@ -81,9 +90,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     shuffledTeams?.forEach((team, i) => {
       groups[i % groups.length].teams.push(team);
     });
-    if (teams) {
-      setGroups(initGroupMatches(teams, groups, false));
-    }
+    setGroups(initGroupMatches(groups, returnMatches, time));
     setChosenTeams(shuffledTeams ?? []);
   };
 
@@ -114,14 +121,16 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   };
 
   useEffect(() => {
-    if (teams) {
-      setGroups(initGroupMatches(teams, groups, false));
-    }
-  }, [groups, initGroupMatches, teams]);
+    setGroups(initGroupMatches(groups, returnMatches, time));
+  }, [groups, initGroupMatches, time, returnMatches]);
 
+  console.log(time);
   return (
     <>
-      <CreationNav save={handleSaveGroup} />
+      <CreationNav
+        save={handleSaveGroup}
+        openSettings={() => setOpenSettings(true)}
+      />
       <ContentContainerStyled>
         <GridContainer container spacing={5} direction="column">
           {groups.map((group) => {
@@ -148,6 +157,15 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         setChosenTeams={setChosenTeams}
         handleOpenTeams={handleOpenTeams}
         handleChooseGroupTeam={handleChooseTeam}
+      />
+      <GroupSettings
+        locale={locale}
+        open={openSettings}
+        handleClose={handleCloseSettings}
+        time={time}
+        setTime={setTime}
+        returnMatches={returnMatches}
+        setReturnMatches={setReturnMatches}
       />
     </>
   );

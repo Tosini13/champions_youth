@@ -1,6 +1,8 @@
-import { Button, Grid } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
+import { Button, Grid, IconButton } from "@material-ui/core";
+import SettingsIcon from "@material-ui/icons/Settings";
+
 import { Rosetta, Translator } from "react-rosetta";
 import styled from "styled-components";
 import { LOCALE } from "../../../locale/config";
@@ -31,10 +33,15 @@ const ButtonSave = styled(Button)`
 
 export interface CreationNavProps {
   save: () => void;
+  openSettings: () => void;
   locale: LOCALE;
 }
 
-const CreationNav: React.FC<CreationNavProps> = ({ locale, save }) => {
+const CreationNav: React.FC<CreationNavProps> = ({
+  locale,
+  save,
+  openSettings,
+}) => {
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const handleSave = () => {
     setQuestion("doCreateGroup");
@@ -51,11 +58,16 @@ const CreationNav: React.FC<CreationNavProps> = ({ locale, save }) => {
   };
   return (
     <Rosetta translations={groupCreationDict} locale={locale}>
-      <GridContainer container justify="space-around">
+      <GridContainer container justify="space-around" alignItems="center">
         <Grid item>
           <ButtonCancel variant="outlined" size="small">
             <Translator id="cancel" />
           </ButtonCancel>
+        </Grid>
+        <Grid item>
+          <IconButton color="secondary" onClick={openSettings}>
+            <SettingsIcon />
+          </IconButton>
         </Grid>
         <Grid item>
           <ButtonSave variant="outlined" size="small" onClick={handleSave}>

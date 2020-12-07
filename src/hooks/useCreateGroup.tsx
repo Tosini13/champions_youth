@@ -1,6 +1,8 @@
+import moment, { Moment } from "moment";
 import { bergerAlgorithm } from "../algorithms/berger";
 import { TeamData } from "../models/teamData";
 import { GroupModel } from "../NewModels/Group";
+import { MatchTime } from "../NewModels/Matches";
 
 let matchCounter = 0;
 
@@ -48,11 +50,61 @@ const createGroupMatches = (teams: TeamData[], returnGames: boolean) => {
   }
 };
 
+const setMatchesTime = (time: MatchTime, groups: GroupModel[]) => {
+  const fields = 1;
+  const matchTime = time?.match ? time.match : 0;
+  const breakTime = time?.break ? time.break : 0;
+  const date = "05/10/2020";
+  const timeUnit = matchTime + breakTime;
+  let timeCounter: Moment = moment(date);
+  let timeTeamsCounter: any[] = [];
+  let matchesQtt = 0;
+  groups.forEach((group) => {
+    if (group.matches && matchesQtt < group.matches.length) {
+      matchesQtt = group.matches.length;
+    }
+  });
+
+  let fieldCounter = 1;
+  for (let i = 0; i < matchesQtt + 1; i++) {
+    for (let j = 0; j < groups.length; j++) {
+      const groupMatches = groups[j].matches;
+      if (groupMatches && i < groupMatches.length) {
+        if (
+          timeTeamsCounter.includes(groupMatches[i].home) ||
+          timeTeamsCounter.includes(groupMatches[i].away)
+        ) {
+          timeCounter = moment(timeCounter).add(timeUnit, "minutes");
+          fieldCounter = 1;
+          timeTeamsCounter = [];
+        }
+        groupMatches[i].date = moment(timeCounter);
+        timeTeamsCounter = [
+          ...timeTeamsCounter,
+          groupMatches[i].home,
+          groupMatches[i].away,
+        ];
+        if (!(fieldCounter % fields)) {
+          timeCounter = moment(timeCounter).add(timeUnit, "minutes");
+          fieldCounter = 0;
+          timeTeamsCounter = [];
+        }
+        fieldCounter++;
+      } else if (groupMatches && i === groupMatches.length && i !== 0) {
+        groups[j].finishAt = moment(
+          groupMatches[groupMatches.length - 1].date
+        ).add(timeUnit, "minutes");
+      }
+    }
+  }
+  return groups;
+};
+
 const useCreateGroup = () => {
   const initGroupMatches = (
-    teams: TeamData[],
     groups: GroupModel[],
-    returnGames: boolean
+    returnGames: boolean,
+    time?: MatchTime
   ) => {
     groups.forEach((group, i) => {
       if (group.teams) {
@@ -61,7 +113,9 @@ const useCreateGroup = () => {
         group.matches = matches;
       }
     });
-    // groups = setMatchesTime(tournament, groups);
+    if (time) {
+      groups = setMatchesTime(time, groups);
+    }
     return groups;
   };
 

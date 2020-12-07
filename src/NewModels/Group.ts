@@ -1,3 +1,4 @@
+import { Moment } from "moment";
 import { Id } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
 import { MatchData } from "../structures/match";
@@ -7,4 +8,5 @@ export type GroupModel = {
   name: string;
   teams: TeamData[];
   matches: MatchData[];
+  finishAt?: Moment;
 };

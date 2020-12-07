@@ -107,7 +107,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
                   required: "Required",
                 }),
               }}
-              helperText={errors.name && "Nie prawidłowa nazwa grupy"}
+              helperText={errors.name && <Translator id="wrongGroupName" />}
               error={Boolean(errors.name)}
             />
           </Grid>
