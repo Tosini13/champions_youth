@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CreateGroupForm from "./GroupForm/CreateGroupForm";
 import CreateGroupsActions from "./CreateGroupsActions";
@@ -10,15 +10,9 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import ChooseTeams from "./GroupForm/ChooseTeams";
-import { Id } from "../../../const/structuresConst";
-import { MatchData } from "../../../structures/match";
-
-export type GroupCreationModel = {
-  id: Id;
-  name: string;
-  teams: TeamData[];
-  matches?: MatchData[];
-};
+import { shuffle } from "../../playoffs/create/PlayOffsCreateDashboard";
+import useCreateGroup from "../../../hooks/useCreateGroup";
+import { GroupModel } from "../../../NewModels/Group";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
@@ -29,12 +23,13 @@ export interface CreateGroupsScreenProps {
 }
 
 const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
-  const [chosenGroup, setChosenGroup] = useState<
-    GroupCreationModel | undefined
-  >(undefined);
-
+  const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
+    undefined
+  );
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
-  const [groups, setGroups] = useState<GroupCreationModel[]>([]);
+  const [groups, setGroups] = useState<GroupModel[]>([]);
+
+  const { initGroupMatches } = useCreateGroup();
 
   const createNewGroup = () => {
     let groupN = "";
@@ -45,7 +40,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
       groups.forEach((group) => (group.id === n ? (isFree = false) : true));
       if (isFree) break;
     }
-    const newGroup: GroupCreationModel = {
+    const newGroup: GroupModel = {
       id: `Group${groupN}`,
       name: `Group ${groupN}`,
       teams: [],
@@ -54,6 +49,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
   };
 
   const handleSaveGroup = () => {};
+
   const handleAddGroup = () => {
     if (teams && teams.length <= groups.length) {
       return false;
@@ -61,16 +57,26 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
     const newGroup = createNewGroup();
     setGroups([...groups, newGroup]);
   };
-  const handleRemoveGroup = (selected: GroupCreationModel) => {
+
+  const handleRemoveGroup = (selected: GroupModel) => {
     let newGroups = groups.filter((group) => group.id !== selected.id);
     setChosenTeams(
       chosenTeams.filter((team) => !selected.teams.includes(team))
     );
     setGroups([...newGroups]);
   };
-  const handleDrawGroup = () => {};
 
-  const handleOpenTeams = (group?: GroupCreationModel) => {
+  const handleDrawGroup = () => {
+    groups.forEach((group) => (group.teams = []));
+    let shuffledTeams = shuffle(teams);
+    shuffledTeams?.forEach((team, i) => {
+      groups[i % groups.length].teams.push(team);
+    });
+    setGroups([...groups]);
+    setChosenTeams(shuffledTeams ?? []);
+  };
+
+  const handleOpenTeams = (group?: GroupModel) => {
     setChosenGroup(group);
   };
 
@@ -95,6 +101,12 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
       )
     );
   };
+
+  useEffect(() => {
+    if (teams) {
+      setGroups(initGroupMatches(teams, groups, false));
+    }
+  }, [groups, initGroupMatches, teams]);
 
   return (
     <>

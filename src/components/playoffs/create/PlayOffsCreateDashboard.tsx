@@ -21,7 +21,7 @@ import {
 } from "../../../store/actions/GroupActions";
 import { useNotification } from "../../global/Notification";
 
-const shuffle = (arr: any) => {
+export const shuffle = (arr: any) => {
   let indexes: any[] = [];
   let newArr: any[] = [];
   while (indexes.length < arr.length) {

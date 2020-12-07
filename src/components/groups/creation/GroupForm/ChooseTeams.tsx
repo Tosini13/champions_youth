@@ -10,17 +10,17 @@ import { Id } from "../../../../const/structuresConst";
 import { TeamListStyled } from "../../../../styled/styledTeams";
 import ChooseTeamsElement from "./ChooseTeamsElement";
 import { DialogStyled } from "../../../../styled/styledLayout";
-import { GroupCreationModel } from "../CreateGroupsScreen";
+import { GroupModel } from "../../../../NewModels/Group";
 
 export interface ChooseTeamsProps {
   locale: LOCALE;
   userId: Id;
   teams?: TeamData[];
-  chosenGroup?: GroupCreationModel;
+  chosenGroup?: GroupModel;
   chosenTeams: TeamData[];
   open: boolean;
   setChosenTeams: (teams: TeamData[]) => void;
-  handleOpenTeams: (group?: GroupCreationModel) => void;
+  handleOpenTeams: (group?: GroupModel) => void;
   handleChooseGroupTeam: (selected: TeamData) => void;
 }
 

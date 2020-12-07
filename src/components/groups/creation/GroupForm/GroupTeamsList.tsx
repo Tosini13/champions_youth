@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Id } from "../../../../const/structuresConst";
 
 import { TeamData } from "../../../../models/teamData";
@@ -21,11 +20,4 @@ const GroupTeamsList: React.FC<GroupTeamsListProps> = ({ userId, teams }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    locale: state.dictionary.locale,
-    userId: state.firebase.auth.uid,
-  };
-};
-
-export default connect(mapStateToProps)(GroupTeamsList);
+export default GroupTeamsList;

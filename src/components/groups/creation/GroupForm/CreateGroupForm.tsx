@@ -11,9 +11,10 @@ import { TextFieldStyled } from "../../../../styled/styledForm";
 import { connect } from "react-redux";
 import groupCreationDict from "../../../../locale/creationNav.dict.";
 import { LOCALE } from "../../../../locale/config";
-import { GroupCreationModel } from "../CreateGroupsScreen";
 import GroupTeamsList from "./GroupTeamsList";
 import { useNotification } from "../../../global/Notification";
+import { Id } from "../../../../const/structuresConst";
+import { GroupModel } from "../../../../NewModels/Group";
 
 const GridContainer = styled(Grid)`
   border-radius: 5px;
@@ -31,10 +32,11 @@ const DeleteFab = styled(Fab)`
 `;
 
 export interface CreateGroupFormProps {
-  group: GroupCreationModel;
-  handleOpenTeams: (group: GroupCreationModel) => void;
-  handleRemoveGroup: (selected: GroupCreationModel) => void;
+  group: GroupModel;
+  handleOpenTeams: (group: GroupModel) => void;
+  handleRemoveGroup: (selected: GroupModel) => void;
   locale: LOCALE;
+  userId: Id;
 }
 
 const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
@@ -42,9 +44,10 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
   handleOpenTeams,
   handleRemoveGroup,
   locale,
+  userId,
 }) => {
   const { openNotification, setQuestion, setAnswers } = useNotification();
-  const { handleSubmit, register, errors } = useForm<GroupCreationModel>({
+  const { handleSubmit, register, errors } = useForm<GroupModel>({
     defaultValues: {
       id: group.id,
       name: group.name,
@@ -68,7 +71,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
     openNotification();
   };
 
-  const onSubmit = (values: GroupCreationModel) => {
+  const onSubmit = (values: GroupModel) => {
     console.log(values);
   };
 
@@ -96,7 +99,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
             />
           </Grid>
           <Grid item>
-            <GroupTeamsList teams={group.teams} />
+            <GroupTeamsList teams={group.teams} userId={userId} />
             <Button
               variant="outlined"
               color="secondary"
@@ -119,6 +122,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
 const mapStateToProps = (state: any) => {
   return {
     locale: state.dictionary.locale,
+    userId: state.firebase.auth.uid,
   };
 };
 
