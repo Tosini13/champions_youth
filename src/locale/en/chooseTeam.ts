@@ -1,3 +1,3 @@
 export const chooseTeam = {
-  chooseTeam: "Choose Team",
+  chooseTeams: "Choose Teams",
 };

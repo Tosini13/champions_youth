@@ -13,6 +13,8 @@ import ChooseTeams from "./GroupForm/ChooseTeams";
 import { shuffle } from "../../playoffs/create/PlayOffsCreateDashboard";
 import useCreateGroup from "../../../hooks/useCreateGroup";
 import { GroupModel } from "../../../NewModels/Group";
+import { LOCALE } from "../../../locale/config";
+import { Id } from "../../../const/structuresConst";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
@@ -20,9 +22,15 @@ const GridContainer = styled(Grid)`
 
 export interface CreateGroupsScreenProps {
   teams?: TeamData[];
+  locale: LOCALE;
+  userId: Id;
 }
 
-const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
+const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
+  teams,
+  locale,
+  userId,
+}) => {
   const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
     undefined
   );
@@ -44,6 +52,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
       id: `Group${groupN}`,
       name: `Group ${groupN}`,
       teams: [],
+      matches: [],
     };
     return newGroup;
   };
@@ -72,7 +81,9 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
     shuffledTeams?.forEach((team, i) => {
       groups[i % groups.length].teams.push(team);
     });
-    setGroups([...groups]);
+    if (teams) {
+      setGroups(initGroupMatches(teams, groups, false));
+    }
     setChosenTeams(shuffledTeams ?? []);
   };
 
@@ -117,6 +128,8 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
             return (
               <Grid item key={group.id}>
                 <CreateGroupForm
+                  locale={locale}
+                  userId={userId}
                   group={group}
                   handleOpenTeams={handleOpenTeams}
                   handleRemoveGroup={handleRemoveGroup}
@@ -143,7 +156,12 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
 const mapStateToProps = (state: any, ownProps: any) => {
   const tournamentId = ownProps.match.params.tournamentId;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
-  return { teams, tournamentId };
+  return {
+    teams,
+    tournamentId,
+    locale: state.dictionary.locale,
+    userId: state.firebase.auth.uid,
+  };
 };
 
 export default compose(

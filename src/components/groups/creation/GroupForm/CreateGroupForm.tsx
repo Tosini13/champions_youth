@@ -1,20 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { Button, Fab, Grid } from "@material-ui/core";
+import { Button, Fab, Grid, IconButton, Typography } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 
 import styled from "styled-components";
 import { mainTheme } from "../../../../styled/styledConst";
 import { useForm } from "react-hook-form";
 import { TextFieldStyled } from "../../../../styled/styledForm";
-import { connect } from "react-redux";
 import groupCreationDict from "../../../../locale/creationNav.dict.";
 import { LOCALE } from "../../../../locale/config";
 import GroupTeamsList from "./GroupTeamsList";
 import { useNotification } from "../../../global/Notification";
 import { Id } from "../../../../const/structuresConst";
 import { GroupModel } from "../../../../NewModels/Group";
+import MatchSummaryMock from "./MatchSummaryMock";
+import { DialogStyled } from "../../../../styled/styledLayout";
 
 const GridContainer = styled(Grid)`
   border-radius: 5px;
@@ -29,6 +31,11 @@ const DeleteFab = styled(Fab)`
   top: 0px;
   right: 0px;
   transform: translate(5%, -30%);
+`;
+
+const GridMatchesContainer = styled(Grid)`
+  overflow-x: hidden;
+  flex-wrap: nowrap;
 `;
 
 export interface CreateGroupFormProps {
@@ -46,12 +53,14 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
   locale,
   userId,
 }) => {
+  const [open, setOpen] = useState<boolean>(false);
   const { openNotification, setQuestion, setAnswers } = useNotification();
   const { handleSubmit, register, errors } = useForm<GroupModel>({
     defaultValues: {
       id: group.id,
       name: group.name,
       teams: group.teams,
+      matches: group.matches,
     },
   });
 
@@ -69,6 +78,10 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
       },
     ]);
     openNotification();
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const onSubmit = (values: GroupModel) => {
@@ -109,21 +122,55 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
               <Translator id="addTeam" />
             </Button>
           </Grid>
-          <Grid item>Matches</Grid>
+          {group.matches.length ? (
+            <Grid item>
+              <Button
+                variant="outlined"
+                color="secondary"
+                size="small"
+                onClick={() => setOpen(true)}
+              >
+                <Translator id="showMatches" />
+              </Button>
+            </Grid>
+          ) : null}
           <DeleteFab color="secondary" size="small" onClick={handleRemove}>
             <DeleteOutlineIcon />
           </DeleteFab>
+          <DialogStyled open={open} onClose={handleClose}>
+            <Grid
+              container
+              justify="space-between"
+              alignItems="center"
+              spacing={5}
+            >
+              <Grid item>
+                <Typography variant="h6">
+                  <Translator id="matches" />
+                </Typography>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  color="secondary"
+                  size="small"
+                  onClick={handleClose}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+            <GridMatchesContainer container direction="column">
+              {group.matches?.map((match) => (
+                <Grid item key={match.id}>
+                  <MatchSummaryMock match={match} locale={locale} />
+                </Grid>
+              ))}
+            </GridMatchesContainer>
+          </DialogStyled>
         </GridContainer>
       </form>
     </Rosetta>
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    locale: state.dictionary.locale,
-    userId: state.firebase.auth.uid,
-  };
-};
-
-export default connect(mapStateToProps)(CreateGroupForm);
+export default CreateGroupForm;

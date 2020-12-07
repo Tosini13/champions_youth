@@ -6,5 +6,5 @@ export type GroupModel = {
   id: Id;
   name: string;
   teams: TeamData[];
-  matches?: MatchData[];
+  matches: MatchData[];
 };

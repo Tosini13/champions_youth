@@ -1,7 +1,10 @@
 import React from "react";
+import styled from "styled-components";
 import { Rosetta, Translator } from "react-rosetta";
 
-import DialogTitle from "@material-ui/core/DialogTitle";
+import { Grid, IconButton, Typography } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+
 import chooseTeamDict from "../../../../locale/chooseTeam.dict";
 import { LOCALE } from "../../../../locale/config";
 import { connect } from "react-redux";
@@ -11,6 +14,11 @@ import { TeamListStyled } from "../../../../styled/styledTeams";
 import ChooseTeamsElement from "./ChooseTeamsElement";
 import { DialogStyled } from "../../../../styled/styledLayout";
 import { GroupModel } from "../../../../NewModels/Group";
+
+const TeamList = styled(TeamListStyled)`
+  overflow-x: hidden;
+  flex-wrap: nowrap;
+`;
 
 export interface ChooseTeamsProps {
   locale: LOCALE;
@@ -51,10 +59,19 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
   return (
     <Rosetta translations={chooseTeamDict} locale={locale}>
       <DialogStyled onClose={handleClose} open={open}>
-        <DialogTitle>
-          <Translator id="ChooseTeams" />
-        </DialogTitle>
-        <TeamListStyled>
+        <Grid container justify="space-between" alignItems="center" spacing={5}>
+          <Grid item>
+            <Typography variant="h6">
+              <Translator id="chooseTeams" />
+            </Typography>
+          </Grid>
+          <Grid item>
+            <IconButton color="secondary" size="small" onClick={handleClose}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+        <TeamList>
           {teams?.map((team: TeamData) => (
             <ChooseTeamsElement
               key={team.id}
@@ -67,7 +84,7 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
               )}
             />
           ))}
-        </TeamListStyled>
+        </TeamList>
       </DialogStyled>
     </Rosetta>
   );

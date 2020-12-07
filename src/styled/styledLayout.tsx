@@ -52,6 +52,7 @@ export const DialogStyled = styled(Dialog)`
     background-color: ${mainTheme.palette.primary.dark};
     width: 90%;
     min-width: 290px;
+    position: relative;
   }
 `;
 

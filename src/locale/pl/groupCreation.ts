@@ -3,4 +3,5 @@ export const groupCreation = {
   save: "Zapisz",
   groupName: "Nazwa Grupy",
   addTeam: "Dodaj Zespół",
+  matches: "Mecze",
 };
