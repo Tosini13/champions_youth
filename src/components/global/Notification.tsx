@@ -62,6 +62,7 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
         <DialogActions>
           {answers?.map((answer) => (
             <Button
+              key={answer.title}
               variant="outlined"
               color="secondary"
               onClick={() => {

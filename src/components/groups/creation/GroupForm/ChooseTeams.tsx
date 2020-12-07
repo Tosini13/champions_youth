@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -17,7 +17,9 @@ export interface ChooseTeamsProps {
   userId: Id;
   teams?: TeamData[];
   chosenGroup?: GroupCreationModel;
+  chosenTeams: TeamData[];
   open: boolean;
+  setChosenTeams: (teams: TeamData[]) => void;
   handleOpenTeams: (group?: GroupCreationModel) => void;
   handleChooseGroupTeam: (selected: TeamData) => void;
 }
@@ -27,12 +29,12 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
   userId,
   teams,
   chosenGroup,
+  chosenTeams,
   open,
+  setChosenTeams,
   handleOpenTeams,
   handleChooseGroupTeam,
 }) => {
-  const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
-
   const handleChooseTeam = (selected: TeamData) => {
     if (chosenTeams.includes(selected)) {
       setChosenTeams(chosenTeams.filter((team) => team.id !== selected.id));

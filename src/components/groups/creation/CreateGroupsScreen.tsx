@@ -29,30 +29,47 @@ export interface CreateGroupsScreenProps {
 }
 
 const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
-  const getChangeGroups = (qtt: number) => {
-    let newGroups: GroupCreationModel[] = [];
-    for (let i = 0; i < qtt; i++) {
-      newGroups.push({
-        id: `Group ${String.fromCharCode(65 + i)}`,
-        name: `Group ${String.fromCharCode(65 + i)}`,
-        teams: [],
-      });
-    }
-    setGroups(newGroups);
-  };
-
   const [chosenGroup, setChosenGroup] = useState<
     GroupCreationModel | undefined
   >(undefined);
+
+  const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
   const [groups, setGroups] = useState<GroupCreationModel[]>([]);
+
+  const createNewGroup = () => {
+    let groupN = "";
+    for (let i = 0; i < groups.length + 1; i++) {
+      groupN = String.fromCharCode(65 + i);
+      const n = `Group${groupN}`;
+      let isFree = true;
+      groups.forEach((group) => (group.id === n ? (isFree = false) : true));
+      if (isFree) break;
+    }
+    const newGroup: GroupCreationModel = {
+      id: `Group${groupN}`,
+      name: `Group ${groupN}`,
+      teams: [],
+    };
+    return newGroup;
+  };
+
   const handleSaveGroup = () => {};
   const handleAddGroup = () => {
-    getChangeGroups(groups.length + 1);
+    if (teams && teams.length <= groups.length) {
+      return false;
+    }
+    const newGroup = createNewGroup();
+    setGroups([...groups, newGroup]);
   };
-  const handleRemoveGroup = () => {
-    getChangeGroups(groups.length - 1);
+  const handleRemoveGroup = (selected: GroupCreationModel) => {
+    let newGroups = groups.filter((group) => group.id !== selected.id);
+    setChosenTeams(
+      chosenTeams.filter((team) => !selected.teams.includes(team))
+    );
+    setGroups([...newGroups]);
   };
   const handleDrawGroup = () => {};
+
   const handleOpenTeams = (group?: GroupCreationModel) => {
     setChosenGroup(group);
   };
@@ -83,28 +100,27 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({ teams }) => {
     <>
       <CreationNav save={handleSaveGroup} />
       <ContentContainerStyled>
-        <GridContainer container spacing={3} direction="column">
+        <GridContainer container spacing={5} direction="column">
           {groups.map((group) => {
             return (
               <Grid item key={group.id}>
                 <CreateGroupForm
                   group={group}
                   handleOpenTeams={handleOpenTeams}
+                  handleRemoveGroup={handleRemoveGroup}
                 />
               </Grid>
             );
           })}
         </GridContainer>
       </ContentContainerStyled>
-      <CreateGroupsActions
-        add={handleAddGroup}
-        remove={handleRemoveGroup}
-        draw={handleDrawGroup}
-      />
+      <CreateGroupsActions add={handleAddGroup} draw={handleDrawGroup} />
       <ChooseTeams
         teams={teams}
         chosenGroup={chosenGroup}
+        chosenTeams={chosenTeams}
         open={Boolean(chosenGroup)}
+        setChosenTeams={setChosenTeams}
         handleOpenTeams={handleOpenTeams}
         handleChooseGroupTeam={handleChooseTeam}
       />

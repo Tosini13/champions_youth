@@ -1,7 +1,9 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { Button, Grid } from "@material-ui/core";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import { Button, Fab, Grid } from "@material-ui/core";
+
 import styled from "styled-components";
 import { mainTheme } from "../../../../styled/styledConst";
 import { useForm } from "react-hook-form";
@@ -11,25 +13,37 @@ import groupCreationDict from "../../../../locale/creationNav.dict.";
 import { LOCALE } from "../../../../locale/config";
 import { GroupCreationModel } from "../CreateGroupsScreen";
 import GroupTeamsList from "./GroupTeamsList";
+import { useNotification } from "../../../global/Notification";
 
 const GridContainer = styled(Grid)`
   border-radius: 5px;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
     0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
   background-color: ${mainTheme.palette.primary.main};
+  position: relative;
+`;
+
+const DeleteFab = styled(Fab)`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  transform: translate(5%, -30%);
 `;
 
 export interface CreateGroupFormProps {
   group: GroupCreationModel;
   handleOpenTeams: (group: GroupCreationModel) => void;
+  handleRemoveGroup: (selected: GroupCreationModel) => void;
   locale: LOCALE;
 }
 
 const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
   group,
   handleOpenTeams,
+  handleRemoveGroup,
   locale,
 }) => {
+  const { openNotification, setQuestion, setAnswers } = useNotification();
   const { handleSubmit, register, errors } = useForm<GroupCreationModel>({
     defaultValues: {
       id: group.id,
@@ -37,6 +51,22 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
       teams: group.teams,
     },
   });
+
+  const handleRemove = () => {
+    setQuestion("doDeleteGroups");
+    setAnswers([
+      {
+        title: "Yes",
+        action: () => {
+          handleRemoveGroup(group);
+        },
+      },
+      {
+        title: "No",
+      },
+    ]);
+    openNotification();
+  };
 
   const onSubmit = (values: GroupCreationModel) => {
     console.log(values);
@@ -77,6 +107,9 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
             </Button>
           </Grid>
           <Grid item>Matches</Grid>
+          <DeleteFab color="secondary" size="small" onClick={handleRemove}>
+            <DeleteOutlineIcon />
+          </DeleteFab>
         </GridContainer>
       </form>
     </Rosetta>
