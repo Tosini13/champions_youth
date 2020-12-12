@@ -1,13 +1,15 @@
-import { Grid } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { compose } from "redux";
+import { connect } from "react-redux";
 import styled from "styled-components";
+
+import { Grid } from "@material-ui/core";
+
 import CreateGroupForm from "./GroupForm/CreateGroupForm";
 import CreateGroupsActions from "./CreateGroupsActions";
 import CreationNav from "./CreationNav";
 import { ContentContainerStyled } from "../../../styled/styledLayout";
 import { TeamData } from "../../../models/teamData";
-import { compose } from "redux";
-import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import ChooseTeams from "./GroupForm/ChooseTeams";
 import { shuffle } from "../../playoffs/create/PlayOffsCreateDashboard";
@@ -17,6 +19,10 @@ import { LOCALE } from "../../../locale/config";
 import { Id } from "../../../const/structuresConst";
 import { MatchTime } from "../../../NewModels/Matches";
 import GroupSettings from "./GroupSettings";
+import { createWholeGroup } from "../../../store/actions/GroupActions";
+import { useNotification } from "../../global/Notification";
+import { useHistory } from "react-router-dom";
+import { routerGenerateConst } from "../../../const/menuConst";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
@@ -26,13 +32,19 @@ export interface CreateGroupsScreenProps {
   teams?: TeamData[];
   locale: LOCALE;
   userId: Id;
+  tournamentId: Id;
+  createGroup: (tournamentId: Id, group: GroupModel) => void;
 }
 
 const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   teams,
   locale,
   userId,
+  tournamentId,
+  createGroup,
 }) => {
+  const history = useHistory();
+  const { setQuestion, setAnswers, openNotification } = useNotification();
   const [openSettings, setOpenSettings] = useState<boolean>(false);
   const [time, setTime] = useState<MatchTime | undefined>();
   const [returnMatches, setReturnMatches] = useState<boolean>(false);
@@ -66,7 +78,32 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     return newGroup;
   };
 
-  const handleSaveGroup = () => {};
+  const groupInValid = () => {
+    setQuestion("theresNoTeamsOrMatchesInGroup");
+    setAnswers([
+      {
+        title: "ok",
+      },
+    ]);
+    openNotification();
+  };
+
+  const handleSaveGroup = () => {
+    let valid = true;
+    groups.forEach((group) => {
+      if (!group.teams.length || !group.matches.length) {
+        valid = false;
+      }
+    });
+    if (!valid) {
+      setTimeout(groupInValid, 10);
+      return false;
+    }
+    groups.forEach((group) => {
+      createGroup(tournamentId, group);
+    });
+    history.push(routerGenerateConst.tournament(tournamentId));
+  };
 
   const handleAddGroup = () => {
     if (teams && teams.length <= groups.length) {
@@ -124,7 +161,6 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     setGroups(initGroupMatches(groups, returnMatches, time));
   }, [groups, initGroupMatches, time, returnMatches]);
 
-  console.log(time);
   return (
     <>
       <CreationNav
@@ -182,8 +218,15 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    createGroup: (tournamentId: Id, group: GroupModel) =>
+      dispatch(createWholeGroup(tournamentId, group)),
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect((props: any) => {
     return [
       { collection: "tournaments" },

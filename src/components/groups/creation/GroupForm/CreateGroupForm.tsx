@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { Button, Fab, Grid, IconButton, Typography } from "@material-ui/core";
+import { Button, Grid, IconButton, Typography } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
 import styled from "styled-components";
@@ -26,11 +26,11 @@ const GridContainer = styled(Grid)`
   position: relative;
 `;
 
-const DeleteFab = styled(Fab)`
+const DeleteIconButton = styled(IconButton)`
   position: absolute;
   top: 0px;
   right: 0px;
-  transform: translate(5%, -30%);
+  transform: translate(-10%, 10%);
 `;
 
 const GridMatchesContainer = styled(Grid)`
@@ -134,9 +134,13 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
               </Button>
             </Grid>
           ) : null}
-          <DeleteFab color="secondary" size="small" onClick={handleRemove}>
+          <DeleteIconButton
+            color="secondary"
+            size="small"
+            onClick={handleRemove}
+          >
             <DeleteOutlineIcon />
-          </DeleteFab>
+          </DeleteIconButton>
           <DialogStyled open={open} onClose={handleClose}>
             <Grid
               container

@@ -44,6 +44,9 @@ export enum routerConstString {
 }
 
 export const routerGenerateConst = {
+  tournament: (tournamentId: Id) => {
+    return `/tournament/${tournamentId}`;
+  },
   createGroups: (tournamentId: Id) => {
     return `/tournament/${tournamentId}/groups/add`;
   },

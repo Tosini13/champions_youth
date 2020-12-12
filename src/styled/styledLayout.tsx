@@ -38,6 +38,7 @@ export const ContentContainerStyled = styled.div`
   padding: 10px;
   padding-top: 60px;
   text-align: center;
+  position: relative;
 `;
 
 export const LinkStyled = styled(Link)`

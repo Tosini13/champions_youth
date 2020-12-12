@@ -65,7 +65,7 @@ const CreationNav: React.FC<CreationNavProps> = ({
           </ButtonCancel>
         </Grid>
         <Grid item>
-          <IconButton color="secondary" onClick={openSettings}>
+          <IconButton size="small" color="secondary" onClick={openSettings}>
             <SettingsIcon />
           </IconButton>
         </Grid>

@@ -3,32 +3,21 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
-import Grid from "@material-ui/core/Grid";
-import List from "@material-ui/core/List";
-
-import { GroupTeamText, GroupTitleText } from "../../styled/styledGroup";
 import { Id } from "../../const/structuresConst";
-import { MatchData } from "../../structures/match";
 import { TeamData } from "../../models/teamData";
-import { Match, MatchDataDb } from "../../structures/dbAPI/matchData";
-import { Group, GroupDataDb } from "../../models/groupData";
-import { routerGenerateConst } from "../../const/menuConst";
-import { LinkStyled } from "../../styled/styledLayout";
 import SplashScreen from "../global/SplashScreen";
-import MatchSummary from "../matches/MatchSummary/MatchSummary";
-import { Button } from "@material-ui/core";
-import GroupTable from "./details/GroupTable";
-import { getPromoted } from "../../structures/groupPromotion";
 import { updateGame, UpdateGame } from "../../store/actions/GameActions";
 import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
 import { updateGroupMode } from "../../store/actions/GroupActions";
-import { matchGame } from "../../store/actions/PlayOffsActions";
+import { GroupModel, GroupModelDB } from "../../NewModels/Group";
+import { MatchModel, MatchModelDB } from "../../NewModels/Matches";
+import GroupDetailsView from "./details/GroupDetailsView";
+import { ContentContainerStyled } from "../../styled/styledLayout";
 
 export interface GroupsComponentProps {
   tournamentId: Id;
   groupId: Id;
-  group: Group;
-  matches: MatchData[];
+  group?: GroupModel;
   updateMatch: ({
     tournamentId,
     groupId,
@@ -53,165 +42,55 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   tournamentId,
   groupId,
   group,
-  matches,
   updateMatch,
   updateGame,
   updateGroupMode,
 }) => {
-  const handleFinishGroup = () => {
-    const promoted = getPromoted(group.teams, matches);
-    group.playOffs?.forEach((promotedTeam) => {
-      let homeTeam = undefined;
-      let awayTeam = undefined;
-      const teamId = promoted[promotedTeam.place - 1];
-      if (promotedTeam.home) {
-        homeTeam = teamId;
-      } else {
-        awayTeam = teamId;
-      }
-      if (teamId) {
-        updateGroupMode(tournamentId, groupId, true);
-        updateGame({
-          tournamentId,
-          gameId: promotedTeam.gameId,
-          homeTeam,
-          awayTeam,
-          returnMatch: false,
-        });
-        updateMatch({
-          tournamentId,
-          gameId: promotedTeam.gameId,
-          matchId: matchGame.match,
-          homeTeam,
-          awayTeam,
-        });
-      }
-    });
-  };
-
-  const handleContinueGroup = () => {
-    const promoted = getPromoted(group.teams, matches);
-    group.playOffs?.forEach((promotedTeam) => {
-      let homeTeam: undefined | null = undefined;
-      let awayTeam: undefined | null = undefined;
-      const teamId = promoted[promotedTeam.place - 1];
-      if (promotedTeam.home) {
-        homeTeam = null;
-      } else {
-        awayTeam = null;
-      }
-      if (teamId) {
-        updateGroupMode(tournamentId, groupId, false);
-        updateGame({
-          tournamentId,
-          gameId: promotedTeam.gameId,
-          homeTeam,
-          awayTeam,
-          returnMatch: false,
-        });
-        updateMatch({
-          tournamentId,
-          gameId: promotedTeam.gameId,
-          matchId: matchGame.match,
-          homeTeam,
-          awayTeam,
-        });
-      }
-    });
-  };
-
-  if (!group || !matches) return <SplashScreen />;
+  if (!group) return <SplashScreen />;
   return (
-    <>
-      <GroupTable
-        matches={matches}
-        teams={group.teams}
-        promotedQtt={group.playOffs ? group.playOffs.length : 1}
+    <ContentContainerStyled>
+      <GroupDetailsView
+        tournamentId={tournamentId}
+        groupId={groupId}
+        group={group}
+        updateMatch={updateMatch}
+        updateGame={updateGame}
+        updateGroupMode={updateGroupMode}
       />
-      <Grid
-        container
-        justify="space-between"
-        direction="column"
-        alignItems="stretch"
-        style={{ marginTop: "10px" }}
-      >
-        <Grid item>
-          <GroupTitleText>{group.name}</GroupTitleText>
-          <Grid
-            container
-            direction="row"
-            justify="space-around"
-            alignItems="flex-start"
-          >
-            {group.teams?.map((team) => (
-              <GroupTeamText key={team.id}>{team.name}</GroupTeamText>
-            ))}
-          </Grid>
-        </Grid>
-        <Grid item>
-          <List>
-            {matches?.map((match) => (
-              <LinkStyled
-                key={match.id}
-                to={routerGenerateConst.matchGroup(
-                  tournamentId,
-                  groupId,
-                  match.id
-                )}
-              >
-                <MatchSummary match={match} />
-              </LinkStyled>
-            ))}
-          </List>
-        </Grid>
-        <Grid item>
-          <Grid container justify="center" alignItems="center">
-            <Grid item>
-              {group.finished === true ? (
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  style={{ margin: "0px auto" }}
-                  onClick={handleContinueGroup}
-                >
-                  Continue Group
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  style={{ margin: "0px auto" }}
-                  onClick={handleFinishGroup}
-                >
-                  Finish Group
-                </Button>
-              )}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </>
+    </ContentContainerStyled>
   );
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
   const tournamentId = ownProps.match.params.tournamentId;
   const groupId = ownProps.match.params.groupId;
-  const matchesData: MatchDataDb[] | undefined =
-    state.firestore.ordered.matches;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
-  const groupsData: GroupDataDb[] | undefined = state.firestore.ordered.groups;
-  const groupData = groupsData?.find((data) => data.id === groupId);
-  const group = groupData && teams ? new Group(groupData, teams) : undefined;
-  const matches =
+  const matchesData: MatchModelDB[] | undefined =
+    state.firestore.ordered.matches;
+  const matches: MatchModel[] | undefined =
     matchesData && teams
-      ? matchesData.map((matchData) => new Match(matchData, teams))
-      : undefined; //put it to some class?!?!
+      ? matchesData.map((matchData) => ({
+          ...matchData,
+          home: teams.find((team) => team.id === matchData.home),
+          away: teams.find((team) => team.id === matchData.away),
+        }))
+      : undefined;
+  const groups: GroupModelDB[] | undefined = state.firestore.ordered.groups;
+  const groupData = groups?.find((data) => data.id === groupId);
+  const group: GroupModel | undefined =
+    groupData && teams && matches
+      ? {
+          id: groupData.id,
+          name: groupData.name,
+          teams: teams.filter((team) => groupData.teams.includes(team.id)),
+          matches: matches,
+          finishAt: groupData.finishAt,
+        }
+      : undefined;
   return {
     tournamentId,
     groupId,
     group,
-    matches,
   };
 };
 
@@ -267,12 +146,6 @@ export default compose(
       {
         collection: "tournaments",
         doc: props.match.params.tournamentId,
-        subcollections: [{ collection: "teams" }],
-        storeAs: "teams",
-      },
-      {
-        collection: "tournaments",
-        doc: props.match.params.tournamentId,
         subcollections: [{ collection: "teams", orderBy: ["name", "asc"] }],
         storeAs: "teams",
       },
@@ -289,9 +162,7 @@ export default compose(
           {
             collection: "groups",
             doc: props.match.params.groupId,
-            subcollections: [
-              { collection: "matches", orderBy: ["date", "asc"] },
-            ],
+            subcollections: [{ collection: "matches" }],
           },
         ],
         storeAs: "matches",
