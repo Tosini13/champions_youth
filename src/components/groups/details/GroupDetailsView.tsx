@@ -8,7 +8,7 @@ import { getPromoted } from "../../../structures/groupPromotion";
 import { matchGame } from "../../../store/actions/PlayOffsActions";
 import GroupTableView from "./GroupTableView";
 import GroupMatchesView from "./GroupMatches";
-import TabsGlobal from "../../global/Tabs";
+import SliderGlobal from "../../global/Slider";
 
 export interface GroupDetailsViewProps {
   tournamentId: Id;
@@ -45,8 +45,11 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
   const { matches } = group;
 
   const handleFinishGroup = () => {
+    console.log("finish");
     const promoted = getPromoted(group?.teams, matches);
+    console.log(group);
     group?.playOffs?.forEach((promotedTeam) => {
+      console.log(promotedTeam);
       let homeTeam = undefined;
       let awayTeam = undefined;
       const teamId = promoted[promotedTeam.place - 1];
@@ -55,6 +58,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
       } else {
         awayTeam = teamId;
       }
+      console.log(teamId);
       if (teamId) {
         updateGroupMode(tournamentId, groupId, true);
         updateGame({
@@ -107,23 +111,30 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
   };
 
   return (
-    <>
-      <TabsGlobal
-        labels={["table", "matches"]}
-        components={[
-          <GroupTableView
-            group={group}
-            handleFinishGroup={handleFinishGroup}
-            handleContinueGroup={handleContinueGroup}
-          />,
-          <GroupMatchesView
-            tournamentId={tournamentId}
-            groupId={groupId}
-            matches={matches}
-          />,
-        ]}
-      />
-    </>
+    <SliderGlobal
+      components={[
+        {
+          title: "table",
+          component: (
+            <GroupTableView
+              group={group}
+              handleFinishGroup={handleFinishGroup}
+              handleContinueGroup={handleContinueGroup}
+            />
+          ),
+        },
+        {
+          title: "table",
+          component: (
+            <GroupMatchesView
+              tournamentId={tournamentId}
+              groupId={groupId}
+              matches={matches}
+            />
+          ),
+        },
+      ]}
+    />
   );
 };
 

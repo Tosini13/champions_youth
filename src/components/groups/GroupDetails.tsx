@@ -12,7 +12,6 @@ import { updateGroupMode } from "../../store/actions/GroupActions";
 import { GroupModel, GroupModelDB } from "../../NewModels/Group";
 import { MatchModel, MatchModelDB } from "../../NewModels/Matches";
 import GroupDetailsView from "./details/GroupDetailsView";
-import { ContentContainerStyled } from "../../styled/styledLayout";
 
 export interface GroupsComponentProps {
   tournamentId: Id;
@@ -48,16 +47,14 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
 }) => {
   if (!group) return <SplashScreen />;
   return (
-    <ContentContainerStyled>
-      <GroupDetailsView
-        tournamentId={tournamentId}
-        groupId={groupId}
-        group={group}
-        updateMatch={updateMatch}
-        updateGame={updateGame}
-        updateGroupMode={updateGroupMode}
-      />
-    </ContentContainerStyled>
+    <GroupDetailsView
+      tournamentId={tournamentId}
+      groupId={groupId}
+      group={group}
+      updateMatch={updateMatch}
+      updateGame={updateGame}
+      updateGroupMode={updateGroupMode}
+    />
   );
 };
 
@@ -76,6 +73,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
         }))
       : undefined;
   const groups: GroupModelDB[] | undefined = state.firestore.ordered.groups;
+  console.log(groups);
   const groupData = groups?.find((data) => data.id === groupId);
   const group: GroupModel | undefined =
     groupData && teams && matches
@@ -85,6 +83,9 @@ const mapStateToProps = (state: any, ownProps: any) => {
           teams: teams.filter((team) => groupData.teams.includes(team.id)),
           matches: matches,
           finishAt: groupData.finishAt,
+          finished: groupData.finished,
+          playOffs: groupData.playOffs,
+          promoted: groupData.promoted,
         }
       : undefined;
   return {
