@@ -7,15 +7,6 @@ import { MatchDataDb } from "../../structures/dbAPI/matchData";
 export const createWholeGroup = (tournamentId: Id, group: GroupModel) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
-    console.log({
-      name: group.name,
-      teams: group.teams.map((team) => team.id),
-      promoted: group.teams.map((team, i) => ({
-        name: group.name,
-        place: i + 1,
-      })),
-      finishAt: group.finishAt,
-    });
     firestore
       .collection("tournaments")
       .doc(tournamentId)
@@ -28,7 +19,7 @@ export const createWholeGroup = (tournamentId: Id, group: GroupModel) => {
           name: group.name,
           place: i + 1,
         })),
-        finishAt: group.finishAt,
+        finishAt: group.finishAt?.format(),
       })
       .then((res: any) => {
         dispatch({ type: "CREATE_GROUP" });

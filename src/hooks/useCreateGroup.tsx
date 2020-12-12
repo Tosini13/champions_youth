@@ -52,10 +52,10 @@ const createGroupMatches = (teams: TeamData[], returnGames: boolean) => {
 
 const setMatchesTime = (time: MatchTime, groups: GroupModel[]) => {
   const fields = 1;
-  const matchTime = time?.match ? time.match : 0;
-  const breakTime = time?.break ? time.break : 0;
+  const matchTime: number = time?.match ? time.match : 0;
+  const breakTime: number = time?.break ? time.break : 0;
   const date = "05/10/2020";
-  const timeUnit = matchTime + breakTime;
+  const timeUnit: number = Number(matchTime) + Number(breakTime);
   let timeCounter: Moment = moment(date);
   let timeTeamsCounter: any[] = [];
   let matchesQtt = 0;

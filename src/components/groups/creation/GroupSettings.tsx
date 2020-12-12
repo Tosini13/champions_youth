@@ -2,7 +2,6 @@ import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import {
-  Checkbox,
   FormControlLabel,
   Grid,
   IconButton,
@@ -14,7 +13,7 @@ import { LOCALE } from "../../../locale/config";
 import groupCreationDict from "../../../locale/creationNav.dict.";
 import { MatchTime } from "../../../NewModels/Matches";
 import { useForm } from "react-hook-form";
-import { TextFieldStyled } from "../../../styled/styledForm";
+import { CheckboxStyled, TextFieldStyled } from "../../../styled/styledForm";
 
 export interface GroupSettingsProps {
   locale: LOCALE;
@@ -58,7 +57,7 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
         </Grid>
         <FormControlLabel
           control={
-            <Checkbox
+            <CheckboxStyled
               color="secondary"
               checked={Boolean(time)}
               onChange={() =>
@@ -74,7 +73,7 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
           label={<Translator id="time" />}
         />
         <Grid container justify="space-around">
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <TextFieldStyled
               disabled={Boolean(!time)}
               label={<Translator id="matchTime" />}
@@ -93,7 +92,7 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
               error={Boolean(errors.match)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={5}>
             <TextFieldStyled
               disabled={Boolean(!time)}
               label={<Translator id="breakTime" />}
@@ -115,7 +114,7 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
         </Grid>
         <FormControlLabel
           control={
-            <Checkbox
+            <CheckboxStyled
               color="secondary"
               checked={returnMatches}
               onChange={() => setReturnMatches(!returnMatches)}
