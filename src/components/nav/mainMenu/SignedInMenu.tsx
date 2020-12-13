@@ -40,7 +40,6 @@ const SignedInMenu: React.FC<Props> = ({
     signOut();
     toggleSideBarMenu();
   };
-  console.log();
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <>
