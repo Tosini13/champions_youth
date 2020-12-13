@@ -4,6 +4,7 @@ import { Id, Result, TeamsPlaceholder } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
 
 export type MatchTime = {
+  startDate?: Moment;
   match?: number;
   break?: number;
 };

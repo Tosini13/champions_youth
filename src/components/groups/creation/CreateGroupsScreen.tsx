@@ -23,6 +23,7 @@ import { createWholeGroup } from "../../../store/actions/GroupActions";
 import { useNotification } from "../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../const/menuConst";
+import { TournamentModel } from "../../../NewModels/Tournament";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
@@ -33,21 +34,31 @@ export interface CreateGroupsScreenProps {
   locale: LOCALE;
   userId: Id;
   tournamentId: Id;
+  tournament: TournamentModel;
   createGroup: (tournamentId: Id, group: GroupModel) => void;
 }
+
+export type SettingType = {
+  time?: MatchTime;
+  fields: number;
+  returnMatches: boolean;
+};
 
 const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   teams,
   locale,
   userId,
   tournamentId,
+  tournament,
   createGroup,
 }) => {
   const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [openSettings, setOpenSettings] = useState<boolean>(false);
-  const [time, setTime] = useState<MatchTime | undefined>();
-  const [returnMatches, setReturnMatches] = useState<boolean>(false);
+  const [settings, setSettings] = useState<SettingType>({
+    returnMatches: false,
+    fields: 1,
+  });
   const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
     undefined
   );
@@ -127,7 +138,15 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     shuffledTeams?.forEach((team, i) => {
       groups[i % groups.length].teams.push(team);
     });
-    setGroups(initGroupMatches(groups, returnMatches, time));
+    setGroups(
+      initGroupMatches({
+        groups,
+        returnMatches: settings.returnMatches,
+        fields: settings.fields,
+        time: settings.time,
+        date: tournament.date,
+      })
+    );
     setChosenTeams(shuffledTeams ?? []);
   };
 
@@ -158,8 +177,23 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   };
 
   useEffect(() => {
-    setGroups(initGroupMatches(groups, returnMatches, time));
-  }, [groups, initGroupMatches, time, returnMatches]);
+    setGroups(
+      initGroupMatches({
+        groups,
+        returnMatches: settings.returnMatches,
+        fields: settings.fields,
+        time: settings.time,
+        date: tournament?.date,
+      })
+    );
+  }, [
+    groups,
+    initGroupMatches,
+    settings.time,
+    settings.returnMatches,
+    settings.fields,
+    tournament,
+  ]);
 
   return (
     <>
@@ -198,10 +232,8 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         locale={locale}
         open={openSettings}
         handleClose={handleCloseSettings}
-        time={time}
-        setTime={setTime}
-        returnMatches={returnMatches}
-        setReturnMatches={setReturnMatches}
+        settings={settings}
+        setSettings={setSettings}
       />
     </>
   );
@@ -209,10 +241,16 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
 
 const mapStateToProps = (state: any, ownProps: any) => {
   const tournamentId = ownProps.match.params.tournamentId;
+  const tournaments: TournamentModel[] | undefined =
+    state.firestore.data.tournaments;
+  const tournament: TournamentModel | undefined = tournaments
+    ? tournaments[tournamentId]
+    : undefined;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
   return {
     teams,
     tournamentId,
+    tournament,
     locale: state.dictionary.locale,
     userId: state.firebase.auth.uid,
   };

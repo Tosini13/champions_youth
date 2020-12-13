@@ -13,4 +13,6 @@ export const groupCreation = {
   wrongBreakTime: "Nie prawidłowy czas przerwy",
   time: "Czas meczy",
   returnMatches: "Mecze rewanżowe",
+  fields: "Ilość boisk",
+  wrongFields: "Zła ilość boisk",
 };

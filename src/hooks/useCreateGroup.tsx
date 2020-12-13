@@ -50,11 +50,14 @@ const createGroupMatches = (teams: TeamData[], returnGames: boolean) => {
   }
 };
 
-const setMatchesTime = (time: MatchTime, groups: GroupModel[]) => {
-  const fields = 1;
+const setMatchesTime = (
+  time: MatchTime,
+  groups: GroupModel[],
+  fields: number,
+  date: string
+) => {
   const matchTime: number = time?.match ? time.match : 0;
   const breakTime: number = time?.break ? time.break : 0;
-  const date = "05/10/2020";
   const timeUnit: number = Number(matchTime) + Number(breakTime);
   let timeCounter: Moment = moment(date);
   let timeTeamsCounter: any[] = [];
@@ -101,20 +104,28 @@ const setMatchesTime = (time: MatchTime, groups: GroupModel[]) => {
 };
 
 const useCreateGroup = () => {
-  const initGroupMatches = (
-    groups: GroupModel[],
-    returnGames: boolean,
-    time?: MatchTime
-  ) => {
+  const initGroupMatches = ({
+    groups,
+    returnMatches,
+    fields,
+    time,
+    date,
+  }: {
+    groups: GroupModel[];
+    returnMatches: boolean;
+    fields: number;
+    time?: MatchTime;
+    date?: string;
+  }) => {
     groups.forEach((group, i) => {
       if (group.teams) {
-        const matches = createGroupMatches(group.teams, returnGames);
+        const matches = createGroupMatches(group.teams, returnMatches);
         matches.sort(compareMatches);
         group.matches = matches;
       }
     });
-    if (time) {
-      groups = setMatchesTime(time, groups);
+    if (time && date) {
+      groups = setMatchesTime(time, groups, fields, date);
     }
     return groups;
   };

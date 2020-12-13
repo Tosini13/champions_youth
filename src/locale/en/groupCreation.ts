@@ -13,4 +13,6 @@ export const groupCreation = {
   wrongBreakTime: "Wrong break time",
   time: "Matches' time",
   returnMatches: "Return Matches",
+  fields: "Fields' quantity",
+  wrongFields: "Wrong fields' quantity",
 };
