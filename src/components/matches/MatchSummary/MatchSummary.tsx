@@ -1,4 +1,6 @@
 import React from "react";
+import moment from "moment";
+
 import {
   MatchContainerStyled,
   MatchRoundTitleStyled,
@@ -42,7 +44,7 @@ const MatchSummary: React.FC<MatchSummaryProps> = ({ match }) => {
         <Grid item>
           {match.date ? (
             <MatchRoundDateStyled>
-              {match.date.format("YYYY-MM-DD HH:mm")}
+              {moment(match.date).format("YYYY-MM-DD HH:mm")}
             </MatchRoundDateStyled>
           ) : null}
         </Grid>

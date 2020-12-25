@@ -35,9 +35,10 @@ export const NoContentTitle = styled.p`
 `;
 
 export const ContentContainerStyled = styled.div`
-  padding: 5px;
-  padding-top: 45px;
+  padding: 10px;
+  padding-top: 60px;
   text-align: center;
+  position: relative;
 `;
 
 export const LinkStyled = styled(Link)`
@@ -52,6 +53,7 @@ export const DialogStyled = styled(Dialog)`
     background-color: ${mainTheme.palette.primary.dark};
     width: 90%;
     min-width: 290px;
+    position: relative;
   }
 `;
 

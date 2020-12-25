@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+import { Checkbox } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -52,6 +53,12 @@ export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
 
 export const KeyboardTimePickerStyled = styled(KeyboardTimePicker)`
   ${KEYBOARD_PICKER_STYLE};
+`;
+
+export const CheckboxStyled = styled(Checkbox)`
+  svg {
+    color: ${mainTheme.palette.secondary.dark};
+  }
 `;
 
 export const FormControlStyled = styled(FormControl)`

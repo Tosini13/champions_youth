@@ -1,7 +1,57 @@
 import firebase from "firebase";
 import { Id } from "../../const/structuresConst";
 import { GroupDataDb } from "../../models/groupData";
+import { GroupModel } from "../../NewModels/Group";
 import { MatchDataDb } from "../../structures/dbAPI/matchData";
+
+export const createWholeGroup = (tournamentId: Id, group: GroupModel) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .collection("groups")
+      .doc(group.id)
+      .set({
+        name: group.name,
+        teams: group.teams.map((team) => team.id),
+        promoted: group.teams.map((team, i) => ({
+          name: group.name,
+          place: i + 1,
+        })),
+        finishAt: group.finishAt?.format(),
+      })
+      .then((res: any) => {
+        dispatch({ type: "CREATE_GROUP" });
+        group.matches?.forEach((match) => {
+          firestore
+            .collection("tournaments")
+            .doc(tournamentId)
+            .collection("groups")
+            .doc(group.id)
+            .collection("matches")
+            .doc(`Match${match.id}`)
+            .set({
+              home: match.home?.id,
+              away: match.away?.id,
+              date: match.date?.format(),
+              mode: match.mode,
+              result: match.result,
+              round: match.round,
+            })
+            .then(() => {
+              dispatch({ type: "CREATE_MATCHES_TO_GROUP" });
+            })
+            .catch((err: any) => {
+              dispatch({ type: "CREATE_MATCHES_TO_GROUP_ERROR", err });
+            });
+        });
+      })
+      .catch((err: any) => {
+        dispatch({ type: "CREATE_GROUP_ERROR", err });
+      });
+  };
+};
 
 export const createGroup = (
   tournamentId: Id,

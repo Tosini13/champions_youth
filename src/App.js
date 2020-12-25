@@ -14,6 +14,7 @@ import GroupDetails from "./components/groups/GroupDetails";
 import MatchDetails from "./components/matches/MatchDetails";
 import InProgress from "./components/global/InProgress";
 import Notification from "./components/global/Notification";
+import CreateGroupsScreen from "./components/groups/creation/CreateGroupsScreen";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Navbar />
         <MainContainer>
           <Switch>
+            <Route path={routerConstString.createGroups} component={CreateGroupsScreen} />
             <Route
               exact
               path={routerConstString.login}
