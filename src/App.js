@@ -15,6 +15,7 @@ import MatchDetails from "./components/matches/MatchDetails";
 import InProgress from "./components/global/InProgress";
 import Notification from "./components/global/Notification";
 import CreateGroupsScreen from "./components/groups/creation/CreateGroupsScreen";
+import CreatePlayOffsGroups from "./components/playoffs/creation/CreatePlayOffsGroups";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <MainContainer>
           <Switch>
             <Route path={routerConstString.createGroups} component={CreateGroupsScreen} />
+            <Route path={routerConstString.createPlayOffsGroups} component={CreatePlayOffsGroups} />
             <Route
               exact
               path={routerConstString.login}
