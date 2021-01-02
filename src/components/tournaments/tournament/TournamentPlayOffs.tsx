@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
+import { useHistory } from "react-router-dom";
 
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -23,6 +24,8 @@ import { Id } from "../../../const/structuresConst";
 import { setInProgress } from "../../global/InProgress";
 import InfoStatic from "../../global/InfoStatic";
 import { useNotification } from "../../global/Notification";
+import ChooseStructure from "../../playoffs/creation/ChooseStructure";
+import { routerGenerateConst } from "../../../const/menuConst";
 
 type Props = {
   tournamentId: Id;
@@ -49,8 +52,12 @@ const TournamentPlayOffs: React.FC<Props> = ({
   isOwner,
   deletePlayOffs,
 }) => {
+  const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [create, setCreate] = useState<boolean>(false);
+  const [openChosenStructure, setOpenChosenStructure] = useState<boolean>(
+    false
+  );
 
   const createPlayOffs = () => {
     setCreate(!create);
@@ -124,7 +131,7 @@ const TournamentPlayOffs: React.FC<Props> = ({
         {!playOffs?.length && isOwner && !create && teams.length ? (
           <ButtonHorizontalContainerStyled>
             <ButtonSuccessStyled
-              onClick={createPlayOffs}
+              onClick={() => groups?.length ? setOpenChosenStructure(true) : createPlayOffs()}
               variant="outlined"
               color="secondary"
               startIcon={<AddIcon />}
@@ -133,6 +140,14 @@ const TournamentPlayOffs: React.FC<Props> = ({
             </ButtonSuccessStyled>
           </ButtonHorizontalContainerStyled>
         ) : null}
+        <ChooseStructure
+          opened={openChosenStructure}
+          handleClose={() => setOpenChosenStructure(false)}
+          chooseGroup={() =>
+            history.push(routerGenerateConst.createPlayOffsGroups(tournamentId))
+          }
+          chooseBracket={() => createPlayOffs()}
+        />
       </>
     </Rosetta>
   );
