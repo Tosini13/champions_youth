@@ -1,4 +1,4 @@
-import { Id } from "./structuresConst";
+import { Id } from "../const/structuresConst";
 
 export type PromotedTeam = {
   place: number;

@@ -2,10 +2,10 @@ import React from "react";
 
 import { BracketStructure } from "../../../../../structures/bracket";
 import { GameStructure } from "../../../../../structures/game";
-import { Placeholder } from "../../../../../const/groupConst";
 import { Group } from "../../../../../models/groupData";
 import ChoosePromotedList from "./ChoosePromotedList";
 import { Id } from "../../../../../const/structuresConst";
+import { Placeholder } from "../../../../../NewModels/Team";
 
 const GAME_SIDE = {
   HOME: "HOME",

@@ -12,7 +12,6 @@ import { connect } from "react-redux";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { Id } from "../../../const/structuresConst";
 import { GameStructure } from "../../../structures/game";
-import { Placeholder } from "../../../const/groupConst";
 import { Group } from "../../../models/groupData";
 import Choose from "./chooseTeams/Choose";
 import {
@@ -20,6 +19,7 @@ import {
   updateGroupPromoted,
 } from "../../../store/actions/GroupActions";
 import { useNotification } from "../../global/Notification";
+import { Placeholder } from "../../../NewModels/Team";
 
 export const shuffle = (arr: any) => {
   let indexes: any[] = [];

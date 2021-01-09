@@ -4,7 +4,7 @@ import { TournamentData } from "../models/tournamentData";
 import { TeamData } from "../models/teamData";
 import { ConvertedGroup, GroupData, GroupDataDb } from "../models/groupData";
 import { MatchDataDb } from "./dbAPI/matchData";
-import { PromotedTeam } from "../const/groupConst";
+import { PromotedTeam } from "../NewModels/Team";
 
 export class GroupStage {
   groups: GroupData[] = [];

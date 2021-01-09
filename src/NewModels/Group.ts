@@ -1,9 +1,9 @@
 import { Moment } from "moment";
-import { PromotedTeam } from "../const/groupConst";
 import { Id } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
 import { GroupPlayOffs } from "../store/actions/GroupActions";
 import { MatchData } from "../structures/match";
+import { PromotedTeam } from "./Team";
 
 export type GroupModel = {
   id: Id;

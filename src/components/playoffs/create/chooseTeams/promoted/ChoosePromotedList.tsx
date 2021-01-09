@@ -1,10 +1,10 @@
 import React from "react";
 
 import { ChooseListStyled } from "../../../../../styled/styledBracket";
-import { Placeholder, PromotedTeam } from "../../../../../const/groupConst";
 import { Group } from "../../../../../models/groupData";
 import ChoosePromotedListElement from "./ChoosePromotedListElement";
 import { Id } from "../../../../../const/structuresConst";
+import { Placeholder, PromotedTeam } from "../../../../../NewModels/Team";
 
 type Props = {
   groups?: Group[];

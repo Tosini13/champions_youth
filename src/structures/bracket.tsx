@@ -1,8 +1,8 @@
 import moment, { Moment } from "moment";
-import { Placeholder } from "../const/groupConst";
 import { placeMatchesTitle, roundMatchesTitle } from "../const/structuresConst";
 import { Group } from "../models/groupData";
 import { TeamData } from "../models/teamData";
+import { Placeholder } from "../NewModels/Team";
 import { BracketDataDb, bracketDbApi } from "./dbAPI/bracketData";
 import { GameStructure } from "./game";
 

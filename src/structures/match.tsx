@@ -2,7 +2,7 @@ import { matchModeConst } from "../const/matchConst";
 import { Id, Result, TeamsPlaceholder } from "../const/structuresConst";
 import { Moment } from "moment";
 import { TeamData } from "../models/teamData";
-import { Placeholder } from "../const/groupConst";
+import { Placeholder } from "../NewModels/Team";
 
 export class MatchStructure {
   id?: Id;

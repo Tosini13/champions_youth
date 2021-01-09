@@ -1,7 +1,7 @@
-import { Placeholder } from "../const/groupConst";
 import { matchModeConst } from "../const/matchConst";
 import { Id, TeamsPlaceholder } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
+import { Placeholder } from "../NewModels/Team";
 import { MatchStructure } from "./match";
 import { TeamStructure } from "./team";
 
