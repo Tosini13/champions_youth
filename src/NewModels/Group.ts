@@ -3,7 +3,7 @@ import { Id } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
 import { GroupPlayOffs } from "../store/actions/GroupActions";
 import { MatchData } from "../structures/match";
-import { PromotedTeam } from "./Team";
+import { NewPlaceholder, PromotedTeam } from "./Team";
 
 export type GroupModel = {
   id: Id;
@@ -14,6 +14,7 @@ export type GroupModel = {
   finished?: boolean;
   playOffs?: GroupPlayOffs[];
   promoted?: PromotedTeam[];
+  placeholderTeams?: NewPlaceholder[];
 };
 
 export type GroupModelDB = {

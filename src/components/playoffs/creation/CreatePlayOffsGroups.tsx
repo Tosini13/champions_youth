@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
 import styled from "styled-components";
 
 import { Grid } from "@material-ui/core";
 
 import { ContentContainerStyled } from "../../../styled/styledLayout";
 import { TeamData } from "../../../models/teamData";
-import { firestoreConnect } from "react-redux-firebase";
 import { shuffle } from "../create/PlayOffsCreateDashboard";
 import useCreateGroup from "../../../hooks/useCreateGroup";
 import { GroupModel } from "../../../NewModels/Group";

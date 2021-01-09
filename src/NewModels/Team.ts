@@ -11,4 +11,9 @@ export type Placeholder = {
   name: string;
 };
 
+export type NewPlaceholder = {
+  id: Id;
+  place: number | string;
+};
+
 export type PromotedGroupsTeams = [PromotedTeam[]];

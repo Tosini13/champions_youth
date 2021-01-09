@@ -3,21 +3,47 @@ import { bergerAlgorithm } from "../algorithms/berger";
 import { TeamData } from "../models/teamData";
 import { GroupModel } from "../NewModels/Group";
 import { MatchTime } from "../NewModels/Matches";
+import { NewPlaceholder } from "../NewModels/Team";
+import { MatchModel } from "../NewModels/Matches";
+import { matchModeConst } from "../const/matchConst";
 
 let matchCounter = 0;
 
+export const initPlaceholderMatch = (
+  home: NewPlaceholder,
+  away: NewPlaceholder,
+  round: number
+) => {
+  const match: MatchModel = {
+    id: (++matchCounter).toString(),
+    mode: matchModeConst.notStarted,
+    round: round.toString(),
+    placeholder: {
+      home: {
+        id: home.id,
+        name: home.id, // todo: real group name
+        place: home.place,
+      },
+      away: {
+        id: away.id,
+        name: away.id, // todo: real group name
+        place: away.place,
+      },
+    },
+  };
+  return match;
+};
+
 export const initMatch = (home: TeamData, away: TeamData, round: number) => {
-  return {
-    id: ++matchCounter,
+  const match: MatchModel = {
+    id: (++matchCounter).toString(),
     home,
     away,
-    mode: "NOT_STARTED",
-    result: {
-      home: 0,
-      away: 0,
-    },
-    round,
+    mode: matchModeConst.notStarted,
+    round: round.toString(),
+    placeholder: {},
   };
+  return match;
 };
 
 const compareMatches = (match1: any, match2: any) => {
@@ -26,9 +52,9 @@ const compareMatches = (match1: any, match2: any) => {
 
 const createGroupMatches = (teams: TeamData[], returnGames: boolean) => {
   if (teams.length > 3) {
-    return bergerAlgorithm(teams, returnGames);
+    return bergerAlgorithm(teams, returnGames, initMatch);
   } else if (teams.length === 3) {
-    let matches: any[] = [];
+    let matches: MatchModel[] = [];
     matches.push(initMatch(teams[0], teams[1], 1));
     matches.push(initMatch(teams[1], teams[2], 2));
     matches.push(initMatch(teams[2], teams[0], 3));
@@ -43,6 +69,51 @@ const createGroupMatches = (teams: TeamData[], returnGames: boolean) => {
     matches.push(initMatch(teams[0], teams[1], 1));
     if (returnGames) {
       matches.push(initMatch(teams[0], teams[1], 1));
+    }
+    return matches;
+  } else {
+    return [];
+  }
+};
+
+const createGroupPlaceholderMatches = (
+  placeholderTeams: NewPlaceholder[],
+  returnGames: boolean
+) => {
+  if (placeholderTeams.length > 3) {
+    return bergerAlgorithm(placeholderTeams, returnGames, initPlaceholderMatch);
+  } else if (placeholderTeams.length === 3) {
+    let matches: MatchModel[] = [];
+    matches.push(
+      initPlaceholderMatch(placeholderTeams[0], placeholderTeams[1], 1)
+    );
+    matches.push(
+      initPlaceholderMatch(placeholderTeams[1], placeholderTeams[2], 2)
+    );
+    matches.push(
+      initPlaceholderMatch(placeholderTeams[2], placeholderTeams[0], 3)
+    );
+    if (returnGames) {
+      matches.push(
+        initPlaceholderMatch(placeholderTeams[1], placeholderTeams[0], 4)
+      );
+      matches.push(
+        initPlaceholderMatch(placeholderTeams[2], placeholderTeams[1], 5)
+      );
+      matches.push(
+        initPlaceholderMatch(placeholderTeams[0], placeholderTeams[2], 6)
+      );
+    }
+    return matches;
+  } else if (placeholderTeams.length === 2) {
+    let matches: any[] = [];
+    matches.push(
+      initPlaceholderMatch(placeholderTeams[0], placeholderTeams[1], 1)
+    );
+    if (returnGames) {
+      matches.push(
+        initPlaceholderMatch(placeholderTeams[0], placeholderTeams[1], 1)
+      );
     }
     return matches;
   } else {
@@ -118,7 +189,14 @@ const useCreateGroup = () => {
     date?: string;
   }) => {
     groups.forEach((group, i) => {
-      if (group.teams) {
+      if (group.placeholderTeams?.length) {
+        const matches = createGroupPlaceholderMatches(
+          group.placeholderTeams,
+          returnMatches
+        );
+        matches.sort(compareMatches);
+        group.matches = matches;
+      } else if (group.teams) {
         const matches = createGroupMatches(group.teams, returnMatches);
         matches.sort(compareMatches);
         group.matches = matches;

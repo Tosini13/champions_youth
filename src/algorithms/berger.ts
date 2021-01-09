@@ -1,7 +1,12 @@
-import { initMatch } from "../hooks/useCreateGroup";
 import { TeamData } from "../models/teamData";
+import { MatchModel } from "../NewModels/Matches";
+import { NewPlaceholder } from "../NewModels/Team";
 
-export const bergerAlgorithm = (teams: TeamData[], returnGames: boolean) => {
+export const bergerAlgorithm = (
+  teams: TeamData[] | NewPlaceholder[],
+  returnGames: boolean,
+  initMatch: (home: any, away: any, round: number) => MatchModel
+) => {
   const isOdd = Boolean(teams.length % 2);
   const teamsQtt = isOdd ? teams.length + 1 : teams.length;
   const matchesInRound = teamsQtt / 2;

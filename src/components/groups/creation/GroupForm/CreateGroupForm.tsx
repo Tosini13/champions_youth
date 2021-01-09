@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 import { TextFieldStyled } from "../../../../styled/styledForm";
 import groupCreationDict from "../../../../locale/creationNav.dict.";
 import { LOCALE } from "../../../../locale/config";
-import GroupTeamsList from "./GroupTeamsList";
 import { useNotification } from "../../../global/Notification";
 import { Id } from "../../../../const/structuresConst";
 import { GroupModel } from "../../../../NewModels/Group";
@@ -52,6 +51,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
   handleRemoveGroup,
   locale,
   userId,
+  children,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const { openNotification, setQuestion, setAnswers } = useNotification();
@@ -112,7 +112,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
             />
           </Grid>
           <Grid item>
-            <GroupTeamsList teams={group.teams} userId={userId} />
+            {children}
             <Button
               variant="outlined"
               color="secondary"
