@@ -71,6 +71,14 @@ const CreatePlayOffsGroups: React.FC<CreatePlayOffsGroupsProps> = ({
     setOpenSettings(false);
   };
 
+  const handleUpdateGroup = (updatedGroup: GroupModel) => {
+    setGroups(
+      groups.map((group) =>
+        group.id === updatedGroup.id ? updatedGroup : group
+      )
+    );
+  };
+
   const createNewGroup = () => {
     let groupN = "";
     for (let i = 0; i < groups.length + 1; i++) {
@@ -212,6 +220,7 @@ const CreatePlayOffsGroups: React.FC<CreatePlayOffsGroupsProps> = ({
                   group={group}
                   handleOpenTeams={handleOpenTeams}
                   handleRemoveGroup={handleRemoveGroup}
+                  handleUpdateGroup={handleUpdateGroup}
                 />
               </Grid>
             );

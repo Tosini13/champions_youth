@@ -90,6 +90,14 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     return newGroup;
   };
 
+  const handleUpdateGroup = (updatedGroup: GroupModel) => {
+    setGroups(
+      groups.map((group) =>
+        group.id === updatedGroup.id ? updatedGroup : group
+      )
+    );
+  };
+
   const groupInValid = () => {
     setQuestion("theresNoTeamsOrMatchesInGroup");
     setAnswers([
@@ -213,6 +221,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
                   group={group}
                   handleOpenTeams={handleOpenTeams}
                   handleRemoveGroup={handleRemoveGroup}
+                  handleUpdateGroup={handleUpdateGroup}
                 >
                   <GroupTeamsList teams={group.teams} userId={userId} />
                 </CreateGroupForm>

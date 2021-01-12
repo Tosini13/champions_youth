@@ -41,6 +41,7 @@ export interface CreateGroupFormProps {
   group: GroupModel;
   handleOpenTeams: (group: GroupModel) => void;
   handleRemoveGroup: (selected: GroupModel) => void;
+  handleUpdateGroup: (updatedGroup: GroupModel) => void;
   locale: LOCALE;
   userId: Id;
 }
@@ -49,13 +50,14 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
   group,
   handleOpenTeams,
   handleRemoveGroup,
+  handleUpdateGroup,
   locale,
   userId,
   children,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const { openNotification, setQuestion, setAnswers } = useNotification();
-  const { handleSubmit, register, errors } = useForm<GroupModel>({
+  const { handleSubmit, register, errors, getValues } = useForm<GroupModel>({
     defaultValues: {
       id: group.id,
       name: group.name,
@@ -84,6 +86,14 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
     setOpen(false);
   };
 
+  const handleUpdate = () => {
+    const { name } = getValues();
+    handleUpdateGroup({
+      ...group,
+      name,
+    });
+  };
+
   const onSubmit = (values: GroupModel) => {
     console.log(values);
   };
@@ -109,6 +119,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
               }}
               helperText={errors.name && <Translator id="wrongGroupName" />}
               error={Boolean(errors.name)}
+              onChange={() => handleUpdate()}
             />
           </Grid>
           <Grid item>

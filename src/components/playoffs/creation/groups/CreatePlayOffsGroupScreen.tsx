@@ -73,19 +73,27 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     let groupN = "";
     for (let i = 0; i < groups.length + 1; i++) {
       groupN = String.fromCharCode(65 + i);
-      const n = `Group${groupN}`;
+      const n = `PlayOffsGroup${groupN}`;
       let isFree = true;
       groups.forEach((group) => (group.id === n ? (isFree = false) : true));
       if (isFree) break;
     }
     const newGroup: GroupModel = {
-      id: `Group${groupN}`,
-      name: `Group ${groupN}`,
+      id: `PlayOffsGroup${groupN}`,
+      name: `Play-Offs Group ${groupN}`,
       teams: [],
       matches: [],
       placeholderTeams: [],
     };
     return newGroup;
+  };
+
+  const handleUpdateGroup = (updatedGroup: GroupModel) => {
+    setGroups(
+      groups.map((group) =>
+        group.id === updatedGroup.id ? updatedGroup : group
+      )
+    );
   };
 
   const groupInValid = () => {
@@ -99,20 +107,21 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   };
 
   const handleSaveGroup = () => {
+    console.log(groups);
     let valid = true;
-    groups.forEach((group) => {
-      if (!group.teams.length || !group.matches.length) {
-        valid = false;
-      }
-    });
-    if (!valid) {
-      setTimeout(groupInValid, 10);
-      return false;
-    }
-    groups.forEach((group) => {
-      createGroup(tournamentId, group);
-    });
-    history.push(routerGenerateConst.tournament(tournamentId));
+    // groups.forEach((group) => {
+    //   if (!group.teams.length || !group.matches.length) {
+    //     valid = false;
+    //   }
+    // });
+    // if (!valid) {
+    //   setTimeout(groupInValid, 10);
+    //   return false;
+    // }
+    // groups.forEach((group) => {
+    //   createGroup(tournamentId, group);
+    // });
+    // history.push(routerGenerateConst.tournament(tournamentId));
   };
 
   const handleAddGroup = () => {
@@ -196,7 +205,6 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     startDate,
   ]);
 
-  console.log(groups);
   return (
     <>
       <CreationNav
@@ -214,6 +222,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
                   group={group}
                   handleOpenTeams={handleOpenTeams}
                   handleRemoveGroup={handleRemoveGroup}
+                  handleUpdateGroup={handleUpdateGroup}
                 >
                   <PlaceholderTeamsList teams={group.placeholderTeams ?? []} />
                 </CreateGroupForm>
