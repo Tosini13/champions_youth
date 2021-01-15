@@ -21,11 +21,13 @@ import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { getImage } from "../actions/getImage";
 import SplashScreen from "../../global/SplashScreen";
+import { GroupModel } from "../../../NewModels/Group";
 
 type Props = {
   tournament?: TournamentData;
   teams?: TeamData[];
   groups?: Group[];
+  playOffsGroups?: GroupModel[];
   playOffs?: Game[];
   tournamentId?: Id;
   authorId?: Id;
@@ -41,6 +43,7 @@ const TournamentDetails: React.FC<Props> = ({
   teams,
   groups,
   playOffs,
+  playOffsGroups,
 }) => {
   const [image, setImage] = useState<any | null>(null);
 
@@ -63,6 +66,7 @@ const TournamentDetails: React.FC<Props> = ({
               tournament={tournament}
               groups={groups}
               playOffs={Boolean(playOffs?.length)}
+              playOffsGroups={playOffsGroups}
               teams={teams}
               isOwner={isOwner}
             />
@@ -72,6 +76,7 @@ const TournamentDetails: React.FC<Props> = ({
               tournamentId={tournamentId}
               tournament={tournament}
               playOffs={playOffs}
+              playOffsGroups={playOffsGroups}
               teams={teams}
               groups={groups}
               isOwner={isOwner}
@@ -118,12 +123,14 @@ const mapStateToProps = (state: any, ownProps: any) => {
     playOffsData && teams
       ? playOffsData.map((game) => new Game(game, teams))
       : undefined;
+  const playOffsGroups: GroupModel[] = state.firestore.ordered.playOffsGroups;
   return {
     isOwner,
     authorId,
     tournament,
     teams,
     playOffs,
+    playOffsGroups,
     tournamentId,
     groups,
   };
@@ -151,6 +158,14 @@ export default compose(
         doc: props.match.params.tournamentId,
         subcollections: [{ collection: "playOffs", orderBy: ["order", "asc"] }],
         storeAs: "playOffs",
+      },
+      {
+        collection: "tournaments",
+        doc: props.match.params.tournamentId,
+        subcollections: [
+          { collection: "playOffsGroups", orderBy: ["name", "asc"] },
+        ],
+        storeAs: "playOffsGroups",
       },
     ];
   })

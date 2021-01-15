@@ -107,21 +107,20 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   };
 
   const handleSaveGroup = () => {
-    console.log(groups);
     let valid = true;
-    // groups.forEach((group) => {
-    //   if (!group.teams.length || !group.matches.length) {
-    //     valid = false;
-    //   }
-    // });
-    // if (!valid) {
-    //   setTimeout(groupInValid, 10);
-    //   return false;
-    // }
-    // groups.forEach((group) => {
-    //   createGroup(tournamentId, group);
-    // });
-    // history.push(routerGenerateConst.tournament(tournamentId));
+    groups.forEach((group) => {
+      if (!group.placeholderTeams?.length || !group.matches.length) {
+        valid = false;
+      }
+    });
+    if (!valid) {
+      setTimeout(groupInValid, 10);
+      return false;
+    }
+    groups.forEach((group) => {
+      createGroup(tournamentId, group);
+    });
+    history.push(routerGenerateConst.tournament(tournamentId));
   };
 
   const handleAddGroup = () => {

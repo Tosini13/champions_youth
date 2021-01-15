@@ -7,7 +7,7 @@ import { GroupModel } from "../../../../NewModels/Group";
 import { NewPlaceholder } from "../../../../NewModels/Team";
 
 import { Id } from "../../../../const/structuresConst";
-import { createWholeGroup } from "../../../../store/actions/GroupActions";
+import { createPlayOffGroup } from "../../../../store/actions/GroupActions";
 import { LOCALE } from "../../../../locale/config";
 import CreatePlayOffsGroupScreen from "./CreatePlayOffsGroupScreen";
 
@@ -72,7 +72,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     createGroup: (tournamentId: Id, group: GroupModel) =>
-      dispatch(createWholeGroup(tournamentId, group)),
+      dispatch(createPlayOffGroup(tournamentId, group)),
   };
 };
 

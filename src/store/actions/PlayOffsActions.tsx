@@ -102,13 +102,40 @@ export const deletePlayOffs = (
         if (callBackSuccess) {
           callBackSuccess();
         }
-        dispatch({ type: "DELETE_ALL_GROUPS_FROM_TOURNAMENT" });
+        dispatch({ type: "DELETE_PLAYOFFS_FROM_TOURNAMENT" });
       })
       .catch(function (err) {
         if (callBackError) {
           callBackError();
         }
-        dispatch({ type: "DELETE_ALL_GROUPS_FROM_TOURNAMENT_ERROR", err });
+        dispatch({ type: "DELETE_PLAYOFFS_FROM_TOURNAMENT_ERROR", err });
+      });
+  };
+};
+
+export const deletePlayOffsGroups = (
+  tournamentId: Id,
+  callBackSuccess?: () => void,
+  callBackError?: () => void
+) => {
+  const path = `/tournaments/${tournamentId}/playOffsGroups`;
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
+    deleteFn({ path: path })
+      .then(function (result) {
+        if (callBackSuccess) {
+          callBackSuccess();
+        }
+        dispatch({ type: "DELETE_PLAYOFFS_GROUPS_FROM_TOURNAMENT" });
+      })
+      .catch(function (err) {
+        if (callBackError) {
+          callBackError();
+        }
+        dispatch({
+          type: "DELETE_PLAYOFFS_GROUPS_FROM_TOURNAMENT_ERROR",
+          err,
+        });
       });
   };
 };
