@@ -12,7 +12,7 @@ export const bergerAlgorithm = (
   const matchesInRound = teamsQtt / 2;
   const ghost = isOdd ? teams[teamsQtt - 2] : teams[teamsQtt - 1];
   let roundsQtt = 1;
-  let matches: any = [];
+  let matches: MatchModel[] = [];
   let hostTeams = teams.slice(0, teamsQtt / 2).reverse();
   let awayTeams = teams.slice(
     teamsQtt / 2,
@@ -49,10 +49,14 @@ export const bergerAlgorithm = (
   }
   if (returnGames) {
     roundsQtt--;
-    let returnMatches: any[] = [];
+    let returnMatches: MatchModel[] = [];
     matches.forEach((match) => {
       returnMatches.push(
-        initMatch(match.away, match.home, match.round + roundsQtt)
+        initMatch(
+          match.away ?? match.placeholder.away,
+          match.home ?? match.placeholder.home,
+          Number(match.round + roundsQtt)
+        )
       );
     });
     matches = [...matches, ...returnMatches];

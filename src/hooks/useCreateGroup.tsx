@@ -190,7 +190,6 @@ const useCreateGroup = () => {
     time?: MatchTime;
     date?: string;
   }) => {
-    console.log(fields);
     groups.forEach((group, i) => {
       if (group.placeholderTeams?.length) {
         const matches = createGroupPlaceholderMatches(

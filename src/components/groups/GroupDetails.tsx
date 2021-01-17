@@ -73,7 +73,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
         }))
       : undefined;
   const groups: GroupModelDB[] | undefined = state.firestore.ordered.groups;
-  console.log(groups);
   const groupData = groups?.find((data) => data.id === groupId);
   const group: GroupModel | undefined =
     groupData && teams && matches
