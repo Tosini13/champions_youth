@@ -9,6 +9,7 @@ import { matchGame } from "../../../store/actions/PlayOffsActions";
 import GroupTableView from "./GroupTableView";
 import GroupMatchesView from "./GroupMatches";
 import SliderGlobal from "../../global/Slider";
+import { Typography } from "@material-ui/core";
 
 export interface GroupDetailsViewProps {
   tournamentId: Id;
@@ -109,7 +110,24 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
       }
     });
   };
-
+  if (!group.teams.length) {
+    return (
+      <>
+        <Typography
+          color="secondary"
+          align="center"
+          style={{ paddingTop: "10px" }}
+        >
+          {group.name}
+        </Typography>
+        <GroupMatchesView
+          tournamentId={tournamentId}
+          groupId={groupId}
+          matches={matches}
+        />
+      </>
+    );
+  }
   return (
     <SliderGlobal
       components={[

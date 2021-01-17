@@ -18,7 +18,11 @@ const GroupSummary: React.FC<GroupsComponentProps> = ({ group }) => {
   return (
     <div>
       <LinkStyled
-        to={group.id ? routerGenerateConst.groups(tournamentId, group.id) : ""}
+        to={
+          group.id
+            ? routerGenerateConst.playOffsGroup(tournamentId, group.id)
+            : ""
+        }
       >
         <GroupTitleText>{group.name}</GroupTitleText>
       </LinkStyled>

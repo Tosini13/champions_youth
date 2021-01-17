@@ -10,13 +10,14 @@ export type UpdateMatch = {
   result?: Result | null;
   homeTeam?: Id | null;
   awayTeam?: Id | null;
+  playOffsGroup?: boolean;
 };
 
-type UpdateGroupMatch = Omit<UpdateMatch, "gameId">;
-type UpdatePlayOffsMatch = Omit<UpdateMatch, "groupId">;
+type UpdateGroupMatch = Omit<UpdateMatch, "gameId" | "playOffsGroup">;
+type UpdatePlayOffsMatch = Omit<UpdateMatch, "groupId" | "playOffsGroup">;
 type ToUpdatePlayOffsMatch = Omit<
   UpdatePlayOffsMatch,
-  "tournamentId" | "matchId" | "gameId"
+  "tournamentId" | "matchId" | "gameId" | "playOffsGroup"
 >;
 
 export const updateMatch = ({
@@ -26,9 +27,19 @@ export const updateMatch = ({
   matchId,
   mode,
   result,
+  playOffsGroup,
   homeTeam,
   awayTeam,
 }: UpdateMatch) => {
+  if (playOffsGroup) {
+    return updatePlayOffsGroupMatch({
+      tournamentId,
+      groupId,
+      matchId,
+      mode,
+      result,
+    });
+  }
   if (groupId) {
     return updateGroupMatch({ tournamentId, groupId, matchId, mode, result });
   }
@@ -58,6 +69,40 @@ const updateGroupMatch = ({
       .collection("tournaments")
       .doc(tournamentId)
       .collection("groups")
+      .doc(groupId)
+      .collection("matches")
+      .doc(matchId)
+      .update(
+        mode && result
+          ? { mode, result }
+          : mode
+          ? { mode }
+          : result
+          ? { result }
+          : {}
+      )
+      .then(() => {
+        dispatch({ type: "UPDATE_GROUP_MATCH" });
+      })
+      .catch((err) => {
+        dispatch({ type: "UPDATE_GROUP_MATCH_ERROR", err });
+      });
+  };
+};
+
+const updatePlayOffsGroupMatch = ({
+  tournamentId,
+  groupId,
+  matchId,
+  mode,
+  result,
+}: UpdateGroupMatch) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .collection("playOffsGroups")
       .doc(groupId)
       .collection("matches")
       .doc(matchId)

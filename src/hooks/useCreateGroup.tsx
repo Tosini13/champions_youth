@@ -144,9 +144,11 @@ const setMatchesTime = (
     for (let j = 0; j < groups.length; j++) {
       const groupMatches = groups[j].matches;
       if (groupMatches && i < groupMatches.length) {
+        const home = groupMatches[i].home;
+        const away = groupMatches[i].away;
         if (
-          timeTeamsCounter.includes(groupMatches[i].home) ||
-          timeTeamsCounter.includes(groupMatches[i].away)
+          timeTeamsCounter.includes(home ?? groupMatches[i].placeholder.home) ||
+          timeTeamsCounter.includes(away ?? groupMatches[i].placeholder.away)
         ) {
           timeCounter = moment(timeCounter).add(timeUnit, "minutes");
           fieldCounter = 1;
@@ -155,8 +157,8 @@ const setMatchesTime = (
         groupMatches[i].date = moment(timeCounter);
         timeTeamsCounter = [
           ...timeTeamsCounter,
-          groupMatches[i].home,
-          groupMatches[i].away,
+          home ?? groupMatches[i].placeholder.home,
+          away ?? groupMatches[i].placeholder.away,
         ];
         if (!(fieldCounter % fields)) {
           timeCounter = moment(timeCounter).add(timeUnit, "minutes");
@@ -188,6 +190,7 @@ const useCreateGroup = () => {
     time?: MatchTime;
     date?: string;
   }) => {
+    console.log(fields);
     groups.forEach((group, i) => {
       if (group.placeholderTeams?.length) {
         const matches = createGroupPlaceholderMatches(
