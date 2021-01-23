@@ -36,6 +36,7 @@ export interface CreateGroupsScreenProps {
   userId: Id;
   tournamentId: Id;
   tournament: TournamentModel;
+  doesGroupsExist: Boolean;
   createGroup: (tournamentId: Id, group: GroupModel) => void;
 }
 
@@ -51,9 +52,14 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   userId,
   tournamentId,
   tournament,
+  doesGroupsExist,
   createGroup,
 }) => {
   const history = useHistory();
+  if (doesGroupsExist) {
+    console.log("history");
+    history.push("/");
+  }
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [openSettings, setOpenSettings] = useState<boolean>(false);
   const [settings, setSettings] = useState<SettingType>({
@@ -265,6 +271,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
     tournament,
     locale: state.dictionary.locale,
     userId: state.firebase.auth.uid,
+    doesGroupsExist: Boolean(state.firestore.ordered.groups?.length),
   };
 };
 
@@ -285,6 +292,12 @@ export default compose(
         doc: props.match.params.tournamentId,
         subcollections: [{ collection: "teams", orderBy: ["name", "asc"] }],
         storeAs: "teams",
+      },
+      {
+        collection: "tournaments",
+        doc: props.match.params.tournamentId,
+        subcollections: [{ collection: "groups", orderBy: ["name", "asc"] }],
+        storeAs: "groups",
       },
     ];
   })

@@ -14,6 +14,7 @@ import {
 } from "../../../../store/actions/GroupActions";
 import { LOCALE } from "../../../../locale/config";
 import CreatePlayOffsGroupScreen from "./CreatePlayOffsGroupScreen";
+import { useHistory } from "react-router-dom";
 
 export type PromotedGroup = {
   teams: NewPlaceholder[];
@@ -27,6 +28,7 @@ export interface CreatePlayOffsGroupPageProps {
   createGroup: (tournamentId: Id, group: GroupModel) => void;
   locale: LOCALE;
   userId: Id;
+  doesGroupsExist: boolean;
   updateGroupPromoted: ({
     tournamentId,
     groupId,
@@ -41,8 +43,14 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
   createGroup,
   locale,
   userId,
+  doesGroupsExist,
   updateGroupPromoted,
 }) => {
+  const history = useHistory();
+  if (doesGroupsExist) {
+    console.log("history");
+    history.push("/");
+  }
   const mockDate = "01/01/2021"; // todo: change on real date
   let teamsQtt = 0;
   const promotedGroups: PromotedGroup[] =
@@ -78,6 +86,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
     locale: state.dictionary.locale,
     userId: state.firebase.auth.uid,
     tournamentId: ownProps.match.params.tournamentId,
+    doesGroupsExist: Boolean(state.firestore.ordered.playOffsGroups?.length),
   };
 };
 
@@ -107,6 +116,14 @@ export default compose(
         doc: props.match.params.tournamentId,
         subcollections: [{ collection: "groups", orderBy: ["name", "asc"] }],
         storeAs: "groups",
+      },
+      {
+        collection: "tournaments",
+        doc: props.match.params.tournamentId,
+        subcollections: [
+          { collection: "playOffsGroups", orderBy: ["name", "asc"] },
+        ],
+        storeAs: "playOffsGroups",
       },
     ];
   })

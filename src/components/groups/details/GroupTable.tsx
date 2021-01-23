@@ -9,7 +9,6 @@ import { mainTheme, styledColors } from "../../../styled/styledConst";
 import { createTable } from "../../../structures/groupPromotion";
 import { GroupPlayOffs } from "../../../store/actions/GroupActions";
 import { GroupPlayOffsGroup } from "../../../NewModels/Group";
-import { createNoSubstitutionTemplateLiteral } from "typescript";
 
 export interface GroupTableProps {
   teams: TeamData[];
