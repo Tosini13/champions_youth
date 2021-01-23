@@ -114,7 +114,7 @@ const TournamentGroups: React.FC<Props> = ({
                   variant="outlined"
                   color="secondary"
                   startIcon={<DeleteIcon />}
-                  disabled={Boolean(playOffs) || Boolean(playOffsGroups)}
+                  disabled={playOffs || playOffsGroups}
                 >
                   <Translator id="deleteGroupStage" />
                 </ButtonErrorStyled>

@@ -66,7 +66,7 @@ const TournamentDetails: React.FC<Props> = ({
               tournament={tournament}
               groups={groups}
               playOffs={Boolean(playOffs?.length)}
-              playOffsGroups={playOffsGroups}
+              playOffsGroups={Boolean(playOffsGroups?.length)}
               teams={teams}
               isOwner={isOwner}
             />
