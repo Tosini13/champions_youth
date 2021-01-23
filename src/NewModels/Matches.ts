@@ -36,4 +36,8 @@ export type MatchModelDB = {
   round: string;
   date?: Moment;
   mode: matchModeConst;
+  groupPlaceholder?: {
+    home: string | number;
+    away: string | number;
+  };
 };

@@ -2,6 +2,8 @@ import moment, { Moment } from "moment";
 import { matchModeConst } from "../../const/matchConst";
 import { Id, Result, TeamsPlaceholder } from "../../const/structuresConst";
 import { TeamData } from "../../models/teamData";
+import { GroupModelDB } from "../../NewModels/Group";
+import { MatchModelDB } from "../../NewModels/Matches";
 
 export class MatchDbApi {
   convertMatchToDb = (match: MatchDataApp) => {
@@ -43,6 +45,13 @@ export type MatchDataDb = {
   date: string | null;
 };
 
+export type MatchConstructorType = {
+  matchDataDb: MatchModelDB;
+  teams: TeamData[];
+  groups?: GroupModelDB[];
+  playOffsGroup?: GroupModelDB;
+};
+
 export class Match {
   id?: Id;
   home?: TeamData;
@@ -61,7 +70,12 @@ export class Match {
     this.away = teams.find((team) => team.id === teamId);
   };
 
-  constructor(matchDataDb: MatchDataDb, teams: TeamData[]) {
+  constructor({
+    matchDataDb,
+    teams,
+    groups,
+    playOffsGroup,
+  }: MatchConstructorType) {
     this.id = matchDataDb.id ? matchDataDb.id : undefined;
     this.placeholder = matchDataDb.placeholder;
     this.result = matchDataDb.result;
@@ -70,5 +84,31 @@ export class Match {
     this.mode = matchDataDb.mode;
     if (matchDataDb.home) this.getHome(matchDataDb.home, teams);
     if (matchDataDb.away) this.getAway(matchDataDb.away, teams);
+    if (matchDataDb.groupPlaceholder && playOffsGroup) {
+      const home = playOffsGroup.groupTeams?.find(
+        (team) => team.place === matchDataDb.groupPlaceholder?.home
+      );
+      const away = playOffsGroup.groupTeams?.find(
+        (team) => team.place === matchDataDb.groupPlaceholder?.away
+      );
+      if (home?.id) this.getHome(home.id, teams);
+      if (away?.id) this.getAway(away.id, teams);
+      this.placeholder = {
+        home: {
+          name:
+            groups?.find((group) => group.id === home?.group?.id)?.name ??
+            `${home?.group?.id}`,
+          id: home?.group?.id,
+          place: home?.group?.place,
+        },
+        away: {
+          name:
+            groups?.find((group) => group.id === away?.group?.id)?.name ??
+            `${away?.group?.id}`,
+          id: away?.group?.id,
+          place: away?.group?.place,
+        },
+      };
+    }
   }
 }

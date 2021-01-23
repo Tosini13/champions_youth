@@ -12,10 +12,12 @@ import SplashScreen from "../global/SplashScreen";
 import { matchModeConst } from "../../const/matchConst";
 import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
 import { Game } from "../../models/gameData";
+import { MatchModelDB } from "../../NewModels/Matches";
 import { GameDataDb } from "../../structures/dbAPI/gameData";
 import { updateGame, UpdateGame } from "../../store/actions/GameActions";
 import { matchGame } from "../../store/actions/PlayOffsActions";
 import { routerConstString } from "../../const/menuConst";
+import { GroupModelDB } from "../../NewModels/Group";
 
 type Props = {
   nextWinner?: GameDataDb;
@@ -251,6 +253,10 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const authorId = state.firebase.auth.uid;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
 
+  const groups: GroupModelDB[] | undefined = state.firestore.ordered.groups;
+  const playOffsGroups: GroupModelDB[] | undefined =
+    state.firestore.data.playOffsGroups;
+  const playOffsGroup = playOffsGroups ? playOffsGroups[groupId] : undefined;
   let games: Game[] | undefined;
   let game: Game | undefined;
   let nextWinner: GameDataDb | undefined;
@@ -267,9 +273,12 @@ const mapStateToProps = (state: any, ownProps: any) => {
     );
     nextLoser = gamesData?.find((gameData) => gameData.id === game?.loserMatch);
   }
-  const matches = state.firestore.data.matches;
+  const matches: MatchModelDB[] = state.firestore.data.matches;
   const match = matches ? matches[matchId] : undefined;
-  const matchData = match && teams ? new Match(match, teams) : undefined;
+  let matchData =
+    match && teams
+      ? new Match({ matchDataDb: match, teams, playOffsGroup, groups })
+      : undefined;
   return {
     nextWinner,
     nextLoser,
@@ -338,6 +347,18 @@ export default compose(
           doc: props.match.params.tournamentId,
           subcollections: [{ collection: "teams" }],
           storeAs: "teams",
+        },
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [{ collection: "playOffsGroups" }],
+          storeAs: "playOffsGroups",
+        },
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [{ collection: "groups" }],
+          storeAs: "groups",
         },
         {
           collection: "tournaments",
