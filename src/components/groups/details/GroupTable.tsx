@@ -7,11 +7,16 @@ import { TeamData } from "../../../models/teamData";
 import { MatchData } from "../../../structures/match";
 import { mainTheme, styledColors } from "../../../styled/styledConst";
 import { createTable } from "../../../structures/groupPromotion";
+import { GroupPlayOffs } from "../../../store/actions/GroupActions";
+import { GroupPlayOffsGroup } from "../../../NewModels/Group";
+import { createNoSubstitutionTemplateLiteral } from "typescript";
 
 export interface GroupTableProps {
   teams: TeamData[];
   matches: MatchData[];
   promotedQtt: number;
+  playOffs?: GroupPlayOffs[];
+  playOffsGroup?: GroupPlayOffsGroup[];
 }
 
 const GroupTableStyled = styled.div`
@@ -49,24 +54,29 @@ const GroupTable: React.FC<GroupTableProps> = ({
   teams,
   matches,
   promotedQtt,
+  playOffs,
+  playOffsGroup,
 }) => {
   const table = createTable(teams, matches);
 
-  let promotionCounter = 0;
+  let promotionCounter = 1;
   const tableList = table.map((row) => {
+    const team = teams.find((team) => team.id === row.team);
+    if (!team) return null;
+    const promoted: boolean = Boolean(
+      playOffs?.find((game) => game.place === promotionCounter) ||
+        playOffsGroup?.find((place) => place.place === promotionCounter)
+    );
     let rowClass = "";
-    if (promotionCounter < promotedQtt) {
+    if (promoted) {
       rowClass += " group-table-promoted";
     }
     if (row.live) {
       rowClass += " group-table-live";
     }
-    promotionCounter++;
-    const team = teams.find((team) => team.id === row.team);
-    if (!team) return null;
     return (
       <tr key={team.id} className={rowClass}>
-        <td>{promotionCounter}</td>
+        <td>{promotionCounter++}</td>
         <td>{team.name}</td>
         <td>{row.matches}</td>
         <td>{row.points}</td>
