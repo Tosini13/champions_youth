@@ -8,13 +8,22 @@ import { LinkStyled } from "../../../styled/styledLayout";
 import { routerGenerateConst } from "../../../const/menuConst";
 import { Id } from "../../../const/structuresConst";
 import { GroupTeamText, GroupTitleText } from "../../../styled/styledGroup";
+import { Group } from "../../../models/groupData";
+import { TeamData } from "../../../models/teamData";
 
 export interface GroupsComponentProps {
   group: GroupModel;
+  groups?: Group[];
+  teams: TeamData[];
 }
 
-const GroupSummary: React.FC<GroupsComponentProps> = ({ group }) => {
+const GroupSummary: React.FC<GroupsComponentProps> = ({
+  group,
+  groups,
+  teams,
+}) => {
   const { tournamentId } = useParams<{ tournamentId: Id }>();
+  console.log(group);
   return (
     <div>
       <LinkStyled
@@ -32,9 +41,12 @@ const GroupSummary: React.FC<GroupsComponentProps> = ({ group }) => {
         justify="space-around"
         alignItems="flex-start"
       >
-        {group.placeholderTeams?.map((team) => (
+        {group.groupTeams?.map((team) => (
           <GroupTeamText key={`${team.id}${team.place}`}>
-            {team.id} {team.place}
+            {teams.find((t) => t.id === team.id)?.name ??
+              groups?.find((group) => group.id === team.group?.id)?.name +
+                " " +
+                team.group?.place}
           </GroupTeamText>
         ))}
       </Grid>

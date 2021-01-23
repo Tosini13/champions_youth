@@ -17,7 +17,6 @@ const GroupTableView: React.FC<GroupTableViewProps> = ({
   handleFinishGroup,
   handleContinueGroup,
 }) => {
-  console.log(group);
   return (
     <>
       <GroupTable
