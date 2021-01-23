@@ -31,6 +31,7 @@ type Props = {
   groups?: Group[];
   teams: TeamData[];
   playOffs: boolean;
+  playOffsGroups: boolean;
   locale: LOCALE;
   tournamentId: Id;
   deleteGroups: (
@@ -45,6 +46,7 @@ const TournamentGroups: React.FC<Props> = ({
   tournament,
   teams,
   playOffs,
+  playOffsGroups,
   groups,
   locale,
   tournamentId,
@@ -77,7 +79,7 @@ const TournamentGroups: React.FC<Props> = ({
   };
 
   const handleDelete = () => {
-    if (playOffs) {
+    if (playOffs || playOffsGroups) {
       setQuestion("deletePlayOffsToDeleteGroups");
       setAnswers([
         {
@@ -112,7 +114,7 @@ const TournamentGroups: React.FC<Props> = ({
                   variant="outlined"
                   color="secondary"
                   startIcon={<DeleteIcon />}
-                  disabled={playOffs}
+                  disabled={Boolean(playOffs) || Boolean(playOffsGroups)}
                 >
                   <Translator id="deleteGroupStage" />
                 </ButtonErrorStyled>

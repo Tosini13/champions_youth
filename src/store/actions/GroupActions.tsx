@@ -1,7 +1,8 @@
 import firebase from "firebase";
 import { Id } from "../../const/structuresConst";
 import { GroupDataDb } from "../../models/groupData";
-import { GroupModel } from "../../NewModels/Group";
+import { GroupTeamModel } from "../../models/teamData";
+import { GroupModel, GroupPlayOffsGroup } from "../../NewModels/Group";
 import { MatchDataDb } from "../../structures/dbAPI/matchData";
 
 export const createPlayOffGroup = (tournamentId: Id, group: GroupModel) => {
@@ -21,6 +22,7 @@ export const createPlayOffGroup = (tournamentId: Id, group: GroupModel) => {
         })),
         finishAt: group.finishAt?.format(),
         placeholderTeams: group.placeholderTeams,
+        groupTeams: group.groupTeams,
       })
       .then((res: any) => {
         dispatch({ type: "CREATE_GROUP" });
@@ -37,9 +39,9 @@ export const createPlayOffGroup = (tournamentId: Id, group: GroupModel) => {
               away: match.away?.id,
               date: match.date?.format(),
               mode: match.mode,
-              placeholder: match.placeholder,
               result: match.result,
               round: match.round,
+              groupPlaceholder: match.groupPlaceholder,
             })
             .then(() => {
               dispatch({ type: "CREATE_MATCHES_TO_GROUP" });
@@ -155,11 +157,18 @@ export type GroupPlayOffs = {
   place: number;
   home: boolean;
 };
-export const updateGroupPromoted = (
-  tournamentId: Id,
-  groupId: Id,
-  playOffs: GroupPlayOffs[]
-) => {
+export type UpdateGroupPromotedParams = {
+  tournamentId: Id;
+  groupId: Id;
+  playOffs?: GroupPlayOffs[];
+  playOffsGroup?: GroupPlayOffsGroup[];
+};
+export const updateGroupPromoted = ({
+  tournamentId,
+  groupId,
+  playOffs,
+  playOffsGroup,
+}: UpdateGroupPromotedParams) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
     firestore
@@ -168,7 +177,37 @@ export const updateGroupPromoted = (
       .collection("groups")
       .doc(groupId)
       .update({
-        playOffs: playOffs,
+        playOffs: playOffs ? playOffs : [],
+        playOffsGroup: playOffsGroup ? playOffsGroup : [],
+      })
+      .then((res: any) => {
+        dispatch({ type: "UPDATE_GROUP" });
+      })
+      .catch((err: any) => {
+        dispatch({ type: "UPDATE_GROUP_ERROR", err });
+      });
+  };
+};
+
+export type UpdatePlayOffsGroupTeamsParams = {
+  tournamentId: Id;
+  groupId: Id;
+  groupTeams?: GroupTeamModel[];
+};
+export const updatePlayOffsGroupTeams = ({
+  tournamentId,
+  groupId,
+  groupTeams,
+}: UpdatePlayOffsGroupTeamsParams) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .collection("playOffsGroups")
+      .doc(groupId)
+      .update({
+        groupTeams,
       })
       .then((res: any) => {
         dispatch({ type: "UPDATE_GROUP" });

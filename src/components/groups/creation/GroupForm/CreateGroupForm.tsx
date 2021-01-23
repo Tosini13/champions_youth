@@ -175,11 +175,33 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
               </Grid>
             </Grid>
             <GridMatchesContainer container direction="column">
-              {group.matches?.map((match) => (
-                <Grid item key={match.id}>
-                  <MatchSummaryMock match={match} locale={locale} />
-                </Grid>
-              ))}
+              {group.matches?.map((match) => {
+                const homePlaceholder = group.groupTeams?.find(
+                  (team) => team.place === match.groupPlaceholder?.home
+                );
+                const awayPlaceholder = group.groupTeams?.find(
+                  (team) => team.place === match.groupPlaceholder?.away
+                );
+                if (homePlaceholder) {
+                  match.placeholder.home = {
+                    id: homePlaceholder.group?.id,
+                    place: homePlaceholder.group?.place,
+                    name: `${homePlaceholder.group?.id}`,
+                  };
+                }
+                if (awayPlaceholder) {
+                  match.placeholder.away = {
+                    id: awayPlaceholder.group?.id,
+                    place: awayPlaceholder.group?.place,
+                    name: `${awayPlaceholder.group?.id}`,
+                  };
+                }
+                return (
+                  <Grid item key={match.id}>
+                    <MatchSummaryMock match={match} locale={locale} />
+                  </Grid>
+                );
+              })}
             </GridMatchesContainer>
           </DialogStyled>
         </GridContainer>

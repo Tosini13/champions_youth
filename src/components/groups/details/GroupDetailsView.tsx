@@ -10,11 +10,13 @@ import GroupTableView from "./GroupTableView";
 import GroupMatchesView from "./GroupMatches";
 import SliderGlobal from "../../global/Slider";
 import { Typography } from "@material-ui/core";
+import { UpdatePlayOffsGroupTeamsParams } from "../../../store/actions/GroupActions";
 
 export interface GroupDetailsViewProps {
   tournamentId: Id;
   groupId: Id;
   group: GroupModel;
+  playOffsGroups?: GroupModel[];
   updateMatch: ({
     tournamentId,
     groupId,
@@ -33,22 +35,28 @@ export interface GroupDetailsViewProps {
     returnMatch,
   }: UpdateGame) => void;
   updateGroupMode: (tournamentId: Id, groupId: Id, finished: boolean) => void;
+  updatePlayOffsGroupTeams: ({
+    tournamentId,
+    groupId,
+    groupTeams,
+  }: UpdatePlayOffsGroupTeamsParams) => void;
 }
 
 const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
   tournamentId,
   groupId,
   group,
+  playOffsGroups,
   updateMatch,
   updateGame,
   updateGroupMode,
+  updatePlayOffsGroupTeams,
 }) => {
   const { matches } = group;
 
   const handleFinishGroup = () => {
     console.log("finish");
     const promoted = getPromoted(group?.teams, matches);
-    console.log(group);
     group?.playOffs?.forEach((promotedTeam) => {
       console.log(promotedTeam);
       let homeTeam = undefined;
@@ -59,7 +67,6 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
       } else {
         awayTeam = teamId;
       }
-      console.log(teamId);
       if (teamId) {
         updateGroupMode(tournamentId, groupId, true);
         updateGame({
@@ -78,6 +85,36 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         });
       }
     });
+    if (playOffsGroups?.length) {
+      let groupsTeams = playOffsGroups.map((playOffsGroup) => ({
+        id: playOffsGroup.id,
+        groupTeams: playOffsGroup.groupTeams?.map((groupTeam) => ({
+          ...groupTeam,
+        })),
+      }));
+      group.playOffsGroup?.forEach((promotedTeam) => {
+        groupsTeams.forEach((groupTeams) => {
+          if (groupTeams.id === promotedTeam.group.id) {
+            groupTeams.groupTeams?.forEach((team) => {
+              if (
+                team.group?.place === promotedTeam.place &&
+                team.group?.id === group.id
+              ) {
+                team.id = promoted[promotedTeam.place - 1];
+              }
+            });
+          }
+        });
+      });
+      updateGroupMode(tournamentId, groupId, true);
+      groupsTeams.forEach((groupTeams) => {
+        updatePlayOffsGroupTeams({
+          tournamentId,
+          groupId: groupTeams.id,
+          groupTeams: groupTeams.groupTeams,
+        });
+      });
+    }
   };
 
   const handleContinueGroup = () => {
@@ -109,6 +146,36 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         });
       }
     });
+    if (playOffsGroups?.length) {
+      let groupsTeams = playOffsGroups.map((playOffsGroup) => ({
+        id: playOffsGroup.id,
+        groupTeams: playOffsGroup.groupTeams?.map((groupTeam) => ({
+          ...groupTeam,
+        })),
+      }));
+      group.playOffsGroup?.forEach((promotedTeam) => {
+        groupsTeams.forEach((groupTeams) => {
+          if (groupTeams.id === promotedTeam.group.id) {
+            groupTeams.groupTeams?.forEach((team) => {
+              if (
+                team.group?.place === promotedTeam.place &&
+                team.group?.id === group.id
+              ) {
+                team.id = undefined;
+              }
+            });
+          }
+        });
+      });
+      updateGroupMode(tournamentId, groupId, false);
+      groupsTeams.forEach((groupTeams) => {
+        updatePlayOffsGroupTeams({
+          tournamentId,
+          groupId: groupTeams.id,
+          groupTeams: groupTeams.groupTeams,
+        });
+      });
+    }
   };
   if (!group.teams.length) {
     return (

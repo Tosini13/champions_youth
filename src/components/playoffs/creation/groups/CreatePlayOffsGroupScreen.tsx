@@ -5,7 +5,7 @@ import { Grid } from "@material-ui/core";
 
 import { ContentContainerStyled } from "../../../../styled/styledLayout";
 import useCreateGroup from "../../../../hooks/useCreateGroup";
-import { GroupModel } from "../../../../NewModels/Group";
+import { GroupModel, GroupPlayOffsGroup } from "../../../../NewModels/Group";
 import { LOCALE } from "../../../../locale/config";
 import { Id } from "../../../../const/structuresConst";
 import { MatchTime } from "../../../../NewModels/Matches";
@@ -20,6 +20,8 @@ import { PromotedGroup } from "./CreatePlayOffsGroupPage";
 import { NewPlaceholder } from "../../../../NewModels/Team";
 import ChooseTeams from "./ChooseTeams";
 import PlaceholderTeamsList from "./PlaceholderTeamsList";
+import { GroupTeamModel } from "../../../../models/teamData";
+import { UpdateGroupPromotedParams } from "../../../../store/actions/GroupActions";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
@@ -33,6 +35,12 @@ export interface CreatePlayOffsGroupScreenProps {
   createGroup: (tournamentId: Id, group: GroupModel) => void;
   locale: LOCALE;
   userId: Id;
+  updateGroupPromoted: ({
+    tournamentId,
+    groupId,
+    playOffs,
+    playOffsGroup,
+  }: UpdateGroupPromotedParams) => void;
 }
 
 export type SettingType = {
@@ -49,6 +57,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   createGroup,
   locale,
   userId,
+  updateGroupPromoted,
 }) => {
   const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
@@ -84,6 +93,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
       teams: [],
       matches: [],
       placeholderTeams: [],
+      groupTeams: [],
     };
     return newGroup;
   };
@@ -117,6 +127,30 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
       setTimeout(groupInValid, 10);
       return false;
     }
+    let groupPromoted = [];
+    groups.forEach((group) => {
+      group.groupTeams?.forEach((team) => {
+        if (team.group) {
+          if (!groupPromoted[team.group.id]) {
+            groupPromoted[team.group.id] = [] as GroupPlayOffsGroup[];
+          }
+          groupPromoted[team.group.id].push({
+            place: team.group.place,
+            group: {
+              place: Number(team.place) + 1,
+              id: group.id,
+            },
+          });
+        }
+      });
+    });
+    Object.keys(groupPromoted).forEach((groupId) => {
+      updateGroupPromoted({
+        tournamentId,
+        groupId,
+        playOffsGroup: groupPromoted[groupId],
+      });
+    });
     groups.forEach((group) => {
       createGroup(tournamentId, group);
     });
@@ -165,16 +199,34 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   const handleChooseTeam = (selected: NewPlaceholder) => {
     if (!chosenGroup || !chosenGroup.placeholderTeams) return false;
     let selectedTeams: NewPlaceholder[] = [];
+    let groupTeams: GroupTeamModel[] | undefined = [];
     if (chosenGroup.placeholderTeams.includes(selected)) {
       selectedTeams = chosenGroup.placeholderTeams.filter(
         (team) => team.id !== selected?.id || team.place !== selected?.place
       );
+      groupTeams = chosenGroup.groupTeams?.filter(
+        (team) =>
+          team.group?.id !== selected?.id ||
+          team.group?.place !== selected?.place
+      );
     } else {
       selectedTeams = [...chosenGroup.placeholderTeams, selected];
+      if (chosenGroup.groupTeams !== undefined) {
+        groupTeams = [
+          ...chosenGroup.groupTeams,
+          {
+            place: chosenGroup.groupTeams.length,
+            group: {
+              ...selected,
+            },
+          },
+        ];
+      }
     }
     const updatedGroup = {
       ...chosenGroup,
       placeholderTeams: selectedTeams,
+      groupTeams,
     };
     setChosenGroup(updatedGroup);
     setGroups(
@@ -204,6 +256,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     startDate,
   ]);
 
+  // console.log(groups);
   return (
     <>
       <CreationNav

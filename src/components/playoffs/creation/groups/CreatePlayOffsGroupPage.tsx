@@ -7,7 +7,11 @@ import { GroupModel } from "../../../../NewModels/Group";
 import { NewPlaceholder } from "../../../../NewModels/Team";
 
 import { Id } from "../../../../const/structuresConst";
-import { createPlayOffGroup } from "../../../../store/actions/GroupActions";
+import {
+  createPlayOffGroup,
+  updateGroupPromoted,
+  UpdateGroupPromotedParams,
+} from "../../../../store/actions/GroupActions";
 import { LOCALE } from "../../../../locale/config";
 import CreatePlayOffsGroupScreen from "./CreatePlayOffsGroupScreen";
 
@@ -23,6 +27,12 @@ export interface CreatePlayOffsGroupPageProps {
   createGroup: (tournamentId: Id, group: GroupModel) => void;
   locale: LOCALE;
   userId: Id;
+  updateGroupPromoted: ({
+    tournamentId,
+    groupId,
+    playOffs,
+    playOffsGroup,
+  }: UpdateGroupPromotedParams) => void;
 }
 
 const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
@@ -31,6 +41,7 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
   createGroup,
   locale,
   userId,
+  updateGroupPromoted,
 }) => {
   const mockDate = "01/01/2021"; // todo: change on real date
   let teamsQtt = 0;
@@ -52,6 +63,7 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
       promotedGroups={promotedGroups}
       tournamentId={tournamentId}
       createGroup={createGroup}
+      updateGroupPromoted={updateGroupPromoted}
       locale={locale}
       userId={userId}
       startDate={mockDate}
@@ -73,6 +85,15 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     createGroup: (tournamentId: Id, group: GroupModel) =>
       dispatch(createPlayOffGroup(tournamentId, group)),
+    updateGroupPromoted: ({
+      tournamentId,
+      groupId,
+      playOffs,
+      playOffsGroup,
+    }: UpdateGroupPromotedParams) =>
+      dispatch(
+        updateGroupPromoted({ tournamentId, groupId, playOffs, playOffsGroup })
+      ),
   };
 };
 

@@ -8,7 +8,11 @@ import { TeamData } from "../../models/teamData";
 import SplashScreen from "../global/SplashScreen";
 import { updateGame, UpdateGame } from "../../store/actions/GameActions";
 import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
-import { updateGroupMode } from "../../store/actions/GroupActions";
+import {
+  updateGroupMode,
+  updatePlayOffsGroupTeams,
+  UpdatePlayOffsGroupTeamsParams,
+} from "../../store/actions/GroupActions";
 import { GroupModel, GroupModelDB } from "../../NewModels/Group";
 import { MatchModel, MatchModelDB } from "../../NewModels/Matches";
 import GroupDetailsView from "./details/GroupDetailsView";
@@ -17,6 +21,7 @@ export interface GroupsComponentProps {
   tournamentId: Id;
   groupId: Id;
   group?: GroupModel;
+  playOffsGroups?: GroupModel[];
   updateMatch: ({
     tournamentId,
     groupId,
@@ -35,6 +40,11 @@ export interface GroupsComponentProps {
     returnMatch,
   }: UpdateGame) => void;
   updateGroupMode: (tournamentId: Id, groupId: Id, finished: boolean) => void;
+  updatePlayOffsGroupTeams: ({
+    tournamentId,
+    groupId,
+    groupTeams,
+  }: UpdatePlayOffsGroupTeamsParams) => void;
 }
 
 const GroupDetails: React.FC<GroupsComponentProps> = ({
@@ -44,6 +54,8 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   updateMatch,
   updateGame,
   updateGroupMode,
+  updatePlayOffsGroupTeams,
+  playOffsGroups,
 }) => {
   if (!group) return <SplashScreen />;
   return (
@@ -51,9 +63,11 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
       tournamentId={tournamentId}
       groupId={groupId}
       group={group}
+      playOffsGroups={playOffsGroups}
       updateMatch={updateMatch}
       updateGame={updateGame}
       updateGroupMode={updateGroupMode}
+      updatePlayOffsGroupTeams={updatePlayOffsGroupTeams}
     />
   );
 };
@@ -84,13 +98,16 @@ const mapStateToProps = (state: any, ownProps: any) => {
           finishAt: groupData.finishAt,
           finished: groupData.finished,
           playOffs: groupData.playOffs,
+          playOffsGroup: groupData.playOffsGroup,
           promoted: groupData.promoted,
         }
       : undefined;
+  const playOffsGroups: GroupModel[] = state.firestore.ordered.playOffsGroups;
   return {
     tournamentId,
     groupId,
     group,
+    playOffsGroups,
   };
 };
 
@@ -136,6 +153,18 @@ const mapDispatchToProps = (dispatch: any) => {
       ),
     updateGroupMode: (tournamentId: Id, groupId: Id, finished: boolean) =>
       dispatch(updateGroupMode(tournamentId, groupId, finished)),
+    updatePlayOffsGroupTeams: ({
+      tournamentId,
+      groupId,
+      groupTeams,
+    }: UpdatePlayOffsGroupTeamsParams) =>
+      dispatch(
+        updatePlayOffsGroupTeams({
+          tournamentId,
+          groupId,
+          groupTeams,
+        })
+      ),
   };
 };
 
@@ -166,6 +195,14 @@ export default compose(
           },
         ],
         storeAs: "matches",
+      },
+      {
+        collection: "tournaments",
+        doc: props.match.params.tournamentId,
+        subcollections: [
+          { collection: "playOffsGroups", orderBy: ["name", "asc"] },
+        ],
+        storeAs: "playOffsGroups",
       },
     ];
   })

@@ -17,6 +17,7 @@ import Choose from "./chooseTeams/Choose";
 import {
   GroupPlayOffs,
   updateGroupPromoted,
+  UpdateGroupPromotedParams,
 } from "../../../store/actions/GroupActions";
 import { useNotification } from "../../global/Notification";
 import { Placeholder } from "../../../NewModels/Team";
@@ -40,11 +41,12 @@ type Props = {
   groups?: Group[];
   toggleCreate: () => void;
   createPlayoffs: (tournamentId: Id, game: GameDataDb[]) => void;
-  updateGroupPromoted: (
-    tournamentId: Id,
-    groupId: Id,
-    playOffs: GroupPlayOffs[]
-  ) => void;
+  updateGroupPromoted: ({
+    tournamentId,
+    groupId,
+    playOffs,
+    playOffsGroup,
+  }: UpdateGroupPromotedParams) => void;
 };
 
 const PlayOffsCreateDashboard: React.FC<Props> = ({
@@ -166,7 +168,11 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
       }
     });
     Object.keys(groupPromoted).forEach((groupId) => {
-      updateGroupPromoted(tournamentId, groupId, groupPromoted[groupId]);
+      updateGroupPromoted({
+        tournamentId,
+        groupId,
+        playOffs: groupPromoted[groupId],
+      });
     });
     createPlayoffs(tournamentId, convertedBracket.games);
     toggleCreate();
@@ -219,11 +225,15 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     createPlayoffs: (tournamentId: Id, game: GameDataDb[]) =>
       dispatch(createPlayoffs(tournamentId, game)),
-    updateGroupPromoted: (
-      tournamentId: Id,
-      groupId: Id,
-      playOffs: GroupPlayOffs[]
-    ) => dispatch(updateGroupPromoted(tournamentId, groupId, playOffs)),
+    updateGroupPromoted: ({
+      tournamentId,
+      groupId,
+      playOffs,
+      playOffsGroup,
+    }: UpdateGroupPromotedParams) =>
+      dispatch(
+        updateGroupPromoted({ tournamentId, groupId, playOffs, playOffsGroup })
+      ),
   };
 };
 export default connect(null, mapDispatchToProps)(PlayOffsCreateDashboard);

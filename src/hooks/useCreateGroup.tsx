@@ -1,6 +1,6 @@
 import moment, { Moment } from "moment";
-import { bergerAlgorithm } from "../algorithms/berger";
-import { TeamData } from "../models/teamData";
+import { bergerAlgorithm, bergerAlgorithmPlace } from "../algorithms/berger";
+import { GroupTeamModel, TeamData } from "../models/teamData";
 import { GroupModel } from "../NewModels/Group";
 import { MatchTime } from "../NewModels/Matches";
 import { NewPlaceholder } from "../NewModels/Team";
@@ -46,6 +46,24 @@ export const initMatch = (home: TeamData, away: TeamData, round: number) => {
   return match;
 };
 
+export const initMatchPlace = (
+  home: GroupTeamModel,
+  away: GroupTeamModel,
+  round: number
+) => {
+  const match: MatchModel = {
+    id: (++matchCounter).toString(),
+    mode: matchModeConst.notStarted,
+    round: round.toString(),
+    placeholder: {},
+    groupPlaceholder: {
+      home: home.place,
+      away: away.place,
+    },
+  };
+  return match;
+};
+
 const compareMatches = (match1: any, match2: any) => {
   return match1.round - match2.round;
 };
@@ -69,6 +87,35 @@ const createGroupMatches = (teams: TeamData[], returnGames: boolean) => {
     matches.push(initMatch(teams[0], teams[1], 1));
     if (returnGames) {
       matches.push(initMatch(teams[0], teams[1], 1));
+    }
+    return matches;
+  } else {
+    return [];
+  }
+};
+
+const createGroupPlaceMatches = (
+  teams: GroupTeamModel[],
+  returnGames: boolean
+) => {
+  if (teams.length > 3) {
+    return bergerAlgorithmPlace(teams, returnGames, initMatchPlace);
+  } else if (teams.length === 3) {
+    let matches: MatchModel[] = [];
+    matches.push(initMatchPlace(teams[0], teams[1], 1));
+    matches.push(initMatchPlace(teams[1], teams[2], 2));
+    matches.push(initMatchPlace(teams[2], teams[0], 3));
+    if (returnGames) {
+      matches.push(initMatchPlace(teams[1], teams[0], 4));
+      matches.push(initMatchPlace(teams[2], teams[1], 5));
+      matches.push(initMatchPlace(teams[0], teams[2], 6));
+    }
+    return matches;
+  } else if (teams.length === 2) {
+    let matches: any[] = [];
+    matches.push(initMatchPlace(teams[0], teams[1], 1));
+    if (returnGames) {
+      matches.push(initMatchPlace(teams[0], teams[1], 1));
     }
     return matches;
   } else {
@@ -191,7 +238,14 @@ const useCreateGroup = () => {
     date?: string;
   }) => {
     groups.forEach((group, i) => {
-      if (group.placeholderTeams?.length) {
+      if (group.groupTeams?.length) {
+        const matches = createGroupPlaceMatches(
+          group.groupTeams,
+          returnMatches
+        );
+        matches.sort(compareMatches);
+        group.matches = matches;
+      } else if (group.placeholderTeams?.length) {
         const matches = createGroupPlaceholderMatches(
           group.placeholderTeams,
           returnMatches
