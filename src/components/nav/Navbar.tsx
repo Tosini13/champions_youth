@@ -95,8 +95,8 @@ const Navbar = ({
         </NavBarStyled>
       </NavContainerStyled>
       <MenuSideBar
+        handleCloseSideBar={() => setSideBarMenu(false)}
         sideBarMenuOpened={sideBarMenuOpened}
-        toggleSideBarMenu={toggleSideBarMenu}
       />
     </>
   );

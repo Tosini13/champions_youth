@@ -18,6 +18,8 @@ import { setLocale } from "../../store/actions/DictionaryActions";
 import plFlag from "../../images/flags/pl.png";
 import enFlag from "../../images/flags/us.png";
 import languageDict from "../../locale/language";
+import styled from "styled-components";
+import { IconButton } from "@material-ui/core";
 
 export interface LanguageProps {
   locale: LOCALE;
@@ -52,11 +54,9 @@ const Language: React.FC<LanguageProps> = ({ locale, setLocale }) => {
   return (
     <Rosetta translations={languageDict} locale={locale}>
       <>
-        <FlagImgStyled
-          onClick={handleOpen}
-          src={getFlag(locale)}
-          alt={locale}
-        />
+        <IconButton size="small" onClick={handleOpen}>
+          <FlagImgStyled src={getFlag(locale)} alt={locale} />
+        </IconButton>
         <DialogStyled
           onClose={handleClose}
           aria-labelledby="simple-dialog-title"

@@ -20,69 +20,87 @@ import { UserData } from "../../../models/credentialsData";
 import Language from "../Language";
 import menuDict from "../../../locale/menu";
 import { LOCALE } from "../../../locale/config";
+import styled from "styled-components";
+import { Grid } from "@material-ui/core";
+
+type BorderPosition = "bottom" | "top";
 
 const VERSION = process.env.REACT_APP_VERSION;
 
+export const GridContainer = styled(Grid)`
+  height: 100%;
+`;
+
+export const ListItemStyled = styled(ListItem)<{
+  borderPosition: BorderPosition;
+}>`
+  border-${(props) => props.borderPosition}: rgba(0, 0, 0, 0.2) solid 0.5px;
+`;
+
 type Props = {
   signOut: () => void;
-  toggleSideBarMenu: () => void;
+  handleCloseSideBar: () => void;
   user: UserData | undefined;
   locale: LOCALE;
 };
 
 const SignedInMenu: React.FC<Props> = ({
-  toggleSideBarMenu,
+  handleCloseSideBar,
   signOut,
   user,
   locale,
 }) => {
   const handleSignOut = () => {
     signOut();
-    toggleSideBarMenu();
+    handleCloseSideBar();
   };
   return (
     <Rosetta translations={menuDict} locale={locale}>
-      <>
-        <ListStyled>
-          <ListItem>
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary={user?.login} />
-            <Language />
-          </ListItem>
-          <ListItem button>
-            <MenuLinkStyled
-              to={routerConstString.create}
-              onClick={toggleSideBarMenu}
-            >
+      <GridContainer container direction="column" justify="space-between">
+        <Grid item>
+          <ListStyled>
+            <ListItemStyled borderPosition="bottom" button>
               <ListItemIcon>
-                <AddCircleOutlineIcon />
+                <AccountCircleIcon color="secondary" />
               </ListItemIcon>
-              <ListItemText primary={<Translator id="createTournament" />} />
-            </MenuLinkStyled>
-          </ListItem>
-        </ListStyled>
-        <ListStyled>
-          <ListItem>
-            <ListItemIcon>
-              <FlashOnIcon />
-            </ListItemIcon>
-            <ListItemText primary={<Translator id="version" />} /> {VERSION}
-          </ListItem>
-          <ListItem button>
-            <MenuLinkStyled
-              to={routerConstString.login}
-              onClick={handleSignOut}
-            >
+              <ListItemText primary={user?.login} />
+              <Language />
+            </ListItemStyled>
+            <ListItemStyled borderPosition="bottom" button>
+              <MenuLinkStyled
+                to={routerConstString.create}
+                onClick={handleCloseSideBar}
+              >
+                <ListItemIcon>
+                  <AddCircleOutlineIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={<Translator id="createTournament" />} />
+              </MenuLinkStyled>
+            </ListItemStyled>
+          </ListStyled>
+        </Grid>
+        <Grid item>
+          <ListStyled>
+            <ListItemStyled borderPosition="top" button>
               <ListItemIcon>
-                <LockIcon />
+                <FlashOnIcon color="secondary" />
               </ListItemIcon>
-              <ListItemText primary={<Translator id="logOut" />} />
-            </MenuLinkStyled>
-          </ListItem>
-        </ListStyled>
-      </>
+              <ListItemText primary={<Translator id="version" />} /> {VERSION}
+            </ListItemStyled>
+            <ListItemStyled borderPosition="top" button>
+              <MenuLinkStyled
+                to={routerConstString.login}
+                onClick={handleSignOut}
+              >
+                <ListItemIcon>
+                  <LockIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={<Translator id="logOut" />} />
+              </MenuLinkStyled>
+            </ListItemStyled>
+          </ListStyled>
+        </Grid>
+      </GridContainer>
     </Rosetta>
   );
 };

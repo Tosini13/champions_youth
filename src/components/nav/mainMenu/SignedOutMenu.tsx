@@ -15,51 +15,56 @@ import Language from "../Language";
 import { connect } from "react-redux";
 import menuDict from "../../../locale/menu";
 import { LOCALE } from "../../../locale/config";
+import { GridContainer, ListItemStyled } from "./SignedInMenu";
+import { Grid } from "@material-ui/core";
 
 type Props = {
-  toggleSideBarMenu: () => void;
+  handleCloseSideBar: () => void;
   locale: LOCALE;
 };
 
-const SignedOutMenu: React.FC<Props> = ({ toggleSideBarMenu, locale }) => {
+const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar, locale }) => {
   return (
     <Rosetta translations={menuDict} locale={locale}>
-      <>
-        <ListStyled>
-          <ListItem>
-            <ListItemIcon>
-              <AccountCircleIcon />
-            </ListItemIcon>
-            <ListItemText primary={<Translator id="createTournament" />} />
-            <Language />
-          </ListItem>
-        </ListStyled>
-        <ListStyled>
-          <ListItem button>
-            <MenuLinkStyled
-              to={routerConstString.login}
-              onClick={toggleSideBarMenu}
-            >
+      <GridContainer container direction="column" justify="space-between">
+        <Grid item>
+          <ListStyled>
+            <ListItemStyled borderPosition="bottom" button>
               <ListItemIcon>
-                <InboxIcon />
+                <AccountCircleIcon color="secondary" />
               </ListItemIcon>
-              <ListItemText primary={<Translator id="signIn" />} />
-            </MenuLinkStyled>
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <MenuLinkStyled
-              to={routerConstString.signUp}
-              onClick={toggleSideBarMenu}
-            >
-              <ListItemIcon>
-                <DraftsIcon />
-              </ListItemIcon>
-              <ListItemText primary={<Translator id="signUp" />} />
-            </MenuLinkStyled>
-          </ListItem>
-        </ListStyled>
-      </>
+              <ListItemText primary={<Translator id="youAreLockedOut" />} />
+              <Language />
+            </ListItemStyled>
+          </ListStyled>
+        </Grid>
+        <Grid item>
+          <ListStyled>
+            <ListItemStyled borderPosition="top" button>
+              <MenuLinkStyled
+                to={routerConstString.login}
+                onClick={handleCloseSideBar}
+              >
+                <ListItemIcon>
+                  <InboxIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={<Translator id="signIn" />} />
+              </MenuLinkStyled>
+            </ListItemStyled>
+            <ListItemStyled borderPosition="top" button>
+              <MenuLinkStyled
+                to={routerConstString.signUp}
+                onClick={handleCloseSideBar}
+              >
+                <ListItemIcon>
+                  <DraftsIcon color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={<Translator id="signUp" />} />
+              </MenuLinkStyled>
+            </ListItemStyled>
+          </ListStyled>
+        </Grid>
+      </GridContainer>
     </Rosetta>
   );
 };

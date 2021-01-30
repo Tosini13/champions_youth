@@ -2,6 +2,7 @@ export const menu = {
   createTournament: "Create tournament",
   logOut: "Log out",
   loggedOut: "Logged out",
+  youAreLockedOut: "You're logged out",
   signIn: "Sign in",
   signUp: "Sign up",
   version: "version",

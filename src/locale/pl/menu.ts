@@ -2,6 +2,7 @@ export const menu = {
   createTournament: "Stwórz turniej",
   logOut: "Wyloguj",
   loggedOut: "Niezalogowany",
+  youAreLockedOut: "Jesteś niezalogowany",
   signIn: "Zaloguj",
   signUp: "Zarejestruj",
   version: "wersja",

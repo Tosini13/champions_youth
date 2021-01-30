@@ -1,23 +1,41 @@
+import { Drawer } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
+import { mainTheme } from "../../../styled/styledConst";
 
-import { MenuSideBarContainerStyled } from "../../../styled/styledNav";
 import SignedInMenu from "./SignedInMenu";
 import SignedOutMenu from "./SignedOutMenu";
 
+const DrawerStyled = styled(Drawer)`
+    .MuiDrawer-paper{
+        background-color: ${mainTheme.palette.primary.dark};
+        color: ${mainTheme.palette.secondary.main};
+        min-width: 250px;
+    }
+`;
+
 const MenuSideBar = ({
+    handleCloseSideBar,
     sideBarMenuOpened,
-    toggleSideBarMenu,
     loggedIn,
 }) => {
+    console.log(sideBarMenuOpened);
     return (
-        <MenuSideBarContainerStyled opened={sideBarMenuOpened}>
+        <DrawerStyled
+            open={sideBarMenuOpened}
+            onClose={handleCloseSideBar}
+            color="secondary"
+            variant="temporary"
+            ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+            }}>
             {loggedIn ? (
-                <SignedInMenu toggleSideBarMenu={toggleSideBarMenu} />
+                <SignedInMenu handleCloseSideBar={handleCloseSideBar} />
             ) : (
-                    <SignedOutMenu toggleSideBarMenu={toggleSideBarMenu} />
+                    <SignedOutMenu handleCloseSideBar={handleCloseSideBar} />
                 )}
-        </MenuSideBarContainerStyled>
+        </DrawerStyled>
     );
 };
 
