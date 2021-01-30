@@ -12,9 +12,12 @@ import SplashScreen from "../global/SplashScreen";
 import { matchModeConst } from "../../const/matchConst";
 import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
 import { Game } from "../../models/gameData";
+import { MatchModelDB } from "../../NewModels/Matches";
 import { GameDataDb } from "../../structures/dbAPI/gameData";
 import { updateGame, UpdateGame } from "../../store/actions/GameActions";
 import { matchGame } from "../../store/actions/PlayOffsActions";
+import { routerConstString } from "../../const/menuConst";
+import { GroupModelDB } from "../../NewModels/Group";
 
 type Props = {
   nextWinner?: GameDataDb;
@@ -26,6 +29,7 @@ type Props = {
   groupId: Id;
   gameId: Id;
   matchId: Id;
+  playOffsGroup: boolean;
   updateMatch: ({
     tournamentId,
     groupId,
@@ -35,6 +39,7 @@ type Props = {
     result,
     homeTeam,
     awayTeam,
+    playOffsGroup,
   }: UpdateMatch) => void;
   updateGame: ({
     tournamentId,
@@ -55,11 +60,10 @@ const MatchDetails: React.FC<Props> = ({
   groupId,
   gameId,
   matchId,
+  playOffsGroup,
   updateMatch,
   updateGame,
 }) => {
-  if (matchData === undefined) return <SplashScreen />;
-
   const getWinnerTeam = (reset?: boolean) => {
     if (reset) return null;
     if (!matchData.result) return undefined;
@@ -158,17 +162,39 @@ const MatchDetails: React.FC<Props> = ({
   };
 
   const updateMode = (mode: matchModeConst) => {
-    updateMatch({ tournamentId, groupId, gameId, matchId, mode });
+    updateMatch({
+      tournamentId,
+      groupId,
+      gameId,
+      matchId,
+      mode,
+      playOffsGroup,
+    });
   };
 
   const updateResult = (result: Result) => {
-    updateMatch({ tournamentId, groupId, gameId, matchId, result });
+    updateMatch({
+      tournamentId,
+      groupId,
+      gameId,
+      matchId,
+      result,
+      playOffsGroup,
+    });
   };
 
   const resetMatch = () => {
     const mode = matchModeConst.notStarted;
     const result: Result | null = null;
-    updateMatch({ tournamentId, groupId, gameId, matchId, mode, result });
+    updateMatch({
+      tournamentId,
+      groupId,
+      gameId,
+      matchId,
+      mode,
+      result,
+      playOffsGroup,
+    });
     if (game) {
       updateNextGames(nextWinner, nextLoser, true);
     }
@@ -180,17 +206,33 @@ const MatchDetails: React.FC<Props> = ({
       home: 0,
       away: 0,
     };
-    updateMatch({ tournamentId, groupId, gameId, matchId, mode, result });
+    updateMatch({
+      tournamentId,
+      groupId,
+      gameId,
+      matchId,
+      mode,
+      result,
+      playOffsGroup,
+    });
   };
 
   const finishMatch = () => {
     const mode = matchModeConst.finished;
-    updateMatch({ tournamentId, groupId, gameId, matchId, mode });
+    updateMatch({
+      tournamentId,
+      groupId,
+      gameId,
+      matchId,
+      mode,
+      playOffsGroup,
+    });
     if (game) {
       updateNextGames(nextWinner, nextLoser);
     }
   };
 
+  if (matchData === undefined) return <SplashScreen />;
   return (
     <>
       <MatchDetailsDisplay match={matchData} authorId={authorId} />
@@ -211,6 +253,10 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const authorId = state.firebase.auth.uid;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
 
+  const groups: GroupModelDB[] | undefined = state.firestore.ordered.groups;
+  const playOffsGroups: GroupModelDB[] | undefined =
+    state.firestore.data.playOffsGroups;
+  const playOffsGroup = playOffsGroups ? playOffsGroups[groupId] : undefined;
   let games: Game[] | undefined;
   let game: Game | undefined;
   let nextWinner: GameDataDb | undefined;
@@ -227,9 +273,12 @@ const mapStateToProps = (state: any, ownProps: any) => {
     );
     nextLoser = gamesData?.find((gameData) => gameData.id === game?.loserMatch);
   }
-  const matches = state.firestore.data.matches;
+  const matches: MatchModelDB[] = state.firestore.data.matches;
   const match = matches ? matches[matchId] : undefined;
-  const matchData = match && teams ? new Match(match, teams) : undefined;
+  let matchData =
+    match && teams
+      ? new Match({ matchDataDb: match, teams, playOffsGroup, groups })
+      : undefined;
   return {
     nextWinner,
     nextLoser,
@@ -240,6 +289,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
     groupId,
     gameId,
     matchId,
+    playOffsGroup: ownProps.match.path === routerConstString.matchPlayOffsGroup,
   };
 };
 
@@ -254,6 +304,7 @@ const mapDispatchToProps = (dispatch: any) => {
       result,
       homeTeam,
       awayTeam,
+      playOffsGroup,
     }: UpdateMatch) =>
       dispatch(
         updateMatch({
@@ -265,6 +316,7 @@ const mapDispatchToProps = (dispatch: any) => {
           result,
           homeTeam,
           awayTeam,
+          playOffsGroup,
         })
       ),
     updateGame: ({
@@ -288,6 +340,40 @@ const mapDispatchToProps = (dispatch: any) => {
 
 export default compose(
   firestoreConnect((props: any) => {
+    if (props.match.path === routerConstString.matchPlayOffsGroup) {
+      return [
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [{ collection: "teams" }],
+          storeAs: "teams",
+        },
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [{ collection: "playOffsGroups" }],
+          storeAs: "playOffsGroups",
+        },
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [{ collection: "groups" }],
+          storeAs: "groups",
+        },
+        {
+          collection: "tournaments",
+          doc: props.match.params.tournamentId,
+          subcollections: [
+            {
+              collection: "playOffsGroups",
+              doc: props.match.params.groupId,
+              subcollections: [{ collection: "matches" }],
+            },
+          ],
+          storeAs: "matches",
+        },
+      ];
+    }
     if (props.match.params.groupId) {
       return [
         {

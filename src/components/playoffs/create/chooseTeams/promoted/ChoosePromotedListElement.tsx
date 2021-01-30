@@ -9,8 +9,8 @@ import {
   ChooseListItemStyled,
   ListItemTextStyled,
 } from "../../../../../styled/styledBracket";
-import { PromotedTeam } from "../../../../../const/groupConst";
 import { Id } from "../../../../../const/structuresConst";
+import { PromotedTeam } from "../../../../../NewModels/Team";
 
 type Props = {
   element: PromotedTeam;

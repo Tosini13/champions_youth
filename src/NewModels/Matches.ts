@@ -3,6 +3,9 @@ import { matchModeConst } from "../const/matchConst";
 import { Id, Result, TeamsPlaceholder } from "../const/structuresConst";
 import { TeamData } from "../models/teamData";
 
+export interface MatchGroupTeamModel {
+  place: number | string;
+}
 export type MatchTime = {
   startDate?: Moment;
   match?: number;
@@ -18,6 +21,10 @@ export type MatchModel = {
   round: string;
   date?: Moment;
   mode: matchModeConst;
+  groupPlaceholder?: {
+    home: string | number;
+    away: string | number;
+  };
 };
 
 export type MatchModelDB = {
@@ -29,4 +36,8 @@ export type MatchModelDB = {
   round: string;
   date?: Moment;
   mode: matchModeConst;
+  groupPlaceholder?: {
+    home: string | number;
+    away: string | number;
+  };
 };

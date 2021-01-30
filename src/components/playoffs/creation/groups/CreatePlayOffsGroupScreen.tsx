@@ -1,43 +1,46 @@
 import React, { useEffect, useState } from "react";
-import { compose } from "redux";
-import { connect } from "react-redux";
 import styled from "styled-components";
 
 import { Grid } from "@material-ui/core";
 
-import CreateGroupForm from "./GroupForm/CreateGroupForm";
-import CreateGroupsActions from "./CreateGroupsActions";
-import CreationNav from "./CreationNav";
-import { ContentContainerStyled } from "../../../styled/styledLayout";
-import { TeamData } from "../../../models/teamData";
-import { firestoreConnect } from "react-redux-firebase";
-import ChooseTeams from "./GroupForm/ChooseTeams";
-import { shuffle } from "../../playoffs/create/PlayOffsCreateDashboard";
-import useCreateGroup from "../../../hooks/useCreateGroup";
-import { GroupModel } from "../../../NewModels/Group";
-import { LOCALE } from "../../../locale/config";
-import { Id } from "../../../const/structuresConst";
-import { MatchTime } from "../../../NewModels/Matches";
-import GroupSettings from "./GroupSettings";
-import { createWholeGroup } from "../../../store/actions/GroupActions";
-import { useNotification } from "../../global/Notification";
+import { ContentContainerStyled } from "../../../../styled/styledLayout";
+import useCreateGroup from "../../../../hooks/useCreateGroup";
+import { GroupModel, GroupPlayOffsGroup } from "../../../../NewModels/Group";
+import { LOCALE } from "../../../../locale/config";
+import { Id } from "../../../../const/structuresConst";
+import { MatchTime } from "../../../../NewModels/Matches";
+import { useNotification } from "../../../global/Notification";
 import { useHistory } from "react-router-dom";
-import { routerGenerateConst } from "../../../const/menuConst";
-import { TournamentModel } from "../../../NewModels/Tournament";
-import GroupTeamsList from "./GroupForm/GroupTeamsList";
+import { routerGenerateConst } from "../../../../const/menuConst";
+import CreationNav from "../../../groups/creation/CreationNav";
+import CreateGroupForm from "../../../groups/creation/GroupForm/CreateGroupForm";
+import CreateGroupsActions from "../../../groups/creation/CreateGroupsActions";
+import GroupSettings from "../../../groups/creation/GroupSettings";
+import { PromotedGroup } from "./CreatePlayOffsGroupPage";
+import { NewPlaceholder } from "../../../../NewModels/Team";
+import ChooseTeams from "./ChooseTeams";
+import PlaceholderTeamsList from "./PlaceholderTeamsList";
+import { GroupTeamModel } from "../../../../models/teamData";
+import { UpdateGroupPromotedParams } from "../../../../store/actions/GroupActions";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
 `;
 
-export interface CreateGroupsScreenProps {
-  teams?: TeamData[];
+export interface CreatePlayOffsGroupScreenProps {
+  promotedGroups: PromotedGroup[];
+  tournamentId: Id;
+  startDate: string;
+  teamsQtt: number;
+  createGroup: (tournamentId: Id, group: GroupModel) => void;
   locale: LOCALE;
   userId: Id;
-  tournamentId: Id;
-  tournament: TournamentModel;
-  doesGroupsExist: Boolean;
-  createGroup: (tournamentId: Id, group: GroupModel) => void;
+  updateGroupPromoted: ({
+    tournamentId,
+    groupId,
+    playOffs,
+    playOffsGroup,
+  }: UpdateGroupPromotedParams) => void;
 }
 
 export type SettingType = {
@@ -46,20 +49,17 @@ export type SettingType = {
   returnMatches: boolean;
 };
 
-const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
-  teams,
+const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
+  promotedGroups,
+  tournamentId,
+  startDate,
+  teamsQtt,
+  createGroup,
   locale,
   userId,
-  tournamentId,
-  tournament,
-  doesGroupsExist,
-  createGroup,
+  updateGroupPromoted,
 }) => {
   const history = useHistory();
-  if (doesGroupsExist) {
-    console.log("history");
-    history.push("/");
-  }
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [openSettings, setOpenSettings] = useState<boolean>(false);
   const [settings, setSettings] = useState<SettingType>({
@@ -69,7 +69,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
     undefined
   );
-  const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
+  const [chosenTeams, setChosenTeams] = useState<NewPlaceholder[]>([]);
   const [groups, setGroups] = useState<GroupModel[]>([]);
 
   const { initGroupMatches } = useCreateGroup();
@@ -82,16 +82,18 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     let groupN = "";
     for (let i = 0; i < groups.length + 1; i++) {
       groupN = String.fromCharCode(65 + i);
-      const n = `Group${groupN}`;
+      const n = `PlayOffsGroup${groupN}`;
       let isFree = true;
       groups.forEach((group) => (group.id === n ? (isFree = false) : true));
       if (isFree) break;
     }
     const newGroup: GroupModel = {
-      id: `Group${groupN}`,
-      name: `Group ${groupN}`,
+      id: `PlayOffsGroup${groupN}`,
+      name: `Play-Offs Group ${groupN}`,
       teams: [],
       matches: [],
+      placeholderTeams: [],
+      groupTeams: [],
     };
     return newGroup;
   };
@@ -117,7 +119,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   const handleSaveGroup = () => {
     let valid = true;
     groups.forEach((group) => {
-      if (!group.teams.length || !group.matches.length) {
+      if (!group.placeholderTeams?.length || !group.matches.length) {
         valid = false;
       }
     });
@@ -125,6 +127,30 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
       setTimeout(groupInValid, 10);
       return false;
     }
+    let groupPromoted = [];
+    groups.forEach((group) => {
+      group.groupTeams?.forEach((team) => {
+        if (team.group) {
+          if (!groupPromoted[team.group.id]) {
+            groupPromoted[team.group.id] = [] as GroupPlayOffsGroup[];
+          }
+          groupPromoted[team.group.id].push({
+            place: team.group.place,
+            group: {
+              place: Number(team.place) + 1,
+              id: group.id,
+            },
+          });
+        }
+      });
+    });
+    Object.keys(groupPromoted).forEach((groupId) => {
+      updateGroupPromoted({
+        tournamentId,
+        groupId,
+        playOffsGroup: groupPromoted[groupId],
+      });
+    });
     groups.forEach((group) => {
       createGroup(tournamentId, group);
     });
@@ -132,7 +158,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   };
 
   const handleAddGroup = () => {
-    if (teams && teams.length <= groups.length) {
+    if (teamsQtt <= groups.length) {
       return false;
     }
     const newGroup = createNewGroup();
@@ -142,46 +168,65 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   const handleRemoveGroup = (selected: GroupModel) => {
     let newGroups = groups.filter((group) => group.id !== selected.id);
     setChosenTeams(
-      chosenTeams.filter((team) => !selected.teams.includes(team))
+      chosenTeams.filter((team) => !selected.placeholderTeams?.includes(team))
     );
     setGroups([...newGroups]);
   };
 
+  // TODO: Draw best solution!
   const handleDrawGroup = () => {
-    groups.forEach((group) => (group.teams = []));
-    let shuffledTeams = shuffle(teams);
-    shuffledTeams?.forEach((team, i) => {
-      groups[i % groups.length].teams.push(team);
-    });
-    setGroups(
-      initGroupMatches({
-        groups,
-        returnMatches: settings.returnMatches,
-        fields: settings.fields,
-        time: settings.time,
-        date: tournament.date,
-      })
-    );
-    setChosenTeams(shuffledTeams ?? []);
+    // groups.forEach((group) => (group.teams = []));
+    // let shuffledTeams = shuffle(teams);
+    // shuffledTeams?.forEach((team, i) => {
+    //   groups[i % groups.length].teams.push(team);
+    // });
+    // setGroups(
+    //   initGroupMatches({
+    //     groups,
+    //     returnMatches: settings.returnMatches,
+    //     fields: settings.fields,
+    //     time: settings.time,
+    //     date: startDate,
+    //   })
+    // );
+    // setChosenTeams(shuffledTeams ?? []);
   };
 
   const handleOpenTeams = (group?: GroupModel) => {
     setChosenGroup(group);
   };
 
-  const handleChooseTeam = (selected: TeamData) => {
-    if (!chosenGroup) return false;
-    let chosenTeams: TeamData[] = [];
-    if (chosenGroup.teams.includes(selected)) {
-      chosenTeams = chosenGroup?.teams.filter(
-        (team) => team.id !== selected?.id
+  const handleChooseTeam = (selected: NewPlaceholder) => {
+    if (!chosenGroup || !chosenGroup.placeholderTeams) return false;
+    let selectedTeams: NewPlaceholder[] = [];
+    let groupTeams: GroupTeamModel[] | undefined = [];
+    if (chosenGroup.placeholderTeams.includes(selected)) {
+      selectedTeams = chosenGroup.placeholderTeams.filter(
+        (team) => team.id !== selected?.id || team.place !== selected?.place
+      );
+      groupTeams = chosenGroup.groupTeams?.filter(
+        (team) =>
+          team.group?.id !== selected?.id ||
+          team.group?.place !== selected?.place
       );
     } else {
-      chosenTeams = [...chosenGroup.teams, selected];
+      selectedTeams = [...chosenGroup.placeholderTeams, selected];
+      if (chosenGroup.groupTeams !== undefined) {
+        groupTeams = [
+          ...chosenGroup.groupTeams,
+          {
+            place: chosenGroup.groupTeams.length,
+            group: {
+              ...selected,
+            },
+          },
+        ];
+      }
     }
     const updatedGroup = {
       ...chosenGroup,
-      teams: chosenTeams,
+      placeholderTeams: selectedTeams,
+      groupTeams,
     };
     setChosenGroup(updatedGroup);
     setGroups(
@@ -192,13 +237,14 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   };
 
   useEffect(() => {
+    //todo: placeholderTeams!
     setGroups(
       initGroupMatches({
         groups,
         returnMatches: settings.returnMatches,
         fields: settings.fields,
         time: settings.time,
-        date: tournament?.date,
+        date: startDate,
       })
     );
   }, [
@@ -207,9 +253,10 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     settings.time,
     settings.returnMatches,
     settings.fields,
-    tournament,
+    startDate,
   ]);
 
+  // console.log(groups);
   return (
     <>
       <CreationNav
@@ -229,7 +276,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
                   handleRemoveGroup={handleRemoveGroup}
                   handleUpdateGroup={handleUpdateGroup}
                 >
-                  <GroupTeamsList teams={group.teams} userId={userId} />
+                  <PlaceholderTeamsList teams={group.placeholderTeams ?? []} />
                 </CreateGroupForm>
               </Grid>
             );
@@ -238,7 +285,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
       </ContentContainerStyled>
       <CreateGroupsActions add={handleAddGroup} draw={handleDrawGroup} />
       <ChooseTeams
-        teams={teams}
+        promotedGroups={promotedGroups}
         chosenGroup={chosenGroup}
         chosenTeams={chosenTeams}
         open={Boolean(chosenGroup)}
@@ -257,48 +304,4 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  const tournamentId = ownProps.match.params.tournamentId;
-  const tournaments: TournamentModel[] | undefined =
-    state.firestore.data.tournaments;
-  const tournament: TournamentModel | undefined = tournaments
-    ? tournaments[tournamentId]
-    : undefined;
-  const teams: TeamData[] | undefined = state.firestore.ordered.teams;
-  return {
-    teams,
-    tournamentId,
-    tournament,
-    locale: state.dictionary.locale,
-    userId: state.firebase.auth.uid,
-    doesGroupsExist: Boolean(state.firestore.ordered.groups?.length),
-  };
-};
-
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    createGroup: (tournamentId: Id, group: GroupModel) =>
-      dispatch(createWholeGroup(tournamentId, group)),
-  };
-};
-
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  firestoreConnect((props: any) => {
-    return [
-      { collection: "tournaments" },
-      {
-        collection: "tournaments",
-        doc: props.match.params.tournamentId,
-        subcollections: [{ collection: "teams", orderBy: ["name", "asc"] }],
-        storeAs: "teams",
-      },
-      {
-        collection: "tournaments",
-        doc: props.match.params.tournamentId,
-        subcollections: [{ collection: "groups", orderBy: ["name", "asc"] }],
-        storeAs: "groups",
-      },
-    ];
-  })
-)(CreateGroupsScreen);
+export default CreatePlayOffsGroupScreen;

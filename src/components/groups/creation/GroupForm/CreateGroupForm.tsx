@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 import { TextFieldStyled } from "../../../../styled/styledForm";
 import groupCreationDict from "../../../../locale/creationNav.dict.";
 import { LOCALE } from "../../../../locale/config";
-import GroupTeamsList from "./GroupTeamsList";
 import { useNotification } from "../../../global/Notification";
 import { Id } from "../../../../const/structuresConst";
 import { GroupModel } from "../../../../NewModels/Group";
@@ -42,6 +41,7 @@ export interface CreateGroupFormProps {
   group: GroupModel;
   handleOpenTeams: (group: GroupModel) => void;
   handleRemoveGroup: (selected: GroupModel) => void;
+  handleUpdateGroup: (updatedGroup: GroupModel) => void;
   locale: LOCALE;
   userId: Id;
 }
@@ -50,12 +50,14 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
   group,
   handleOpenTeams,
   handleRemoveGroup,
+  handleUpdateGroup,
   locale,
   userId,
+  children,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const { openNotification, setQuestion, setAnswers } = useNotification();
-  const { handleSubmit, register, errors } = useForm<GroupModel>({
+  const { handleSubmit, register, errors, getValues } = useForm<GroupModel>({
     defaultValues: {
       id: group.id,
       name: group.name,
@@ -84,6 +86,14 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
     setOpen(false);
   };
 
+  const handleUpdate = () => {
+    const { name } = getValues();
+    handleUpdateGroup({
+      ...group,
+      name,
+    });
+  };
+
   const onSubmit = (values: GroupModel) => {
     console.log(values);
   };
@@ -109,10 +119,11 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
               }}
               helperText={errors.name && <Translator id="wrongGroupName" />}
               error={Boolean(errors.name)}
+              onChange={() => handleUpdate()}
             />
           </Grid>
           <Grid item>
-            <GroupTeamsList teams={group.teams} userId={userId} />
+            {children}
             <Button
               variant="outlined"
               color="secondary"
@@ -164,11 +175,33 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
               </Grid>
             </Grid>
             <GridMatchesContainer container direction="column">
-              {group.matches?.map((match) => (
-                <Grid item key={match.id}>
-                  <MatchSummaryMock match={match} locale={locale} />
-                </Grid>
-              ))}
+              {group.matches?.map((match) => {
+                const homePlaceholder = group.groupTeams?.find(
+                  (team) => team.place === match.groupPlaceholder?.home
+                );
+                const awayPlaceholder = group.groupTeams?.find(
+                  (team) => team.place === match.groupPlaceholder?.away
+                );
+                if (homePlaceholder) {
+                  match.placeholder.home = {
+                    id: homePlaceholder.group?.id,
+                    place: homePlaceholder.group?.place,
+                    name: `${homePlaceholder.group?.id}`,
+                  };
+                }
+                if (awayPlaceholder) {
+                  match.placeholder.away = {
+                    id: awayPlaceholder.group?.id,
+                    place: awayPlaceholder.group?.place,
+                    name: `${awayPlaceholder.group?.id}`,
+                  };
+                }
+                return (
+                  <Grid item key={match.id}>
+                    <MatchSummaryMock match={match} locale={locale} />
+                  </Grid>
+                );
+              })}
             </GridMatchesContainer>
           </DialogStyled>
         </GridContainer>

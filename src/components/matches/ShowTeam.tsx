@@ -7,7 +7,7 @@ import matchDict from "../../locale/matchDict";
 import { isNumber } from "util";
 import { LOCALE } from "../../locale/config";
 import { TeamData } from "../../models/teamData";
-import { Placeholder } from "../../const/groupConst";
+import { Placeholder } from "../../NewModels/Team";
 
 export interface ShowTeamProps {
   team?: TeamData;

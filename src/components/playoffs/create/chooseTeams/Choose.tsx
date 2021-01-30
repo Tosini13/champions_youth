@@ -13,9 +13,9 @@ import { Group } from "../../../../models/groupData";
 import ChoosePromoted from "./promoted/ChoosePromoted";
 import ChooseTeam from "./teams/ChooseTeam";
 import { BracketStructure } from "../../../../structures/bracket";
-import { Placeholder } from "../../../../const/groupConst";
 import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
+import { Placeholder } from "../../../../NewModels/Team";
 
 type Props = {
   teams?: TeamData[];

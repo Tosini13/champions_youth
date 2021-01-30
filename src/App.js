@@ -15,6 +15,8 @@ import MatchDetails from "./components/matches/MatchDetails";
 import InProgress from "./components/global/InProgress";
 import Notification from "./components/global/Notification";
 import CreateGroupsScreen from "./components/groups/creation/CreateGroupsScreen";
+import CreatePlayOffsGroupPage from "./components/playoffs/creation/groups/CreatePlayOffsGroupPage";
+import PlayOffsGroupDetails from './components/playoffs/groups/GroupDetails';
 
 const App = () => {
   return (
@@ -24,6 +26,7 @@ const App = () => {
         <MainContainer>
           <Switch>
             <Route path={routerConstString.createGroups} component={CreateGroupsScreen} />
+            <Route path={routerConstString.createPlayOffsGroups} component={CreatePlayOffsGroupPage} />
             <Route
               exact
               path={routerConstString.login}
@@ -44,6 +47,10 @@ const App = () => {
               component={MatchDetails}
             />
             <Route
+              path={routerConstString.matchPlayOffsGroup}
+              component={MatchDetails}
+            />
+            <Route
               path={routerConstString.matchPlayOffs}
               component={MatchDetails}
             />
@@ -56,6 +63,7 @@ const App = () => {
             <Route path={routerConstString.my} component={TournamentsDashboard} />
             <Route path={routerConstString.favorites} component={TournamentsDashboard} />
             <Switch>
+              <Route path={routerConstString.playOffsGroup} component={PlayOffsGroupDetails} />
               <Route path={routerConstString.group} component={GroupDetails} />
               <Route path={routerConstString.tournament + "/:tournamentId"} component={TournamentDetails} />
             </Switch>

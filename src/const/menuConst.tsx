@@ -34,8 +34,11 @@ export enum routerConstString {
   tournaments = "/",
   tournament = "/tournament",
   createGroups = "/tournament/:tournamentId/groups/add",
+  createPlayOffsGroups = "/tournament/:tournamentId/playOffs/groups/add",
   group = "/tournament/:tournamentId/groups/:groupId",
+  playOffsGroup = "/tournament/:tournamentId/playOffs/groups/:groupId",
   bracket = "/tournament/:tournamentId/playOffs/games/:gameId",
+  matchPlayOffsGroup = "/tournament/:tournamentId/playOffs/groups/:groupId/matches/:matchId",
   matchGroup = "/tournament/:tournamentId/groups/:groupId/matches/:matchId",
   matchPlayOffs = "/tournament/:tournamentId/game/:gameId/matches/:matchId",
   live = "/live",
@@ -50,16 +53,26 @@ export const routerGenerateConst = {
   createGroups: (tournamentId: Id) => {
     return `/tournament/${tournamentId}/groups/add`;
   },
-
+  createPlayOffsGroups: (tournamentId: Id) => {
+    return `/tournament/${tournamentId}/playOffs/groups/add`;
+  },
   groups: (tournamentId: Id, groupId: Id) => {
     return `/tournament/${tournamentId}/groups/${groupId}`;
+  },
+
+  playOffsGroup: (tournamentId: Id, groupId: Id) => {
+    return `/tournament/${tournamentId}/playOffs/groups/${groupId}`;
   },
 
   bracket: (tournamentId: Id, gameId: Id) => {
     return `/tournament/${tournamentId}/playOffs/games/${gameId}`;
   },
 
-  matchGroup: (tournamentId: Id, groupId: Id, matchId: Id) => {
+  matchGroup: (groupId: Id, matchId: Id) => {
+    return `${groupId}/matches/${matchId}`;
+  },
+
+  directMatchGroup: (tournamentId: Id, groupId: Id, matchId: Id) => {
     return `/tournament/${tournamentId}/groups/${groupId}/matches/${matchId}`;
   },
 

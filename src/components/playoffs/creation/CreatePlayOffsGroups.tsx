@@ -1,42 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
 import styled from "styled-components";
 
 import { Grid } from "@material-ui/core";
 
-import CreateGroupForm from "./GroupForm/CreateGroupForm";
-import CreateGroupsActions from "./CreateGroupsActions";
-import CreationNav from "./CreationNav";
 import { ContentContainerStyled } from "../../../styled/styledLayout";
 import { TeamData } from "../../../models/teamData";
-import { firestoreConnect } from "react-redux-firebase";
-import ChooseTeams from "./GroupForm/ChooseTeams";
-import { shuffle } from "../../playoffs/create/PlayOffsCreateDashboard";
+import { shuffle } from "../create/PlayOffsCreateDashboard";
 import useCreateGroup from "../../../hooks/useCreateGroup";
 import { GroupModel } from "../../../NewModels/Group";
 import { LOCALE } from "../../../locale/config";
 import { Id } from "../../../const/structuresConst";
 import { MatchTime } from "../../../NewModels/Matches";
-import GroupSettings from "./GroupSettings";
 import { createWholeGroup } from "../../../store/actions/GroupActions";
 import { useNotification } from "../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../const/menuConst";
 import { TournamentModel } from "../../../NewModels/Tournament";
-import GroupTeamsList from "./GroupForm/GroupTeamsList";
+import CreationNav from "../../groups/creation/CreationNav";
+import CreateGroupForm from "../../groups/creation/GroupForm/CreateGroupForm";
+import CreateGroupsActions from "../../groups/creation/CreateGroupsActions";
+import ChooseTeams from "../../groups/creation/GroupForm/ChooseTeams";
+import GroupSettings from "../../groups/creation/GroupSettings";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
 `;
 
-export interface CreateGroupsScreenProps {
+export interface CreatePlayOffsGroupsProps {
   teams?: TeamData[];
   locale: LOCALE;
   userId: Id;
   tournamentId: Id;
   tournament: TournamentModel;
-  doesGroupsExist: Boolean;
   createGroup: (tournamentId: Id, group: GroupModel) => void;
 }
 
@@ -46,20 +44,15 @@ export type SettingType = {
   returnMatches: boolean;
 };
 
-const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
+const CreatePlayOffsGroups: React.FC<CreatePlayOffsGroupsProps> = ({
   teams,
   locale,
   userId,
   tournamentId,
   tournament,
-  doesGroupsExist,
   createGroup,
 }) => {
   const history = useHistory();
-  if (doesGroupsExist) {
-    console.log("history");
-    history.push("/");
-  }
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [openSettings, setOpenSettings] = useState<boolean>(false);
   const [settings, setSettings] = useState<SettingType>({
@@ -78,6 +71,14 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     setOpenSettings(false);
   };
 
+  const handleUpdateGroup = (updatedGroup: GroupModel) => {
+    setGroups(
+      groups.map((group) =>
+        group.id === updatedGroup.id ? updatedGroup : group
+      )
+    );
+  };
+
   const createNewGroup = () => {
     let groupN = "";
     for (let i = 0; i < groups.length + 1; i++) {
@@ -94,14 +95,6 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
       matches: [],
     };
     return newGroup;
-  };
-
-  const handleUpdateGroup = (updatedGroup: GroupModel) => {
-    setGroups(
-      groups.map((group) =>
-        group.id === updatedGroup.id ? updatedGroup : group
-      )
-    );
   };
 
   const groupInValid = () => {
@@ -228,9 +221,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
                   handleOpenTeams={handleOpenTeams}
                   handleRemoveGroup={handleRemoveGroup}
                   handleUpdateGroup={handleUpdateGroup}
-                >
-                  <GroupTeamsList teams={group.teams} userId={userId} />
-                </CreateGroupForm>
+                />
               </Grid>
             );
           })}
@@ -271,7 +262,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
     tournament,
     locale: state.dictionary.locale,
     userId: state.firebase.auth.uid,
-    doesGroupsExist: Boolean(state.firestore.ordered.groups?.length),
   };
 };
 
@@ -293,12 +283,6 @@ export default compose(
         subcollections: [{ collection: "teams", orderBy: ["name", "asc"] }],
         storeAs: "teams",
       },
-      {
-        collection: "tournaments",
-        doc: props.match.params.tournamentId,
-        subcollections: [{ collection: "groups", orderBy: ["name", "asc"] }],
-        storeAs: "groups",
-      },
     ];
   })
-)(CreateGroupsScreen);
+)(CreatePlayOffsGroups);

@@ -2,26 +2,24 @@ import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
-
-import { Id } from "../../const/structuresConst";
-import { TeamData } from "../../models/teamData";
-import SplashScreen from "../global/SplashScreen";
-import { updateGame, UpdateGame } from "../../store/actions/GameActions";
-import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
+import { Id } from "../../../const/structuresConst";
+import { GroupModel, GroupModelDB } from "../../../NewModels/Group";
+import { updateMatch, UpdateMatch } from "../../../store/actions/MatchActions";
+import SplashScreen from "../../global/SplashScreen";
+import GroupDetailsView from "../../groups/details/GroupDetailsView";
+import { TeamData } from "../../../models/teamData";
+import { MatchModel, MatchModelDB } from "../../../NewModels/Matches";
+import { updateGame, UpdateGame } from "../../../store/actions/GameActions";
 import {
   updateGroupMode,
   updatePlayOffsGroupTeams,
   UpdatePlayOffsGroupTeamsParams,
-} from "../../store/actions/GroupActions";
-import { GroupModel, GroupModelDB } from "../../NewModels/Group";
-import { MatchModel, MatchModelDB } from "../../NewModels/Matches";
-import GroupDetailsView from "./details/GroupDetailsView";
+} from "../../../store/actions/GroupActions";
 
 export interface GroupsComponentProps {
   tournamentId: Id;
   groupId: Id;
   group?: GroupModel;
-  playOffsGroups?: GroupModel[];
   updateMatch: ({
     tournamentId,
     groupId,
@@ -47,7 +45,7 @@ export interface GroupsComponentProps {
   }: UpdatePlayOffsGroupTeamsParams) => void;
 }
 
-const GroupDetails: React.FC<GroupsComponentProps> = ({
+const PlayOffsGroupDetails: React.FC<GroupsComponentProps> = ({
   tournamentId,
   groupId,
   group,
@@ -55,7 +53,6 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   updateGame,
   updateGroupMode,
   updatePlayOffsGroupTeams,
-  playOffsGroups,
 }) => {
   if (!group) return <SplashScreen />;
   return (
@@ -63,7 +60,6 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
       tournamentId={tournamentId}
       groupId={groupId}
       group={group}
-      playOffsGroups={playOffsGroups}
       updateMatch={updateMatch}
       updateGame={updateGame}
       updateGroupMode={updateGroupMode}
@@ -84,30 +80,59 @@ const mapStateToProps = (state: any, ownProps: any) => {
           ...matchData,
           home: teams.find((team) => team.id === matchData.home),
           away: teams.find((team) => team.id === matchData.away),
+          placeholder: {},
         }))
       : undefined;
   const groups: GroupModelDB[] | undefined = state.firestore.ordered.groups;
-  const groupData = groups?.find((data) => data.id === groupId);
-  const group: GroupModel | undefined =
+  const playOffsGroups: GroupModelDB[] | undefined =
+    state.firestore.ordered.playOffsGroups;
+  const groupData = playOffsGroups?.find((data) => data.id === groupId);
+  const playOffsGroup: GroupModel | undefined =
     groupData && teams && matches
       ? {
           id: groupData.id,
           name: groupData.name,
           teams: teams.filter((team) => groupData.teams.includes(team.id)),
-          matches: matches,
+          matches: matches.map((match) => {
+            const homeTeam = groupData?.groupTeams?.find(
+              (team) => team.place === match.groupPlaceholder?.home
+            );
+            const awayTeam = groupData?.groupTeams?.find(
+              (team) => team.place === match.groupPlaceholder?.away
+            );
+            match.placeholder = {
+              home: {
+                name: `${
+                  groups?.find((group) => group.id === homeTeam?.group?.id)
+                    ?.name
+                }`,
+                id: homeTeam?.id,
+                place: homeTeam?.group?.place,
+              },
+              away: {
+                name: `${
+                  groups?.find((group) => group.id === awayTeam?.group?.id)
+                    ?.name
+                }`,
+                id: awayTeam?.id,
+                place: awayTeam?.group?.place,
+              },
+            };
+            match.home = teams.find((team) => team.id === homeTeam?.id);
+            match.away = teams.find((team) => team.id === awayTeam?.id);
+            return match;
+          }),
           finishAt: groupData.finishAt,
           finished: groupData.finished,
           playOffs: groupData.playOffs,
-          playOffsGroup: groupData.playOffsGroup,
           promoted: groupData.promoted,
+          groupTeams: groupData.groupTeams,
         }
       : undefined;
-  const playOffsGroups: GroupModel[] = state.firestore.ordered.playOffsGroups;
   return {
     tournamentId,
     groupId,
-    group,
-    playOffsGroups,
+    group: playOffsGroup,
   };
 };
 
@@ -187,23 +212,21 @@ export default compose(
       {
         collection: "tournaments",
         doc: props.match.params.tournamentId,
+        subcollections: [{ collection: "playOffsGroups" }],
+        storeAs: "playOffsGroups",
+      },
+      {
+        collection: "tournaments",
+        doc: props.match.params.tournamentId,
         subcollections: [
           {
-            collection: "groups",
+            collection: "playOffsGroups",
             doc: props.match.params.groupId,
             subcollections: [{ collection: "matches" }],
           },
         ],
         storeAs: "matches",
       },
-      {
-        collection: "tournaments",
-        doc: props.match.params.tournamentId,
-        subcollections: [
-          { collection: "playOffsGroups", orderBy: ["name", "asc"] },
-        ],
-        storeAs: "playOffsGroups",
-      },
     ];
   })
-)(GroupDetails);
+)(PlayOffsGroupDetails);

@@ -2,7 +2,7 @@ import { matchModeConst } from "../const/matchConst";
 import { Id, Result, TeamsPlaceholder } from "../const/structuresConst";
 import { Moment } from "moment";
 import { TeamData } from "../models/teamData";
-import { Placeholder } from "../const/groupConst";
+import { Placeholder } from "../NewModels/Team";
 
 export class MatchStructure {
   id?: Id;
@@ -110,4 +110,8 @@ export type MatchData = {
   round: string;
   date?: Moment;
   mode: matchModeConst;
+  groupPlaceholder?: {
+    home: string | number;
+    away: string | number;
+  };
 };

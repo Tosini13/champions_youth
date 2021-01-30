@@ -1,6 +1,6 @@
 import { Moment } from "moment";
-import { PromotedTeam } from "../const/groupConst";
 import { Id } from "../const/structuresConst";
+import { PromotedTeam } from "../NewModels/Team";
 import { GroupPlayOffs } from "../store/actions/GroupActions";
 import { MatchDataDb } from "../structures/dbAPI/matchData";
 import { MatchData } from "../structures/match";

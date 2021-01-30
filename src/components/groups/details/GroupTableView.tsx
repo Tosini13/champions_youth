@@ -23,6 +23,8 @@ const GroupTableView: React.FC<GroupTableViewProps> = ({
         matches={group.matches}
         teams={group.teams}
         promotedQtt={group.playOffs ? group.playOffs.length : 1}
+        playOffs={group.playOffs}
+        playOffsGroup={group.playOffsGroup}
       />
       <Grid
         container

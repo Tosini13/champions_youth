@@ -1,23 +1,67 @@
 import moment, { Moment } from "moment";
-import { bergerAlgorithm } from "../algorithms/berger";
-import { TeamData } from "../models/teamData";
+import { bergerAlgorithm, bergerAlgorithmPlace } from "../algorithms/berger";
+import { GroupTeamModel, TeamData } from "../models/teamData";
 import { GroupModel } from "../NewModels/Group";
 import { MatchTime } from "../NewModels/Matches";
+import { NewPlaceholder } from "../NewModels/Team";
+import { MatchModel } from "../NewModels/Matches";
+import { matchModeConst } from "../const/matchConst";
 
 let matchCounter = 0;
 
+export const initPlaceholderMatch = (
+  home: NewPlaceholder,
+  away: NewPlaceholder,
+  round: number
+) => {
+  const match: MatchModel = {
+    id: (++matchCounter).toString(),
+    mode: matchModeConst.notStarted,
+    round: round.toString(),
+    placeholder: {
+      home: {
+        id: home.id,
+        name: home.id, // todo: real group name
+        place: home.place,
+      },
+      away: {
+        id: away.id,
+        name: away.id, // todo: real group name
+        place: away.place,
+      },
+    },
+  };
+  return match;
+};
+
 export const initMatch = (home: TeamData, away: TeamData, round: number) => {
-  return {
-    id: ++matchCounter,
+  const match: MatchModel = {
+    id: (++matchCounter).toString(),
     home,
     away,
-    mode: "NOT_STARTED",
-    result: {
-      home: 0,
-      away: 0,
-    },
-    round,
+    mode: matchModeConst.notStarted,
+    round: round.toString(),
+    placeholder: {},
   };
+  return match;
+};
+
+export const initMatchPlace = (
+  home: GroupTeamModel,
+  away: GroupTeamModel,
+  round: number
+) => {
+  const match: MatchModel = {
+    id: (++matchCounter).toString(),
+    mode: matchModeConst.notStarted,
+    round: round.toString(),
+    placeholder: {},
+    groupPlaceholder: {
+      home: home.place,
+      away: away.place,
+    },
+  };
+  return match;
 };
 
 const compareMatches = (match1: any, match2: any) => {
@@ -26,9 +70,9 @@ const compareMatches = (match1: any, match2: any) => {
 
 const createGroupMatches = (teams: TeamData[], returnGames: boolean) => {
   if (teams.length > 3) {
-    return bergerAlgorithm(teams, returnGames);
+    return bergerAlgorithm(teams, returnGames, initMatch);
   } else if (teams.length === 3) {
-    let matches: any[] = [];
+    let matches: MatchModel[] = [];
     matches.push(initMatch(teams[0], teams[1], 1));
     matches.push(initMatch(teams[1], teams[2], 2));
     matches.push(initMatch(teams[2], teams[0], 3));
@@ -43,6 +87,80 @@ const createGroupMatches = (teams: TeamData[], returnGames: boolean) => {
     matches.push(initMatch(teams[0], teams[1], 1));
     if (returnGames) {
       matches.push(initMatch(teams[0], teams[1], 1));
+    }
+    return matches;
+  } else {
+    return [];
+  }
+};
+
+const createGroupPlaceMatches = (
+  teams: GroupTeamModel[],
+  returnGames: boolean
+) => {
+  if (teams.length > 3) {
+    return bergerAlgorithmPlace(teams, returnGames, initMatchPlace);
+  } else if (teams.length === 3) {
+    let matches: MatchModel[] = [];
+    matches.push(initMatchPlace(teams[0], teams[1], 1));
+    matches.push(initMatchPlace(teams[1], teams[2], 2));
+    matches.push(initMatchPlace(teams[2], teams[0], 3));
+    if (returnGames) {
+      matches.push(initMatchPlace(teams[1], teams[0], 4));
+      matches.push(initMatchPlace(teams[2], teams[1], 5));
+      matches.push(initMatchPlace(teams[0], teams[2], 6));
+    }
+    return matches;
+  } else if (teams.length === 2) {
+    let matches: any[] = [];
+    matches.push(initMatchPlace(teams[0], teams[1], 1));
+    if (returnGames) {
+      matches.push(initMatchPlace(teams[0], teams[1], 1));
+    }
+    return matches;
+  } else {
+    return [];
+  }
+};
+
+const createGroupPlaceholderMatches = (
+  placeholderTeams: NewPlaceholder[],
+  returnGames: boolean
+) => {
+  if (placeholderTeams.length > 3) {
+    return bergerAlgorithm(placeholderTeams, returnGames, initPlaceholderMatch);
+  } else if (placeholderTeams.length === 3) {
+    let matches: MatchModel[] = [];
+    matches.push(
+      initPlaceholderMatch(placeholderTeams[0], placeholderTeams[1], 1)
+    );
+    matches.push(
+      initPlaceholderMatch(placeholderTeams[1], placeholderTeams[2], 2)
+    );
+    matches.push(
+      initPlaceholderMatch(placeholderTeams[2], placeholderTeams[0], 3)
+    );
+    if (returnGames) {
+      matches.push(
+        initPlaceholderMatch(placeholderTeams[1], placeholderTeams[0], 4)
+      );
+      matches.push(
+        initPlaceholderMatch(placeholderTeams[2], placeholderTeams[1], 5)
+      );
+      matches.push(
+        initPlaceholderMatch(placeholderTeams[0], placeholderTeams[2], 6)
+      );
+    }
+    return matches;
+  } else if (placeholderTeams.length === 2) {
+    let matches: any[] = [];
+    matches.push(
+      initPlaceholderMatch(placeholderTeams[0], placeholderTeams[1], 1)
+    );
+    if (returnGames) {
+      matches.push(
+        initPlaceholderMatch(placeholderTeams[0], placeholderTeams[1], 1)
+      );
     }
     return matches;
   } else {
@@ -73,9 +191,11 @@ const setMatchesTime = (
     for (let j = 0; j < groups.length; j++) {
       const groupMatches = groups[j].matches;
       if (groupMatches && i < groupMatches.length) {
+        const home = groupMatches[i].home;
+        const away = groupMatches[i].away;
         if (
-          timeTeamsCounter.includes(groupMatches[i].home) ||
-          timeTeamsCounter.includes(groupMatches[i].away)
+          timeTeamsCounter.includes(home ?? groupMatches[i].placeholder.home) ||
+          timeTeamsCounter.includes(away ?? groupMatches[i].placeholder.away)
         ) {
           timeCounter = moment(timeCounter).add(timeUnit, "minutes");
           fieldCounter = 1;
@@ -84,8 +204,8 @@ const setMatchesTime = (
         groupMatches[i].date = moment(timeCounter);
         timeTeamsCounter = [
           ...timeTeamsCounter,
-          groupMatches[i].home,
-          groupMatches[i].away,
+          home ?? groupMatches[i].placeholder.home,
+          away ?? groupMatches[i].placeholder.away,
         ];
         if (!(fieldCounter % fields)) {
           timeCounter = moment(timeCounter).add(timeUnit, "minutes");
@@ -118,7 +238,21 @@ const useCreateGroup = () => {
     date?: string;
   }) => {
     groups.forEach((group, i) => {
-      if (group.teams) {
+      if (group.groupTeams?.length) {
+        const matches = createGroupPlaceMatches(
+          group.groupTeams,
+          returnMatches
+        );
+        matches.sort(compareMatches);
+        group.matches = matches;
+      } else if (group.placeholderTeams?.length) {
+        const matches = createGroupPlaceholderMatches(
+          group.placeholderTeams,
+          returnMatches
+        );
+        matches.sort(compareMatches);
+        group.matches = matches;
+      } else if (group.teams) {
         const matches = createGroupMatches(group.teams, returnMatches);
         matches.sort(compareMatches);
         group.matches = matches;

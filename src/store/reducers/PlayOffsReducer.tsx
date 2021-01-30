@@ -13,6 +13,18 @@ const playOffsReducer = (state = initState, action: any) => {
     case "CREATE_GAME_MATCH_ERROR":
       console.log("CREATE_GAME_MATCH_ERROR", action.err);
       return state;
+    case "DELETE_PLAYOFFS_FROM_TOURNAMENT":
+      console.log("DELETE_PLAYOFFS_FROM_TOURNAMENT");
+      return state;
+    case "DELETE_PLAYOFFS_FROM_TOURNAMENT_ERROR":
+      console.log("DELETE_PLAYOFFS_FROM_TOURNAMENT_ERROR", action.err);
+      return state;
+    case "DELETE_PLAYOFFS_GROUPS_FROM_TOURNAMENT":
+      console.log("DELETE_PLAYOFFS_GROUPS_FROM_TOURNAMENT");
+      return state;
+    case "DELETE_PLAYOFFS_GROUPS_FROM_TOURNAMENT_ERROR":
+      console.log("DELETE_PLAYOFFS_GROUPS_FROM_TOURNAMENT_ERROR", action.err);
+      return state;
     default:
       return state;
   }

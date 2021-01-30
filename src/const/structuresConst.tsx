@@ -1,4 +1,4 @@
-import { Placeholder } from "./groupConst";
+import { Placeholder } from "../NewModels/Team";
 
 export enum structuresConst {
   groups = "GROUPS",
