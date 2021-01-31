@@ -2,12 +2,10 @@ import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/Inbox";
 import DraftsIcon from "@material-ui/icons/Drafts";
-import Divider from "@material-ui/core/Divider";
 
 import { ListStyled, MenuLinkStyled } from "../../../styled/styledNav";
 import { routerConstString } from "../../../const/menuConst";
@@ -29,7 +27,7 @@ const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar, locale }) => {
       <GridContainer container direction="column" justify="space-between">
         <Grid item>
           <ListStyled>
-            <ListItemStyled borderPosition="bottom" button>
+            <ListItemStyled borderposition="bottom" button>
               <ListItemIcon>
                 <AccountCircleIcon color="secondary" />
               </ListItemIcon>
@@ -40,7 +38,7 @@ const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar, locale }) => {
         </Grid>
         <Grid item>
           <ListStyled>
-            <ListItemStyled borderPosition="top" button>
+            <ListItemStyled borderposition="top" button>
               <MenuLinkStyled
                 to={routerConstString.login}
                 onClick={handleCloseSideBar}
@@ -51,7 +49,7 @@ const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar, locale }) => {
                 <ListItemText primary={<Translator id="signIn" />} />
               </MenuLinkStyled>
             </ListItemStyled>
-            <ListItemStyled borderPosition="top" button>
+            <ListItemStyled borderposition="top" button>
               <MenuLinkStyled
                 to={routerConstString.signUp}
                 onClick={handleCloseSideBar}

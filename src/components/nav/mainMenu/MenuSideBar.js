@@ -20,7 +20,6 @@ const MenuSideBar = ({
     sideBarMenuOpened,
     loggedIn,
 }) => {
-    console.log(sideBarMenuOpened);
     return (
         <DrawerStyled
             open={sideBarMenuOpened}

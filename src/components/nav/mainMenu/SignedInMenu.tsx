@@ -32,9 +32,9 @@ export const GridContainer = styled(Grid)`
 `;
 
 export const ListItemStyled = styled(ListItem)<{
-  borderPosition: BorderPosition;
+  borderposition: BorderPosition;
 }>`
-  border-${(props) => props.borderPosition}: rgba(0, 0, 0, 0.2) solid 0.5px;
+  border-${(props) => props.borderposition}: rgba(0, 0, 0, 0.2) solid 0.5px;
 `;
 
 type Props = {
@@ -59,14 +59,14 @@ const SignedInMenu: React.FC<Props> = ({
       <GridContainer container direction="column" justify="space-between">
         <Grid item>
           <ListStyled>
-            <ListItemStyled borderPosition="bottom" button>
+            <ListItemStyled borderposition="bottom" button>
               <ListItemIcon>
                 <AccountCircleIcon color="secondary" />
               </ListItemIcon>
               <ListItemText primary={user?.login} />
               <Language />
             </ListItemStyled>
-            <ListItemStyled borderPosition="bottom" button>
+            <ListItemStyled borderposition="bottom" button>
               <MenuLinkStyled
                 to={routerConstString.create}
                 onClick={handleCloseSideBar}
@@ -81,13 +81,13 @@ const SignedInMenu: React.FC<Props> = ({
         </Grid>
         <Grid item>
           <ListStyled>
-            <ListItemStyled borderPosition="top" button>
+            <ListItemStyled borderposition="top" button>
               <ListItemIcon>
                 <FlashOnIcon color="secondary" />
               </ListItemIcon>
               <ListItemText primary={<Translator id="version" />} /> {VERSION}
             </ListItemStyled>
-            <ListItemStyled borderPosition="top" button>
+            <ListItemStyled borderposition="top" button>
               <MenuLinkStyled
                 to={routerConstString.login}
                 onClick={handleSignOut}
