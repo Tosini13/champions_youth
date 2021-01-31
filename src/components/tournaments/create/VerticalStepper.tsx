@@ -1,4 +1,5 @@
 import React from "react";
+import { Rosetta, Translator } from "react-rosetta";
 
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -9,33 +10,38 @@ import {
   TournamentCreationStepperStyled,
 } from "../../../styled/styledForm";
 import { ColorlibStepIcon } from "./StepperBullet";
+import { LOCALE } from "../../../locale/config";
+import createTournamentDict from "../../../locale/createTournament.dict";
 
 function getSteps() {
-  return [
-    "Informacje o turnieju",
-    "Lokalizacja turnieju",
-    "Informacje o meczach",
-    "Podsumowanie",
-  ];
+  return ["basicInfo", "locationInfo", "summary"];
 }
 
 type Props = {
   getStepContent: (step: number) => JSX.Element | "Unknown step";
   errors: any;
+  handleTrigger: () => Promise<void>;
+  locale: LOCALE;
 };
 
-const VerticalStepper: React.FC<Props> = ({ getStepContent, errors }) => {
+const VerticalStepper: React.FC<Props> = ({
+  getStepContent,
+  errors,
+  handleTrigger,
+  locale,
+}) => {
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
-  const handleSetStep = (step: number) => {
+  const handleSetStep = async (step: number) => {
+    await handleTrigger();
     if (Object.keys(errors).length === 0) {
       setActiveStep(step);
     }
   };
 
   return (
-    <>
+    <Rosetta translations={createTournamentDict} locale={locale}>
       <TournamentCreationStepperStyled
         activeStep={activeStep}
         orientation="vertical"
@@ -49,14 +55,14 @@ const VerticalStepper: React.FC<Props> = ({ getStepContent, errors }) => {
               }}
             >
               <TournamentCreationStepLabelStyled type="submit">
-                {label}
+                <Translator id={`${label}`} />
               </TournamentCreationStepLabelStyled>
             </StepLabel>
             <StepContent>{getStepContent(index)}</StepContent>
           </Step>
         ))}
       </TournamentCreationStepperStyled>
-    </>
+    </Rosetta>
   );
 };
 
