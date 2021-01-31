@@ -18,7 +18,6 @@ import { setLocale } from "../../store/actions/DictionaryActions";
 import plFlag from "../../images/flags/pl.png";
 import enFlag from "../../images/flags/us.png";
 import languageDict from "../../locale/language";
-import styled from "styled-components";
 import { IconButton } from "@material-ui/core";
 
 export interface LanguageProps {

@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import { Rosetta, Translator } from "react-rosetta";
 
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import Button from "@material-ui/core/Button";
 import FormGroup from "@material-ui/core/FormGroup";
 
@@ -14,10 +15,11 @@ import { TournamentCreateData } from "../../../models/tournamentData";
 import { FormStyled } from "../../../styled/styledForm";
 import CreateTournamentBasicInfo from "./BasicInfo";
 import CreateTournamentLocation from "./Location";
-import CreateTournamentMatchesInfo from "./MatchesInfo";
 import VerticalStepper from "./VerticalStepper";
 import { setBack } from "../../../store/actions/MenuActions";
 import AddLogo from "./AddLogo";
+import { LOCALE } from "../../../locale/config";
+import createTournamentDict from "../../../locale/createTournament.dict";
 
 export type BasicInfoDataForm = {
   name: string;
@@ -29,22 +31,29 @@ export type LocationDataForm = {
   address: string;
 };
 
-export type MatchesInfoForm = {
-  disabled: boolean;
-  matchTimeInGroup: number;
-  breakTimeInGroup: number;
-  matchTimeInBracket: number;
-  breakTimeInBracket: number;
-};
+type FormModel = BasicInfoDataForm & LocationDataForm;
 
 type Props = {
   createTournament: (data: TournamentCreateData, image?: any) => void;
   setBack: (route: routerConstString) => void;
+  locale: LOCALE;
 };
 
-const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
+const CreateTournament: React.FC<Props> = ({
+  createTournament,
+  setBack,
+  locale,
+}) => {
   const history = useHistory();
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors, trigger } = useForm<FormModel>();
+
+  const [currentInputs, setCurrentInputs] = useState<
+    string | string[] | undefined
+  >();
+
+  const handleTrigger = async () => {
+    await trigger(currentInputs);
+  };
 
   useEffect(() => {
     setBack(routerConstString.tournaments);
@@ -61,17 +70,6 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
     city: "",
     address: "",
   });
-  const [matchesInfo, setMatchesInfo] = useState<MatchesInfoForm>({
-    disabled: true,
-    matchTimeInGroup: 5,
-    breakTimeInGroup: 1,
-    matchTimeInBracket: 6,
-    breakTimeInBracket: 2,
-  });
-
-  const onSubmit = () => {
-    console.log("check!");
-  };
 
   const onCreate = () => {
     const data: TournamentCreateData = {
@@ -79,10 +77,6 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
       date: basicInfo.date ? basicInfo.date.format() : moment().format(),
       city: location.city,
       address: location.address,
-      matchTimeInGroup: matchesInfo.matchTimeInGroup,
-      breakTimeInGroup: matchesInfo.breakTimeInGroup,
-      matchTimeInBracket: matchesInfo.matchTimeInBracket,
-      breakTimeInBracket: matchesInfo.breakTimeInBracket,
       fields: 3,
     };
     createTournament(data, image);
@@ -95,10 +89,12 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
         return (
           <>
             <CreateTournamentBasicInfo
+              locale={locale}
               register={register}
               errors={errors}
               basicInfo={basicInfo}
               setBasicInfo={setBasicInfo}
+              setCurrentInputs={setCurrentInputs}
             />
             <AddLogo image={image} setImage={setImage} />
           </>
@@ -106,6 +102,7 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
       case 1:
         return (
           <CreateTournamentLocation
+            locale={locale}
             register={register}
             errors={errors}
             location={location}
@@ -114,26 +111,19 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
         );
       case 2:
         return (
-          <CreateTournamentMatchesInfo
-            register={register}
-            errors={errors}
-            matchesInfo={matchesInfo}
-            setMatchesInfo={setMatchesInfo}
-          />
-        );
-      case 3:
-        return (
-          <FormGroup>
-            <Button
-              variant="outlined"
-              color="secondary"
-              type="submit"
-              onClick={onCreate}
-              style={{ margin: "5px auto" }}
-            >
-              Stwórz
-            </Button>
-          </FormGroup>
+          <Rosetta translations={createTournamentDict} locale={locale}>
+            <FormGroup>
+              <Button
+                variant="outlined"
+                color="secondary"
+                type="submit"
+                onClick={onCreate}
+                style={{ margin: "5px auto" }}
+              >
+                <Translator id="create" />
+              </Button>
+            </FormGroup>
+          </Rosetta>
         );
       default:
         return "Unknown step";
@@ -141,10 +131,21 @@ const CreateTournament: React.FC<Props> = ({ createTournament, setBack }) => {
   };
 
   return (
-    <FormStyled onSubmit={handleSubmit(onSubmit)}>
-      <VerticalStepper getStepContent={getStepContent} errors={errors} />
+    <FormStyled onSubmit={handleSubmit(() => {})}>
+      <VerticalStepper
+        locale={locale}
+        getStepContent={getStepContent}
+        errors={errors}
+        handleTrigger={handleTrigger}
+      />
     </FormStyled>
   );
+};
+
+const mapStateToProps = (state: any, ownProps: any) => {
+  return {
+    locale: state.dictionary.locale,
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -154,4 +155,4 @@ const mapDispatchToProps = (dispatch: any) => {
     setBack: (route: routerConstString) => dispatch(setBack(route)),
   };
 };
-export default connect(null, mapDispatchToProps)(CreateTournament);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTournament);

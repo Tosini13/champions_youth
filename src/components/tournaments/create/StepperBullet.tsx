@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 
-import SportsSoccerIcon from "@material-ui/icons/SportsSoccer";
 import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
 import DoneIcon from "@material-ui/icons/Done";
 import RoomIcon from "@material-ui/icons/Room";
@@ -41,9 +40,8 @@ export function ColorlibStepIcon(props: any) {
 
   const icons: any = {
     1: <EmojiEventsIcon className={classes.icon} />,
-    2: <SportsSoccerIcon className={classes.icon} />,
-    3: <RoomIcon className={classes.icon} />,
-    4: <DoneIcon className={classes.icon} />,
+    2: <RoomIcon className={classes.icon} />,
+    3: <DoneIcon className={classes.icon} />,
   };
 
   return (
