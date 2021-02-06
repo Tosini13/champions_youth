@@ -1,4 +1,4 @@
-import { Drawer } from "@material-ui/core";
+import { Drawer, Hidden } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
@@ -11,9 +11,16 @@ const DrawerStyled = styled(Drawer)`
     .MuiDrawer-paper{
         background-color: ${mainTheme.palette.primary.dark};
         color: ${mainTheme.palette.secondary.main};
-        min-width: 250px;
+        width: 250px;
     }
 `;
+
+const MenuList = (loggedIn, handleCloseSideBar) => {
+    if (loggedIn) {
+        return <SignedInMenu handleCloseSideBar={handleCloseSideBar} />;
+    }
+    return <SignedOutMenu handleCloseSideBar={handleCloseSideBar} />;
+}
 
 const MenuSideBar = ({
     handleCloseSideBar,
@@ -21,20 +28,32 @@ const MenuSideBar = ({
     loggedIn,
 }) => {
     return (
-        <DrawerStyled
-            open={sideBarMenuOpened}
-            onClose={handleCloseSideBar}
-            color="secondary"
-            variant="temporary"
-            ModalProps={{
-                keepMounted: true, // Better open performance on mobile.
-            }}>
-            {loggedIn ? (
-                <SignedInMenu handleCloseSideBar={handleCloseSideBar} />
-            ) : (
-                    <SignedOutMenu handleCloseSideBar={handleCloseSideBar} />
-                )}
-        </DrawerStyled>
+        <>
+            <Hidden xsDown>
+                <DrawerStyled
+                    open={sideBarMenuOpened}
+                    onClose={handleCloseSideBar}
+                    color="secondary"
+                    variant="permanent"
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}>
+                    <MenuList loggedIn={loggedIn} handleCloseSideBar={handleCloseSideBar} />
+                </DrawerStyled>
+            </Hidden>
+            <Hidden xsUp>
+                <DrawerStyled
+                    open={sideBarMenuOpened}
+                    onClose={handleCloseSideBar}
+                    color="secondary"
+                    variant="temporary"
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}>
+                    <MenuList loggedIn={loggedIn} handleCloseSideBar={handleCloseSideBar} />
+                </DrawerStyled>
+            </Hidden>
+        </>
     );
 };
 

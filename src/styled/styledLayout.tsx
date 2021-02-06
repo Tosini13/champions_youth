@@ -5,12 +5,19 @@ import { mainTheme } from "./styledConst";
 
 import { Dialog } from "@material-ui/core";
 
-export const BodyContainer = styled.div`
+export const BodyContainer = styled.div<{ sm: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
   width: 100vw;
+  ${(props) =>
+    props.sm
+      ? `
+  width: calc(100vw - 250px);
+  margin-left: auto;
+  `
+      : ``}
 `;
 
 export const MainContainer = styled.main`
