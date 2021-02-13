@@ -171,7 +171,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
                           <Grid item xs={1}></Grid>
                         </Grid>
                       </Grid>
-                      <GridContent item>
+                      <GridContent item style={{ padding: "0px 5px" }}>
                         <TournamentSummaryContainer
                           handleRedirectLogin={this.handleRedirectLogin}
                           {...this.props}
@@ -200,7 +200,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
               <Divider orientation="vertical" />
               <Grid item style={{ flexGrow: 1 }}>
                 <GridSideContainer container direction="column">
-                  <GridContent item>
+                  <GridContent item style={{ padding: "0px 5px" }}>
                     <TournamentSummaryContainer
                       handleRedirectLogin={this.handleRedirectLogin}
                       {...this.props}
