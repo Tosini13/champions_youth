@@ -57,7 +57,12 @@ const DayNavbar = ({
   const date = moment(selectedDate).locale(locale);
   return (
     <Rosetta translations={menuDict} locale={locale}>
-      <GridContainer container justify="space-between" spacing={4}>
+      <GridContainer
+        container
+        justify="space-between"
+        spacing={4}
+        wrap="nowrap"
+      >
         <Grid item>
           <IconButtonArrowBeforeStyled
             active={isDateActive ? 1 : 0}
@@ -67,8 +72,10 @@ const DayNavbar = ({
           </IconButtonArrowBeforeStyled>
         </Grid>
         <Grid item>
-          <DayNameStyled>{showNameDay(date)}</DayNameStyled>
-          <DayDateStyled>{date.format(DATE_FORMAT_SHOW)}</DayDateStyled>
+          <DayNameStyled color="secondary">{showNameDay(date)}</DayNameStyled>
+          <DayDateStyled color="secondary">
+            {date.format(DATE_FORMAT_SHOW)}
+          </DayDateStyled>
         </Grid>
         <Grid item>
           <IconButtonArrowNextStyled

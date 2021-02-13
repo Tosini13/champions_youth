@@ -3,24 +3,18 @@ import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import "date-fns";
-import MomentUtils from "@date-io/moment";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
-import {
-  NavBarStyled,
-  NavContainerStyled,
-  KeyboardDatePickerStyled,
-} from "../../styled/styledNav";
+import { NavBarStyled, NavContainerStyled } from "../../styled/styledNav";
 import { HamburgerStyled } from "../../styled/styledIcons";
-import DayNavbar from "./TopNav.tsx/DayNavbar";
 import MenuSideBar from "./mainMenu/MenuSideBar";
 import { setSelectedDate } from "../../store/actions/MenuActions";
 import { Moment } from "moment";
 import { IconButtonNavStyled } from "../../styled/styledButtons";
 import { routerConstString } from "../../const/menuConst";
 import { Hidden } from "@material-ui/core";
+import DateNav from "./DateNav";
 
 const Navbar = ({
   selectedDate,
@@ -61,40 +55,31 @@ const Navbar = ({
 
   return (
     <>
-      <NavContainerStyled>
-        <NavBarStyled>
-          {isDateActive ? (
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <KeyboardDatePickerStyled
-                margin="normal"
-                id="date-picker-dialog"
-                label="Date picker dialog"
-                format="MM/dd/yyyy"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-                cancelLabel="anuluj"
-              />
-            </MuiPickersUtilsProvider>
-          ) : (
-            <IconButtonNavStyled onClick={goBack}>
-              <NavigateBeforeIcon fontSize="large" />
-            </IconButtonNavStyled>
-          )}
-          <DayNavbar
-            isDateActive={isDateActive}
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-          />
-          <HamburgerStyled open={sideBarMenuOpened} onClick={toggleSideBarMenu}>
-            <div></div>
-            <div></div>
-            <div></div>
-          </HamburgerStyled>
-        </NavBarStyled>
-      </NavContainerStyled>
+      <Hidden mdUp>
+        <NavContainerStyled>
+          <NavBarStyled>
+            {!isDateActive ? (
+              <IconButtonNavStyled onClick={goBack}>
+                <NavigateBeforeIcon fontSize="large" />
+              </IconButtonNavStyled>
+            ) : null}
+            <DateNav
+              isDateActive={isDateActive}
+              selectedDate={selectedDate}
+              handleDateChange={handleDateChange}
+              setSelectedDate={setSelectedDate}
+            />
+            <HamburgerStyled
+              open={sideBarMenuOpened}
+              onClick={toggleSideBarMenu}
+            >
+              <div></div>
+              <div></div>
+              <div></div>
+            </HamburgerStyled>
+          </NavBarStyled>
+        </NavContainerStyled>
+      </Hidden>
       <MenuSideBar
         handleCloseSideBar={() => setSideBarMenu(false)}
         sideBarMenuOpened={sideBarMenuOpened}

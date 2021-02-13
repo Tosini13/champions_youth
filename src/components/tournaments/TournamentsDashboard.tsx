@@ -21,6 +21,9 @@ import LeftBottomNav, { LEFT_VIEW } from "../nav/bottomNav/LeftBottomNav";
 import styled from "styled-components";
 import RightBottomNav, { RIGHT_VIEW } from "../nav/bottomNav/RightBottomNav";
 import TournamentSummaryContainer from "./TournamentSummaryContainer";
+import DateNav from "../nav/DateNav";
+import { setSelectedDate } from "../../store/actions/MenuActions";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 const GridMainContainer = styled(Grid)`
   height: 100%;
@@ -78,8 +81,9 @@ type TProps = {
   favoriteTournaments?: TournamentData[];
   history: any;
   location: any;
-  selectedDate: Moment;
   locale: LOCALE;
+  selectedDate: Moment;
+  setSelectedDate: (menu: Moment) => void;
 };
 
 class TournamentsDashboard extends Component<TProps, IState> {
@@ -105,6 +109,11 @@ class TournamentsDashboard extends Component<TProps, IState> {
         return this.props.favoriteTournaments;
       default:
         return this.props.tournaments;
+    }
+  };
+  handleDateChange = (date: MaterialUiPickersDate) => {
+    if (date) {
+      this.props.setSelectedDate(date);
     }
   };
 
@@ -142,15 +151,38 @@ class TournamentsDashboard extends Component<TProps, IState> {
               <Grid item style={{ flexGrow: 1 }}>
                 <GridSideContainer container direction="column">
                   <GridContent item>
-                    <TournamentSummaryContainer
-                      handleRedirectLogin={this.handleRedirectLogin}
-                      {...this.props}
-                      tournaments={
-                        this.state.leftView === LEFT_VIEW.TOURNAMENTS
-                          ? tournaments
-                          : liveTournaments
-                      }
-                    />
+                    <GridSideContainer
+                      container
+                      direction="column"
+                      wrap="nowrap"
+                    >
+                      <Grid item>
+                        <Grid
+                          container
+                          alignItems="center"
+                          justify="space-between"
+                        >
+                          <DateNav
+                            isDateActive={true}
+                            selectedDate={this.props.selectedDate}
+                            handleDateChange={this.handleDateChange}
+                            setSelectedDate={this.props.setSelectedDate}
+                          />
+                          <Grid item xs={1}></Grid>
+                        </Grid>
+                      </Grid>
+                      <GridContent item>
+                        <TournamentSummaryContainer
+                          handleRedirectLogin={this.handleRedirectLogin}
+                          {...this.props}
+                          tournaments={
+                            this.state.leftView === LEFT_VIEW.TOURNAMENTS
+                              ? tournaments
+                              : liveTournaments
+                          }
+                        />
+                      </GridContent>
+                    </GridSideContainer>
                   </GridContent>
                   <Grid item>
                     <LeftBottomNav
@@ -221,14 +253,21 @@ const mapStateToProps = (state: any, ownProps: any) => {
     myTournaments,
     favoriteTournaments,
     user,
-    selectedDate,
     menu: state.menu,
+    selectedDate,
     locale: state.dictionary.locale,
   };
 };
 
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setSelectedDate: (selectedDate: Moment) =>
+      dispatch(setSelectedDate(selectedDate)),
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect((props) => {
     return [
       {
