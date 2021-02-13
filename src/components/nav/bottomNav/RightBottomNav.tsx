@@ -1,11 +1,19 @@
 import React from "react";
 import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import { BotomNavTabStyled } from "./LeftBottomNav";
 
-export default function RightBottomNav() {
-  const [value, setValue] = React.useState(0);
+export enum RIGHT_VIEW {
+  "MY" = 0,
+  "FAVORITE" = 1,
+}
 
+export default function RightBottomNav({
+  value,
+  setValue,
+}: {
+  value: number;
+  setValue: (value: number) => void;
+}) {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };

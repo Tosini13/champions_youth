@@ -17,9 +17,9 @@ import tournamentDashboardDict from "../../locale/tournamentDashboard";
 import { LOCALE } from "../../locale/config";
 import SplashScreen from "../global/SplashScreen";
 import { Divider, Grid, Hidden } from "@material-ui/core";
-import LeftBottomNav from "../nav/bottomNav/LeftBottomNav";
+import LeftBottomNav, { LEFT_VIEW } from "../nav/bottomNav/LeftBottomNav";
 import styled from "styled-components";
-import RightBottomNav from "../nav/bottomNav/RightBottomNav";
+import RightBottomNav, { RIGHT_VIEW } from "../nav/bottomNav/RightBottomNav";
 import TournamentSummaryContainer from "./TournamentSummaryContainer";
 
 const GridMainContainer = styled(Grid)`
@@ -35,7 +35,6 @@ const GridContent = styled(Grid)`
 `;
 
 const getFilteredTournaments = (
-  view: routerConstString,
   tournaments: TournamentData[],
   selectedDate: Moment,
   user?: UserData
@@ -64,27 +63,14 @@ const getFilteredTournaments = (
     myTournaments,
     favoriteTournaments,
   };
-  // switch (view) {
-  //   case routerConstString.my:
-  //     if (!user) return [];
-  //     return tournaments?.filter((tournament: TournamentData) => {
-  //       return tournament.ownerId === user.id;
-  //     });
-  //   case routerConstString.favorites:
-  //     if (!user) return [];
-  //     return tournaments?.filter((tournament: TournamentData) =>
-  //       user.favoriteTournaments?.includes(tournament.id)
-  //     );
-  //   case routerConstString.live:
-  //     return [];
-  //   default:
-  //     return tournaments?.filter((tournament: TournamentData) =>
-  //       moment(selectedDate).isSame(moment(tournament.date), "day")
-  //     );
-  // }
 };
 
-type Props = {
+interface IState {
+  leftView: LEFT_VIEW;
+  rightView: RIGHT_VIEW;
+}
+
+type TProps = {
   user?: UserData;
   tournaments?: TournamentData[];
   liveTournaments?: TournamentData[];
@@ -95,7 +81,15 @@ type Props = {
   locale: LOCALE;
 };
 
-class TournamentsDashboard extends Component<Props> {
+class TournamentsDashboard extends Component<TProps, IState> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      leftView: LEFT_VIEW.TOURNAMENTS,
+      rightView: RIGHT_VIEW.FAVORITE,
+    };
+  }
+
   handleRedirectLogin = () => {
     this.props.history.push(routerConstString.login);
   };
@@ -108,7 +102,13 @@ class TournamentsDashboard extends Component<Props> {
       favoriteTournaments,
       user,
     } = this.props;
-    if (tournaments === undefined && user !== undefined)
+    if (
+      tournaments === undefined &&
+      liveTournaments === undefined &&
+      myTournaments === undefined &&
+      favoriteTournaments === undefined &&
+      user !== undefined
+    )
       return <SplashScreen />;
     return (
       <Rosetta
@@ -130,11 +130,23 @@ class TournamentsDashboard extends Component<Props> {
                     <TournamentSummaryContainer
                       handleRedirectLogin={this.handleRedirectLogin}
                       {...this.props}
-                      tournaments={tournaments}
+                      tournaments={
+                        this.state.leftView === LEFT_VIEW.TOURNAMENTS
+                          ? tournaments
+                          : liveTournaments
+                      }
                     />
                   </GridContent>
                   <Grid item>
-                    <LeftBottomNav />
+                    <LeftBottomNav
+                      value={this.state.leftView}
+                      setValue={(leftView: number) =>
+                        this.setState({
+                          ...this.state,
+                          leftView,
+                        })
+                      }
+                    />
                   </Grid>
                 </GridSideContainer>
               </Grid>
@@ -145,11 +157,23 @@ class TournamentsDashboard extends Component<Props> {
                     <TournamentSummaryContainer
                       handleRedirectLogin={this.handleRedirectLogin}
                       {...this.props}
-                      tournaments={myTournaments}
+                      tournaments={
+                        this.state.rightView === RIGHT_VIEW.MY
+                          ? myTournaments
+                          : favoriteTournaments
+                      }
                     />
                   </GridContent>
                   <Grid item>
-                    <RightBottomNav />
+                    <RightBottomNav
+                      value={this.state.rightView}
+                      setValue={(rightView: number) =>
+                        this.setState({
+                          ...this.state,
+                          rightView,
+                        })
+                      }
+                    />
                   </Grid>
                 </GridSideContainer>
               </Grid>
@@ -174,12 +198,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
     liveTournaments,
     myTournaments,
     favoriteTournaments,
-  } = getFilteredTournaments(
-    ownProps.match.path,
-    allTournaments ?? [],
-    selectedDate,
-    user
-  );
+  } = getFilteredTournaments(allTournaments ?? [], selectedDate, user);
 
   return {
     tournaments,
