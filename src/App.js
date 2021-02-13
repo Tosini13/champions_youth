@@ -56,14 +56,7 @@ const App = () => {
               path={routerConstString.matchPlayOffs}
               component={MatchDetails}
             />
-            <Route
-              exact
-              path={routerConstString.tournaments}
-              component={TournamentsDashboard}
-            />
-            <Route path={routerConstString.live} component={TournamentsDashboard} />
-            <Route path={routerConstString.my} component={TournamentsDashboard} />
-            <Route path={routerConstString.favorites} component={TournamentsDashboard} />
+            <Route path={"/tournaments"} component={TournamentsDashboard} />
             <Switch>
               <Route path={routerConstString.playOffsGroup} component={PlayOffsGroupDetails} />
               <Route path={routerConstString.group} component={GroupDetails} />

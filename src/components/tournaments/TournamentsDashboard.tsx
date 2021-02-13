@@ -77,6 +77,7 @@ type TProps = {
   myTournaments?: TournamentData[];
   favoriteTournaments?: TournamentData[];
   history: any;
+  location: any;
   selectedDate: Moment;
   locale: LOCALE;
 };
@@ -92,6 +93,19 @@ class TournamentsDashboard extends Component<TProps, IState> {
 
   handleRedirectLogin = () => {
     this.props.history.push(routerConstString.login);
+  };
+
+  handleGetTournamentsView = () => {
+    switch (this.props.location.pathname + this.props.location.search) {
+      case routerConstString.live:
+        return this.props.liveTournaments;
+      case routerConstString.my:
+        return this.props.myTournaments;
+      case routerConstString.favorites:
+        return this.props.favoriteTournaments;
+      default:
+        return this.props.tournaments;
+    }
   };
 
   render() {
@@ -120,6 +134,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
             <TournamentSummaryContainer
               handleRedirectLogin={this.handleRedirectLogin}
               {...this.props}
+              tournaments={this.handleGetTournamentsView()}
             />
           </Hidden>
           <Hidden smDown>

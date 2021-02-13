@@ -20,6 +20,7 @@ import { setSelectedDate } from "../../store/actions/MenuActions";
 import { Moment } from "moment";
 import { IconButtonNavStyled } from "../../styled/styledButtons";
 import { routerConstString } from "../../const/menuConst";
+import { Hidden } from "@material-ui/core";
 
 const Navbar = ({
   selectedDate,
@@ -49,7 +50,7 @@ const Navbar = ({
   useEffect(() => {
     return history.listen((location) => {
       setIsDateActive(
-        location.pathname ===
+        location.pathname + location.search ===
           (routerConstString.tournaments ||
             routerConstString.favorites ||
             routerConstString.live ||

@@ -41,7 +41,7 @@ const MenuSideBar = ({
                     <MenuList loggedIn={loggedIn} handleCloseSideBar={handleCloseSideBar} />
                 </DrawerStyled>
             </Hidden>
-            <Hidden xsUp>
+            <Hidden smUp>
                 <DrawerStyled
                     open={sideBarMenuOpened}
                     onClose={handleCloseSideBar}
