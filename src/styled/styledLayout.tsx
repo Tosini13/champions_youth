@@ -27,6 +27,7 @@ export const MainContainer = styled.main`
   background-color: ${mainTheme.palette.primary.dark};
   padding: 0px 5px;
   position: relative;
+  overflow: hidden;
 `;
 
 export const NoContentContainer = styled.div`

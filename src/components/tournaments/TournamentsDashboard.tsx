@@ -31,6 +31,8 @@ const GridSideContainer = styled(Grid)`
 
 const GridContent = styled(Grid)`
   flex-grow: 1;
+  height: calc(100vh - 140px);
+  overflow: hidden;
 `;
 
 const getFilteredTournaments = (
@@ -167,7 +169,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
                           <Grid item xs={1}></Grid>
                         </Grid>
                       </Grid>
-                      <GridContent item style={{ padding: "0px 5px" }}>
+                      <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
                         <TournamentSummaryContainer
                           handleRedirectLogin={this.handleRedirectLogin}
                           {...this.props}
@@ -196,7 +198,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
               <Divider orientation="vertical" />
               <Grid item style={{ flexGrow: 1 }}>
                 <GridSideContainer container direction="column">
-                  <GridContent item style={{ padding: "0px 5px" }}>
+                  <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
                     <TournamentSummaryContainer
                       handleRedirectLogin={this.handleRedirectLogin}
                       {...this.props}

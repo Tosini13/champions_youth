@@ -1,5 +1,6 @@
 export const menu = {
   createTournament: "Create tournament",
+  tournaments: "Tournaments",
   logOut: "Log out",
   loggedOut: "Logged out",
   youAreLockedOut: "You're logged out",
