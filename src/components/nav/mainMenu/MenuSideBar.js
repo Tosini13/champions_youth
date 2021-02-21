@@ -15,13 +15,6 @@ const DrawerStyled = styled(Drawer)`
     }
 `;
 
-const MenuList = (loggedIn, handleCloseSideBar) => {
-    if (loggedIn) {
-        return <SignedInMenu handleCloseSideBar={handleCloseSideBar} />;
-    }
-    return <SignedOutMenu handleCloseSideBar={handleCloseSideBar} />;
-}
-
 const MenuSideBar = ({
     handleCloseSideBar,
     sideBarMenuOpened,
@@ -38,7 +31,9 @@ const MenuSideBar = ({
                     ModalProps={{
                         keepMounted: true, // Better open performance on mobile.
                     }}>
-                    <MenuList loggedIn={loggedIn} handleCloseSideBar={handleCloseSideBar} />
+                    {loggedIn ?
+                        <SignedInMenu handleCloseSideBar={() => handleCloseSideBar()} />
+                        : <SignedOutMenu handleCloseSideBar={() => handleCloseSideBar()} />}
                 </DrawerStyled>
             </Hidden>
             <Hidden smUp>
@@ -50,7 +45,9 @@ const MenuSideBar = ({
                     ModalProps={{
                         keepMounted: true, // Better open performance on mobile.
                     }}>
-                    <MenuList loggedIn={loggedIn} handleCloseSideBar={handleCloseSideBar} />
+                    {loggedIn ?
+                        <SignedInMenu handleCloseSideBar={() => handleCloseSideBar()} />
+                        : <SignedOutMenu handleCloseSideBar={() => handleCloseSideBar()} />}
                 </DrawerStyled>
             </Hidden>
         </>

@@ -3,12 +3,8 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import moment, { Moment } from "moment";
-import { Rosetta, Translator } from "react-rosetta";
+import { Rosetta } from "react-rosetta";
 
-import Button from "@material-ui/core/Button";
-
-import { NoContentTitle, NoContentContainer } from "../../styled/styledLayout";
-import TournamentSummary from "./TournamentSummary";
 import { TournamentData } from "../../models/tournamentData";
 import { routerConstString } from "../../const/menuConst";
 import { UserData } from "../../models/credentialsData";

@@ -31,7 +31,7 @@ export enum routerConstString {
   login = "/login",
   logout = "/logout",
   signUp = "/signup",
-  tournaments = "/tournaments?view=tournament",
+  tournaments = "/",
   tournament = "/tournament",
   createGroups = "/tournament/:tournamentId/groups/add",
   createPlayOffsGroups = "/tournament/:tournamentId/playOffs/groups/add",
@@ -41,9 +41,9 @@ export enum routerConstString {
   matchPlayOffsGroup = "/tournament/:tournamentId/playOffs/groups/:groupId/matches/:matchId",
   matchGroup = "/tournament/:tournamentId/groups/:groupId/matches/:matchId",
   matchPlayOffs = "/tournament/:tournamentId/game/:gameId/matches/:matchId",
-  live = "/tournaments?view=live",
-  my = "/tournaments?view=my",
-  favorites = `/tournaments?view=favorites`,
+  live = "/?view=live",
+  my = "/?view=my",
+  favorites = `/?view=favorites`,
 }
 
 export const routerGenerateConst = {

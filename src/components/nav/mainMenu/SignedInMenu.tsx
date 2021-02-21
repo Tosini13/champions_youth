@@ -54,6 +54,7 @@ const SignedInMenu: React.FC<Props> = ({
     signOut();
     handleCloseSideBar();
   };
+
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <GridContainer container direction="column" justify="space-between">
@@ -69,7 +70,7 @@ const SignedInMenu: React.FC<Props> = ({
             <ListItemStyled borderposition="bottom" button>
               <MenuLinkStyled
                 to={routerConstString.create}
-                onClick={() => handleCloseSideBar}
+                onClick={() => handleCloseSideBar()}
               >
                 <ListItemIcon>
                   <AddCircleOutlineIcon color="secondary" />
@@ -90,7 +91,7 @@ const SignedInMenu: React.FC<Props> = ({
             <ListItemStyled borderposition="top" button>
               <MenuLinkStyled
                 to={routerConstString.login}
-                onClick={() => handleSignOut}
+                onClick={() => handleSignOut()}
               >
                 <ListItemIcon>
                   <LockIcon color="secondary" />
