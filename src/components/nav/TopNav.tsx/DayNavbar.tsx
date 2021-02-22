@@ -10,11 +10,7 @@ import {
   IconButtonArrowBeforeStyled,
   IconButtonArrowNextStyled,
 } from "../../../styled/styledButtons";
-import {
-  DayNavbarContainerStyled,
-  DayNameStyled,
-  DayDateStyled,
-} from "../../../styled/styledNav";
+import { DayNameStyled, DayDateStyled } from "../../../styled/styledNav";
 import { DATE_FORMAT_SHOW } from "../../../const/menuConst";
 import { connect } from "react-redux";
 import { LOCALE } from "../../../locale/config";

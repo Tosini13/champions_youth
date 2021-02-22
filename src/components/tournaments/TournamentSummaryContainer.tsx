@@ -1,5 +1,4 @@
 import React from "react";
-import { Moment } from "moment";
 import styled from "styled-components";
 import { Rosetta, Translator } from "react-rosetta";
 
