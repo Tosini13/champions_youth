@@ -25,7 +25,6 @@ export const MainContainer = styled.main`
   overflow-y: auto;
   flex-grow: 1;
   background-color: ${mainTheme.palette.primary.dark};
-  padding: 0px 5px;
   position: relative;
   overflow: hidden;
 `;

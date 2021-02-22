@@ -6,8 +6,6 @@ import Stepper from "@material-ui/core/Stepper";
 import { mainTheme, styledColors } from "./styledConst";
 
 export const TournamentDashboardMenuStyled = styled.div`
-  position: fixed;
-  left: 0;
   z-index: 9;
   width: 100%;
   background-color: ${mainTheme.palette.primary.main};
@@ -26,6 +24,7 @@ export const TournamentDashboardMenuItemStyled = styled.div<{
   border-radius: 5px;
   text-decoration: none;
   font-size: 13px;
+  cursor: pointer;
   ${(props) =>
     props.selected
       ? `background-color: ${mainTheme.palette.primary.dark};`

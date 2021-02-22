@@ -22,6 +22,8 @@ import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { getImage } from "../actions/getImage";
 import SplashScreen from "../../global/SplashScreen";
 import { GroupModel } from "../../../NewModels/Group";
+import { Grid, Hidden } from "@material-ui/core";
+import TournamentDetailsDesktop from "./TournamentDetailsDesktop";
 
 type Props = {
   tournament?: TournamentData;
@@ -58,46 +60,67 @@ const TournamentDetails: React.FC<Props> = ({
   if (tournament && teams) {
     return (
       <>
-        <TournamentMenu view={view} setView={setView} />
-        <ContentContainerStyled>
-          {view === menuTournamentConst.groups && tournament ? (
-            <TournamentGroups
-              tournamentId={tournamentId}
-              tournament={tournament}
-              groups={groups}
-              playOffs={Boolean(playOffs?.length)}
-              playOffsGroups={Boolean(playOffsGroups?.length)}
-              teams={teams}
-              isOwner={isOwner}
-            />
-          ) : null}
-          {view === menuTournamentConst.playoffs && tournament && playOffs ? (
-            <TournamentPlayOffs
-              tournamentId={tournamentId}
-              tournament={tournament}
-              playOffs={playOffs}
-              playOffsGroups={playOffsGroups}
-              teams={teams}
-              groups={groups}
-              isOwner={isOwner}
-            />
-          ) : null}
-          {view === menuTournamentConst.info && tournament ? (
-            <TournamentInfo
-              tournament={tournament}
-              image={image}
-              isOwner={isOwner}
-              tournamentId={tournamentId}
-            />
-          ) : null}
-          {view === menuTournamentConst.teams && tournament ? (
-            <TournamentTeams
-              teams={teams}
-              isOwner={isOwner}
-              isCreated={Boolean(playOffs?.length || groups?.length)}
-            />
-          ) : null}
-        </ContentContainerStyled>
+        <Hidden mdUp>
+          <Grid container direction="column">
+            <Grid item>
+              <TournamentMenu view={view} setView={setView} />
+            </Grid>
+            <Grid item>
+              <ContentContainerStyled>
+                {view === menuTournamentConst.groups && tournament ? (
+                  <TournamentGroups
+                    tournamentId={tournamentId}
+                    tournament={tournament}
+                    groups={groups}
+                    playOffs={Boolean(playOffs?.length)}
+                    playOffsGroups={Boolean(playOffsGroups?.length)}
+                    teams={teams}
+                    isOwner={isOwner}
+                  />
+                ) : null}
+                {view === menuTournamentConst.playoffs &&
+                tournament &&
+                playOffs ? (
+                  <TournamentPlayOffs
+                    tournamentId={tournamentId}
+                    tournament={tournament}
+                    playOffs={playOffs}
+                    playOffsGroups={playOffsGroups}
+                    teams={teams}
+                    groups={groups}
+                    isOwner={isOwner}
+                  />
+                ) : null}
+                {view === menuTournamentConst.info && tournament ? (
+                  <TournamentInfo
+                    tournament={tournament}
+                    image={image}
+                    isOwner={isOwner}
+                    tournamentId={tournamentId}
+                  />
+                ) : null}
+                {view === menuTournamentConst.teams && tournament ? (
+                  <TournamentTeams
+                    teams={teams}
+                    isOwner={isOwner}
+                    isCreated={Boolean(playOffs?.length || groups?.length)}
+                  />
+                ) : null}
+              </ContentContainerStyled>
+            </Grid>
+          </Grid>
+        </Hidden>
+        <TournamentDetailsDesktop
+          authorId={authorId}
+          isOwner={isOwner}
+          tournamentId={tournamentId}
+          tournament={tournament}
+          teams={teams}
+          groups={groups}
+          playOffs={playOffs}
+          playOffsGroups={playOffsGroups}
+          image={image}
+        />
       </>
     );
   } else {
