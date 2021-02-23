@@ -110,17 +110,19 @@ const TournamentDetails: React.FC<Props> = ({
             </Grid>
           </Grid>
         </Hidden>
-        <TournamentDetailsDesktop
-          authorId={authorId}
-          isOwner={isOwner}
-          tournamentId={tournamentId}
-          tournament={tournament}
-          teams={teams}
-          groups={groups}
-          playOffs={playOffs}
-          playOffsGroups={playOffsGroups}
-          image={image}
-        />
+        <Hidden smDown>
+          <TournamentDetailsDesktop
+            authorId={authorId}
+            isOwner={isOwner}
+            tournamentId={tournamentId}
+            tournament={tournament}
+            teams={teams}
+            groups={groups}
+            playOffs={playOffs}
+            playOffsGroups={playOffsGroups}
+            image={image}
+          />
+        </Hidden>
       </>
     );
   } else {

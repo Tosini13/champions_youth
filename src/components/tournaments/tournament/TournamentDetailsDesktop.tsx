@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 
 import { ContentContainerStyled } from "../../../styled/styledLayout";
-import {
-  menuTournamentConst,
-  routerConstString,
-} from "../../../const/menuConst";
-import TournamentMenu from "./TournamentMenu";
 import TournamentTeams from "./TournamentTeams";
 import TournamentGroups from "./TournamentGroups";
 import { TeamData } from "../../../models/teamData";
