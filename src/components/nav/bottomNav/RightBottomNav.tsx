@@ -1,6 +1,5 @@
 import React from "react";
-import Tabs from "@material-ui/core/Tabs";
-import { BotomNavTabStyled } from "./LeftBottomNav";
+import { TabsStyled, TabStyled } from "../../../styled/styledTabs";
 
 export enum RIGHT_VIEW {
   "MY" = 0,
@@ -19,14 +18,14 @@ export default function RightBottomNav({
   };
 
   return (
-    <Tabs
+    <TabsStyled
       value={value}
       indicatorColor="secondary"
       textColor="secondary"
       onChange={handleChange}
     >
-      <BotomNavTabStyled label="My" />
-      <BotomNavTabStyled label="Favorite" />
-    </Tabs>
+      <TabStyled label="My" />
+      <TabStyled label="Favorite" />
+    </TabsStyled>
   );
 }

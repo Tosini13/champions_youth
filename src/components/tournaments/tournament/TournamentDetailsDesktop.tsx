@@ -20,14 +20,28 @@ import TournamentLeftMenu, {
 import TournamentRightMenu, {
   TOURNAMENT_RIGHT_MENU,
 } from "./nav/TournamentRightMenu";
+import { ScrollBarStyled } from "../../../styled/styledScrollBar";
 
 const GridContainerStyled = styled(Grid)`
   height: 100%;
 `;
 
 const GridItemStyled = styled(Grid)`
+  max-height: 100%;
   max-width: 50%;
   flex-grow: 1;
+`;
+
+const GridOverflowContainerStyled = styled(Grid)`
+  max-height: 100%;
+  flex-wrap: nowrap;
+`;
+
+const GridOverflowItemStyled = styled(Grid)`
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  ${ScrollBarStyled}
 `;
 
 export interface TournamentDetailsDesktopProps {
@@ -59,11 +73,11 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
   return (
     <GridContainerStyled container>
       <GridItemStyled item>
-        <Grid container direction="column">
+        <GridOverflowContainerStyled container direction="column">
           <Grid item>
             <TournamentLeftMenu value={leftView} setValue={setLeftView} />
           </Grid>
-          <Grid item>
+          <GridOverflowItemStyled item>
             <ContentContainerStyled>
               {leftView === TOURNAMENT_LEFT_MENU.INFO && tournament ? (
                 <TournamentInfo
@@ -81,16 +95,16 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
                 />
               ) : null}
             </ContentContainerStyled>
-          </Grid>
-        </Grid>
+          </GridOverflowItemStyled>
+        </GridOverflowContainerStyled>
       </GridItemStyled>
       <Divider orientation="vertical" />
       <GridItemStyled item>
-        <Grid container direction="column">
+        <GridOverflowContainerStyled container direction="column">
           <Grid item>
             <TournamentRightMenu value={rightView} setValue={setRightView} />
           </Grid>
-          <Grid item>
+          <GridOverflowItemStyled item>
             <ContentContainerStyled>
               {rightView === TOURNAMENT_RIGHT_MENU.GROUPS && tournament ? (
                 <TournamentGroups
@@ -117,8 +131,8 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
                 />
               ) : null}
             </ContentContainerStyled>
-          </Grid>
-        </Grid>
+          </GridOverflowItemStyled>
+        </GridOverflowContainerStyled>
       </GridItemStyled>
     </GridContainerStyled>
   );

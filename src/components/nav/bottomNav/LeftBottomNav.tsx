@@ -1,12 +1,5 @@
 import React from "react";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import styled from "styled-components";
-
-export const BotomNavTabStyled = styled(Tab)`
-  flex-grow: 1;
-  max-width: none;
-`;
+import { TabsStyled, TabStyled } from "../../../styled/styledTabs";
 
 export enum LEFT_VIEW {
   "TOURNAMENTS" = 0,
@@ -25,14 +18,14 @@ export default function LeftBottomNav({
   };
 
   return (
-    <Tabs
+    <TabsStyled
       value={value}
       indicatorColor="secondary"
       textColor="secondary"
       onChange={handleChange}
     >
-      <BotomNavTabStyled label="Tournaments" />
-      <BotomNavTabStyled label="Live" />
-    </Tabs>
+      <TabStyled label="Tournaments" />
+      <TabStyled label="Live" />
+    </TabsStyled>
   );
 }

@@ -1,6 +1,5 @@
 import React from "react";
-import Tabs from "@material-ui/core/Tabs";
-import { BotomNavTabStyled } from "../../../nav/bottomNav/LeftBottomNav";
+import { TabsStyled, TabStyled } from "../../../../styled/styledTabs";
 
 export enum TOURNAMENT_LEFT_MENU {
   "INFO" = 0,
@@ -19,14 +18,14 @@ export default function TournamentLeftMenu({
   };
 
   return (
-    <Tabs
+    <TabsStyled
       value={value}
       indicatorColor="secondary"
       textColor="secondary"
       onChange={handleChange}
     >
-      <BotomNavTabStyled label="Info" />
-      <BotomNavTabStyled label="Teams" />
-    </Tabs>
+      <TabStyled label="Info" />
+      <TabStyled label="Teams" />
+    </TabsStyled>
   );
 }

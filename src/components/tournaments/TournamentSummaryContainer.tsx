@@ -9,32 +9,13 @@ import tournamentDashboardDict from "../../locale/tournamentDashboard";
 import { NoContentContainer, NoContentTitle } from "../../styled/styledLayout";
 import TournamentSummary from "./TournamentSummary";
 import { Button, List } from "@material-ui/core";
-import { mainTheme } from "../../styled/styledConst";
+import { ScrollBarStyled } from "../../styled/styledScrollBar";
 
 const ListStyled = styled(List)`
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-
-  /* width */
-  ::-webkit-scrollbar {
-    width: 3px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: ${mainTheme.palette.primary.light};
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: ${mainTheme.palette.secondary.dark};
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: ${mainTheme.palette.secondary.dark};
-  }
+  ${ScrollBarStyled}
 `;
 export interface TournamentSummaryContainerProps {
   user?: UserData;
