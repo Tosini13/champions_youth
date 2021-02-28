@@ -14,10 +14,12 @@ import { TeamListStyled } from "../../../../styled/styledTeams";
 import ChooseTeamsElement from "./ChooseTeamsElement";
 import { DialogStyled } from "../../../../styled/styledLayout";
 import { GroupModel } from "../../../../NewModels/Group";
+import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
 
 const TeamList = styled(TeamListStyled)`
   overflow-x: hidden;
   flex-wrap: nowrap;
+  ${ScrollBarStyled}
 `;
 
 export interface ChooseTeamsProps {

@@ -11,6 +11,7 @@ export interface ChooseStructureProps {
   chooseBracket: () => void;
 }
 
+// TODO: TRANSLATE
 const ChooseStructure: React.FC<ChooseStructureProps> = ({
   opened,
   handleClose,
