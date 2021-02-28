@@ -47,6 +47,11 @@ export const ContentContainerStyled = styled.div`
   position: relative;
 `;
 
+export const GroupsContentContainerStyled = styled(ContentContainerStyled)`
+  max-height: 100%;
+  overflow-y: auto;
+`;
+
 export const LinkStyled = styled(Link)`
   color: inherit;
   text-decoration: none;

@@ -8,7 +8,7 @@ import { Grid } from "@material-ui/core";
 import CreateGroupForm from "./GroupForm/CreateGroupForm";
 import CreateGroupsActions from "./CreateGroupsActions";
 import CreationNav from "./CreationNav";
-import { ContentContainerStyled } from "../../../styled/styledLayout";
+import { GroupsContentContainerStyled } from "../../../styled/styledLayout";
 import { TeamData } from "../../../models/teamData";
 import { firestoreConnect } from "react-redux-firebase";
 import ChooseTeams from "./GroupForm/ChooseTeams";
@@ -28,11 +28,6 @@ import GroupTeamsList from "./GroupForm/GroupTeamsList";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
-`;
-
-const GroupsContentContainerStyled = styled(ContentContainerStyled)`
-  max-height: 100%;
-  overflow-y: auto;
 `;
 
 export interface CreateGroupsScreenProps {

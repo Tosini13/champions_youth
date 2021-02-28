@@ -266,10 +266,10 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         draw={handleDrawGroup}
       />
       <ContentContainerStyled>
-        <GridContainer container spacing={5} direction="column">
+        <GridContainer container spacing={5} direction="row">
           {groups.map((group) => {
             return (
-              <Grid item key={group.id}>
+              <Grid item key={group.id} xs={12} md={6} lg={4}>
                 <CreateGroupForm
                   locale={locale}
                   userId={userId}

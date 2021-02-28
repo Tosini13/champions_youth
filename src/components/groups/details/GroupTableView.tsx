@@ -17,6 +17,7 @@ const GroupTableView: React.FC<GroupTableViewProps> = ({
   handleFinishGroup,
   handleContinueGroup,
 }) => {
+  // TODO: REMOVE BUTTONS WHEN THERE'S NO PLAYOFFS - OR SET WINNERS
   return (
     <>
       <GroupTable

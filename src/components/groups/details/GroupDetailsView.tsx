@@ -9,8 +9,20 @@ import { matchGame } from "../../../store/actions/PlayOffsActions";
 import GroupTableView from "./GroupTableView";
 import GroupMatchesView from "./GroupMatches";
 import SliderGlobal from "../../global/Slider";
-import { Typography } from "@material-ui/core";
+import { Divider, Grid, Hidden, Typography } from "@material-ui/core";
 import { UpdatePlayOffsGroupTeamsParams } from "../../../store/actions/GroupActions";
+import styled from "styled-components";
+
+const GridContainerStyled = styled(Grid)`
+  height: 100%;
+`;
+
+const GridItemStyled = styled(Grid)`
+  padding: 5px;
+  flex-grow: 1;
+  max-height: 100%;
+  overflow-y: auto;
+`;
 
 export interface GroupDetailsViewProps {
   tournamentId: Id;
@@ -196,30 +208,55 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
     );
   }
   return (
-    <SliderGlobal
-      components={[
-        {
-          title: "table",
-          component: (
+    <>
+      <Hidden mdUp>
+        <SliderGlobal
+          components={[
+            {
+              title: "table",
+              component: (
+                <GroupTableView
+                  group={group}
+                  handleFinishGroup={handleFinishGroup}
+                  handleContinueGroup={handleContinueGroup}
+                />
+              ),
+            },
+            {
+              title: "table",
+              component: (
+                <GroupMatchesView
+                  tournamentId={tournamentId}
+                  groupId={groupId}
+                  matches={matches}
+                />
+              ),
+            },
+          ]}
+        />
+      </Hidden>
+      <Hidden smDown>
+        <GridContainerStyled container>
+          <GridItemStyled item>
             <GroupTableView
               group={group}
               handleFinishGroup={handleFinishGroup}
               handleContinueGroup={handleContinueGroup}
             />
-          ),
-        },
-        {
-          title: "table",
-          component: (
+          </GridItemStyled>
+          <Grid item>
+            <Divider orientation="vertical" />
+          </Grid>
+          <GridItemStyled item>
             <GroupMatchesView
               tournamentId={tournamentId}
               groupId={groupId}
               matches={matches}
             />
-          ),
-        },
-      ]}
-    />
+          </GridItemStyled>
+        </GridContainerStyled>
+      </Hidden>
+    </>
   );
 };
 
