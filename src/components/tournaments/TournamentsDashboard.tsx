@@ -3,12 +3,8 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import moment, { Moment } from "moment";
-import { Rosetta, Translator } from "react-rosetta";
+import { Rosetta } from "react-rosetta";
 
-import Button from "@material-ui/core/Button";
-
-import { NoContentTitle, NoContentContainer } from "../../styled/styledLayout";
-import TournamentSummary from "./TournamentSummary";
 import { TournamentData } from "../../models/tournamentData";
 import { routerConstString } from "../../const/menuConst";
 import { UserData } from "../../models/credentialsData";
@@ -16,116 +12,260 @@ import { Id } from "../../const/structuresConst";
 import tournamentDashboardDict from "../../locale/tournamentDashboard";
 import { LOCALE } from "../../locale/config";
 import SplashScreen from "../global/SplashScreen";
+import { Divider, Grid, Hidden } from "@material-ui/core";
+import LeftBottomNav, { LEFT_VIEW } from "../nav/bottomNav/LeftBottomNav";
+import styled from "styled-components";
+import RightBottomNav, { RIGHT_VIEW } from "../nav/bottomNav/RightBottomNav";
+import TournamentSummaryContainer from "./TournamentSummaryContainer";
+import DateNav from "../nav/DateNav";
+import { setSelectedDate } from "../../store/actions/MenuActions";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+
+const GridMainContainer = styled(Grid)`
+  height: 100%;
+`;
+
+const GridSideContainer = styled(Grid)`
+  height: 100%;
+`;
+
+const GridContent = styled(Grid)`
+  flex-grow: 1;
+  height: calc(100vh - 140px);
+  overflow: hidden;
+`;
 
 const getFilteredTournaments = (
-  view: routerConstString,
   tournaments: TournamentData[],
   selectedDate: Moment,
   user?: UserData
 ) => {
-  switch (view) {
-    case routerConstString.my:
-      if (!user) return [];
-      return tournaments?.filter((tournament: TournamentData) => {
-        return tournament.ownerId === user.id;
-      });
-    case routerConstString.favorites:
-      if (!user) return [];
-      return tournaments?.filter((tournament: TournamentData) =>
-        user.favoriteTournaments?.includes(tournament.id)
-      );
-    case routerConstString.live:
-      return [];
-    default:
-      return tournaments?.filter((tournament: TournamentData) =>
-        moment(selectedDate).isSame(moment(tournament.date), "day")
-      );
-  }
+  let allTournaments: TournamentData[] = [];
+  let liveTournaments: TournamentData[] = [];
+  let myTournaments: TournamentData[] = [];
+  let favoriteTournaments: TournamentData[] = [];
+  tournaments.forEach((tournament) => {
+    if (moment(selectedDate).isSame(moment(tournament.date), "day")) {
+      allTournaments.push(tournament);
+    }
+    if (moment(selectedDate).isSame(moment(tournament.date), "hour")) {
+      liveTournaments.push(tournament);
+    }
+    if (tournament.ownerId === user?.id) {
+      myTournaments.push(tournament);
+    }
+    if (user?.favoriteTournaments?.includes(tournament.id)) {
+      favoriteTournaments.push(tournament);
+    }
+  });
+  return {
+    tournaments: allTournaments,
+    liveTournaments,
+    myTournaments,
+    favoriteTournaments,
+  };
 };
 
-type Props = {
+interface IState {
+  leftView: LEFT_VIEW;
+  rightView: RIGHT_VIEW;
+}
+
+type TProps = {
   user?: UserData;
   tournaments?: TournamentData[];
+  liveTournaments?: TournamentData[];
+  myTournaments?: TournamentData[];
+  favoriteTournaments?: TournamentData[];
   history: any;
-  selectedDate: Moment;
+  location: any;
   locale: LOCALE;
+  selectedDate: Moment;
+  setSelectedDate: (menu: Moment) => void;
 };
 
-class TournamentsDashboard extends Component<Props> {
+class TournamentsDashboard extends Component<TProps, IState> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      leftView: LEFT_VIEW.TOURNAMENTS,
+      rightView: RIGHT_VIEW.FAVORITE,
+    };
+  }
+
   handleRedirectLogin = () => {
     this.props.history.push(routerConstString.login);
   };
 
+  handleGetTournamentsView = () => {
+    switch (this.props.location.pathname + this.props.location.search) {
+      case routerConstString.live:
+        return this.props.liveTournaments;
+      case routerConstString.my:
+        return this.props.myTournaments;
+      case routerConstString.favorites:
+        return this.props.favoriteTournaments;
+      default:
+        return this.props.tournaments;
+    }
+  };
+  handleDateChange = (date: MaterialUiPickersDate) => {
+    if (date) {
+      this.props.setSelectedDate(date);
+    }
+  };
+
   render() {
-    const { tournaments, user } = this.props;
-    if (tournaments === undefined && user !== undefined)
+    const {
+      tournaments,
+      liveTournaments,
+      myTournaments,
+      favoriteTournaments,
+      user,
+    } = this.props;
+    if (
+      tournaments === undefined &&
+      liveTournaments === undefined &&
+      myTournaments === undefined &&
+      favoriteTournaments === undefined &&
+      user !== undefined
+    )
       return <SplashScreen />;
     return (
       <Rosetta
         translations={tournamentDashboardDict}
         locale={this.props.locale}
       >
-        <div>
-          {!tournaments?.length && user ? (
-            <NoContentTitle>
-              <Translator id={"noTournaments"} />
-            </NoContentTitle>
-          ) : null}
-          {!tournaments?.length && !user ? (
-            <NoContentContainer>
-              <NoContentTitle>
-                <Translator id={"mustBeLoggedInToAddTournament"} />
-              </NoContentTitle>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={this.handleRedirectLogin}
-              >
-                <Translator id={"logIn"} />
-              </Button>
-            </NoContentContainer>
-          ) : null}
-          {tournaments?.map((tournament: TournamentData) => (
-            <TournamentSummary
-              key={tournament.id}
-              tournament={tournament}
-              user={user}
+        <>
+          <Hidden mdUp>
+            <TournamentSummaryContainer
+              handleRedirectLogin={this.handleRedirectLogin}
+              {...this.props}
+              tournaments={this.handleGetTournamentsView()}
             />
-          ))}
-        </div>
+          </Hidden>
+          <Hidden smDown>
+            <GridMainContainer container>
+              <Grid item style={{ flexGrow: 1 }}>
+                <GridSideContainer container direction="column">
+                  <GridContent item>
+                    <GridSideContainer
+                      container
+                      direction="column"
+                      wrap="nowrap"
+                    >
+                      <Grid item>
+                        <Grid
+                          container
+                          alignItems="center"
+                          justify="space-between"
+                        >
+                          <DateNav
+                            isDateActive={true}
+                            selectedDate={this.props.selectedDate}
+                            handleDateChange={this.handleDateChange}
+                            setSelectedDate={this.props.setSelectedDate}
+                          />
+                          <Grid item xs={1}></Grid>
+                        </Grid>
+                      </Grid>
+                      <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
+                        <TournamentSummaryContainer
+                          handleRedirectLogin={this.handleRedirectLogin}
+                          {...this.props}
+                          tournaments={
+                            this.state.leftView === LEFT_VIEW.TOURNAMENTS
+                              ? tournaments
+                              : liveTournaments
+                          }
+                        />
+                      </GridContent>
+                    </GridSideContainer>
+                  </GridContent>
+                  <Grid item>
+                    <LeftBottomNav
+                      value={this.state.leftView}
+                      setValue={(leftView: number) =>
+                        this.setState({
+                          ...this.state,
+                          leftView,
+                        })
+                      }
+                    />
+                  </Grid>
+                </GridSideContainer>
+              </Grid>
+              <Divider orientation="vertical" />
+              <Grid item style={{ flexGrow: 1 }}>
+                <GridSideContainer container direction="column">
+                  <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
+                    <TournamentSummaryContainer
+                      handleRedirectLogin={this.handleRedirectLogin}
+                      {...this.props}
+                      tournaments={
+                        this.state.rightView === RIGHT_VIEW.MY
+                          ? myTournaments
+                          : favoriteTournaments
+                      }
+                    />
+                  </GridContent>
+                  <Grid item>
+                    <RightBottomNav
+                      value={this.state.rightView}
+                      setValue={(rightView: number) =>
+                        this.setState({
+                          ...this.state,
+                          rightView,
+                        })
+                      }
+                    />
+                  </Grid>
+                </GridSideContainer>
+              </Grid>
+            </GridMainContainer>
+          </Hidden>
+        </>
       </Rosetta>
     );
   }
 }
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  let tournaments: TournamentData[] | undefined =
+  let allTournaments: TournamentData[] | undefined =
     state.firestore.ordered.tournaments;
   const users: UserData[] | undefined = state.firestore.ordered.users;
   const userId: Id | undefined = state.firebase.auth.uid;
   const user: UserData | undefined = users?.find((user) => user.id === userId);
   const selectedDate: Moment = state.menu.selectedDate;
 
-  if (tournaments) {
-    tournaments = getFilteredTournaments(
-      ownProps.match.path,
-      tournaments,
-      selectedDate,
-      user
-    );
-  }
+  const {
+    tournaments,
+    liveTournaments,
+    myTournaments,
+    favoriteTournaments,
+  } = getFilteredTournaments(allTournaments ?? [], selectedDate, user);
 
   return {
     tournaments,
+    liveTournaments,
+    myTournaments,
+    favoriteTournaments,
     user,
-    selectedDate,
     menu: state.menu,
+    selectedDate,
     locale: state.dictionary.locale,
   };
 };
 
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setSelectedDate: (selectedDate: Moment) =>
+      dispatch(setSelectedDate(selectedDate)),
+  };
+};
+
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect((props) => {
     return [
       {

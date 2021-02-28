@@ -10,15 +10,17 @@ import {
   IconButtonArrowBeforeStyled,
   IconButtonArrowNextStyled,
 } from "../../../styled/styledButtons";
-import {
-  DayNavbarContainerStyled,
-  DayNameStyled,
-  DayDateStyled,
-} from "../../../styled/styledNav";
+import { DayNameStyled, DayDateStyled } from "../../../styled/styledNav";
 import { DATE_FORMAT_SHOW } from "../../../const/menuConst";
 import { connect } from "react-redux";
 import { LOCALE } from "../../../locale/config";
 import menuDict from "../../../locale/menu";
+import { Grid } from "@material-ui/core";
+import styled from "styled-components";
+
+const GridContainer = styled(Grid)`
+  max-width: 250px;
+`;
 
 const DayNavbar = ({
   selectedDate,
@@ -51,24 +53,35 @@ const DayNavbar = ({
   const date = moment(selectedDate).locale(locale);
   return (
     <Rosetta translations={menuDict} locale={locale}>
-      <DayNavbarContainerStyled>
-        <IconButtonArrowBeforeStyled
-          active={isDateActive ? 1 : 0}
-          onClick={handleDayBack}
-        >
-          <NavigateBeforeIcon fontSize="large" />
-        </IconButtonArrowBeforeStyled>
-        <div>
-          <DayNameStyled>{showNameDay(date)}</DayNameStyled>
-          <DayDateStyled>{date.format(DATE_FORMAT_SHOW)}</DayDateStyled>
-        </div>
-        <IconButtonArrowNextStyled
-          active={isDateActive ? 1 : 0}
-          onClick={handleDayNext}
-        >
-          <NavigateNextIcon fontSize="large" />
-        </IconButtonArrowNextStyled>
-      </DayNavbarContainerStyled>
+      <GridContainer
+        container
+        justify="space-between"
+        spacing={4}
+        wrap="nowrap"
+      >
+        <Grid item>
+          <IconButtonArrowBeforeStyled
+            active={isDateActive ? 1 : 0}
+            onClick={handleDayBack}
+          >
+            <NavigateBeforeIcon fontSize="large" />
+          </IconButtonArrowBeforeStyled>
+        </Grid>
+        <Grid item>
+          <DayNameStyled color="secondary">{showNameDay(date)}</DayNameStyled>
+          <DayDateStyled color="secondary">
+            {date.format(DATE_FORMAT_SHOW)}
+          </DayDateStyled>
+        </Grid>
+        <Grid item>
+          <IconButtonArrowNextStyled
+            active={isDateActive ? 1 : 0}
+            onClick={handleDayNext}
+          >
+            <NavigateNextIcon fontSize="large" />
+          </IconButtonArrowNextStyled>
+        </Grid>
+      </GridContainer>
     </Rosetta>
   );
 };

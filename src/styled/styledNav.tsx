@@ -6,6 +6,7 @@ import { KeyboardDatePicker } from "@material-ui/pickers";
 import List from "@material-ui/core/List";
 
 import { mainTheme, styledColors } from "./styledConst";
+import { Typography } from "@material-ui/core";
 
 export const ListStyled = styled(List)`
   padding: 0px;
@@ -113,13 +114,13 @@ export const DayNavbarContainerStyled = styled.div`
   overflow: hidden;
 `;
 
-export const DayNameStyled = styled.p`
+export const DayNameStyled = styled(Typography)`
   margin: 0px;
   padding: 0px;
   text-align: center;
 `;
 
-export const DayDateStyled = styled.p`
+export const DayDateStyled = styled(Typography)`
   margin: 0px;
   padding: 0px;
   font-size: 10px;
@@ -144,5 +145,8 @@ export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
   .MuiIconButton-root {
     padding: 1.5px;
     color: ${mainTheme.palette.secondary.main};
+  }
+  .MuiInputAdornment-root {
+    height: 100%;
   }
 `;

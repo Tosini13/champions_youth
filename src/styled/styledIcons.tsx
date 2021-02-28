@@ -15,7 +15,8 @@ export const HamburgerStyled = styled.div<{ open: boolean }>`
   justify-content: center;
   align-items: center;
   width: 25px;
-  padding: 5px;
+  padding: 10px;
+  z-index: 1;
   > div {
     background-color: ${mainTheme.palette.secondary.main};
     width: 100%;

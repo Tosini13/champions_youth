@@ -38,6 +38,7 @@ const INPUT_STYLE = `
 
 export const TextFieldStyled = styled(TextField)`
   ${INPUT_STYLE};
+  max-width: 250px;
 `;
 
 const KEYBOARD_PICKER_STYLE = `

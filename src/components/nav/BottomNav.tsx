@@ -29,16 +29,11 @@ type Props = {
 const BottomNav: React.FC<Props> = ({ locale }) => {
   const location = useLocation();
 
-  const handleChange = (event: React.ChangeEvent<{}>, route: string) => {
-    // routerState.selectRoute(route as bottomMenuConst);
-  };
-
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <>
         <BottomNavigationStyled
-          value={routerConst.get(location.pathname)}
-          onChange={handleChange}
+          value={routerConst.get(location.pathname + location.search)}
         >
           <BottomNavigationAction
             component={GoldBottomNavigationActionLinkStyled}

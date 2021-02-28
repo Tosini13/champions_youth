@@ -8,6 +8,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
 import FlashOnIcon from "@material-ui/icons/FlashOn";
 import LockIcon from "@material-ui/icons/Lock";
 import ListItem from "@material-ui/core/ListItem";
@@ -21,7 +22,7 @@ import Language from "../Language";
 import menuDict from "../../../locale/menu";
 import { LOCALE } from "../../../locale/config";
 import styled from "styled-components";
-import { Grid } from "@material-ui/core";
+import { Grid, Hidden } from "@material-ui/core";
 
 type BorderPosition = "bottom" | "top";
 
@@ -54,6 +55,7 @@ const SignedInMenu: React.FC<Props> = ({
     signOut();
     handleCloseSideBar();
   };
+
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <GridContainer container direction="column" justify="space-between">
@@ -66,10 +68,23 @@ const SignedInMenu: React.FC<Props> = ({
               <ListItemText primary={user?.login} />
               <Language />
             </ListItemStyled>
+            <Hidden smDown>
+              <ListItemStyled borderposition="bottom" button>
+                <MenuLinkStyled
+                  to={routerConstString.tournaments}
+                  onClick={() => handleCloseSideBar()}
+                >
+                  <ListItemIcon>
+                    <EmojiEventsIcon color="secondary" />
+                  </ListItemIcon>
+                  <ListItemText primary={<Translator id="tournaments" />} />
+                </MenuLinkStyled>
+              </ListItemStyled>
+            </Hidden>
             <ListItemStyled borderposition="bottom" button>
               <MenuLinkStyled
                 to={routerConstString.create}
-                onClick={handleCloseSideBar}
+                onClick={() => handleCloseSideBar()}
               >
                 <ListItemIcon>
                   <AddCircleOutlineIcon color="secondary" />
@@ -90,7 +105,7 @@ const SignedInMenu: React.FC<Props> = ({
             <ListItemStyled borderposition="top" button>
               <MenuLinkStyled
                 to={routerConstString.login}
-                onClick={handleSignOut}
+                onClick={() => handleSignOut()}
               >
                 <ListItemIcon>
                   <LockIcon color="secondary" />

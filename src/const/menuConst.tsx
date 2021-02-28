@@ -20,10 +20,10 @@ export enum menuSideBarConst {
 }
 
 export enum bottomMenuConst {
-  tournaments = "TOURNAMENTS",
-  live = "LIVE",
-  my = "MY",
-  favorites = "FAVORITES",
+  tournaments = "tournaments",
+  live = "live",
+  my = "my",
+  favorites = "favorites",
 }
 
 export enum routerConstString {
@@ -41,9 +41,9 @@ export enum routerConstString {
   matchPlayOffsGroup = "/tournament/:tournamentId/playOffs/groups/:groupId/matches/:matchId",
   matchGroup = "/tournament/:tournamentId/groups/:groupId/matches/:matchId",
   matchPlayOffs = "/tournament/:tournamentId/game/:gameId/matches/:matchId",
-  live = "/live",
-  my = "/my",
-  favorites = "/favorites",
+  live = "/?view=live",
+  my = "/?view=my",
+  favorites = `/?view=favorites`,
 }
 
 export const routerGenerateConst = {

@@ -14,6 +14,7 @@ import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { BasicInfoDataForm } from "./CreateTournament";
 import createTournamentDict from "../../../locale/createTournament.dict";
 import { LOCALE } from "../../../locale/config";
+import { Grid } from "@material-ui/core";
 
 type Props = {
   register: any;
@@ -54,7 +55,7 @@ const CreateTournamentBasicInfo: React.FC<Props> = ({
 
   return (
     <Rosetta translations={createTournamentDict} locale={locale}>
-      <>
+      <div style={{ textAlign: "center" }}>
         <TextFieldStyled
           label={<Translator id="title" />}
           defaultValue={basicInfo.name}
@@ -71,37 +72,43 @@ const CreateTournamentBasicInfo: React.FC<Props> = ({
           error={Boolean(errors.name)}
         />
         <MuiPickersUtilsProvider utils={MomentUtils}>
-          <KeyboardDatePickerStyled
-            inputProps={{
-              name: "date",
-              ref: register({}),
-            }}
-            margin="normal"
-            label={<Translator id="chooseDate" />}
-            format="yyyy-MM-DD"
-            value={basicInfo.date}
-            onChange={handleOnChangeDate}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-            cancelLabel={<Translator id="cancel" />}
-          />
-          <KeyboardTimePickerStyled
-            inputProps={{
-              name: "time",
-              ref: register({}),
-            }}
-            margin="normal"
-            label={<Translator id="chooseTime" />}
-            value={basicInfo.date}
-            onChange={handleOnChangeDate}
-            KeyboardButtonProps={{
-              "aria-label": "change time",
-            }}
-            cancelLabel={<Translator id="cancel" />}
-          />
+          <Grid container justify="space-evenly">
+            <Grid item>
+              <KeyboardDatePickerStyled
+                inputProps={{
+                  name: "date",
+                  ref: register({}),
+                }}
+                margin="normal"
+                label={<Translator id="chooseDate" />}
+                format="yyyy-MM-DD"
+                value={basicInfo.date}
+                onChange={handleOnChangeDate}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+                cancelLabel={<Translator id="cancel" />}
+              />
+            </Grid>
+            <Grid item>
+              <KeyboardTimePickerStyled
+                inputProps={{
+                  name: "time",
+                  ref: register({}),
+                }}
+                margin="normal"
+                label={<Translator id="chooseTime" />}
+                value={basicInfo.date}
+                onChange={handleOnChangeDate}
+                KeyboardButtonProps={{
+                  "aria-label": "change time",
+                }}
+                cancelLabel={<Translator id="cancel" />}
+              />
+            </Grid>
+          </Grid>
         </MuiPickersUtilsProvider>
-      </>
+      </div>
     </Rosetta>
   );
 };

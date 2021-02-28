@@ -17,11 +17,13 @@ import Notification from "./components/global/Notification";
 import CreateGroupsScreen from "./components/groups/creation/CreateGroupsScreen";
 import CreatePlayOffsGroupPage from "./components/playoffs/creation/groups/CreatePlayOffsGroupPage";
 import PlayOffsGroupDetails from './components/playoffs/groups/GroupDetails';
+import { Hidden, useMediaQuery } from "@material-ui/core";
 
 const App = () => {
+  const matches = useMediaQuery(theme => theme.breakpoints.up('sm'));
   return (
     <BrowserRouter>
-      <BodyContainer>
+      <BodyContainer sm={matches}>
         <Navbar />
         <MainContainer>
           <Switch>
@@ -54,14 +56,7 @@ const App = () => {
               path={routerConstString.matchPlayOffs}
               component={MatchDetails}
             />
-            <Route
-              exact
-              path={routerConstString.tournaments}
-              component={TournamentsDashboard}
-            />
-            <Route path={routerConstString.live} component={TournamentsDashboard} />
-            <Route path={routerConstString.my} component={TournamentsDashboard} />
-            <Route path={routerConstString.favorites} component={TournamentsDashboard} />
+            <Route exact path={"/"} component={TournamentsDashboard} />
             <Switch>
               <Route path={routerConstString.playOffsGroup} component={PlayOffsGroupDetails} />
               <Route path={routerConstString.group} component={GroupDetails} />
@@ -69,7 +64,9 @@ const App = () => {
             </Switch>
           </Switch>
         </MainContainer>
-        <BottomNav />
+        <Hidden mdUp>
+          <BottomNav />
+        </Hidden>
       </BodyContainer>
       <InProgress />
       <Notification />
