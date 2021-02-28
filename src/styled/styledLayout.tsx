@@ -42,8 +42,7 @@ export const NoContentTitle = styled.p`
 `;
 
 export const ContentContainerStyled = styled.div`
-  padding: 10px;
-  padding-top: 60px;
+  padding: 20px;
   text-align: center;
   position: relative;
 `;

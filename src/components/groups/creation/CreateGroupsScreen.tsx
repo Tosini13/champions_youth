@@ -30,6 +30,11 @@ const GridContainer = styled(Grid)`
   margin-bottom: 20px;
 `;
 
+const GroupsContentContainerStyled = styled(ContentContainerStyled)`
+  max-height: 100%;
+  overflow-y: auto;
+`;
+
 export interface CreateGroupsScreenProps {
   teams?: TeamData[];
   locale: LOCALE;
@@ -215,12 +220,14 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
       <CreationNav
         save={handleSaveGroup}
         openSettings={() => setOpenSettings(true)}
+        add={handleAddGroup}
+        draw={handleDrawGroup}
       />
-      <ContentContainerStyled>
-        <GridContainer container spacing={5} direction="column">
+      <GroupsContentContainerStyled>
+        <GridContainer container spacing={5} direction="row">
           {groups.map((group) => {
             return (
-              <Grid item key={group.id}>
+              <Grid item key={group.id} xs={12} md={6} lg={4}>
                 <CreateGroupForm
                   locale={locale}
                   userId={userId}
@@ -235,7 +242,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
             );
           })}
         </GridContainer>
-      </ContentContainerStyled>
+      </GroupsContentContainerStyled>
       <CreateGroupsActions add={handleAddGroup} draw={handleDrawGroup} />
       <ChooseTeams
         teams={teams}

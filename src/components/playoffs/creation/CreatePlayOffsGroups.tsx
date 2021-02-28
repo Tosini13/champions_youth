@@ -208,6 +208,8 @@ const CreatePlayOffsGroups: React.FC<CreatePlayOffsGroupsProps> = ({
       <CreationNav
         save={handleSaveGroup}
         openSettings={() => setOpenSettings(true)}
+        add={handleAddGroup}
+        draw={handleDrawGroup}
       />
       <ContentContainerStyled>
         <GridContainer container spacing={5} direction="column">
