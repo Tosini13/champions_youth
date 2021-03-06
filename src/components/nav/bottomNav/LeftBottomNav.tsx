@@ -1,5 +1,6 @@
 import React from "react";
-import { TabsStyled, TabStyled } from "../../../styled/styledTabs";
+import { TabStyled } from "../../../styled/styledTabs";
+import { Tabs } from "@material-ui/core";
 
 export enum LEFT_VIEW {
   "TOURNAMENTS" = 0,
@@ -18,7 +19,7 @@ export default function LeftBottomNav({
   };
 
   return (
-    <TabsStyled
+    <Tabs
       value={value}
       indicatorColor="secondary"
       textColor="secondary"
@@ -26,6 +27,6 @@ export default function LeftBottomNav({
     >
       <TabStyled label="Tournaments" />
       <TabStyled label="Live" />
-    </TabsStyled>
+    </Tabs>
   );
 }

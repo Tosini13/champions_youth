@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
 
-import { TeamData } from "../../../models/teamData";
-import { MatchData } from "../../../structures/match";
-import { mainTheme, styledColors } from "../../../styled/styledConst";
-import { createTable } from "../../../structures/groupPromotion";
-import { GroupPlayOffs } from "../../../store/actions/GroupActions";
-import { GroupPlayOffsGroup } from "../../../NewModels/Group";
+import { TeamData } from "../../../../models/teamData";
+import { MatchData } from "../../../../structures/match";
+import { mainTheme, styledColors } from "../../../../styled/styledConst";
+import { createTable } from "../../../../structures/groupPromotion";
+import { GroupPlayOffs } from "../../../../store/actions/GroupActions";
+import { GroupPlayOffsGroup } from "../../../../NewModels/Group";
 
 export interface GroupTableProps {
   teams: TeamData[];

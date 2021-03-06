@@ -256,7 +256,6 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     startDate,
   ]);
 
-  // console.log(groups);
   return (
     <>
       <CreationNav

@@ -6,23 +6,16 @@ import { UpdateMatch } from "../../../store/actions/MatchActions";
 import { UpdateGame } from "../../../store/actions/GameActions";
 import { getPromoted } from "../../../structures/groupPromotion";
 import { matchGame } from "../../../store/actions/PlayOffsActions";
-import GroupTableView from "./GroupTableView";
+import GroupTableView from "./table/GroupTableView";
 import GroupMatchesView from "./GroupMatches";
 import SliderGlobal from "../../global/Slider";
-import { Divider, Grid, Hidden, Typography } from "@material-ui/core";
+import { Hidden, Typography } from "@material-ui/core";
 import { UpdatePlayOffsGroupTeamsParams } from "../../../store/actions/GroupActions";
-import styled from "styled-components";
-
-const GridContainerStyled = styled(Grid)`
-  height: 100%;
-`;
-
-const GridItemStyled = styled(Grid)`
-  padding: 5px;
-  flex-grow: 1;
-  max-height: 100%;
-  overflow-y: auto;
-`;
+import {
+  DesktopMainContainerStyled,
+  DesktopMainDividerStyled,
+  DesktopMainItemStyled,
+} from "../../../styled/styledLayout";
 
 export interface GroupDetailsViewProps {
   tournamentId: Id;
@@ -236,25 +229,23 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         />
       </Hidden>
       <Hidden smDown>
-        <GridContainerStyled container>
-          <GridItemStyled item>
+        <DesktopMainContainerStyled>
+          <DesktopMainItemStyled>
             <GroupTableView
               group={group}
               handleFinishGroup={handleFinishGroup}
               handleContinueGroup={handleContinueGroup}
             />
-          </GridItemStyled>
-          <Grid item>
-            <Divider orientation="vertical" />
-          </Grid>
-          <GridItemStyled item>
+          </DesktopMainItemStyled>
+          <DesktopMainDividerStyled />
+          <DesktopMainItemStyled>
             <GroupMatchesView
               tournamentId={tournamentId}
               groupId={groupId}
               matches={matches}
             />
-          </GridItemStyled>
-        </GridContainerStyled>
+          </DesktopMainItemStyled>
+        </DesktopMainContainerStyled>
       </Hidden>
     </>
   );
