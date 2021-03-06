@@ -3,20 +3,13 @@ import styled from "styled-components";
 
 import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
 
-import { TeamData } from "../../../../models/teamData";
+import { GroupTeamModel, TeamData } from "../../../../models/teamData";
 import { MatchData } from "../../../../structures/match";
 import { mainTheme, styledColors } from "../../../../styled/styledConst";
 import { createTable } from "../../../../structures/groupPromotion";
 import { GroupPlayOffs } from "../../../../store/actions/GroupActions";
 import { GroupPlayOffsGroup } from "../../../../NewModels/Group";
-
-export interface GroupTableProps {
-  teams: TeamData[];
-  matches: MatchData[];
-  promotedQtt: number;
-  playOffs?: GroupPlayOffs[];
-  playOffsGroup?: GroupPlayOffsGroup[];
-}
+import { Typography } from "@material-ui/core";
 
 const GroupTableStyled = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
@@ -49,14 +42,27 @@ const GroupTableStyled = styled.div`
   }
 `;
 
+export interface GroupTableProps {
+  teamsDb?: TeamData[];
+  teams: TeamData[];
+  groupTeams?: GroupTeamModel[];
+  matches: MatchData[];
+  playOffs?: GroupPlayOffs[];
+  playOffsGroup?: GroupPlayOffsGroup[];
+}
+
+// TODO: TRANSLATION
 const GroupTable: React.FC<GroupTableProps> = ({
+  groupTeams,
   teams,
   matches,
-  promotedQtt,
   playOffs,
   playOffsGroup,
 }) => {
-  const table = createTable(teams, matches);
+  const teamsId =
+    teams.map((team) => team.id) ?? groupTeams?.map((team) => team.id);
+
+  const table = createTable(teamsId, matches);
 
   let promotionCounter = 1;
   const tableList = table.map((row) => {
@@ -106,8 +112,13 @@ const GroupTable: React.FC<GroupTableProps> = ({
             <th>GS</th>
           </tr>
         </thead>
-        <tbody>{tableList}</tbody>
+        <tbody>{teams.length || groupTeams?.length ? tableList : null}</tbody>
       </table>
+      {!teams.length && !groupTeams?.length ? (
+        <Typography color="secondary" align="center">
+          There are no teams declared in the group
+        </Typography>
+      ) : null}
     </GroupTableStyled>
   );
 };

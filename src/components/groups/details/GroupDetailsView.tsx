@@ -9,7 +9,7 @@ import { matchGame } from "../../../store/actions/PlayOffsActions";
 import GroupTableView from "./table/GroupTableView";
 import GroupMatchesView from "./GroupMatches";
 import SliderGlobal from "../../global/Slider";
-import { Hidden, Typography } from "@material-ui/core";
+import { Hidden } from "@material-ui/core";
 import { UpdatePlayOffsGroupTeamsParams } from "../../../store/actions/GroupActions";
 import {
   DesktopMainContainerStyled,
@@ -60,10 +60,8 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
   const { matches } = group;
 
   const handleFinishGroup = () => {
-    console.log("finish");
     const promoted = getPromoted(group?.teams, matches);
     group?.playOffs?.forEach((promotedTeam) => {
-      console.log(promotedTeam);
       let homeTeam = undefined;
       let awayTeam = undefined;
       const teamId = promoted[promotedTeam.place - 1];
@@ -182,21 +180,54 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
       });
     }
   };
+
   if (!group.teams.length) {
     return (
       <>
-        <Typography
-          color="secondary"
-          align="center"
-          style={{ paddingTop: "10px" }}
-        >
-          {group.name}
-        </Typography>
-        <GroupMatchesView
-          tournamentId={tournamentId}
-          groupId={groupId}
-          matches={matches}
-        />
+        <Hidden mdUp>
+          <SliderGlobal
+            components={[
+              {
+                title: "table",
+                component: (
+                  <GroupTableView
+                    group={group}
+                    handleFinishGroup={handleFinishGroup}
+                    handleContinueGroup={handleContinueGroup}
+                  />
+                ),
+              },
+              {
+                title: "matches",
+                component: (
+                  <GroupMatchesView
+                    tournamentId={tournamentId}
+                    groupId={groupId}
+                    matches={matches}
+                  />
+                ),
+              },
+            ]}
+          />
+        </Hidden>
+        <Hidden smDown>
+          <DesktopMainContainerStyled>
+            <DesktopMainItemStyled>
+              <GroupTableView
+                group={group}
+                handleFinishGroup={handleFinishGroup}
+                handleContinueGroup={handleContinueGroup}
+              />
+            </DesktopMainItemStyled>
+            <DesktopMainItemStyled>
+              <GroupMatchesView
+                tournamentId={tournamentId}
+                groupId={groupId}
+                matches={matches}
+              />
+            </DesktopMainItemStyled>
+          </DesktopMainContainerStyled>
+        </Hidden>
       </>
     );
   }
@@ -216,7 +247,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
               ),
             },
             {
-              title: "table",
+              title: "matches",
               component: (
                 <GroupMatchesView
                   tournamentId={tournamentId}
