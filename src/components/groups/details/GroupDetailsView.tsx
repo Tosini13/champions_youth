@@ -16,6 +16,7 @@ import {
   DesktopMainDividerStyled,
   DesktopMainItemStyled,
 } from "../../../styled/styledLayout";
+import { Placeholder } from "../../../NewModels/Team";
 
 export interface GroupDetailsViewProps {
   tournamentId: Id;
@@ -60,11 +61,12 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
   const { matches } = group;
 
   const handleFinishGroup = () => {
-    const promoted = getPromoted(group?.teams, matches);
+    const promoted = getPromoted(group?.teams, matches) as Placeholder[];
     group?.playOffs?.forEach((promotedTeam) => {
-      let homeTeam = undefined;
-      let awayTeam = undefined;
-      const teamId = promoted[promotedTeam.place - 1];
+      let homeTeam: Id | undefined = undefined;
+      let awayTeam: Id | undefined = undefined;
+      const teamId = promoted[promotedTeam.place - 1].id;
+
       if (promotedTeam.home) {
         homeTeam = teamId;
       } else {
