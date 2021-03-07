@@ -199,6 +199,8 @@ export const updatePlayOffsGroupTeams = ({
   groupId,
   groupTeams,
 }: UpdatePlayOffsGroupTeamsParams) => {
+  console.log(groupTeams);
+
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
     firestore

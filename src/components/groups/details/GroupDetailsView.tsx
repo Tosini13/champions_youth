@@ -70,6 +70,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
       } else {
         awayTeam = teamId;
       }
+
       if (teamId) {
         updateGroupMode(tournamentId, groupId, true);
         updateGame({
@@ -91,9 +92,11 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
     if (playOffsGroups?.length) {
       let groupsTeams = playOffsGroups.map((playOffsGroup) => ({
         id: playOffsGroup.id,
-        groupTeams: playOffsGroup.groupTeams?.map((groupTeam) => ({
-          ...groupTeam,
-        })),
+        groupTeams: playOffsGroup.groupTeams?.map((groupTeam) => {
+          return {
+            ...groupTeam,
+          };
+        }),
       }));
       group.playOffsGroup?.forEach((promotedTeam) => {
         groupsTeams.forEach((groupTeams) => {
@@ -103,12 +106,13 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
                 team.group?.place === promotedTeam.place &&
                 team.group?.id === group.id
               ) {
-                team.id = promoted[promotedTeam.place - 1];
+                team.id = promoted[promotedTeam.place - 1].id;
               }
             });
           }
         });
       });
+
       updateGroupMode(tournamentId, groupId, true);
       groupsTeams.forEach((groupTeams) => {
         updatePlayOffsGroupTeams({
