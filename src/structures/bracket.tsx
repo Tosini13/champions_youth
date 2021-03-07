@@ -145,7 +145,7 @@ export class BracketStructure {
     winnerMatch?: GameStructure,
     matchNo: number = 0
   ) => {
-    const returnMatch = false; //temporary
+    const returnMatch = false; // TODO: implement returnMatch
     const match = new GameStructure(
       (this.matchCounter++).toString(),
       `${
