@@ -68,7 +68,11 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
 
   const handleFinishGroup = () => {
     const promoted = getPromoted(group?.teams, matches) as Placeholder[];
+    console.log(promoted);
     group?.playOffs?.forEach((promotedTeam) => {
+      console.log(promotedTeam);
+      console.log(promoted[promotedTeam.place - 1]);
+
       let homeTeam: Id | undefined = undefined;
       let awayTeam: Id | undefined = undefined;
       const teamId = promoted[promotedTeam.place - 1].id;
@@ -121,6 +125,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         });
       });
 
+      console.log(groupsTeams);
       updateGroupMode(tournamentId, groupId, true);
       groupsTeams.forEach((groupTeams) => {
         updatePlayOffsGroupTeams({

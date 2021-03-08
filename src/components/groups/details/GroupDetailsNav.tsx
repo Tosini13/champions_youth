@@ -18,6 +18,7 @@ export default function GroupDetailsNav({
     setValue(newValue);
   };
 
+  // TODO: Translate
   return (
     <Tabs
       value={value}
@@ -25,8 +26,8 @@ export default function GroupDetailsNav({
       textColor="secondary"
       onChange={handleChange}
     >
-      <TabStyled label="Groups" />
-      <TabStyled label="Play Offs" />
+      <TabStyled label="Table" />
+      <TabStyled label="Matches" />
     </Tabs>
   );
 }
