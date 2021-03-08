@@ -34,11 +34,11 @@ const DayNavbar = ({
   locale: LOCALE;
 }) => {
   const handleDayBack = () => {
-    setSelectedDate(moment(date).subtract(1, "day"));
+    if (isDateActive) setSelectedDate(moment(date).subtract(1, "day"));
   };
 
   const handleDayNext = () => {
-    setSelectedDate(moment(date).add(1, "day"));
+    if (isDateActive) setSelectedDate(moment(date).add(1, "day"));
   };
 
   const showNameDay = (date: Moment) => {

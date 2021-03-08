@@ -63,21 +63,19 @@ const Navbar = ({
             alignItems="center"
             wrap="nowrap"
           >
-            <Grid item>
-              {!isDateActive ? (
+            {!isDateActive ? (
+              <Grid item>
                 <IconButtonNavStyled onClick={goBack}>
                   <NavigateBeforeIcon fontSize="large" />
                 </IconButtonNavStyled>
-              ) : null}
-            </Grid>
-            <Grid item>
-              <DateNav
-                isDateActive={isDateActive}
-                selectedDate={selectedDate}
-                handleDateChange={handleDateChange}
-                setSelectedDate={setSelectedDate}
-              />
-            </Grid>
+              </Grid>
+            ) : null}
+            <DateNav
+              isDateActive={isDateActive}
+              selectedDate={selectedDate}
+              handleDateChange={handleDateChange}
+              setSelectedDate={setSelectedDate}
+            />
             <Grid item>
               <Hidden smUp>
                 <HamburgerStyled
