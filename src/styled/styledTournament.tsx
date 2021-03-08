@@ -11,7 +11,6 @@ export const TournamentDashboardMenuStyled = styled.div`
   background-color: ${mainTheme.palette.primary.main};
   display: flex;
   justify-content: space-around;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 `;
 
 export const TournamentDashboardMenuItemStyled = styled.div<{
