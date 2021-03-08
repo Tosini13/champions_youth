@@ -41,14 +41,18 @@ const GroupSummary: React.FC<GroupsComponentProps> = ({
         justify="space-around"
         alignItems="flex-start"
       >
-        {group.groupTeams?.map((team) => (
-          <GroupTeamText key={`${team.id}${team.place}`}>
-            {teams.find((t) => t.id === team.id)?.name ??
-              groups?.find((group) => group.id === team.group?.id)?.name +
-                " " +
-                team.group?.place}
-          </GroupTeamText>
-        ))}
+        {group.groupTeams?.map((team) => {
+          console.log(team.id);
+
+          return (
+            <GroupTeamText key={`${team.id}${team.place}`}>
+              {teams.find((t) => t.id === team.id)?.name ??
+                groups?.find((group) => group.id === team.group?.id)?.name +
+                  " " +
+                  team.group?.place}
+            </GroupTeamText>
+          );
+        })}
       </Grid>
     </div>
   );

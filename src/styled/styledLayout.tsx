@@ -1,9 +1,11 @@
+import React from "react";
 import styled from "styled-components";
 
 import { Link } from "react-router-dom";
 import { mainTheme } from "./styledConst";
 
-import { Dialog } from "@material-ui/core";
+import { Dialog, Divider, Grid } from "@material-ui/core";
+import { ScrollBarStyled } from "./styledScrollBar";
 
 export const BodyContainer = styled.div<{ sm: boolean }>`
   display: flex;
@@ -42,10 +44,14 @@ export const NoContentTitle = styled.p`
 `;
 
 export const ContentContainerStyled = styled.div`
-  padding: 10px;
-  padding-top: 60px;
+  padding: 20px;
   text-align: center;
   position: relative;
+`;
+
+export const GroupsContentContainerStyled = styled(ContentContainerStyled)`
+  max-height: 100%;
+  overflow-y: auto;
 `;
 
 export const LinkStyled = styled(Link)`
@@ -132,3 +138,68 @@ export const FlagStyled = styled(LogoStyled)`
   width: 20px;
   border-radius: 50%;
 `;
+
+/* -------------------------------------- */
+/* =========== DESKTOP LAYOUT =========== */
+/* -------------------------------------- */
+
+export const DesktopMainContainerStyled: React.FC<{}> = ({ children }) => (
+  <Grid container style={{ height: "100%" }}>
+    {children}
+  </Grid>
+);
+
+export const DesktopMainItemStyled: React.FC<{}> = ({ children }) => (
+  <Grid
+    item
+    style={{
+      maxHeight: "100%",
+      maxWidth: "50%",
+      flexGrow: 1,
+    }}
+  >
+    {children}
+  </Grid>
+);
+
+export const DesktopMainDividerStyled: React.FC<{}> = ({ children }) => (
+  <Grid item>
+    <Divider orientation="vertical" />
+  </Grid>
+);
+
+/* -------------------------------------- */
+/* ============== SECTION =============== */
+/* -------------------------------------- */
+
+const GridSectionStyled = styled(Grid)`
+  max-height: 100%;
+  flex-wrap: nowrap;
+`;
+
+export const SectionStyled: React.FC<{}> = ({ children }) => (
+  <GridSectionStyled container direction="column">
+    {children}
+  </GridSectionStyled>
+);
+
+const GridSectionNavStyled = styled(Grid)`
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%),
+    0 1px 5px 0 rgb(0 0 0 / 20%);
+  z-index: 1;
+`;
+
+export const SectionNavStyled: React.FC<{}> = ({ children }) => (
+  <GridSectionNavStyled item>{children}</GridSectionNavStyled>
+);
+
+const GridSectionContentStyled = styled(Grid)`
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  ${ScrollBarStyled}
+  padding: 5px;
+`;
+export const SectionContentStyled: React.FC<{}> = ({ children }) => (
+  <GridSectionContentStyled item>{children}</GridSectionContentStyled>
+);

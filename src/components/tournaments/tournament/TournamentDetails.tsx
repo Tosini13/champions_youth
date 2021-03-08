@@ -3,7 +3,12 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
-import { ContentContainerStyled } from "../../../styled/styledLayout";
+import {
+  ContentContainerStyled,
+  SectionContentStyled,
+  SectionNavStyled,
+  SectionStyled,
+} from "../../../styled/styledLayout";
 import {
   menuTournamentConst,
   routerConstString,
@@ -22,7 +27,7 @@ import { GameDataDb } from "../../../structures/dbAPI/gameData";
 import { getImage } from "../actions/getImage";
 import SplashScreen from "../../global/SplashScreen";
 import { GroupModel } from "../../../NewModels/Group";
-import { Grid, Hidden } from "@material-ui/core";
+import { Hidden } from "@material-ui/core";
 import TournamentDetailsDesktop from "./TournamentDetailsDesktop";
 
 type Props = {
@@ -61,11 +66,11 @@ const TournamentDetails: React.FC<Props> = ({
     return (
       <>
         <Hidden mdUp>
-          <Grid container direction="column">
-            <Grid item>
+          <SectionStyled>
+            <SectionNavStyled>
               <TournamentMenu view={view} setView={setView} />
-            </Grid>
-            <Grid item>
+            </SectionNavStyled>
+            <SectionContentStyled>
               <ContentContainerStyled>
                 {view === menuTournamentConst.groups && tournament ? (
                   <TournamentGroups
@@ -107,8 +112,8 @@ const TournamentDetails: React.FC<Props> = ({
                   />
                 ) : null}
               </ContentContainerStyled>
-            </Grid>
-          </Grid>
+            </SectionContentStyled>
+          </SectionStyled>
         </Hidden>
         <Hidden smDown>
           <TournamentDetailsDesktop

@@ -1,18 +1,18 @@
 import React from "react";
-import { TabStyled } from "../../../../styled/styledTabs";
 import { Tabs } from "@material-ui/core";
+import { TabStyled } from "../../../styled/styledTabs";
 
-export enum TOURNAMENT_RIGHT_MENU {
-  "GROUPS" = 0,
-  "PLAY_OFFS" = 1,
+export enum E_GROUP_DETAILS_NAV {
+  "TABLE" = 0,
+  "MATCHES" = 1,
 }
 
-export default function TournamentRightMenu({
+export default function GroupDetailsNav({
   value,
   setValue,
 }: {
-  value: TOURNAMENT_RIGHT_MENU;
-  setValue: (value: TOURNAMENT_RIGHT_MENU) => void;
+  value: E_GROUP_DETAILS_NAV;
+  setValue: (value: E_GROUP_DETAILS_NAV) => void;
 }) {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);

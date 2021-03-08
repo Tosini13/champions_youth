@@ -92,7 +92,9 @@ const mapStateToProps = (state: any, ownProps: any) => {
       ? {
           id: groupData.id,
           name: groupData.name,
-          teams: teams.filter((team) => groupData.teams.includes(team.id)),
+          teams: teams.filter((team) =>
+            groupData?.groupTeams?.find((groupTeam) => groupTeam.id === team.id)
+          ),
           matches: matches.map((match) => {
             const homeTeam = groupData?.groupTeams?.find(
               (team) => team.place === match.groupPlaceholder?.home

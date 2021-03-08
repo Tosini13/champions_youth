@@ -1,7 +1,11 @@
 import React from "react";
 
-import { Grid, List } from "@material-ui/core";
-import { LinkStyled } from "../../../styled/styledLayout";
+import { List } from "@material-ui/core";
+import {
+  LinkStyled,
+  SectionContentStyled,
+  SectionStyled,
+} from "../../../styled/styledLayout";
 import { routerGenerateConst } from "../../../const/menuConst";
 import MatchSummary from "../../matches/MatchSummary/MatchSummary";
 import { Id } from "../../../const/structuresConst";
@@ -19,18 +23,20 @@ const GroupMatchesView: React.SFC<GroupMatchesViewProps> = ({
   matches,
 }) => {
   return (
-    <Grid item>
-      <List>
-        {matches.map((match) => (
-          <LinkStyled
-            key={match.id}
-            to={routerGenerateConst.matchGroup(groupId, match.id)}
-          >
-            <MatchSummary match={match} />
-          </LinkStyled>
-        ))}
-      </List>
-    </Grid>
+    <SectionStyled>
+      <SectionContentStyled>
+        <List>
+          {matches.map((match) => (
+            <LinkStyled
+              key={match.id}
+              to={routerGenerateConst.matchGroup(groupId, match.id)}
+            >
+              <MatchSummary match={match} />
+            </LinkStyled>
+          ))}
+        </List>
+      </SectionContentStyled>
+    </SectionStyled>
   );
 };
 

@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 
-import { ContentContainerStyled } from "../../../styled/styledLayout";
+import {
+  ContentContainerStyled,
+  DesktopMainContainerStyled,
+  DesktopMainDividerStyled,
+  DesktopMainItemStyled,
+  SectionContentStyled,
+  SectionNavStyled,
+  SectionStyled,
+} from "../../../styled/styledLayout";
 import TournamentTeams from "./TournamentTeams";
 import TournamentGroups from "./TournamentGroups";
 import { TeamData } from "../../../models/teamData";
@@ -11,7 +19,7 @@ import TournamentInfo from "./TournamentInfo";
 import { Group } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GroupModel } from "../../../NewModels/Group";
-import { Divider, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import styled from "styled-components";
 import TournamentLeftMenu, {
   TOURNAMENT_LEFT_MENU,
@@ -22,22 +30,14 @@ import TournamentRightMenu, {
 } from "./nav/TournamentRightMenu";
 import { ScrollBarStyled } from "../../../styled/styledScrollBar";
 
-const GridContainerStyled = styled(Grid)`
-  height: 100%;
-`;
-
-const GridItemStyled = styled(Grid)`
-  max-height: 100%;
-  max-width: 50%;
-  flex-grow: 1;
-`;
-
-const GridOverflowContainerStyled = styled(Grid)`
+export const GridSectionStyled = styled(Grid)`
   max-height: 100%;
   flex-wrap: nowrap;
 `;
 
-const GridOverflowItemStyled = styled(Grid)`
+export const GridSectionNavStyled = styled(Grid)``;
+
+export const GridSectionContentStyled = styled(Grid)`
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -71,13 +71,13 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
     TOURNAMENT_RIGHT_MENU.GROUPS
   );
   return (
-    <GridContainerStyled container>
-      <GridItemStyled item>
-        <GridOverflowContainerStyled container direction="column">
-          <Grid item>
+    <DesktopMainContainerStyled>
+      <DesktopMainItemStyled>
+        <SectionStyled>
+          <SectionNavStyled>
             <TournamentLeftMenu value={leftView} setValue={setLeftView} />
-          </Grid>
-          <GridOverflowItemStyled item>
+          </SectionNavStyled>
+          <SectionContentStyled>
             <ContentContainerStyled>
               {leftView === TOURNAMENT_LEFT_MENU.INFO && tournament ? (
                 <TournamentInfo
@@ -95,16 +95,16 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
                 />
               ) : null}
             </ContentContainerStyled>
-          </GridOverflowItemStyled>
-        </GridOverflowContainerStyled>
-      </GridItemStyled>
-      <Divider orientation="vertical" />
-      <GridItemStyled item>
-        <GridOverflowContainerStyled container direction="column">
-          <Grid item>
+          </SectionContentStyled>
+        </SectionStyled>
+      </DesktopMainItemStyled>
+      <DesktopMainDividerStyled />
+      <DesktopMainItemStyled>
+        <SectionStyled>
+          <SectionNavStyled>
             <TournamentRightMenu value={rightView} setValue={setRightView} />
-          </Grid>
-          <GridOverflowItemStyled item>
+          </SectionNavStyled>
+          <SectionContentStyled>
             <ContentContainerStyled>
               {rightView === TOURNAMENT_RIGHT_MENU.GROUPS && tournament ? (
                 <TournamentGroups
@@ -131,10 +131,10 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
                 />
               ) : null}
             </ContentContainerStyled>
-          </GridOverflowItemStyled>
-        </GridOverflowContainerStyled>
-      </GridItemStyled>
-    </GridContainerStyled>
+          </SectionContentStyled>
+        </SectionStyled>
+      </DesktopMainItemStyled>
+    </DesktopMainContainerStyled>
   );
 };
 

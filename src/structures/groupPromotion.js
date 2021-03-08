@@ -54,8 +54,7 @@ const sortTable = (a, b) => {
     }
 }
 
-export const createTable = (teams, matches) => {
-    let teamsId = teams.map(team => team.id);
+export const createTable = (teamsId, matches) => {
     let table = tableInit(teamsId);
     let begunGroup = false; //check if group has begun
 

@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Moment } from "moment";
 import { useHistory } from "react-router-dom";
 
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import "date-fns";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import { Grid, Hidden } from "@material-ui/core";
 
-import { NavBarStyled, NavContainerStyled } from "../../styled/styledNav";
+import { GridNavBarStyled, NavContainerStyled } from "../../styled/styledNav";
 import { HamburgerStyled } from "../../styled/styledIcons";
 import MenuSideBar from "./mainMenu/MenuSideBar";
 import { setSelectedDate } from "../../store/actions/MenuActions";
-import { Moment } from "moment";
 import { IconButtonNavStyled } from "../../styled/styledButtons";
 import { routerConstString } from "../../const/menuConst";
-import { Hidden } from "@material-ui/core";
 import DateNav from "./DateNav";
 
 const Navbar = ({
@@ -57,11 +57,18 @@ const Navbar = ({
     <>
       <Hidden mdUp>
         <NavContainerStyled>
-          <NavBarStyled>
+          <GridNavBarStyled
+            container
+            justify="space-between"
+            alignItems="center"
+            wrap="nowrap"
+          >
             {!isDateActive ? (
-              <IconButtonNavStyled onClick={goBack}>
-                <NavigateBeforeIcon fontSize="large" />
-              </IconButtonNavStyled>
+              <Grid item>
+                <IconButtonNavStyled onClick={goBack}>
+                  <NavigateBeforeIcon fontSize="large" />
+                </IconButtonNavStyled>
+              </Grid>
             ) : null}
             <DateNav
               isDateActive={isDateActive}
@@ -69,15 +76,19 @@ const Navbar = ({
               handleDateChange={handleDateChange}
               setSelectedDate={setSelectedDate}
             />
-            <HamburgerStyled
-              open={sideBarMenuOpened}
-              onClick={toggleSideBarMenu}
-            >
-              <div></div>
-              <div></div>
-              <div></div>
-            </HamburgerStyled>
-          </NavBarStyled>
+            <Grid item>
+              <Hidden smUp>
+                <HamburgerStyled
+                  open={sideBarMenuOpened}
+                  onClick={toggleSideBarMenu}
+                >
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </HamburgerStyled>
+              </Hidden>
+            </Grid>
+          </GridNavBarStyled>
         </NavContainerStyled>
       </Hidden>
       <MenuSideBar

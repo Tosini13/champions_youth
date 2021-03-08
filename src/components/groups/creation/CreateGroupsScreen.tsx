@@ -8,7 +8,7 @@ import { Grid } from "@material-ui/core";
 import CreateGroupForm from "./GroupForm/CreateGroupForm";
 import CreateGroupsActions from "./CreateGroupsActions";
 import CreationNav from "./CreationNav";
-import { ContentContainerStyled } from "../../../styled/styledLayout";
+import { GroupsContentContainerStyled } from "../../../styled/styledLayout";
 import { TeamData } from "../../../models/teamData";
 import { firestoreConnect } from "react-redux-firebase";
 import ChooseTeams from "./GroupForm/ChooseTeams";
@@ -215,12 +215,14 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
       <CreationNav
         save={handleSaveGroup}
         openSettings={() => setOpenSettings(true)}
+        add={handleAddGroup}
+        draw={handleDrawGroup}
       />
-      <ContentContainerStyled>
-        <GridContainer container spacing={5} direction="column">
+      <GroupsContentContainerStyled>
+        <GridContainer container spacing={5} direction="row">
           {groups.map((group) => {
             return (
-              <Grid item key={group.id}>
+              <Grid item key={group.id} xs={12} md={6} lg={4}>
                 <CreateGroupForm
                   locale={locale}
                   userId={userId}
@@ -235,7 +237,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
             );
           })}
         </GridContainer>
-      </ContentContainerStyled>
+      </GroupsContentContainerStyled>
       <CreateGroupsActions add={handleAddGroup} draw={handleDrawGroup} />
       <ChooseTeams
         teams={teams}

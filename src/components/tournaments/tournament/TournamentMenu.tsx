@@ -16,12 +16,7 @@ type Props = {
   locale: LOCALE;
 };
 
-const TournamentMenu: React.FC<Props> = ({
-  view,
-  setView,
-  locale,
-  children,
-}) => {
+const TournamentMenu: React.FC<Props> = ({ view, setView, locale }) => {
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <TournamentDashboardMenuStyled>

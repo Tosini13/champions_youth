@@ -1,9 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Button, Grid, IconButton } from "@material-ui/core";
-import SettingsIcon from "@material-ui/icons/Settings";
-
 import { Rosetta, Translator } from "react-rosetta";
+
+import { Button, Grid, IconButton, Hidden } from "@material-ui/core";
+import SettingsIcon from "@material-ui/icons/Settings";
+import AutorenewIcon from "@material-ui/icons/Autorenew";
+import AddIcon from "@material-ui/icons/Add";
+
 import styled from "styled-components";
 import { LOCALE } from "../../../locale/config";
 import groupCreationDict from "../../../locale/creationNav.dict.";
@@ -12,9 +15,6 @@ import { useNotification } from "../../global/Notification";
 
 const GridContainer = styled(Grid)`
   padding: 4px;
-  position: fixed;
-  left: 0;
-  z-index: 9;
   width: 100%;
   background-color: ${mainTheme.palette.primary.main};
   display: flex;
@@ -35,12 +35,16 @@ export interface CreationNavProps {
   save: () => void;
   openSettings: () => void;
   locale: LOCALE;
+  add: () => void;
+  draw: () => void;
 }
 
 const CreationNav: React.FC<CreationNavProps> = ({
   locale,
   save,
   openSettings,
+  add,
+  draw,
 }) => {
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const handleSave = () => {
@@ -56,6 +60,7 @@ const CreationNav: React.FC<CreationNavProps> = ({
     ]);
     openNotification();
   };
+  // TODO: Implement Cancel button
   return (
     <Rosetta translations={groupCreationDict} locale={locale}>
       <GridContainer container justify="space-around" alignItems="center">
@@ -65,9 +70,27 @@ const CreationNav: React.FC<CreationNavProps> = ({
           </ButtonCancel>
         </Grid>
         <Grid item>
-          <IconButton size="small" color="secondary" onClick={openSettings}>
-            <SettingsIcon />
-          </IconButton>
+          <Grid container spacing={5}>
+            <Hidden smDown>
+              <Grid item>
+                <IconButton size="small" color="secondary" onClick={draw}>
+                  <AutorenewIcon />
+                </IconButton>
+              </Grid>
+            </Hidden>
+            <Grid item>
+              <IconButton size="small" color="secondary" onClick={openSettings}>
+                <SettingsIcon />
+              </IconButton>
+            </Grid>
+            <Hidden smDown>
+              <Grid item>
+                <IconButton size="small" color="secondary" onClick={add}>
+                  <AddIcon />
+                </IconButton>
+              </Grid>
+            </Hidden>
+          </Grid>
         </Grid>
         <Grid item>
           <ButtonSave variant="outlined" size="small" onClick={handleSave}>

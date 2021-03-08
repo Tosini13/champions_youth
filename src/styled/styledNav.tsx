@@ -6,7 +6,7 @@ import { KeyboardDatePicker } from "@material-ui/pickers";
 import List from "@material-ui/core/List";
 
 import { mainTheme, styledColors } from "./styledConst";
-import { Typography } from "@material-ui/core";
+import { Typography, Grid } from "@material-ui/core";
 
 export const ListStyled = styled(List)`
   padding: 0px;
@@ -42,14 +42,10 @@ export const MenuSideBarContainerStyled = styled.div<{ opened: boolean }>`
         box-shadow: none;`};
 `;
 
-export const NavBarStyled = styled.nav`
+export const GridNavBarStyled = styled(Grid)`
   position: relative;
   padding: 6px 10px;
-  display: flex;
-  justify-content: space-between;
-  z-index: 10;
-  height: 30px;
-  align-items: center;
+  width: 100%;
 `;
 
 export const NavContainerStyled = styled.div`

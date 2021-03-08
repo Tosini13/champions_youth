@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Id } from "../../../const/structuresConst";
 import { GroupModel } from "../../../NewModels/Group";
@@ -6,11 +6,20 @@ import { UpdateMatch } from "../../../store/actions/MatchActions";
 import { UpdateGame } from "../../../store/actions/GameActions";
 import { getPromoted } from "../../../structures/groupPromotion";
 import { matchGame } from "../../../store/actions/PlayOffsActions";
-import GroupTableView from "./GroupTableView";
+import GroupTableView from "./table/GroupTableView";
 import GroupMatchesView from "./GroupMatches";
-import SliderGlobal from "../../global/Slider";
-import { Typography } from "@material-ui/core";
+import { Hidden } from "@material-ui/core";
 import { UpdatePlayOffsGroupTeamsParams } from "../../../store/actions/GroupActions";
+import {
+  DesktopMainContainerStyled,
+  DesktopMainDividerStyled,
+  DesktopMainItemStyled,
+  SectionContentStyled,
+  SectionNavStyled,
+  SectionStyled,
+} from "../../../styled/styledLayout";
+import { Placeholder } from "../../../NewModels/Team";
+import GroupDetailsNav, { E_GROUP_DETAILS_NAV } from "./GroupDetailsNav";
 
 export interface GroupDetailsViewProps {
   tournamentId: Id;
@@ -53,20 +62,23 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
   updatePlayOffsGroupTeams,
 }) => {
   const { matches } = group;
+  const [view, setView] = useState<E_GROUP_DETAILS_NAV>(
+    E_GROUP_DETAILS_NAV.TABLE
+  );
 
   const handleFinishGroup = () => {
-    console.log("finish");
-    const promoted = getPromoted(group?.teams, matches);
+    const promoted = getPromoted(group?.teams, matches) as Placeholder[];
     group?.playOffs?.forEach((promotedTeam) => {
-      console.log(promotedTeam);
-      let homeTeam = undefined;
-      let awayTeam = undefined;
-      const teamId = promoted[promotedTeam.place - 1];
+      let homeTeam: Id | undefined = undefined;
+      let awayTeam: Id | undefined = undefined;
+      const teamId = promoted[promotedTeam.place - 1].id;
+
       if (promotedTeam.home) {
         homeTeam = teamId;
       } else {
         awayTeam = teamId;
       }
+
       if (teamId) {
         updateGroupMode(tournamentId, groupId, true);
         updateGame({
@@ -88,9 +100,11 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
     if (playOffsGroups?.length) {
       let groupsTeams = playOffsGroups.map((playOffsGroup) => ({
         id: playOffsGroup.id,
-        groupTeams: playOffsGroup.groupTeams?.map((groupTeam) => ({
-          ...groupTeam,
-        })),
+        groupTeams: playOffsGroup.groupTeams?.map((groupTeam) => {
+          return {
+            ...groupTeam,
+          };
+        }),
       }));
       group.playOffsGroup?.forEach((promotedTeam) => {
         groupsTeams.forEach((groupTeams) => {
@@ -100,12 +114,13 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
                 team.group?.place === promotedTeam.place &&
                 team.group?.id === group.id
               ) {
-                team.id = promoted[promotedTeam.place - 1];
+                team.id = promoted[promotedTeam.place - 1].id;
               }
             });
           }
         });
       });
+
       updateGroupMode(tournamentId, groupId, true);
       groupsTeams.forEach((groupTeams) => {
         updatePlayOffsGroupTeams({
@@ -177,49 +192,99 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
       });
     }
   };
+
   if (!group.teams.length) {
     return (
       <>
-        <Typography
-          color="secondary"
-          align="center"
-          style={{ paddingTop: "10px" }}
-        >
-          {group.name}
-        </Typography>
-        <GroupMatchesView
-          tournamentId={tournamentId}
-          groupId={groupId}
-          matches={matches}
-        />
+        <Hidden mdUp>
+          <SectionStyled>
+            <SectionNavStyled>
+              <GroupDetailsNav value={view} setValue={setView} />
+            </SectionNavStyled>
+            <SectionContentStyled>
+              {view === E_GROUP_DETAILS_NAV.TABLE ? (
+                <GroupTableView
+                  group={group}
+                  handleFinishGroup={handleFinishGroup}
+                  handleContinueGroup={handleContinueGroup}
+                />
+              ) : null}
+              {view === E_GROUP_DETAILS_NAV.MATCHES ? (
+                <GroupMatchesView
+                  tournamentId={tournamentId}
+                  groupId={groupId}
+                  matches={matches}
+                />
+              ) : null}
+            </SectionContentStyled>
+          </SectionStyled>
+        </Hidden>
+        <Hidden smDown>
+          <DesktopMainContainerStyled>
+            <DesktopMainItemStyled>
+              <GroupTableView
+                group={group}
+                handleFinishGroup={handleFinishGroup}
+                handleContinueGroup={handleContinueGroup}
+              />
+            </DesktopMainItemStyled>
+            <DesktopMainItemStyled>
+              <GroupMatchesView
+                tournamentId={tournamentId}
+                groupId={groupId}
+                matches={matches}
+              />
+            </DesktopMainItemStyled>
+          </DesktopMainContainerStyled>
+        </Hidden>
       </>
     );
   }
   return (
-    <SliderGlobal
-      components={[
-        {
-          title: "table",
-          component: (
+    <>
+      <Hidden mdUp>
+        <SectionStyled>
+          <SectionNavStyled>
+            <GroupDetailsNav value={view} setValue={setView} />
+          </SectionNavStyled>
+          <SectionContentStyled>
+            {view === E_GROUP_DETAILS_NAV.TABLE ? (
+              <GroupTableView
+                group={group}
+                handleFinishGroup={handleFinishGroup}
+                handleContinueGroup={handleContinueGroup}
+              />
+            ) : null}
+            {view === E_GROUP_DETAILS_NAV.MATCHES ? (
+              <GroupMatchesView
+                tournamentId={tournamentId}
+                groupId={groupId}
+                matches={matches}
+              />
+            ) : null}
+          </SectionContentStyled>
+        </SectionStyled>
+      </Hidden>
+      <Hidden smDown>
+        <DesktopMainContainerStyled>
+          <DesktopMainItemStyled>
             <GroupTableView
               group={group}
               handleFinishGroup={handleFinishGroup}
               handleContinueGroup={handleContinueGroup}
             />
-          ),
-        },
-        {
-          title: "table",
-          component: (
+          </DesktopMainItemStyled>
+          <DesktopMainDividerStyled />
+          <DesktopMainItemStyled>
             <GroupMatchesView
               tournamentId={tournamentId}
               groupId={groupId}
               matches={matches}
             />
-          ),
-        },
-      ]}
-    />
+          </DesktopMainItemStyled>
+        </DesktopMainContainerStyled>
+      </Hidden>
+    </>
   );
 };
 

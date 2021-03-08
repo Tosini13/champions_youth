@@ -7,6 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 import { mainTheme, styledColors } from "./styledConst";
+import { ScrollBarStyled } from "./styledScrollBar";
 
 export const BracketSectionContainerStyled = styled.div`
   text-align: center;
@@ -59,6 +60,7 @@ export const ChooseListStyled = styled(List)`
   max-height: 50vh;
   overflow: auto;
   margin: 5px 0px;
+  ${ScrollBarStyled}
 `;
 
 export const ChooseListItemStyled = styled(ListItem)`

@@ -15,10 +15,12 @@ import { DialogStyled } from "../../../../styled/styledLayout";
 import { GroupModel } from "../../../../NewModels/Group";
 import { NewPlaceholder } from "../../../../NewModels/Team";
 import { PromotedGroup } from "./CreatePlayOffsGroupPage";
+import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
 
 const TeamList = styled(TeamListStyled)`
   overflow-x: hidden;
   flex-wrap: nowrap;
+  ${ScrollBarStyled}
 `;
 
 export interface ChooseTeamsProps {
