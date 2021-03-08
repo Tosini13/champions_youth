@@ -107,10 +107,12 @@ export const createTable = (teamsId, matches) => {
 }
 
 export const getPromoted = (teams, matches) => {
-    const table = createTable(teams, matches);
+    const table = createTable(teams.map((team) => team.id), matches);
+    console.log(matches);
+    console.log(table);
     let promoted = [];
     table.forEach(row => {
-        promoted.push(row.team);
+        promoted.push(teams.find(team => team.id === row.team));
     })
     return promoted;
 }

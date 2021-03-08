@@ -151,6 +151,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         playOffsGroup: groupPromoted[groupId],
       });
     });
+    console.log(groups);
     groups.forEach((group) => {
       createGroup(tournamentId, group);
     });
