@@ -1,6 +1,11 @@
 import React from "react";
-import { TabStyled } from "../../../styled/styledTabs";
+import { Rosetta, Translator } from "react-rosetta";
+
 import { Tabs } from "@material-ui/core";
+import { TabStyled } from "../../../styled/styledTabs";
+import { LOCALE } from "../../../locale/config";
+import menuDict from "../../../locale/menu";
+import { bottomMenuConst } from "../../../const/menuConst";
 
 export enum RIGHT_VIEW {
   "MY" = 0,
@@ -8,9 +13,11 @@ export enum RIGHT_VIEW {
 }
 
 export default function RightBottomNav({
+  locale,
   value,
   setValue,
 }: {
+  locale: LOCALE;
   value: number;
   setValue: (value: number) => void;
 }) {
@@ -19,14 +26,16 @@ export default function RightBottomNav({
   };
 
   return (
-    <Tabs
-      value={value}
-      indicatorColor="secondary"
-      textColor="secondary"
-      onChange={handleChange}
-    >
-      <TabStyled label="My" />
-      <TabStyled label="Favorite" />
-    </Tabs>
+    <Rosetta translations={menuDict} locale={locale}>
+      <Tabs
+        value={value}
+        indicatorColor="secondary"
+        textColor="secondary"
+        onChange={handleChange}
+      >
+        <TabStyled label={<Translator id={bottomMenuConst.my} />} />
+        <TabStyled label={<Translator id={bottomMenuConst.favorites} />} />
+      </Tabs>
+    </Rosetta>
   );
 }

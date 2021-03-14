@@ -185,6 +185,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
                   </GridContent>
                   <Grid item>
                     <LeftBottomNav
+                      locale={this.props.locale}
                       value={this.state.leftView}
                       setValue={(leftView: number) =>
                         this.setState({
@@ -212,6 +213,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
                   </GridContent>
                   <Grid item>
                     <RightBottomNav
+                      locale={this.props.locale}
                       value={this.state.rightView}
                       setValue={(rightView: number) =>
                         this.setState({
