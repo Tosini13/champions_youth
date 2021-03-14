@@ -20,8 +20,10 @@ import {
 } from "../../../styled/styledLayout";
 import { Placeholder } from "../../../NewModels/Team";
 import GroupDetailsNav, { E_GROUP_DETAILS_NAV } from "./GroupDetailsNav";
+import { LOCALE } from "../../../locale/config";
 
 export interface GroupDetailsViewProps {
+  locale: LOCALE;
   tournamentId: Id;
   groupId: Id;
   group: GroupModel;
@@ -52,6 +54,7 @@ export interface GroupDetailsViewProps {
 }
 
 const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
+  locale,
   tournamentId,
   groupId,
   group,
@@ -216,6 +219,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
               ) : null}
               {view === E_GROUP_DETAILS_NAV.MATCHES ? (
                 <GroupMatchesView
+                  locale={locale}
                   tournamentId={tournamentId}
                   groupId={groupId}
                   matches={matches}
@@ -235,6 +239,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             </DesktopMainItemStyled>
             <DesktopMainItemStyled>
               <GroupMatchesView
+                locale={locale}
                 tournamentId={tournamentId}
                 groupId={groupId}
                 matches={matches}
@@ -262,6 +267,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             ) : null}
             {view === E_GROUP_DETAILS_NAV.MATCHES ? (
               <GroupMatchesView
+                locale={locale}
                 tournamentId={tournamentId}
                 groupId={groupId}
                 matches={matches}
@@ -282,6 +288,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
           <DesktopMainDividerStyled />
           <DesktopMainItemStyled>
             <GroupMatchesView
+              locale={locale}
               tournamentId={tournamentId}
               groupId={groupId}
               matches={matches}

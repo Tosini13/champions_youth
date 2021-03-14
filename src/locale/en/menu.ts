@@ -14,4 +14,5 @@ export const menu = {
   today: "Today",
   tomorrow: "Tomorrow",
   yesterday: "Yesterday",
+  cancel: "Cancel",
 };

@@ -6,13 +6,19 @@ import { firestoreConnect } from "react-redux-firebase";
 import { MatchData } from "../../structures/match";
 import { Match } from "../../models/matchData";
 import { TeamData } from "../../models/teamData";
-import { DialogStyled, DialogTitle, LinkStyled } from "../../styled/styledLayout";
+import {
+  DialogStyled,
+  DialogTitle,
+  LinkStyled,
+} from "../../styled/styledLayout";
 import { routerGenerateConst } from "../../const/menuConst";
 import { Id } from "../../const/structuresConst";
 import { matchGame } from "../../store/actions/PlayOffsActions";
 import MatchSummary from "../matches/MatchSummary/MatchSummary";
+import { LOCALE } from "../../locale/config";
 
 type Props = {
+  locale: LOCALE;
   handleClose: () => void;
   open: boolean;
   match?: MatchData;
@@ -22,6 +28,7 @@ type Props = {
 };
 
 const GameDetails: React.FC<Props> = ({
+  locale,
   handleClose,
   open,
   match,
@@ -40,7 +47,7 @@ const GameDetails: React.FC<Props> = ({
           )}
         >
           <DialogTitle>{match.round}</DialogTitle>
-          <MatchSummary match={match} />
+          <MatchSummary match={match} locale={locale} />
         </LinkStyled>
       ) : null}
       {returnMatch ? (
@@ -52,7 +59,7 @@ const GameDetails: React.FC<Props> = ({
           )}
         >
           <DialogTitle>{returnMatch.round}</DialogTitle>
-          <MatchSummary match={returnMatch} />
+          <MatchSummary match={returnMatch} locale={locale} />
         </LinkStyled>
       ) : null}
     </DialogStyled>
@@ -72,6 +79,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const returnMatch =
     returnMatchData && teams ? new Match(returnMatchData, teams) : undefined;
   return {
+    locale: state.dictionary.locale,
     match,
     returnMatch,
     gameId: ownProps.gameId,

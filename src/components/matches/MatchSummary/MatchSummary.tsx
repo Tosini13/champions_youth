@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { Rosetta, Translator } from "react-rosetta";
 
 import {
   MatchContainerStyled,
@@ -12,6 +13,8 @@ import styled from "styled-components";
 import { matchModeConst } from "../../../const/matchConst";
 import { mainTheme, styledColors } from "../../../styled/styledConst";
 import MatchContent from "./MatchContent";
+import { LOCALE } from "../../../locale/config";
+import matchDict from "../../../locale/matchDict";
 
 const MatchHeader = styled(Grid)`
   background-color: ${mainTheme.palette.primary.main};
@@ -21,36 +24,41 @@ const MatchHeader = styled(Grid)`
 
 export interface MatchSummaryProps {
   match: MatchData;
+  locale: LOCALE;
 }
 
-const MatchSummary: React.FC<MatchSummaryProps> = ({ match }) => {
+const MatchSummary: React.FC<MatchSummaryProps> = ({ match, locale }) => {
   return (
-    <MatchContainerStyled>
-      <MatchHeader container justify="space-between">
-        <Grid item>
-          {match.round ? (
-            <MatchRoundTitleStyled>Runda {match.round}</MatchRoundTitleStyled>
-          ) : null}
-        </Grid>
-        <Grid item>
-          {match.mode === matchModeConst.live ? (
-            <Typography
-              style={{ fontSize: "9px", color: styledColors.icons.live }}
-            >
-              LIVE
-            </Typography>
-          ) : null}
-        </Grid>
-        <Grid item>
-          {match.date ? (
-            <MatchRoundDateStyled>
-              {moment(match.date).format("YYYY-MM-DD HH:mm")}
-            </MatchRoundDateStyled>
-          ) : null}
-        </Grid>
-      </MatchHeader>
-      <MatchContent match={match} />
-    </MatchContainerStyled>
+    <Rosetta translations={matchDict} locale={locale}>
+      <MatchContainerStyled>
+        <MatchHeader container justify="space-between">
+          <Grid item>
+            {match.round ? (
+              <MatchRoundTitleStyled>
+                <Translator id="round" /> {match.round}
+              </MatchRoundTitleStyled>
+            ) : null}
+          </Grid>
+          <Grid item>
+            {match.mode === matchModeConst.live ? (
+              <Typography
+                style={{ fontSize: "9px", color: styledColors.icons.live }}
+              >
+                LIVE
+              </Typography>
+            ) : null}
+          </Grid>
+          <Grid item>
+            {match.date ? (
+              <MatchRoundDateStyled>
+                {moment(match.date).format("YYYY-MM-DD HH:mm")}
+              </MatchRoundDateStyled>
+            ) : null}
+          </Grid>
+        </MatchHeader>
+        <MatchContent match={match} />
+      </MatchContainerStyled>
+    </Rosetta>
   );
 };
 

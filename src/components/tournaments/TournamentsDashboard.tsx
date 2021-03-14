@@ -161,6 +161,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
                           justify="space-between"
                         >
                           <DateNav
+                            locale={this.props.locale}
                             isDateActive={true}
                             selectedDate={this.props.selectedDate}
                             handleDateChange={this.handleDateChange}

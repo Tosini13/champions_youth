@@ -16,8 +16,10 @@ import {
 import { GroupModel, GroupModelDB } from "../../NewModels/Group";
 import { MatchModel, MatchModelDB } from "../../NewModels/Matches";
 import GroupDetailsView from "./details/GroupDetailsView";
+import { LOCALE } from "../../locale/config";
 
 export interface GroupsComponentProps {
+  locale: LOCALE;
   tournamentId: Id;
   groupId: Id;
   group?: GroupModel;
@@ -48,6 +50,7 @@ export interface GroupsComponentProps {
 }
 
 const GroupDetails: React.FC<GroupsComponentProps> = ({
+  locale,
   tournamentId,
   groupId,
   group,
@@ -60,6 +63,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   if (!group) return <SplashScreen />;
   return (
     <GroupDetailsView
+      locale={locale}
       tournamentId={tournamentId}
       groupId={groupId}
       group={group}
@@ -104,6 +108,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
       : undefined;
   const playOffsGroups: GroupModel[] = state.firestore.ordered.playOffsGroups;
   return {
+    locale: state.dictionary.locale,
     tournamentId,
     groupId,
     group,
