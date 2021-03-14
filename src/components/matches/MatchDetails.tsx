@@ -18,6 +18,14 @@ import { updateGame, UpdateGame } from "../../store/actions/GameActions";
 import { matchGame } from "../../store/actions/PlayOffsActions";
 import { routerConstString } from "../../const/menuConst";
 import { GroupModelDB } from "../../NewModels/Group";
+import { Grid, Hidden, Paper } from "@material-ui/core";
+import { mainTheme } from "../../styled/styledConst";
+import styled from "styled-components";
+
+const PaperStyled = styled(Paper)`
+  background-color: ${mainTheme.palette.primary.main};
+  padding: 5px;
+`;
 
 type Props = {
   nextWinner?: GameDataDb;
@@ -235,15 +243,40 @@ const MatchDetails: React.FC<Props> = ({
   if (matchData === undefined) return <SplashScreen />;
   return (
     <>
-      <MatchDetailsDisplay match={matchData} authorId={authorId} />
-      <MatchDetailsDashboard
-        match={matchData}
-        updateMode={updateMode}
-        updateResult={updateResult}
-        resetMatch={resetMatch}
-        startMatch={startMatch}
-        finishMatch={finishMatch}
-      />
+      <Hidden smDown>
+        <Grid
+          container
+          spacing={3}
+          justify="center"
+          alignItems="center"
+          style={{ width: "100%", height: "100%" }}
+        >
+          <Grid item lg={6} md={8}>
+            <PaperStyled style={{ padding: "10px" }} color="primary">
+              <MatchDetailsDisplay match={matchData} authorId={authorId} />
+              <MatchDetailsDashboard
+                match={matchData}
+                updateMode={updateMode}
+                updateResult={updateResult}
+                resetMatch={resetMatch}
+                startMatch={startMatch}
+                finishMatch={finishMatch}
+              />
+            </PaperStyled>
+          </Grid>
+        </Grid>
+      </Hidden>
+      <Hidden mdUp>
+        <MatchDetailsDisplay match={matchData} authorId={authorId} />
+        <MatchDetailsDashboard
+          match={matchData}
+          updateMode={updateMode}
+          updateResult={updateResult}
+          resetMatch={resetMatch}
+          startMatch={startMatch}
+          finishMatch={finishMatch}
+        />
+      </Hidden>
     </>
   );
 };

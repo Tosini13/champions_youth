@@ -21,6 +21,7 @@ type Props = {
   finishMatch: () => void;
 };
 
+// TODO: translate
 const MatchDetailsDashboard: React.FC<Props> = ({
   match,
   gameIsFinished,
@@ -119,7 +120,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
       container
       justify="space-evenly"
       alignItems="center"
-      style={{ marginTop: "50px" }}
+      style={{ marginTop: "50px", minHeight: "100px" }}
     >
       {match.mode === matchModeConst.live ? (
         <Grid item>
