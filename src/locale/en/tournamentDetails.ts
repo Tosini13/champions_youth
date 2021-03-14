@@ -1,3 +1,9 @@
+export const matchRound = {
+  Quarter_final: "Quater-final",
+  Semi_final: "Semi-final",
+  Final: "Final",
+};
+
 export const tournamentDetails = {
   info: "Info",
   groups: "Groups",
@@ -28,4 +34,5 @@ export const tournamentDetails = {
   noTeam: "No Team",
   place: "place",
   matchesCreated: "Teams cannot be changed when matches are created",
+  ...matchRound,
 };

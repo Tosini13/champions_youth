@@ -13,6 +13,7 @@ import { LOCALE } from "../../locale/config";
 import matchDict from "../../locale/matchDict";
 import styled from "styled-components";
 import ShowTeam from "./ShowTeam";
+import useTranslationHelp from "../../hooks/useTranslationHelp";
 
 export const PlaceLabel = styled.span`
   margin-left: 2px;
@@ -24,13 +25,15 @@ type Props = {
 };
 
 const MatchSummaryMock: React.FC<Props> = ({ match, locale }) => {
+  const { translateRound } = useTranslationHelp();
+  const { round, number } = translateRound(match.round);
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <MatchContainerStyled>
         <MatchHeaderStyled live={false}>
           {match.round ? (
             <MatchRoundTitleStyled>
-              <Translator id="round" /> {match.round}
+              <Translator id="round" /> <Translator id={round} /> {number}
             </MatchRoundTitleStyled>
           ) : null}
           {match.date ? (

@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { Rosetta } from "react-rosetta";
+import { Rosetta, Translator } from "react-rosetta";
 
 import {
   MatchContainerStyled,
@@ -12,6 +12,7 @@ import {
 import GameDetails from "../games/GameDetails";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
 import ShowTeam from "../matches/ShowTeam";
+import useTranslationHelp from "../../hooks/useTranslationHelp";
 
 
 const PlayOffsBracketGame = ({ game, locale }) => {
@@ -26,12 +27,14 @@ const PlayOffsBracketGame = ({ game, locale }) => {
     setOpen(false);
   };
 
+  const { translateRound } = useTranslationHelp();
+  const { round, number } = translateRound(game.round);
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <>
         <MatchContainerStyled onClick={handleClickOpen}>
           <MatchHeaderStyled live={false} style={{ justifyContent: 'center' }}>
-            <MatchRoundTitleStyled>{game.round}</MatchRoundTitleStyled>
+            <MatchRoundTitleStyled><Translator id={round} /> {number}</MatchRoundTitleStyled>
           </MatchHeaderStyled>
           <MatchMockTeamsContainerStyled>
             <p>

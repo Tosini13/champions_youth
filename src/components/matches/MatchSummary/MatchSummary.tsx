@@ -15,6 +15,7 @@ import { mainTheme, styledColors } from "../../../styled/styledConst";
 import MatchContent from "./MatchContent";
 import { LOCALE } from "../../../locale/config";
 import matchDict from "../../../locale/matchDict";
+import useTranslationHelp from "../../../hooks/useTranslationHelp";
 
 const MatchHeader = styled(Grid)`
   background-color: ${mainTheme.palette.primary.main};
@@ -28,6 +29,9 @@ export interface MatchSummaryProps {
 }
 
 const MatchSummary: React.FC<MatchSummaryProps> = ({ match, locale }) => {
+  console.log(match.round);
+  const { translateRound } = useTranslationHelp();
+  const { round, number } = translateRound(match.round);
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <MatchContainerStyled>
@@ -35,7 +39,7 @@ const MatchSummary: React.FC<MatchSummaryProps> = ({ match, locale }) => {
           <Grid item>
             {match.round ? (
               <MatchRoundTitleStyled>
-                <Translator id="round" /> {match.round}
+                <Translator id="round" /> <Translator id={round} /> {number}
               </MatchRoundTitleStyled>
             ) : null}
           </Grid>

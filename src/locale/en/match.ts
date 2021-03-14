@@ -1,3 +1,5 @@
+import { matchRound } from "./tournamentDetails";
+
 export const match = {
   final: "Final",
   semiFinal: "Semi-final",
@@ -11,4 +13,5 @@ export const match = {
   loser: "Loser",
   noTeam: "No Team",
   place: "place",
+  ...matchRound,
 };
