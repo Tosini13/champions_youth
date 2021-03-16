@@ -21,6 +21,7 @@ import { GroupModelDB } from "../../NewModels/Group";
 import { Grid, Hidden, Paper } from "@material-ui/core";
 import { mainTheme } from "../../styled/styledConst";
 import styled from "styled-components";
+import { LOCALE } from "../../locale/config";
 
 const PaperStyled = styled(Paper)`
   background-color: ${mainTheme.palette.primary.main};
@@ -28,6 +29,7 @@ const PaperStyled = styled(Paper)`
 `;
 
 type Props = {
+  locale: LOCALE;
   nextWinner?: GameDataDb;
   nextLoser?: GameDataDb;
   game?: Game;
@@ -59,6 +61,7 @@ type Props = {
 };
 
 const MatchDetails: React.FC<Props> = ({
+  locale,
   nextWinner,
   nextLoser,
   game,
@@ -255,6 +258,7 @@ const MatchDetails: React.FC<Props> = ({
             <PaperStyled style={{ padding: "10px" }} color="primary">
               <MatchDetailsDisplay match={matchData} authorId={authorId} />
               <MatchDetailsDashboard
+                locale={locale}
                 match={matchData}
                 updateMode={updateMode}
                 updateResult={updateResult}
@@ -269,6 +273,7 @@ const MatchDetails: React.FC<Props> = ({
       <Hidden mdUp>
         <MatchDetailsDisplay match={matchData} authorId={authorId} />
         <MatchDetailsDashboard
+          locale={locale}
           match={matchData}
           updateMode={updateMode}
           updateResult={updateResult}
@@ -323,6 +328,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
     gameId,
     matchId,
     playOffsGroup: ownProps.match.path === routerConstString.matchPlayOffsGroup,
+    locale: state.dictionary.locale,
   };
 };
 

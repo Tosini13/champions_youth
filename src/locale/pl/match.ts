@@ -1,3 +1,5 @@
+import { matchRound } from "./tournamentDetails";
+
 export const match = {
   final: "Finał",
   semiFinal: "Półfinał",
@@ -11,4 +13,10 @@ export const match = {
   loser: "Przegrany",
   noTeam: "Brak Zespołu",
   place: "miejsce",
+  continue: "Kontynuuj",
+  reset: "Zrestartuj",
+  finish: "Zakończ",
+  start: "Rozpocznij",
+  live: "Na Żywo",
+  ...matchRound,
 };

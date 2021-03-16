@@ -1,3 +1,4 @@
+import { Typography } from "@material-ui/core";
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 import { LOCALE } from "../../../../locale/config";
@@ -37,19 +38,9 @@ const MatchSummaryMock: React.SFC<MatchSummaryMockProps> = ({
           ) : null}
         </MatchHeaderStyled>
         <MatchMockTeamsContainerStyled>
-          <p>
-            <ShowTeam
-              team={match.home}
-              placeholder={match?.placeholder?.home}
-            />
-          </p>
-          <p>vs</p>
-          <p>
-            <ShowTeam
-              team={match.away}
-              placeholder={match?.placeholder?.away}
-            />
-          </p>
+          <ShowTeam team={match.home} placeholder={match?.placeholder?.home} />
+          <Typography variant="body2">vs</Typography>
+          <ShowTeam team={match.away} placeholder={match?.placeholder?.away} />
         </MatchMockTeamsContainerStyled>
       </MatchContainerStyled>
     </Rosetta>

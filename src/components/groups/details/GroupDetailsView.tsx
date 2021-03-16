@@ -20,8 +20,10 @@ import {
 } from "../../../styled/styledLayout";
 import { Placeholder } from "../../../NewModels/Team";
 import GroupDetailsNav, { E_GROUP_DETAILS_NAV } from "./GroupDetailsNav";
+import { LOCALE } from "../../../locale/config";
 
 export interface GroupDetailsViewProps {
+  locale: LOCALE;
   tournamentId: Id;
   groupId: Id;
   group: GroupModel;
@@ -52,6 +54,7 @@ export interface GroupDetailsViewProps {
 }
 
 const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
+  locale,
   tournamentId,
   groupId,
   group,
@@ -68,11 +71,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
 
   const handleFinishGroup = () => {
     const promoted = getPromoted(group?.teams, matches) as Placeholder[];
-    console.log(promoted);
     group?.playOffs?.forEach((promotedTeam) => {
-      console.log(promotedTeam);
-      console.log(promoted[promotedTeam.place - 1]);
-
       let homeTeam: Id | undefined = undefined;
       let awayTeam: Id | undefined = undefined;
       const teamId = promoted[promotedTeam.place - 1].id;
@@ -204,11 +203,16 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         <Hidden mdUp>
           <SectionStyled>
             <SectionNavStyled>
-              <GroupDetailsNav value={view} setValue={setView} />
+              <GroupDetailsNav
+                locale={locale}
+                value={view}
+                setValue={setView}
+              />
             </SectionNavStyled>
             <SectionContentStyled>
               {view === E_GROUP_DETAILS_NAV.TABLE ? (
                 <GroupTableView
+                  locale={locale}
                   group={group}
                   handleFinishGroup={handleFinishGroup}
                   handleContinueGroup={handleContinueGroup}
@@ -216,6 +220,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
               ) : null}
               {view === E_GROUP_DETAILS_NAV.MATCHES ? (
                 <GroupMatchesView
+                  locale={locale}
                   tournamentId={tournamentId}
                   groupId={groupId}
                   matches={matches}
@@ -228,6 +233,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
           <DesktopMainContainerStyled>
             <DesktopMainItemStyled>
               <GroupTableView
+                locale={locale}
                 group={group}
                 handleFinishGroup={handleFinishGroup}
                 handleContinueGroup={handleContinueGroup}
@@ -235,6 +241,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             </DesktopMainItemStyled>
             <DesktopMainItemStyled>
               <GroupMatchesView
+                locale={locale}
                 tournamentId={tournamentId}
                 groupId={groupId}
                 matches={matches}
@@ -250,11 +257,12 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
       <Hidden mdUp>
         <SectionStyled>
           <SectionNavStyled>
-            <GroupDetailsNav value={view} setValue={setView} />
+            <GroupDetailsNav locale={locale} value={view} setValue={setView} />
           </SectionNavStyled>
           <SectionContentStyled>
             {view === E_GROUP_DETAILS_NAV.TABLE ? (
               <GroupTableView
+                locale={locale}
                 group={group}
                 handleFinishGroup={handleFinishGroup}
                 handleContinueGroup={handleContinueGroup}
@@ -262,6 +270,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             ) : null}
             {view === E_GROUP_DETAILS_NAV.MATCHES ? (
               <GroupMatchesView
+                locale={locale}
                 tournamentId={tournamentId}
                 groupId={groupId}
                 matches={matches}
@@ -274,6 +283,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         <DesktopMainContainerStyled>
           <DesktopMainItemStyled>
             <GroupTableView
+              locale={locale}
               group={group}
               handleFinishGroup={handleFinishGroup}
               handleContinueGroup={handleContinueGroup}
@@ -282,6 +292,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
           <DesktopMainDividerStyled />
           <DesktopMainItemStyled>
             <GroupMatchesView
+              locale={locale}
               tournamentId={tournamentId}
               groupId={groupId}
               matches={matches}

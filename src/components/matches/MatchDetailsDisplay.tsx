@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Rosetta } from "react-rosetta";
+import { Rosetta, Translator } from "react-rosetta";
 import { connect } from "react-redux";
 
 import { Grid, Typography } from "@material-ui/core";
@@ -70,7 +70,7 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
           >
             <Grid item>
               <LiveMarkStyled live={match.mode === matchModeConst.live}>
-                LIVE
+                <Translator id="live" />
               </LiveMarkStyled>
             </Grid>
             <Grid item>

@@ -15,11 +15,14 @@ import { setSelectedDate } from "../../store/actions/MenuActions";
 import { IconButtonNavStyled } from "../../styled/styledButtons";
 import { routerConstString } from "../../const/menuConst";
 import DateNav from "./DateNav";
+import { LOCALE } from "../../locale/config";
 
 const Navbar = ({
+  locale,
   selectedDate,
   setSelectedDate,
 }: {
+  locale: LOCALE;
   selectedDate: Moment;
   setSelectedDate: (menu: Moment) => void;
 }) => {
@@ -71,6 +74,7 @@ const Navbar = ({
               </Grid>
             ) : null}
             <DateNav
+              locale={locale}
               isDateActive={isDateActive}
               selectedDate={selectedDate}
               handleDateChange={handleDateChange}
@@ -102,6 +106,7 @@ const Navbar = ({
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
     selectedDate: state.menu.selectedDate,
+    locale: state.dictionary.locale,
   };
 };
 

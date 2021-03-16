@@ -48,7 +48,7 @@ const CreateTournamentLocation: React.FC<Props> = ({
         </Grid>
         <Grid item>
           <TextFieldStyled
-            label={<Translator id="Address" />}
+            label={<Translator id="address" />}
             value={location.address}
             onChange={handleOnChange}
             inputProps={{

@@ -198,6 +198,7 @@ const TournamentPlayOffs: React.FC<Props> = ({
           </ButtonHorizontalContainerStyled>
         ) : null}
         <ChooseStructure
+          locale={locale}
           opened={openChosenStructure}
           handleClose={() => setOpenChosenStructure(false)}
           chooseGroup={() =>

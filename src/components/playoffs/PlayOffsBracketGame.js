@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
-import { Rosetta } from "react-rosetta";
+import { Rosetta, Translator } from "react-rosetta";
 
 import {
   MatchContainerStyled,
@@ -12,6 +12,8 @@ import {
 import GameDetails from "../games/GameDetails";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
 import ShowTeam from "../matches/ShowTeam";
+import useTranslationHelp from "../../hooks/useTranslationHelp";
+import { Typography } from "@material-ui/core";
 
 
 const PlayOffsBracketGame = ({ game, locale }) => {
@@ -26,27 +28,25 @@ const PlayOffsBracketGame = ({ game, locale }) => {
     setOpen(false);
   };
 
+  const { translateRound } = useTranslationHelp();
+  const { round, number } = translateRound(game.round);
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <>
         <MatchContainerStyled onClick={handleClickOpen}>
           <MatchHeaderStyled live={false} style={{ justifyContent: 'center' }}>
-            <MatchRoundTitleStyled>{game.round}</MatchRoundTitleStyled>
+            <MatchRoundTitleStyled><Translator id={round} /> {number}</MatchRoundTitleStyled>
           </MatchHeaderStyled>
           <MatchMockTeamsContainerStyled>
-            <p>
-              <ShowTeam
-                team={game.homeTeam}
-                placeholder={game?.placeholder?.home}
-              />
-            </p>
-            <p>vs</p>
-            <p>
-              <ShowTeam
-                team={game.awayTeam}
-                placeholder={game?.placeholder?.away}
-              />
-            </p>
+            <ShowTeam
+              team={game.homeTeam}
+              placeholder={game?.placeholder?.home}
+            />
+            <Typography variant="body2">vs</Typography>
+            <ShowTeam
+              team={game.awayTeam}
+              placeholder={game?.placeholder?.away}
+            />
           </MatchMockTeamsContainerStyled>
         </MatchContainerStyled>
         {open ? <GameDetails handleClose={handleClose} open={open} tournamentId={tournamentId} gameId={game.id} /> : null}

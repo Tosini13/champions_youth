@@ -58,6 +58,8 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
     handleOpenTeams();
   };
 
+  console.log(locale);
+
   return (
     <Rosetta translations={chooseTeamDict} locale={locale}>
       <DialogStyled onClose={handleClose} open={open}>

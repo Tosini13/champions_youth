@@ -1,6 +1,10 @@
 import React from "react";
-import { TabStyled } from "../../../../styled/styledTabs";
+import { Rosetta, Translator } from "react-rosetta";
+
 import { Tabs } from "@material-ui/core";
+import { TabStyled } from "../../../../styled/styledTabs";
+import menuDict from "../../../../locale/menu";
+import { LOCALE } from "../../../../locale/config";
 
 export enum TOURNAMENT_LEFT_MENU {
   "INFO" = 0,
@@ -8,9 +12,11 @@ export enum TOURNAMENT_LEFT_MENU {
 }
 
 export default function TournamentLeftMenu({
+  locale,
   value,
   setValue,
 }: {
+  locale: LOCALE;
   value: TOURNAMENT_LEFT_MENU;
   setValue: (value: TOURNAMENT_LEFT_MENU) => void;
 }) {
@@ -19,14 +25,16 @@ export default function TournamentLeftMenu({
   };
 
   return (
-    <Tabs
-      value={value}
-      indicatorColor="secondary"
-      textColor="secondary"
-      onChange={handleChange}
-    >
-      <TabStyled label="Info" />
-      <TabStyled label="Teams" />
-    </Tabs>
+    <Rosetta translations={menuDict} locale={locale}>
+      <Tabs
+        value={value}
+        indicatorColor="secondary"
+        textColor="secondary"
+        onChange={handleChange}
+      >
+        <TabStyled label={<Translator id={"info"} />} />
+        <TabStyled label={<Translator id={"teams"} />} />
+      </Tabs>
+    </Rosetta>
   );
 }

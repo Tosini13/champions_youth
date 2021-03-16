@@ -1,3 +1,12 @@
+export const matchRound = {
+  "1/64_finals": "1/64 finals",
+  "1/32_finals": "1/32 finals",
+  "1/16_finals": "1/16 finals",
+  Quarter_final: "Quater-final",
+  Semi_final: "Semi-final",
+  Final: "Final",
+};
+
 export const tournamentDetails = {
   info: "Info",
   groups: "Groups",
@@ -28,4 +37,8 @@ export const tournamentDetails = {
   noTeam: "No Team",
   place: "place",
   matchesCreated: "Teams cannot be changed when matches are created",
+  chooseStructure: "Choose Structure",
+  groupsStructure: "Groups",
+  bracketStructure: "Bracket",
+  ...matchRound,
 };

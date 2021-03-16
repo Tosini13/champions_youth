@@ -29,8 +29,10 @@ import SplashScreen from "../../global/SplashScreen";
 import { GroupModel } from "../../../NewModels/Group";
 import { Hidden } from "@material-ui/core";
 import TournamentDetailsDesktop from "./TournamentDetailsDesktop";
+import { LOCALE } from "../../../locale/config";
 
 type Props = {
+  locale: LOCALE;
   tournament?: TournamentData;
   teams?: TeamData[];
   groups?: Group[];
@@ -43,6 +45,7 @@ type Props = {
 };
 
 const TournamentDetails: React.FC<Props> = ({
+  locale,
   authorId,
   isOwner,
   tournamentId,
@@ -117,6 +120,7 @@ const TournamentDetails: React.FC<Props> = ({
         </Hidden>
         <Hidden smDown>
           <TournamentDetailsDesktop
+            locale={locale}
             authorId={authorId}
             isOwner={isOwner}
             tournamentId={tournamentId}
@@ -163,6 +167,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
     playOffsGroups,
     tournamentId,
     groups,
+    locale: state.dictionary.locale,
   };
 };
 

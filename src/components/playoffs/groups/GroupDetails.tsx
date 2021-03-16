@@ -15,8 +15,10 @@ import {
   updatePlayOffsGroupTeams,
   UpdatePlayOffsGroupTeamsParams,
 } from "../../../store/actions/GroupActions";
+import { LOCALE } from "../../../locale/config";
 
 export interface GroupsComponentProps {
+  locale: LOCALE;
   tournamentId: Id;
   groupId: Id;
   group?: GroupModel;
@@ -46,6 +48,7 @@ export interface GroupsComponentProps {
 }
 
 const PlayOffsGroupDetails: React.FC<GroupsComponentProps> = ({
+  locale,
   tournamentId,
   groupId,
   group,
@@ -57,6 +60,7 @@ const PlayOffsGroupDetails: React.FC<GroupsComponentProps> = ({
   if (!group) return <SplashScreen />;
   return (
     <GroupDetailsView
+      locale={locale}
       tournamentId={tournamentId}
       groupId={groupId}
       group={group}
@@ -132,6 +136,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
         }
       : undefined;
   return {
+    locale: state.dictionary.locale,
     tournamentId,
     groupId,
     group: playOffsGroup,

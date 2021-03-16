@@ -12,6 +12,7 @@ import { roundMatchesTitle } from "../../../../const/structuresConst";
 import { Options } from "../../../../structures/bracket";
 import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
+import useTranslationHelp from "../../../../hooks/useTranslationHelp";
 
 const style = {
   formControlLabel: {
@@ -33,17 +34,22 @@ const PlayOffsChooseRound: React.FC<Props> = ({
   maxRounds,
   options,
   setRounds,
-  locale
+  locale,
 }) => {
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const rounds = event.target.value as number;
     setRounds(rounds);
   };
 
+  const { translateRound } = useTranslationHelp();
+  console.log(roundMatchesTitle);
+
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <BracketNavSelectStyled row>
-        <FormLabel component="legend"><Translator id="rounds" /></FormLabel>
+        <FormLabel component="legend">
+          <Translator id="rounds" />
+        </FormLabel>
         <FormControlLabel
           style={style.formControlLabel}
           control={
@@ -55,9 +61,12 @@ const PlayOffsChooseRound: React.FC<Props> = ({
             >
               {Array.from(roundMatchesTitle.keys()).map((round) => {
                 if (maxRounds >= round) {
+                  const { round: roundName } = translateRound(
+                    roundMatchesTitle.get(round)
+                  );
                   return (
                     <MenuItem key={round} value={round}>
-                      {roundMatchesTitle.get(round)}
+                      <Translator id={roundName} />
                     </MenuItem>
                   );
                 } else {

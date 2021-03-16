@@ -1,4 +1,5 @@
 import React from "react";
+import { Rosetta, Translator } from "react-rosetta";
 import styled from "styled-components";
 
 import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
@@ -10,6 +11,8 @@ import { createTable } from "../../../../structures/groupPromotion";
 import { GroupPlayOffs } from "../../../../store/actions/GroupActions";
 import { GroupPlayOffsGroup } from "../../../../NewModels/Group";
 import { Typography } from "@material-ui/core";
+import { LOCALE } from "../../../../locale/config";
+import groupDetailsDict from "../../../../locale/groupDetails.dict";
 
 const GroupTableStyled = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
@@ -43,6 +46,7 @@ const GroupTableStyled = styled.div`
 `;
 
 export interface GroupTableProps {
+  locale: LOCALE;
   teamsDb?: TeamData[];
   teams: TeamData[];
   groupTeams?: GroupTeamModel[];
@@ -51,8 +55,8 @@ export interface GroupTableProps {
   playOffsGroup?: GroupPlayOffsGroup[];
 }
 
-// TODO: TRANSLATION
 const GroupTable: React.FC<GroupTableProps> = ({
+  locale,
   groupTeams,
   teams,
   matches,
@@ -92,34 +96,48 @@ const GroupTable: React.FC<GroupTableProps> = ({
   });
 
   return (
-    <GroupTableStyled>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <FormatListNumberedIcon />
-            </th>
-            <th>ZESPOŁY</th>
-            <th>
-              <p>M</p>
-            </th>
-            <th>
-              <p>PKT</p>
-            </th>
-            <th>
-              <p>GZ</p>
-            </th>
-            <th>GS</th>
-          </tr>
-        </thead>
-        <tbody>{teams.length || groupTeams?.length ? tableList : null}</tbody>
-      </table>
-      {!teams.length && !groupTeams?.length ? (
-        <Typography color="secondary" align="center">
-          There are no teams declared in the group
-        </Typography>
-      ) : null}
-    </GroupTableStyled>
+    <Rosetta translations={groupDetailsDict} locale={locale}>
+      <GroupTableStyled>
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <FormatListNumberedIcon />
+              </th>
+              <th>
+                <p>
+                  <Translator id="teamsTable" />
+                </p>
+              </th>
+              <th>
+                <p>
+                  <Translator id="matchesTable" />
+                </p>
+              </th>
+              <th>
+                <p>
+                  <Translator id="pointsTable" />
+                </p>
+              </th>
+              <th>
+                <p>
+                  <Translator id="scoredTable" />
+                </p>
+              </th>
+              <th>
+                <Translator id="goalsLostTable" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>{teams.length || groupTeams?.length ? tableList : null}</tbody>
+        </table>
+        {!teams.length && !groupTeams?.length ? (
+          <Typography color="secondary" align="center">
+            <Translator id="noTeamsMessage" />
+          </Typography>
+        ) : null}
+      </GroupTableStyled>
+    </Rosetta>
   );
 };
 

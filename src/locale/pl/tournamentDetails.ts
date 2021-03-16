@@ -1,3 +1,12 @@
+export const matchRound = {
+  "1/64_finals": "1/64 finału",
+  "1/32_finals": "1/32 finału",
+  "1/16_finals": "1/16 finału",
+  Quarter_final: "Ćwierćfinał",
+  Semi_final: "Półfinał",
+  Final: "Finał",
+};
+
 export const tournamentDetails = {
   info: "Info",
   groups: "Grupowa",
@@ -20,6 +29,7 @@ export const tournamentDetails = {
   rounds: "Rundy",
   host: "Gospodarz",
   guest: "Gość",
+  chooseTeams: "Wybierz zespoły",
   ok: "Ok",
   draw: "Losuj",
   winner: "Zwycięzca",
@@ -27,4 +37,8 @@ export const tournamentDetails = {
   noTeam: "Brak Zespołu",
   place: "miejsce",
   matchesCreated: "Drużyny nie mogą być zmienione gdy mecze zostały stworzone",
+  chooseStructure: "Wybierz strukturę",
+  groupsStructure: "Grupy",
+  bracketStructure: "Drabinka",
+  ...matchRound,
 };
