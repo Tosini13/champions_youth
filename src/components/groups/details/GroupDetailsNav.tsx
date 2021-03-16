@@ -1,6 +1,9 @@
 import React from "react";
+import { Rosetta, Translator } from "react-rosetta";
 import { Tabs } from "@material-ui/core";
 import { TabStyled } from "../../../styled/styledTabs";
+import groupDetailsDict from "../../../locale/groupDetails.dict";
+import { LOCALE } from "../../../locale/config";
 
 export enum E_GROUP_DETAILS_NAV {
   "TABLE" = 0,
@@ -8,9 +11,11 @@ export enum E_GROUP_DETAILS_NAV {
 }
 
 export default function GroupDetailsNav({
+  locale,
   value,
   setValue,
 }: {
+  locale: LOCALE;
   value: E_GROUP_DETAILS_NAV;
   setValue: (value: E_GROUP_DETAILS_NAV) => void;
 }) {
@@ -20,14 +25,16 @@ export default function GroupDetailsNav({
 
   // TODO: Translate
   return (
-    <Tabs
-      value={value}
-      indicatorColor="secondary"
-      textColor="secondary"
-      onChange={handleChange}
-    >
-      <TabStyled label="Table" />
-      <TabStyled label="Matches" />
-    </Tabs>
+    <Rosetta translations={groupDetailsDict} locale={locale}>
+      <Tabs
+        value={value}
+        indicatorColor="secondary"
+        textColor="secondary"
+        onChange={handleChange}
+      >
+        <TabStyled label={<Translator id="table" />} />
+        <TabStyled label={<Translator id="matches" />} />
+      </Tabs>
+    </Rosetta>
   );
 }

@@ -71,11 +71,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
 
   const handleFinishGroup = () => {
     const promoted = getPromoted(group?.teams, matches) as Placeholder[];
-    console.log(promoted);
     group?.playOffs?.forEach((promotedTeam) => {
-      console.log(promotedTeam);
-      console.log(promoted[promotedTeam.place - 1]);
-
       let homeTeam: Id | undefined = undefined;
       let awayTeam: Id | undefined = undefined;
       const teamId = promoted[promotedTeam.place - 1].id;
@@ -207,11 +203,16 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         <Hidden mdUp>
           <SectionStyled>
             <SectionNavStyled>
-              <GroupDetailsNav value={view} setValue={setView} />
+              <GroupDetailsNav
+                locale={locale}
+                value={view}
+                setValue={setView}
+              />
             </SectionNavStyled>
             <SectionContentStyled>
               {view === E_GROUP_DETAILS_NAV.TABLE ? (
                 <GroupTableView
+                  locale={locale}
                   group={group}
                   handleFinishGroup={handleFinishGroup}
                   handleContinueGroup={handleContinueGroup}
@@ -232,6 +233,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
           <DesktopMainContainerStyled>
             <DesktopMainItemStyled>
               <GroupTableView
+                locale={locale}
                 group={group}
                 handleFinishGroup={handleFinishGroup}
                 handleContinueGroup={handleContinueGroup}
@@ -255,11 +257,12 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
       <Hidden mdUp>
         <SectionStyled>
           <SectionNavStyled>
-            <GroupDetailsNav value={view} setValue={setView} />
+            <GroupDetailsNav locale={locale} value={view} setValue={setView} />
           </SectionNavStyled>
           <SectionContentStyled>
             {view === E_GROUP_DETAILS_NAV.TABLE ? (
               <GroupTableView
+                locale={locale}
                 group={group}
                 handleFinishGroup={handleFinishGroup}
                 handleContinueGroup={handleContinueGroup}
@@ -280,6 +283,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         <DesktopMainContainerStyled>
           <DesktopMainItemStyled>
             <GroupTableView
+              locale={locale}
               group={group}
               handleFinishGroup={handleFinishGroup}
               handleContinueGroup={handleContinueGroup}

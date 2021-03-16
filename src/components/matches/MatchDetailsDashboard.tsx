@@ -1,4 +1,5 @@
 import React from "react";
+import { Rosetta, Translator } from "react-rosetta";
 
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -10,8 +11,11 @@ import { matchModeConst } from "../../const/matchConst";
 import { Match } from "../../structures/dbAPI/matchData";
 import { Grid } from "@material-ui/core";
 import { Result } from "../../const/structuresConst";
+import matchDict from "../../locale/matchDict";
+import { LOCALE } from "../../locale/config";
 
 type Props = {
+  locale: LOCALE;
   match: Match;
   gameIsFinished?: () => boolean;
   updateMode: (mode: matchModeConst) => void;
@@ -21,8 +25,8 @@ type Props = {
   finishMatch: () => void;
 };
 
-// TODO: translate
 const MatchDetailsDashboard: React.FC<Props> = ({
+  locale,
   match,
   gameIsFinished,
   updateMode,
@@ -31,6 +35,8 @@ const MatchDetailsDashboard: React.FC<Props> = ({
   startMatch,
   finishMatch,
 }) => {
+  console.log(locale);
+
   const changeMatchMode = () => {
     switch (match.mode) {
       case matchModeConst.live:
@@ -41,7 +47,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
               color="secondary"
               onClick={() => finishMatch()}
             >
-              <SportsIcon /> Finish
+              <SportsIcon /> <Translator id="finish" />
             </Button>
           </Grid>
         );
@@ -55,7 +61,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
                   color="secondary"
                   onClick={() => resetMatch()}
                 >
-                  <SportsIcon /> Reset
+                  <SportsIcon /> <Translator id="reset" />
                 </Button>
               </Grid>
               <Grid item>
@@ -64,7 +70,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
                   color="secondary"
                   onClick={() => updateMode(matchModeConst.live)}
                 >
-                  <SportsIcon /> Continue
+                  <SportsIcon /> <Translator id="continue" />
                 </Button>
               </Grid>
             </Grid>
@@ -78,7 +84,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
               color="secondary"
               onClick={() => startMatch()}
             >
-              <SportsIcon /> Start
+              <SportsIcon /> <Translator id="start" />
             </Button>
           </Grid>
         );
@@ -116,34 +122,36 @@ const MatchDetailsDashboard: React.FC<Props> = ({
   };
 
   return (
-    <Grid
-      container
-      justify="space-evenly"
-      alignItems="center"
-      style={{ marginTop: "50px", minHeight: "100px" }}
-    >
-      {match.mode === matchModeConst.live ? (
-        <Grid item>
-          <IconButton color="secondary" onClick={handleHomeScore}>
-            <AddIcon />
-          </IconButton>
-          <IconButton color="secondary" onClick={handleHomeLose}>
-            <RemoveIcon />
-          </IconButton>
-        </Grid>
-      ) : null}
-      {changeMatchMode()}
-      {match.mode === matchModeConst.live ? (
-        <Grid item>
-          <IconButton color="secondary" onClick={handleAwayLose}>
-            <RemoveIcon />
-          </IconButton>
-          <IconButton color="secondary" onClick={handleAwayScore}>
-            <AddIcon />
-          </IconButton>
-        </Grid>
-      ) : null}
-    </Grid>
+    <Rosetta translations={matchDict} locale={locale}>
+      <Grid
+        container
+        justify="space-evenly"
+        alignItems="center"
+        style={{ marginTop: "50px", minHeight: "100px" }}
+      >
+        {match.mode === matchModeConst.live ? (
+          <Grid item>
+            <IconButton color="secondary" onClick={handleHomeScore}>
+              <AddIcon />
+            </IconButton>
+            <IconButton color="secondary" onClick={handleHomeLose}>
+              <RemoveIcon />
+            </IconButton>
+          </Grid>
+        ) : null}
+        {changeMatchMode()}
+        {match.mode === matchModeConst.live ? (
+          <Grid item>
+            <IconButton color="secondary" onClick={handleAwayLose}>
+              <RemoveIcon />
+            </IconButton>
+            <IconButton color="secondary" onClick={handleAwayScore}>
+              <AddIcon />
+            </IconButton>
+          </Grid>
+        ) : null}
+      </Grid>
+    </Rosetta>
   );
 };
 

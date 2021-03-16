@@ -14,6 +14,7 @@ import matchDict from "../../locale/matchDict";
 import styled from "styled-components";
 import ShowTeam from "./ShowTeam";
 import useTranslationHelp from "../../hooks/useTranslationHelp";
+import { Typography } from "@material-ui/core";
 
 export const PlaceLabel = styled.span`
   margin-left: 2px;
@@ -43,19 +44,9 @@ const MatchSummaryMock: React.FC<Props> = ({ match, locale }) => {
           ) : null}
         </MatchHeaderStyled>
         <MatchMockTeamsContainerStyled>
-          <p>
-            <ShowTeam
-              team={match.home}
-              placeholder={match?.placeholder?.home}
-            />
-          </p>
-          <p>vs</p>
-          <p>
-            <ShowTeam
-              team={match.away}
-              placeholder={match?.placeholder?.away}
-            />
-          </p>
+          <ShowTeam team={match.home} placeholder={match?.placeholder?.home} />
+          <Typography variant="body2">vs</Typography>
+          <ShowTeam team={match.away} placeholder={match?.placeholder?.away} />
         </MatchMockTeamsContainerStyled>
       </MatchContainerStyled>
     </Rosetta>

@@ -13,5 +13,10 @@ export const match = {
   loser: "Loser",
   noTeam: "No Team",
   place: "place",
+  continue: "Continue",
+  reset: "Reset",
+  finish: "Finish",
+  start: "Start",
+  live: "Live",
   ...matchRound,
 };

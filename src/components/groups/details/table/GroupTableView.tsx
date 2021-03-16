@@ -1,4 +1,5 @@
 import React from "react";
+import { Rosetta, Translator } from "react-rosetta";
 
 import Grid from "@material-ui/core/Grid";
 import { Button, Typography } from "@material-ui/core";
@@ -10,70 +11,79 @@ import {
   SectionNavStyled,
   SectionStyled,
 } from "../../../../styled/styledLayout";
+import { LOCALE } from "../../../../locale/config";
+import groupDetailsDict from "../../../../locale/groupDetails.dict";
 
 export interface GroupTableViewProps {
+  locale: LOCALE;
   group: GroupModel;
   handleFinishGroup?: () => void;
   handleContinueGroup?: () => void;
 }
 
 const GroupTableView: React.FC<GroupTableViewProps> = ({
+  locale,
   group,
   handleFinishGroup,
   handleContinueGroup,
 }) => {
   // TODO: REMOVE BUTTONS WHEN THERE'S NO PLAYOFFS - OR SET WINNERS
   return (
-    <SectionStyled>
-      <SectionNavStyled>
-        <Grid
-          container
-          justify="space-between"
-          alignItems="center"
-          style={{ padding: "10px" }}
-        >
-          <Grid item>
-            <Typography color="secondary">{group.name}</Typography>
-          </Grid>
-          {handleContinueGroup || handleFinishGroup ? (
+    <Rosetta translations={groupDetailsDict} locale={locale}>
+      <SectionStyled>
+        <SectionNavStyled>
+          <Grid
+            container
+            justify="space-between"
+            alignItems="center"
+            style={{ padding: "10px" }}
+          >
             <Grid item>
-              <Grid container justify="center" alignItems="center">
-                <Grid item>
-                  {group.finished === true ? (
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      style={{ margin: "0px auto" }}
-                      onClick={handleContinueGroup}
-                    >
-                      Continue Group
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      style={{ margin: "0px auto" }}
-                      onClick={handleFinishGroup}
-                    >
-                      Finish Group
-                    </Button>
-                  )}
+              <Typography color="secondary">
+                <Translator id="groupName" />: {group.name}
+              </Typography>
+            </Grid>
+            {handleContinueGroup || handleFinishGroup ? (
+              <Grid item>
+                <Grid container justify="center" alignItems="center">
+                  <Grid item>
+                    {group.finished === true ? (
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        style={{ margin: "0px auto" }}
+                        onClick={handleContinueGroup}
+                      >
+                        <Translator id="continueGroup" />
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        style={{ margin: "0px auto" }}
+                        onClick={handleFinishGroup}
+                      >
+                        <Translator id="finishGroup" />
+                      </Button>
+                    )}
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          ) : null}
-        </Grid>
-      </SectionNavStyled>
-      <SectionContentStyled>
-        <GroupTable
-          groupTeams={group.groupTeams}
-          matches={group.matches}
-          teams={group.teams}
-          playOffs={group.playOffs}
-          playOffsGroup={group.playOffsGroup}
-        />
-      </SectionContentStyled>
-    </SectionStyled>
+            ) : null}
+          </Grid>
+        </SectionNavStyled>
+        <SectionContentStyled>
+          <GroupTable
+            locale={locale}
+            groupTeams={group.groupTeams}
+            matches={group.matches}
+            teams={group.teams}
+            playOffs={group.playOffs}
+            playOffsGroup={group.playOffsGroup}
+          />
+        </SectionContentStyled>
+      </SectionStyled>
+    </Rosetta>
   );
 };
 

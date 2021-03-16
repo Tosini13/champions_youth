@@ -26,6 +26,7 @@ const sortTable = (a, b) => {
             if (a.goalsScored === b.goalsScored) {
                 //LOST
                 if (a.goalsLost === b.goalsLost) {
+                    // TODO:
                     //TEAM NAME
                     // if (a.team.name.localeCompare(b.team.name) === 0) {
                     //     //ADD DIRECT RESULT!
