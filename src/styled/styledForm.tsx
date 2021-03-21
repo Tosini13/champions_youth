@@ -11,7 +11,6 @@ import {
   KeyboardTimePicker,
   KeyboardTimePickerProps,
 } from "@material-ui/pickers";
-import FormLabel, { FormLabelTypeMap } from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Stepper from "@material-ui/core/Stepper";
 
