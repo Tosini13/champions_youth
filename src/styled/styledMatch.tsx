@@ -96,7 +96,7 @@ export const TeamLogoStyled = styled.img`
   height: 40px;
 `;
 
-export const MatchDisplayTeamNameStyled = styled.p`
+export const MatchDisplayTeamNameStyled = styled.div`
   font-size: 13px;
   padding: 2px 0px;
   margin: 0px;

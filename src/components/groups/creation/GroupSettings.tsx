@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import {
+  DialogContent,
   FormControlLabel,
   Grid,
   IconButton,
@@ -70,99 +71,104 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
             handleClose();
           }}
         >
-          <Grid
-            container
-            justify="space-between"
-            alignItems="center"
-            spacing={5}
-          >
-            <Grid item>
-              <Typography variant="h6">
-                <Translator id="settings" />
-              </Typography>
+          <DialogContent>
+            <Grid
+              container
+              justify="space-between"
+              alignItems="flex-start"
+              spacing={5}
+            >
+              <Grid item>
+                <Typography variant="h6">
+                  <Translator id="settings" />
+                </Typography>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  color="secondary"
+                  onClick={() => {
+                    formRef.current?.dispatchEvent(new Event("submit"));
+                    handleClose();
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Grid>
             </Grid>
-            <Grid item>
-              <IconButton
-                color="secondary"
-                size="small"
-                onClick={() => {
-                  formRef.current?.dispatchEvent(new Event("submit"));
-                  handleClose();
-                }}
-              >
-                <CloseIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
-          <FormControlLabel
-            control={
-              <CheckboxStyled
-                color="secondary"
-                checked={returnMatches}
-                onChange={() => setReturnMatches(!returnMatches)}
-              />
-            }
-            label={<Translator id="returnMatches" />}
-          />
-          <Grid item xs={5}>
-            <TextFieldStyled
-              label={<Translator id="fields" />}
-              color="secondary"
-              type="number"
-              inputProps={{
-                name: "fields",
-                ref: register({
-                  required: "Required",
-                }),
-              }}
-              helperText={errors.match && <Translator id="wrongField" />}
-              error={Boolean(errors.match)}
+            <FormControlLabel
+              control={
+                <CheckboxStyled
+                  color="secondary"
+                  checked={returnMatches}
+                  onChange={() => setReturnMatches(!returnMatches)}
+                />
+              }
+              label={<Translator id="returnMatches" />}
             />
-          </Grid>
-          <FormControlLabel
-            control={
-              <CheckboxStyled
-                color="secondary"
-                checked={time}
-                onChange={() => setTime(!time)}
-              />
-            }
-            label={<Translator id="time" />}
-          />
-          <Grid container justify="space-around" spacing={2}>
             <Grid item xs={5}>
               <TextFieldStyled
-                disabled={Boolean(!time)}
-                label={<Translator id="matchTime" />}
+                label={<Translator id="fields" />}
                 color="secondary"
                 type="number"
                 inputProps={{
-                  name: "match",
+                  name: "fields",
                   ref: register({
                     required: "Required",
                   }),
                 }}
-                helperText={errors.match && <Translator id="wrongMatchTime" />}
+                helperText={errors.match && <Translator id="wrongField" />}
                 error={Boolean(errors.match)}
               />
             </Grid>
-            <Grid item xs={5}>
-              <TextFieldStyled
-                disabled={Boolean(!time)}
-                label={<Translator id="breakTime" />}
-                color="secondary"
-                type="number"
-                inputProps={{
-                  name: "break",
-                  ref: register({
-                    required: "Required",
-                  }),
-                }}
-                helperText={errors.match && <Translator id="wrongBreakTime" />}
-                error={Boolean(errors.match)}
-              />
+            <FormControlLabel
+              control={
+                <CheckboxStyled
+                  color="secondary"
+                  checked={time}
+                  onChange={() => setTime(!time)}
+                />
+              }
+              label={<Translator id="time" />}
+            />
+            <Grid container justify="space-around" spacing={2}>
+              <Grid item xs={5}>
+                <TextFieldStyled
+                  disabled={Boolean(!time)}
+                  label={<Translator id="matchTime" />}
+                  color="secondary"
+                  type="number"
+                  inputProps={{
+                    name: "match",
+                    ref: register({
+                      required: "Required",
+                    }),
+                  }}
+                  helperText={
+                    errors.match && <Translator id="wrongMatchTime" />
+                  }
+                  error={Boolean(errors.match)}
+                />
+              </Grid>
+              <Grid item xs={5}>
+                <TextFieldStyled
+                  disabled={Boolean(!time)}
+                  label={<Translator id="breakTime" />}
+                  color="secondary"
+                  type="number"
+                  inputProps={{
+                    name: "break",
+                    ref: register({
+                      required: "Required",
+                    }),
+                  }}
+                  helperText={
+                    errors.match && <Translator id="wrongBreakTime" />
+                  }
+                  error={Boolean(errors.match)}
+                />
+              </Grid>
             </Grid>
-          </Grid>
+          </DialogContent>
         </DialogStyled>
       </form>
     </Rosetta>

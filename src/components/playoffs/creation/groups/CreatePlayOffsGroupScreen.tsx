@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Grid } from "@material-ui/core";
 
-import { ContentContainerStyled } from "../../../../styled/styledLayout";
+import { GroupsContentContainerStyled } from "../../../../styled/styledLayout";
 import useCreateGroup from "../../../../hooks/useCreateGroup";
 import { GroupModel, GroupPlayOffsGroup } from "../../../../NewModels/Group";
 import { LOCALE } from "../../../../locale/config";
@@ -114,6 +114,10 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
       },
     ]);
     openNotification();
+  };
+
+  const handleCancel = () => {
+    history.goBack();
   };
 
   const handleSaveGroup = () => {
@@ -260,12 +264,13 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   return (
     <>
       <CreationNav
+        cancel={handleCancel}
         save={handleSaveGroup}
         openSettings={() => setOpenSettings(true)}
         add={handleAddGroup}
         draw={handleDrawGroup}
       />
-      <ContentContainerStyled>
+      <GroupsContentContainerStyled>
         <GridContainer container spacing={5} direction="row">
           {groups.map((group) => {
             return (
@@ -284,7 +289,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
             );
           })}
         </GridContainer>
-      </ContentContainerStyled>
+      </GroupsContentContainerStyled>
       <CreateGroupsActions add={handleAddGroup} draw={handleDrawGroup} />
       <ChooseTeams
         promotedGroups={promotedGroups}

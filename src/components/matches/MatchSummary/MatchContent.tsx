@@ -10,7 +10,7 @@ import { LOCALE } from "../../../locale/config";
 import matchDict from "../../../locale/matchDict";
 import ShowTeam from "../ShowTeam";
 
-const TeamName = styled(Typography)`
+const TeamName = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -63,7 +63,7 @@ const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
             wrap="nowrap"
           >
             <Grid item xs={5}>
-              <HostName color="secondary">
+              <HostName>
                 <ShowTeam
                   team={match.home}
                   placeholder={match?.placeholder?.home}
@@ -74,7 +74,7 @@ const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
               <Divider color="secondary">vs</Divider>
             </Grid>
             <Grid item xs={5}>
-              <GuestName color="secondary">
+              <GuestName>
                 <ShowTeam
                   team={match.away}
                   placeholder={match?.placeholder?.away}

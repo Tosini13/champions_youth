@@ -29,7 +29,6 @@ export interface MatchSummaryProps {
 }
 
 const MatchSummary: React.FC<MatchSummaryProps> = ({ match, locale }) => {
-  console.log(match.round);
   const { translateRound } = useTranslationHelp();
   const { round, number } = translateRound(match.round);
   return (

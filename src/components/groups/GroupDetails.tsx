@@ -60,7 +60,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   updatePlayOffsGroupTeams,
   playOffsGroups,
 }) => {
-  if (!group) return <SplashScreen />;
+  if (!group || !groupId || groupId !== group.id) return <SplashScreen />;
   return (
     <GroupDetailsView
       locale={locale}
@@ -81,7 +81,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const groupId = ownProps.match.params.groupId;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
   const matchesData: MatchModelDB[] | undefined =
-    state.firestore.ordered.matches;
+    state.firestore.ordered[`matches_${groupId}`];
   const matches: MatchModel[] | undefined =
     matchesData && teams
       ? matchesData.map((matchData) => ({
@@ -199,7 +199,7 @@ export default compose(
             subcollections: [{ collection: "matches" }],
           },
         ],
-        storeAs: "matches",
+        storeAs: `matches_${props.match.params.groupId}`,
       },
       {
         collection: "tournaments",

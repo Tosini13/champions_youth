@@ -5,7 +5,6 @@ import { Rosetta, Translator } from "react-rosetta";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 
 import { BracketNavSelectStyled } from "../../../../styled/styledBracket";
 import { roundMatchesTitle } from "../../../../const/structuresConst";
@@ -13,13 +12,18 @@ import { Options } from "../../../../structures/bracket";
 import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import useTranslationHelp from "../../../../hooks/useTranslationHelp";
+import { SelectStyled } from "../../../../styled/styledForm";
+import { mainTheme } from "../../../../styled/styledConst";
 
-const style = {
+export const style = {
   formControlLabel: {
     flexGrow: 1,
   },
   select: {
     width: "100%",
+  },
+  legend: {
+    color: mainTheme.palette.secondary.main,
   },
 };
 
@@ -47,13 +51,13 @@ const PlayOffsChooseRound: React.FC<Props> = ({
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <BracketNavSelectStyled row>
-        <FormLabel component="legend">
+        <FormLabel component="legend" style={style.legend}>
           <Translator id="rounds" />
         </FormLabel>
         <FormControlLabel
           style={style.formControlLabel}
           control={
-            <Select
+            <SelectStyled
               style={style.select}
               color="secondary"
               value={options.rounds}
@@ -73,7 +77,7 @@ const PlayOffsChooseRound: React.FC<Props> = ({
                   return null;
                 }
               })}
-            </Select>
+            </SelectStyled>
           }
           label=""
           labelPlacement="start"
