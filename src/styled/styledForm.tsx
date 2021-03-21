@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Checkbox } from "@material-ui/core";
+import { Checkbox, Select, SelectProps } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
 import TextField, { TextFieldProps } from "@material-ui/core/TextField";
@@ -11,7 +11,7 @@ import {
   KeyboardTimePicker,
   KeyboardTimePickerProps,
 } from "@material-ui/pickers";
-import FormLabel from "@material-ui/core/FormLabel";
+import FormLabel, { FormLabelTypeMap } from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Stepper from "@material-ui/core/Stepper";
 
@@ -45,18 +45,43 @@ const INPUT_STYLE = `
   };
 `;
 
+/* ---------------------------------------- */
+/* TextField */
+/* ---------------------------------------- */
 export const TemplateTextFieldStyled = styled(TextField)`
   ${INPUT_STYLE};
   max-width: 250px;
 `;
 
-/* ---------------------------------------- */
-/* TextField */
-/* ---------------------------------------- */
 export const TextFieldStyled = (props: TextFieldProps) => (
   <TemplateTextFieldStyled color="secondary" {...props} />
 );
 
+/* ---------------------------------------- */
+/* Select */
+/* ---------------------------------------- */
+
+export const TemplateSelectStyled = styled(Select)`
+  ${INPUT_STYLE};
+  max-width: 250px;
+  margin-right: auto;
+  color: ${mainTheme.palette.secondary.main};
+  svg {
+    fill: ${mainTheme.palette.secondary.main};
+  }
+  &.MuiInput-underline:before {
+    border-color: ${mainTheme.palette.secondary.dark};
+  }
+`;
+
+export const SelectStyled: React.FC<SelectProps> = ({ children, ...props }) => (
+  <TemplateSelectStyled color="secondary" {...props}>
+    {children}
+  </TemplateSelectStyled>
+);
+/* ---------------------------------------- */
+/* KeyboardDatePicker */
+/* ---------------------------------------- */
 const KEYBOARD_PICKER_STYLE = `
   button{
     color: ${mainTheme.palette.secondary.main};
@@ -68,9 +93,6 @@ export const TemplateKeyboardDatePickerStyled = styled(KeyboardDatePicker)`
   ${KEYBOARD_PICKER_STYLE};
 `;
 
-/* ---------------------------------------- */
-/* KeyboardDatePicker */
-/* ---------------------------------------- */
 export const KeyboardDatePickerStyled = (props: KeyboardDatePickerProps) => (
   <TemplateKeyboardDatePickerStyled color="secondary" {...props} />
 );
@@ -90,6 +112,10 @@ export const CheckboxStyled = styled(Checkbox)`
   }
 `;
 
+/* ---------------------------------------- */
+/* FormLabel */
+/* ---------------------------------------- */
+
 export const FormControlStyled = styled(FormControl)`
   display: flex;
   flex-direction: row;
@@ -97,12 +123,6 @@ export const FormControlStyled = styled(FormControl)`
 
 export const FormControlLabelStyled = styled(FormControlLabel)`
   color: ${mainTheme.palette.secondary.dark};
-`;
-
-export const FormLabelStyled = styled(FormLabel)`
-  color: ${mainTheme.palette.secondary.dark};
-  font-size: 15px;
-  text-align: center;
 `;
 
 export const TournamentCreationStepperStyled = styled(Stepper)`

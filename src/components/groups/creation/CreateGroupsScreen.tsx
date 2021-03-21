@@ -57,7 +57,6 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
 }) => {
   const history = useHistory();
   if (doesGroupsExist) {
-    console.log("history");
     history.push("/");
   }
   const { setQuestion, setAnswers, openNotification } = useNotification();
@@ -112,6 +111,10 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
       },
     ]);
     openNotification();
+  };
+
+  const handleCancel = () => {
+    history.goBack();
   };
 
   const handleSaveGroup = () => {
@@ -213,6 +216,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   return (
     <>
       <CreationNav
+        cancel={handleCancel}
         save={handleSaveGroup}
         openSettings={() => setOpenSettings(true)}
         add={handleAddGroup}

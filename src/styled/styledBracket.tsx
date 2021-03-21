@@ -54,6 +54,7 @@ export const BracketNavItemStyled = styled.p<{ selected: boolean }>`
 export const BracketNavSelectStyled = styled(FormGroup)`
   margin: 10px 5px 0px 5px;
   min-width: 100px;
+  align-items: center;
 `;
 
 export const ChooseListStyled = styled(List)`

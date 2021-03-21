@@ -116,6 +116,10 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     openNotification();
   };
 
+  const handleCancel = () => {
+    history.goBack();
+  };
+
   const handleSaveGroup = () => {
     let valid = true;
     groups.forEach((group) => {
@@ -260,6 +264,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   return (
     <>
       <CreationNav
+        cancel={handleCancel}
         save={handleSaveGroup}
         openSettings={() => setOpenSettings(true)}
         add={handleAddGroup}

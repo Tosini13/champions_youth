@@ -5,12 +5,13 @@ import { Rosetta, Translator } from "react-rosetta";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
 
 import { BracketNavSelectStyled } from "../../../../styled/styledBracket";
 import { Options } from "../../../../structures/bracket";
 import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
+import { SelectStyled } from "../../../../styled/styledForm";
+import { style } from "./PlayOffsChooseRound";
 
 type Props = {
   options: Options;
@@ -39,14 +40,15 @@ const PlayOffsChooseLastMatchPlace: React.FC<Props> = ({
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <BracketNavSelectStyled row>
-        <FormLabel component="legend">
+        <FormLabel component="legend" style={style.legend}>
           <Translator id="placeMatches" />
         </FormLabel>
         <FormControlLabel
+          color="secondary"
           label=""
           labelPlacement="start"
           control={
-            <Select
+            <SelectStyled
               color="secondary"
               value={options.placeMatchesQtt}
               onChange={handleChange}
@@ -58,7 +60,7 @@ const PlayOffsChooseLastMatchPlace: React.FC<Props> = ({
                   </MenuItem>
                 );
               })}
-            </Select>
+            </SelectStyled>
           }
         />
       </BracketNavSelectStyled>

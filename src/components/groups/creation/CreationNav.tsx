@@ -32,6 +32,7 @@ const ButtonSave = styled(Button)`
 `;
 
 export interface CreationNavProps {
+  cancel: () => void;
   save: () => void;
   openSettings: () => void;
   locale: LOCALE;
@@ -41,6 +42,7 @@ export interface CreationNavProps {
 
 const CreationNav: React.FC<CreationNavProps> = ({
   locale,
+  cancel,
   save,
   openSettings,
   add,
@@ -65,7 +67,7 @@ const CreationNav: React.FC<CreationNavProps> = ({
     <Rosetta translations={groupCreationDict} locale={locale}>
       <GridContainer container justify="space-around" alignItems="center">
         <Grid item>
-          <ButtonCancel variant="outlined" size="small">
+          <ButtonCancel variant="outlined" size="small" onClick={cancel}>
             <Translator id="cancel" />
           </ButtonCancel>
         </Grid>
