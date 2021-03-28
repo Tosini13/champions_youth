@@ -14,6 +14,7 @@ import { ListItemTextStyled } from "../../../../styled/styledBracket";
 type Props = {
   team: TeamData;
   userId: Id;
+  tournamentId: Id;
   selected: boolean;
   restricted: boolean;
   handleChooseTeam: (selected: TeamData) => void;
@@ -22,6 +23,7 @@ type Props = {
 const ChooseTeamsElement: React.FC<Props> = ({
   team,
   userId,
+  tournamentId,
   selected,
   restricted,
   handleChooseTeam,
@@ -30,10 +32,10 @@ const ChooseTeamsElement: React.FC<Props> = ({
 
   useEffect(() => {
     if (team?.logo && userId) {
-      const image = getImage(team.logo, userId);
+      const image = getImage(team.logo, userId, tournamentId);
       setLogo(image);
     }
-  }, [team, userId]);
+  }, [team, userId, tournamentId]);
 
   return (
     <TeamListElementStyled

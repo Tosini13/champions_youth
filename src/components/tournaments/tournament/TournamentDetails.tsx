@@ -58,11 +58,11 @@ const TournamentDetails: React.FC<Props> = ({
   const [image, setImage] = useState<any | null>(null);
 
   useEffect(() => {
-    if (tournament?.image && authorId) {
-      const image = getImage(tournament.image, authorId);
+    if (tournament?.image && authorId && tournamentId) {
+      const image = getImage(tournament.image, authorId, tournamentId);
       setImage(image);
     }
-  }, [tournament, authorId]);
+  }, [tournament, authorId, tournamentId]);
 
   const [view, setView] = useState(menuTournamentConst.info);
   if (tournament && teams) {
@@ -143,7 +143,12 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const authorId = state.firebase.auth.uid;
   const tournamentId = ownProps.match.params.tournamentId;
   const tournaments = state.firestore.data.tournaments;
-  const tournament = tournaments ? tournaments[tournamentId] : null;
+  const tournament: TournamentData | undefined = tournaments
+    ? {
+        ...tournaments[tournamentId],
+        id: tournamentId,
+      }
+    : undefined;
   const isOwner = tournament && tournament.ownerId === authorId;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
   const groupsData: GroupDataDb[] | undefined = state.firestore.ordered.groups;

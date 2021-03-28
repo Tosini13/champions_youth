@@ -40,7 +40,7 @@ const TournamentSummary: React.FC<Props> = ({
 
   useEffect(() => {
     if (tournament?.image && authorId) {
-      const image = getImage(tournament.image, authorId);
+      const image = getImage(tournament.image, authorId, tournament.id);
       setImage(image);
     }
   }, [tournament, authorId]);

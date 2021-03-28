@@ -1,8 +1,13 @@
 import firebase from "firebase";
 import moment from "moment";
-import { setImageJustUploaded } from "../../components/tournaments/actions/getImage";
-import { Id } from "../../const/structuresConst";
-import { TournamentCreateData } from "../../models/tournamentData";
+import {
+  getImageUrl,
+  setImageJustUploaded,
+} from "../../components/tournaments/actions/getImage";
+import {
+  TournamentCreateData,
+  TournamentData,
+} from "../../models/tournamentData";
 
 export const createTournament = (data: TournamentCreateData, image?: any) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
@@ -21,9 +26,17 @@ export const createTournament = (data: TournamentCreateData, image?: any) => {
         ownerId: authorId,
       })
       .then((res: any) => {
+        console.log(res.id);
         if (image) {
           const storageRef = firebase.storage().ref();
-          const ref = storageRef.child(`images/${authorId}/${image.name}`);
+
+          const ref = storageRef.child(
+            getImageUrl({
+              authorId,
+              tournamentId: res.id,
+              imageName: image.name,
+            })
+          );
           ref
             .put(image)
             .then((res) => {
@@ -46,19 +59,41 @@ export const createTournament = (data: TournamentCreateData, image?: any) => {
 };
 
 export const deleteTournament = (
-  tournamentId: Id,
+  tournament: TournamentData,
   callBackSuccess?: () => void,
   callBackError?: () => void
 ) => {
-  const path = `/tournaments/${tournamentId}`;
+  const path = `/tournaments/${tournament.id}`;
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const authorId = getState().firebase.auth.uid;
     var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
     deleteFn({ path: path })
       .then(function (result: any) {
         if (callBackSuccess) {
           callBackSuccess();
         }
-        dispatch({ type: "DELETE_TOURNAMENT" });
+        if (tournament.image) {
+          console.log(`images/${authorId}/${tournament.id}`);
+          const ref = firebase
+            .storage()
+            .ref(`images/${authorId}/${tournament.id}`);
+          ref
+            .listAll()
+            .then((dir) => {
+              dir.items.forEach((fileRef) => {
+                deleteFile(ref.fullPath, fileRef.name);
+              });
+              dispatch({ type: "DELETE_TOURNAMENT_DELETE_LOGO" });
+            })
+            .catch((error) => {
+              console.log(error);
+              dispatch({
+                type: "DELETE_TOURNAMENT_OK_DELETE_LOGO_ERROR",
+              });
+            });
+        } else {
+          dispatch({ type: "DELETE_TOURNAMENT" });
+        }
       })
       .catch(function (err: any) {
         if (callBackError) {
@@ -68,3 +103,9 @@ export const deleteTournament = (
       });
   };
 };
+
+function deleteFile(pathToFile, fileName) {
+  const ref = firebase.storage().ref(pathToFile);
+  const childRef = ref.child(fileName);
+  childRef.delete();
+}

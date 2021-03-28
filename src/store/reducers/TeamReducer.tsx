@@ -10,6 +10,12 @@ const teamReducer = (state = initState, action: any) => {
     case "ADD_TEAM_TO_TOURNAMENT_ERROR":
       console.log("team addition to tournament error", action.err);
       return state;
+    case "DELETE_TEAM_FROM_TOURNAMENT_DELETE_LOGO":
+      console.log("DELETE_TEAM_FROM_TOURNAMENT_DELETE_LOGO");
+      return state;
+    case "DELETE_TEAM_FROM_TOURNAMENT_OK_DELETE_LOGO_ERROR":
+      console.log("DELETE_TEAM_FROM_TOURNAMENT_OK_DELETE_LOGO_ERROR");
+      return state;
     case "DELETE_TEAM_FROM_TOURNAMENT":
       console.log("team deleted from tournament");
       return state;

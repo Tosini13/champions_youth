@@ -1,9 +1,25 @@
 import firebase from "firebase";
 import { Id } from "../../../const/structuresConst";
+type TGetImageUrl = {
+  authorId: Id;
+  tournamentId: Id;
+  imageName: string;
+};
+export function getImageUrl({
+  authorId,
+  tournamentId,
+  imageName,
+}: TGetImageUrl) {
+  return `images/${authorId}/${tournamentId}/${imageName}`;
+}
 
-export const getImage = (image: string, authorId: Id) => {
+export const getImage = (image: string, authorId: Id, tournamentId: Id) => {
   if (image) {
-    const url = `images/${authorId}/`;
+    const url = getImageUrl({
+      authorId,
+      tournamentId,
+      imageName: image,
+    });
     const imageId = `${url}${image}`;
     let img = localStorage.getItem(imageId);
     if (!img) {

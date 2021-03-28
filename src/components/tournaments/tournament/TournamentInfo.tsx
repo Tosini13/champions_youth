@@ -31,7 +31,7 @@ type Props = {
   tournament: TournamentData;
   image: string;
   deleteTournament: (
-    tournamentId: Id,
+    tournament: TournamentData,
     callBackSuccess?: () => void,
     callBackError?: () => void
   ) => void;
@@ -55,7 +55,7 @@ const TournamentInfo: React.FC<Props> = ({
   const handleExecuteDelete = () => {
     setInProgress(true);
     deleteTournament(
-      tournamentId,
+      tournament,
       () => {
         setInProgress(false);
         history.push(routerConstString.tournaments);
@@ -142,11 +142,10 @@ const mapStateToProps = (state: any, ownProps: any) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     deleteTournament: (
-      tournamentId: Id,
+      tournament: TournamentData,
       callBackSuccess?: () => void,
       callBackError?: () => void
-    ) =>
-      dispatch(deleteTournament(tournamentId, callBackSuccess, callBackError)),
+    ) => dispatch(deleteTournament(tournament, callBackSuccess, callBackError)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TournamentInfo);

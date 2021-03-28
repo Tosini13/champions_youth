@@ -10,17 +10,22 @@ import { ListItemTextStyled } from "../../../../styled/styledBracket";
 type Props = {
   team: TeamData;
   userId: Id;
+  tournamentId: Id;
 };
 
-const GroupTeamsListElement: React.FC<Props> = ({ team, userId }) => {
+const GroupTeamsListElement: React.FC<Props> = ({
+  team,
+  userId,
+  tournamentId,
+}) => {
   const [logo, setLogo] = useState<any>(null);
 
   useEffect(() => {
     if (team?.logo && userId) {
-      const image = getImage(team.logo, userId);
+      const image = getImage(team.logo, userId, tournamentId);
       setLogo(image);
     }
-  }, [team, userId]);
+  }, [team, userId, tournamentId]);
 
   return (
     <TeamListElementStyled button>

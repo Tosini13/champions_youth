@@ -14,7 +14,7 @@ import TeamSummary from "./TeamSummary";
 
 type Props = {
   teams?: TeamData[];
-  deleteTeamFromTournament: (tournamentId: Id, teamId: Id) => void;
+  deleteTeamFromTournament: (tournamentId: Id, team: TeamData) => void;
   editTeamFromTournament: (tournamentId: Id, team: TeamData) => void;
   userId: Id;
   isOwner: boolean;
@@ -32,7 +32,7 @@ const TeamList: React.FC<Props> = ({
   const { tournamentId } = useParams<{ tournamentId: Id }>();
 
   const handleDeleteTeam = (team: TeamData) => {
-    deleteTeamFromTournament(tournamentId, team.id);
+    deleteTeamFromTournament(tournamentId, team);
   };
 
   const handleEditTeam = (team: TeamData) => {
@@ -50,6 +50,7 @@ const TeamList: React.FC<Props> = ({
           userId={userId}
           isOwner={isOwner}
           isCreated={isCreated}
+          tournamentId={tournamentId}
         />
       ))}
     </TeamListStyled>
@@ -64,8 +65,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    deleteTeamFromTournament: (tournamentId: Id, teamId: Id) =>
-      dispatch(deleteTeamFromTournament(tournamentId, teamId)),
+    deleteTeamFromTournament: (tournamentId: Id, team: TeamData) =>
+      dispatch(deleteTeamFromTournament(tournamentId, team)),
     editTeamFromTournament: (tournamentId: Id, team: TeamData) =>
       dispatch(editTeamFromTournament(tournamentId, team)),
   };

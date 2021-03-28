@@ -21,12 +21,14 @@ import ShowTeam from "./ShowTeam";
 
 export interface MatchDetailsDisplayProps {
   match: Match;
+  tournamentId: Id;
   authorId: Id;
   locale: LOCALE;
 }
 
 const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
   match,
+  tournamentId,
   authorId,
   locale,
 }) => {
@@ -35,15 +37,15 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
 
   useEffect(() => {
     if (match.home?.logo && authorId) {
-      const image = getImage(match.home?.logo, authorId);
+      const image = getImage(match.home?.logo, authorId, tournamentId);
       setImageHome(image);
     }
 
     if (match.away?.logo && authorId) {
-      const image = getImage(match.away?.logo, authorId);
+      const image = getImage(match.away?.logo, authorId, tournamentId);
       setImageAway(image);
     }
-  }, [match, authorId]);
+  }, [match, authorId, tournamentId]);
 
   const isStarted: boolean = match.mode !== matchModeConst.notStarted;
 

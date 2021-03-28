@@ -8,13 +8,23 @@ import GroupTeamsListElement from "./GroupTeamsListElement";
 export interface GroupTeamsListProps {
   teams: TeamData[];
   userId: Id;
+  tournamentId: Id;
 }
 
-const GroupTeamsList: React.FC<GroupTeamsListProps> = ({ userId, teams }) => {
+const GroupTeamsList: React.FC<GroupTeamsListProps> = ({
+  userId,
+  teams,
+  tournamentId,
+}) => {
   return (
     <TeamListStyled>
       {teams?.map((team: TeamData) => (
-        <GroupTeamsListElement key={team.id} team={team} userId={userId} />
+        <GroupTeamsListElement
+          key={team.id}
+          team={team}
+          userId={userId}
+          tournamentId={tournamentId}
+        />
       ))}
     </TeamListStyled>
   );

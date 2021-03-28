@@ -25,6 +25,12 @@ const tournamentReducer = (state = initState, action: any) => {
     case "DELETE_TOURNAMENT_ERROR":
       console.log("DELETE_TOURNAMENT_ERROR", action.err);
       return state;
+    case "DELETE_TOURNAMENT_DELETE_LOGO":
+      console.log("DELETE_TOURNAMENT_DELETE_LOGO", action.err);
+      return state;
+    case "DELETE_TOURNAMENT_OK_DELETE_LOGO_ERROR":
+      console.log("DELETE_TOURNAMENT_OK_DELETE_LOGO_ERROR", action.err);
+      return state;
     default:
       return state;
   }

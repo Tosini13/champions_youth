@@ -25,6 +25,7 @@ const TeamList = styled(TeamListStyled)`
 export interface ChooseTeamsProps {
   locale: LOCALE;
   userId: Id;
+  tournamentId: Id;
   teams?: TeamData[];
   chosenGroup?: GroupModel;
   chosenTeams: TeamData[];
@@ -37,6 +38,7 @@ export interface ChooseTeamsProps {
 const ChooseTeams: React.FC<ChooseTeamsProps> = ({
   locale,
   userId,
+  tournamentId,
   teams,
   chosenGroup,
   chosenTeams,
@@ -78,6 +80,7 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
         <TeamList>
           {teams?.map((team: TeamData) => (
             <ChooseTeamsElement
+              tournamentId={tournamentId}
               key={team.id}
               team={team}
               userId={userId}
