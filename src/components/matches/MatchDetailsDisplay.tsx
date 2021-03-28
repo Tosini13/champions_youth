@@ -14,19 +14,24 @@ import {
   LiveMarkStyled,
 } from "../../styled/styledMatch";
 import Logo, { SIZE_LOGO } from "../global/Logo";
-import { getImage } from "../tournaments/actions/getImage";
+import {
+  getImage,
+  getImageJustUploaded,
+} from "../tournaments/actions/getImage";
 import matchDict from "../../locale/matchDict";
 import { LOCALE } from "../../locale/config";
 import ShowTeam from "./ShowTeam";
 
 export interface MatchDetailsDisplayProps {
   match: Match;
+  tournamentId: Id;
   authorId: Id;
   locale: LOCALE;
 }
 
 const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
   match,
+  tournamentId,
   authorId,
   locale,
 }) => {
@@ -35,15 +40,29 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
 
   useEffect(() => {
     if (match.home?.logo && authorId) {
-      const image = getImage(match.home?.logo, authorId);
-      setImageHome(image);
+      getImage(match.home?.logo, authorId, tournamentId)
+        .then((image) => {
+          let img = image;
+          if (!image && match.home?.logo) {
+            img = getImageJustUploaded(match.home?.logo, authorId) ?? undefined;
+          }
+          setImageHome(img);
+        })
+        .catch((err) => console.log("err", err));
     }
 
     if (match.away?.logo && authorId) {
-      const image = getImage(match.away?.logo, authorId);
-      setImageAway(image);
+      getImage(match.away?.logo, authorId, tournamentId)
+        .then((image) => {
+          let img = image;
+          if (!image && match.away?.logo) {
+            img = getImageJustUploaded(match.away?.logo, authorId) ?? undefined;
+          }
+          setImageAway(img);
+        })
+        .catch((err) => console.log("err", err));
     }
-  }, [match, authorId]);
+  }, [match, authorId, tournamentId]);
 
   const isStarted: boolean = match.mode !== matchModeConst.notStarted;
 

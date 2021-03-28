@@ -24,7 +24,7 @@ import TournamentInfo from "./TournamentInfo";
 import { Group, GroupDataDb } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
-import { getImage } from "../actions/getImage";
+import { getImage, getImageJustUploaded } from "../actions/getImage";
 import SplashScreen from "../../global/SplashScreen";
 import { GroupModel } from "../../../NewModels/Group";
 import { Hidden } from "@material-ui/core";
@@ -58,11 +58,18 @@ const TournamentDetails: React.FC<Props> = ({
   const [image, setImage] = useState<any | null>(null);
 
   useEffect(() => {
-    if (tournament?.image && authorId) {
-      const image = getImage(tournament.image, authorId);
-      setImage(image);
+    if (tournament?.image && authorId && tournamentId) {
+      getImage(tournament.image, authorId, tournamentId)
+        .then((image) => {
+          let img = image;
+          if (!image && tournament.image) {
+            img = getImageJustUploaded(tournament.image, authorId) ?? undefined;
+          }
+          setImage(img);
+        })
+        .catch((err) => console.log("err", err));
     }
-  }, [tournament, authorId]);
+  }, [tournament, authorId, tournamentId]);
 
   const [view, setView] = useState(menuTournamentConst.info);
   if (tournament && teams) {
@@ -143,7 +150,12 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const authorId = state.firebase.auth.uid;
   const tournamentId = ownProps.match.params.tournamentId;
   const tournaments = state.firestore.data.tournaments;
-  const tournament = tournaments ? tournaments[tournamentId] : null;
+  const tournament: TournamentData | undefined = tournaments
+    ? {
+        ...tournaments[tournamentId],
+        id: tournamentId,
+      }
+    : undefined;
   const isOwner = tournament && tournament.ownerId === authorId;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
   const groupsData: GroupDataDb[] | undefined = state.firestore.ordered.groups;

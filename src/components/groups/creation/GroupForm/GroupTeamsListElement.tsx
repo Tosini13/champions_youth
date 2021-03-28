@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 
 import { TeamData } from "../../../../models/teamData";
 import { Id } from "../../../../const/structuresConst";
-import { getImage } from "../../../tournaments/actions/getImage";
+import {
+  getImage,
+  getImageJustUploaded,
+} from "../../../tournaments/actions/getImage";
 import { TeamListElementStyled } from "../../../../styled/styledTeams";
 import Logo, { SIZE_LOGO } from "../../../global/Logo";
 import { ListItemTextStyled } from "../../../../styled/styledBracket";
@@ -10,17 +13,29 @@ import { ListItemTextStyled } from "../../../../styled/styledBracket";
 type Props = {
   team: TeamData;
   userId: Id;
+  tournamentId: Id;
 };
 
-const GroupTeamsListElement: React.FC<Props> = ({ team, userId }) => {
+const GroupTeamsListElement: React.FC<Props> = ({
+  team,
+  userId,
+  tournamentId,
+}) => {
   const [logo, setLogo] = useState<any>(null);
 
   useEffect(() => {
     if (team?.logo && userId) {
-      const image = getImage(team.logo, userId);
-      setLogo(image);
+      getImage(team.logo, userId, tournamentId)
+        .then((image) => {
+          let img = image;
+          if (!image && team.logo) {
+            img = getImageJustUploaded(team.logo, userId) ?? undefined;
+          }
+          setLogo(img);
+        })
+        .catch((err) => console.log("err", err));
     }
-  }, [team, userId]);
+  }, [team, userId, tournamentId]);
 
   return (
     <TeamListElementStyled button>

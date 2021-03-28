@@ -1,4 +1,9 @@
 import firebase from "firebase";
+import moment from "moment";
+import {
+  getImageUrl,
+  setImageJustUploaded,
+} from "../../components/tournaments/actions/getImage";
 import { Id } from "../../const/structuresConst";
 import { TeamCreateData, TeamData } from "../../models/teamData";
 
@@ -10,23 +15,38 @@ export const addTeamToTournament = (
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
     const authorId = getState().firebase.auth.uid;
+    const logoName = image ? `${moment().format()}${image.name}` : undefined;
+    if (image && logoName) {
+      image.name = logoName;
+      setImageJustUploaded(logoName, URL.createObjectURL(image), authorId);
+    }
+
     firestore
       .collection("tournaments")
       .doc(tournamentId)
       .collection("teams")
       .add({
         name: team.name,
-        logo: image && team.logo ? team.logo : null,
+        logo: logoName,
       })
       .then(() => {
-        dispatch({ type: "ADD_TEAM_TO_TOURNAMENT" });
         if (image) {
           const storageRef = firebase.storage().ref();
-          const ref = storageRef.child(`images/${authorId}/${image.name}`);
+          const ref = storageRef.child(
+            getImageUrl({
+              authorId,
+              tournamentId,
+              imageName: image.name,
+            })
+          );
           ref
             .put(image)
-            .then((res) => dispatch({ type: "IMAGE_UPLOADED" }))
-            .catch((err) => dispatch({ type: "IMAGE_UPLOADED_ERROR" }));
+            .then((res) =>
+              dispatch({ type: "ADD_TEAM_TO_TOURNAMENT_IMAGE_UPLOADED" })
+            )
+            .catch((err) =>
+              dispatch({ type: "ADD_TEAM_TO_TOURNAMENT_IMAGE_UPLOADED_ERROR" })
+            );
         }
       })
       .catch((err: any) => {
@@ -35,17 +55,39 @@ export const addTeamToTournament = (
   };
 };
 
-export const deleteTeamFromTournament = (tournamentId: Id, teamId: Id) => {
+export const deleteTeamFromTournament = (tournamentId: Id, team: TeamData) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
+    const authorId = getState().firebase.auth.uid;
     firestore
       .collection("tournaments")
       .doc(tournamentId)
       .collection("teams")
-      .doc(teamId)
+      .doc(team.id)
       .delete()
       .then(() => {
-        dispatch({ type: "DELETE_TEAM_FROM_TOURNAMENT" });
+        if (team.logo) {
+          const storageRef = firebase.storage().ref();
+          const desertRef = storageRef.child(
+            getImageUrl({
+              authorId,
+              tournamentId,
+              imageName: team.logo,
+            })
+          );
+          desertRef
+            .delete()
+            .then(() => {
+              dispatch({ type: "DELETE_TEAM_FROM_TOURNAMENT_DELETE_LOGO" });
+            })
+            .catch((error) => {
+              dispatch({
+                type: "DELETE_TEAM_FROM_TOURNAMENT_OK_DELETE_LOGO_ERROR",
+              });
+            });
+        } else {
+          dispatch({ type: "DELETE_TEAM_FROM_TOURNAMENT" });
+        }
       })
       .catch((err: any) => {
         dispatch({ type: "DELETE_TEAM_FROM_TOURNAMENT_ERROR", err });

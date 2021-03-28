@@ -5,7 +5,10 @@ import AddIcon from "@material-ui/icons/Add";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import { TeamData } from "../../../../models/teamData";
 import { Id } from "../../../../const/structuresConst";
-import { getImage } from "../../../tournaments/actions/getImage";
+import {
+  getImage,
+  getImageJustUploaded,
+} from "../../../tournaments/actions/getImage";
 import { TeamListElementStyled } from "../../../../styled/styledTeams";
 import Logo, { SIZE_LOGO } from "../../../global/Logo";
 import { IconButton } from "@material-ui/core";
@@ -14,6 +17,7 @@ import { ListItemTextStyled } from "../../../../styled/styledBracket";
 type Props = {
   team: TeamData;
   userId: Id;
+  tournamentId: Id;
   selected: boolean;
   restricted: boolean;
   handleChooseTeam: (selected: TeamData) => void;
@@ -22,6 +26,7 @@ type Props = {
 const ChooseTeamsElement: React.FC<Props> = ({
   team,
   userId,
+  tournamentId,
   selected,
   restricted,
   handleChooseTeam,
@@ -30,10 +35,17 @@ const ChooseTeamsElement: React.FC<Props> = ({
 
   useEffect(() => {
     if (team?.logo && userId) {
-      const image = getImage(team.logo, userId);
-      setLogo(image);
+      getImage(team.logo, userId, tournamentId)
+        .then((image) => {
+          let img = image;
+          if (!image && team.logo) {
+            img = getImageJustUploaded(team.logo, userId) ?? undefined;
+          }
+          setLogo(img);
+        })
+        .catch((err) => console.log("err", err));
     }
-  }, [team, userId]);
+  }, [team, userId, tournamentId]);
 
   return (
     <TeamListElementStyled

@@ -256,7 +256,11 @@ const MatchDetails: React.FC<Props> = ({
         >
           <Grid item lg={6} md={8}>
             <PaperStyled style={{ padding: "10px" }} color="primary">
-              <MatchDetailsDisplay match={matchData} authorId={authorId} />
+              <MatchDetailsDisplay
+                match={matchData}
+                authorId={authorId}
+                tournamentId={tournamentId}
+              />
               <MatchDetailsDashboard
                 locale={locale}
                 match={matchData}
@@ -271,7 +275,11 @@ const MatchDetails: React.FC<Props> = ({
         </Grid>
       </Hidden>
       <Hidden mdUp>
-        <MatchDetailsDisplay match={matchData} authorId={authorId} />
+        <MatchDetailsDisplay
+          match={matchData}
+          authorId={authorId}
+          tournamentId={tournamentId}
+        />
         <MatchDetailsDashboard
           locale={locale}
           match={matchData}

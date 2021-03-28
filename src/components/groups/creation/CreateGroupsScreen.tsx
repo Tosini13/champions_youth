@@ -235,7 +235,11 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
                   handleRemoveGroup={handleRemoveGroup}
                   handleUpdateGroup={handleUpdateGroup}
                 >
-                  <GroupTeamsList teams={group.teams} userId={userId} />
+                  <GroupTeamsList
+                    teams={group.teams}
+                    userId={userId}
+                    tournamentId={tournamentId}
+                  />
                 </CreateGroupForm>
               </Grid>
             );
@@ -244,6 +248,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
       </GroupsContentContainerStyled>
       <CreateGroupsActions add={handleAddGroup} draw={handleDrawGroup} />
       <ChooseTeams
+        tournamentId={tournamentId}
         teams={teams}
         chosenGroup={chosenGroup}
         chosenTeams={chosenTeams}

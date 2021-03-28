@@ -20,7 +20,7 @@ import { TournamentData } from "../../models/tournamentData";
 import { Id } from "../../const/structuresConst";
 import { setFavorites } from "../../store/actions/UserActions";
 import { UserData } from "../../models/credentialsData";
-import { getImage } from "./actions/getImage";
+import { getImage, getImageJustUploaded } from "./actions/getImage";
 import Logo, { SIZE_LOGO } from "../global/Logo";
 
 type Props = {
@@ -40,8 +40,18 @@ const TournamentSummary: React.FC<Props> = ({
 
   useEffect(() => {
     if (tournament?.image && authorId) {
-      const image = getImage(tournament.image, authorId);
-      setImage(image);
+      console.log(tournament.id);
+      getImage(tournament.image, authorId, tournament.id)
+        .then((image) => {
+          let img = image;
+          if (!image && tournament.image) {
+            img = getImageJustUploaded(tournament.image, authorId) ?? undefined;
+            console.log("got from summary", img);
+          }
+          console.log("image", img);
+          setImage(img);
+        })
+        .catch((err) => console.log("err", err));
     }
   }, [tournament, authorId]);
 
