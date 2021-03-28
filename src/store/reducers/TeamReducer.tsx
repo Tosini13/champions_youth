@@ -1,8 +1,11 @@
 const initState = {};
 const teamReducer = (state = initState, action: any) => {
   switch (action.type) {
-    case "ADD_TEAM_TO_TOURNAMENT":
-      console.log("team added to tournament");
+    case "ADD_TEAM_TO_TOURNAMENT_IMAGE_UPLOADED":
+      console.log("ADD_TEAM_TO_TOURNAMENT_IMAGE_UPLOADED");
+      return state;
+    case "ADD_TEAM_TO_TOURNAMENT_IMAGE_UPLOADED_ERROR":
+      console.log("ADD_TEAM_TO_TOURNAMENT_IMAGE_UPLOADED_ERROR");
       return state;
     case "ADD_TEAM_TO_TOURNAMENT_ERROR":
       console.log("team addition to tournament error", action.err);
