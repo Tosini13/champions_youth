@@ -24,7 +24,7 @@ import TournamentInfo from "./TournamentInfo";
 import { Group, GroupDataDb } from "../../../models/groupData";
 import TournamentPlayOffs from "./TournamentPlayOffs";
 import { GameDataDb } from "../../../structures/dbAPI/gameData";
-import { getImage } from "../actions/getImage";
+import { getImage, getImageJustUploaded } from "../actions/getImage";
 import SplashScreen from "../../global/SplashScreen";
 import { GroupModel } from "../../../NewModels/Group";
 import { Hidden } from "@material-ui/core";
@@ -59,8 +59,15 @@ const TournamentDetails: React.FC<Props> = ({
 
   useEffect(() => {
     if (tournament?.image && authorId && tournamentId) {
-      const image = getImage(tournament.image, authorId, tournamentId);
-      setImage(image);
+      getImage(tournament.image, authorId, tournamentId)
+        .then((image) => {
+          let img = image;
+          if (!image && tournament.image) {
+            img = getImageJustUploaded(tournament.image, authorId) ?? undefined;
+          }
+          setImage(img);
+        })
+        .catch((err) => console.log("err", err));
     }
   }, [tournament, authorId, tournamentId]);
 

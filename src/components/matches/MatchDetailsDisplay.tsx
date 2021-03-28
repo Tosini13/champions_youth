@@ -14,7 +14,10 @@ import {
   LiveMarkStyled,
 } from "../../styled/styledMatch";
 import Logo, { SIZE_LOGO } from "../global/Logo";
-import { getImage } from "../tournaments/actions/getImage";
+import {
+  getImage,
+  getImageJustUploaded,
+} from "../tournaments/actions/getImage";
 import matchDict from "../../locale/matchDict";
 import { LOCALE } from "../../locale/config";
 import ShowTeam from "./ShowTeam";
@@ -37,13 +40,27 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
 
   useEffect(() => {
     if (match.home?.logo && authorId) {
-      const image = getImage(match.home?.logo, authorId, tournamentId);
-      setImageHome(image);
+      getImage(match.home?.logo, authorId, tournamentId)
+        .then((image) => {
+          let img = image;
+          if (!image && match.home?.logo) {
+            img = getImageJustUploaded(match.home?.logo, authorId) ?? undefined;
+          }
+          setImageHome(img);
+        })
+        .catch((err) => console.log("err", err));
     }
 
     if (match.away?.logo && authorId) {
-      const image = getImage(match.away?.logo, authorId, tournamentId);
-      setImageAway(image);
+      getImage(match.away?.logo, authorId, tournamentId)
+        .then((image) => {
+          let img = image;
+          if (!image && match.away?.logo) {
+            img = getImageJustUploaded(match.away?.logo, authorId) ?? undefined;
+          }
+          setImageAway(img);
+        })
+        .catch((err) => console.log("err", err));
     }
   }, [match, authorId, tournamentId]);
 

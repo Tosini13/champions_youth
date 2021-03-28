@@ -13,7 +13,7 @@ export function getImageUrl({
   return `images/${authorId}/${tournamentId}/${imageName}`;
 }
 
-export const getImage = (image: string, authorId: Id, tournamentId: Id) => {
+export async function getImage(image: string, authorId: Id, tournamentId: Id) {
   if (image) {
     const url = getImageUrl({
       authorId,
@@ -22,30 +22,27 @@ export const getImage = (image: string, authorId: Id, tournamentId: Id) => {
     });
     const imageId = `${url}${image}`;
     let img = localStorage.getItem(imageId);
-    if (!img) {
-      img = getImageJustUploaded(image, authorId);
-    }
 
     if (!img) {
       const storage = firebase.storage();
       const pathReference = storage.ref(url);
       pathReference
-        .child(image)
         .getDownloadURL()
         .then((img) => {
           localStorage.setItem(imageId, img);
           return img;
         })
         .catch(function (error) {
-          console.log(error);
+          img = getImageJustUploaded(image, authorId);
+          return img;
         });
     } else {
       return img;
     }
   }
-};
+}
 
-const getImageJustUploaded = (logoName: string, authorId: Id) => {
+export const getImageJustUploaded = (logoName: string, authorId: Id) => {
   const imageId = `uploaded/${authorId}/${logoName}`;
   return localStorage.getItem(imageId);
 };
