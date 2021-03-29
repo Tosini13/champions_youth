@@ -1,22 +1,16 @@
 import firebase from "firebase";
 import { Id } from "../../../const/structuresConst";
 type TGetImageUrl = {
-  authorId: Id;
   tournamentId: Id;
   imageName: string;
 };
-export function getImageUrl({
-  authorId,
-  tournamentId,
-  imageName,
-}: TGetImageUrl) {
-  return `images/${authorId}/${tournamentId}/${imageName}`;
+export function getImageUrl({ tournamentId, imageName }: TGetImageUrl) {
+  return `images/${tournamentId}/${imageName}`;
 }
 
-export async function getImage(image: string, authorId: Id, tournamentId: Id) {
+export async function getImage(image: string, tournamentId: Id) {
   if (image) {
     const url = getImageUrl({
-      authorId,
       tournamentId,
       imageName: image,
     });
@@ -33,7 +27,7 @@ export async function getImage(image: string, authorId: Id, tournamentId: Id) {
           return img;
         })
         .catch(function (error) {
-          img = getImageJustUploaded(image, authorId);
+          img = getImageJustUploaded(image, tournamentId);
           return img;
         });
     } else {
@@ -42,16 +36,16 @@ export async function getImage(image: string, authorId: Id, tournamentId: Id) {
   }
 }
 
-export const getImageJustUploaded = (logoName: string, authorId: Id) => {
-  const imageId = `uploaded/${authorId}/${logoName}`;
+export const getImageJustUploaded = (logoName: string, tournamentId: Id) => {
+  const imageId = `uploaded/${tournamentId}/${logoName}`;
   return localStorage.getItem(imageId);
 };
 
 export const setImageJustUploaded = (
   logoName: string,
   imageUrl: string,
-  authorId: Id
+  tournamentId: Id
 ) => {
-  const imageId = `uploaded/${authorId}/${logoName}`;
+  const imageId = `uploaded/${tournamentId}/${logoName}`;
   localStorage.setItem(imageId, imageUrl);
 };

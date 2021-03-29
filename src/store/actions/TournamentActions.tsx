@@ -16,7 +16,7 @@ export const createTournament = (data: TournamentCreateData, image?: any) => {
     const logoName = image ? `${moment().format()}${image.name}` : undefined;
     if (image && logoName) {
       image.name = logoName;
-      setImageJustUploaded(logoName, URL.createObjectURL(image), authorId);
+      setImageJustUploaded(logoName, URL.createObjectURL(image), authorId); // should be tournamentId, but there's no, so authorId is instead!
     }
     firestore
       .collection("tournaments")
@@ -32,7 +32,6 @@ export const createTournament = (data: TournamentCreateData, image?: any) => {
 
           const ref = storageRef.child(
             getImageUrl({
-              authorId,
               tournamentId: res.id,
               imageName: image.name,
             })
@@ -65,7 +64,6 @@ export const deleteTournament = (
 ) => {
   const path = `/tournaments/${tournament.id}`;
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
-    const authorId = getState().firebase.auth.uid;
     var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
     deleteFn({ path: path })
       .then(function (result: any) {
@@ -73,10 +71,7 @@ export const deleteTournament = (
           callBackSuccess();
         }
         if (tournament.image) {
-          console.log(`images/${authorId}/${tournament.id}`);
-          const ref = firebase
-            .storage()
-            .ref(`images/${authorId}/${tournament.id}`);
+          const ref = firebase.storage().ref(`images/${tournament.id}`);
           ref
             .listAll()
             .then((dir) => {

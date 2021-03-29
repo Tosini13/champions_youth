@@ -80,18 +80,18 @@ const TeamSummary: React.FC<Props> = ({
   const [logo, setLogo] = useState<any>(null);
 
   useEffect(() => {
-    if (team?.logo && userId) {
-      getImage(team.logo, userId, tournamentId)
+    if (team?.logo) {
+      getImage(team.logo, tournamentId)
         .then((image) => {
           let img = image;
           if (!image && team.logo) {
-            img = getImageJustUploaded(team.logo, userId) ?? undefined;
+            img = getImageJustUploaded(team.logo, tournamentId) ?? undefined;
           }
           setLogo(img);
         })
         .catch((err) => console.log("err", err));
     }
-  }, [team, userId, tournamentId]);
+  }, [team, tournamentId]);
 
   return (
     <TeamListElementStyled button>
