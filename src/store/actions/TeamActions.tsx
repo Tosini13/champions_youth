@@ -14,11 +14,10 @@ export const addTeamToTournament = (
 ) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
-    const authorId = getState().firebase.auth.uid;
     const logoName = image ? `${moment().format()}${image.name}` : undefined;
     if (image && logoName) {
       image.name = logoName;
-      setImageJustUploaded(logoName, URL.createObjectURL(image), authorId);
+      setImageJustUploaded(logoName, URL.createObjectURL(image), tournamentId);
     }
 
     firestore
@@ -34,7 +33,6 @@ export const addTeamToTournament = (
           const storageRef = firebase.storage().ref();
           const ref = storageRef.child(
             getImageUrl({
-              authorId,
               tournamentId,
               imageName: image.name,
             })
@@ -58,7 +56,6 @@ export const addTeamToTournament = (
 export const deleteTeamFromTournament = (tournamentId: Id, team: TeamData) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
-    const authorId = getState().firebase.auth.uid;
     firestore
       .collection("tournaments")
       .doc(tournamentId)
@@ -70,7 +67,6 @@ export const deleteTeamFromTournament = (tournamentId: Id, team: TeamData) => {
           const storageRef = firebase.storage().ref();
           const desertRef = storageRef.child(
             getImageUrl({
-              authorId,
               tournamentId,
               imageName: team.logo,
             })

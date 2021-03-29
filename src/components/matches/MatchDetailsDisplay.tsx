@@ -39,30 +39,32 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
   const [imageAway, setImageAway] = useState<any>(null);
 
   useEffect(() => {
-    if (match.home?.logo && authorId) {
-      getImage(match.home?.logo, authorId, tournamentId)
+    if (match.home?.logo) {
+      getImage(match.home?.logo, tournamentId)
         .then((image) => {
           let img = image;
           if (!image && match.home?.logo) {
-            img = getImageJustUploaded(match.home?.logo, authorId) ?? undefined;
+            img =
+              getImageJustUploaded(match.home?.logo, tournamentId) ?? undefined;
           }
           setImageHome(img);
         })
         .catch((err) => console.log("err", err));
     }
 
-    if (match.away?.logo && authorId) {
-      getImage(match.away?.logo, authorId, tournamentId)
+    if (match.away?.logo) {
+      getImage(match.away?.logo, tournamentId)
         .then((image) => {
           let img = image;
           if (!image && match.away?.logo) {
-            img = getImageJustUploaded(match.away?.logo, authorId) ?? undefined;
+            img =
+              getImageJustUploaded(match.away?.logo, tournamentId) ?? undefined;
           }
           setImageAway(img);
         })
         .catch((err) => console.log("err", err));
     }
-  }, [match, authorId, tournamentId]);
+  }, [match, tournamentId]);
 
   const isStarted: boolean = match.mode !== matchModeConst.notStarted;
 

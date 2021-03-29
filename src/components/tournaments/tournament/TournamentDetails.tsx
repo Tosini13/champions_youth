@@ -58,8 +58,8 @@ const TournamentDetails: React.FC<Props> = ({
   const [image, setImage] = useState<any | null>(null);
 
   useEffect(() => {
-    if (tournament?.image && authorId && tournamentId) {
-      getImage(tournament.image, authorId, tournamentId)
+    if (tournament?.image && tournamentId && authorId) {
+      getImage(tournament.image, tournamentId)
         .then((image) => {
           let img = image;
           if (!image && tournament.image) {
@@ -69,7 +69,7 @@ const TournamentDetails: React.FC<Props> = ({
         })
         .catch((err) => console.log("err", err));
     }
-  }, [tournament, authorId, tournamentId]);
+  }, [tournament, tournamentId, authorId]);
 
   const [view, setView] = useState(menuTournamentConst.info);
   if (tournament && teams) {

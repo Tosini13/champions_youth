@@ -41,14 +41,12 @@ const TournamentSummary: React.FC<Props> = ({
   useEffect(() => {
     if (tournament?.image && authorId) {
       console.log(tournament.id);
-      getImage(tournament.image, authorId, tournament.id)
+      getImage(tournament.image, tournament.id)
         .then((image) => {
           let img = image;
           if (!image && tournament.image) {
             img = getImageJustUploaded(tournament.image, authorId) ?? undefined;
-            console.log("got from summary", img);
           }
-          console.log("image", img);
           setImage(img);
         })
         .catch((err) => console.log("err", err));
