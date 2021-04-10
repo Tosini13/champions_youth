@@ -6,6 +6,7 @@ import { mainTheme } from "./styledConst";
 
 import { Divider, Grid } from "@material-ui/core";
 import { ScrollBarStyled } from "./styledScrollBar";
+import { CSSProperties } from "@material-ui/styles";
 
 export const BodyContainer = styled.div<{ sm: boolean }>`
   display: flex;
@@ -166,8 +167,13 @@ const GridSectionStyled = styled(Grid)`
   flex-wrap: nowrap;
 `;
 
-export const SectionStyled: React.FC<{}> = ({ children }) => (
-  <GridSectionStyled container direction="column">
+type TSectionStyledProps = { style?: CSSProperties };
+
+export const SectionStyled: React.FC<TSectionStyledProps> = ({
+  children,
+  style,
+}) => (
+  <GridSectionStyled container direction="column" style={style}>
     {children}
   </GridSectionStyled>
 );

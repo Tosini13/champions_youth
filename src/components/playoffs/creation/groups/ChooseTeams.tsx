@@ -20,6 +20,7 @@ import { DialogRU } from "../../../../styled/styledDialog";
 const TeamList = styled(TeamListStyled)`
   overflow-x: hidden;
   flex-wrap: nowrap;
+  padding-bottom: 5px;
   ${ScrollBarStyled}
 `;
 

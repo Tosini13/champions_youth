@@ -14,6 +14,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import dialogDict from "../locale/dialog.dict";
 import { LOCALE } from "../locale/config";
+import { SectionContentStyled, SectionStyled } from "./styledLayout";
 
 export const DialogHeaderStyled = styled(Grid)`
   padding: 5px;
@@ -48,22 +49,34 @@ export const DialogRU: React.FC<TDialogRUProps> = ({
 }) => (
   <Rosetta translations={dialogDict} locale={locale}>
     <DialogStyled onClose={onClose} {...props}>
-      <DialogHeaderStyled container justify="space-between" alignItems="center">
+      <SectionStyled
+        style={{
+          maxHeight: "88vh",
+        }}
+      >
         <Grid item>
-          <Typography variant="h6">
-            <Translator id={title} /> {matchNumber}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <IconButton
-            color="secondary"
-            onClick={() => (onClose ? onClose({}, "backdropClick") : {})}
+          <DialogHeaderStyled
+            container
+            justify="space-between"
+            alignItems="center"
           >
-            <CloseIcon />
-          </IconButton>
+            <Grid item>
+              <Typography variant="h6">
+                <Translator id={title} /> {matchNumber}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <IconButton
+                color="secondary"
+                onClick={() => (onClose ? onClose({}, "backdropClick") : {})}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Grid>
+          </DialogHeaderStyled>
         </Grid>
-      </DialogHeaderStyled>
-      {children}
+        <SectionContentStyled>{children}</SectionContentStyled>
+      </SectionStyled>
     </DialogStyled>
   </Rosetta>
 );
