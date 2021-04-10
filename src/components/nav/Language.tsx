@@ -1,17 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Rosetta, Translator } from "react-rosetta";
+import { Rosetta } from "react-rosetta";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import {
-  DialogStyled,
-  DialogTitle,
-  FlagImgStyled,
-} from "../../styled/styledLayout";
+import { FlagImgStyled } from "../../styled/styledLayout";
 
 import { LOCALE } from "../../locale/config";
 import { setLocale } from "../../store/actions/DictionaryActions";
@@ -19,6 +15,7 @@ import plFlag from "../../images/flags/pl.png";
 import enFlag from "../../images/flags/us.png";
 import languageDict from "../../locale/language";
 import { IconButton } from "@material-ui/core";
+import { DialogRU } from "../../styled/styledDialog";
 
 export interface LanguageProps {
   locale: LOCALE;
@@ -56,14 +53,13 @@ const Language: React.FC<LanguageProps> = ({ locale, setLocale }) => {
         <IconButton size="small" onClick={handleOpen}>
           <FlagImgStyled src={getFlag(locale)} alt={locale} />
         </IconButton>
-        <DialogStyled
+        <DialogRU
           onClose={handleClose}
           aria-labelledby="simple-dialog-title"
           open={open}
+          locale={locale}
+          title="chooseLanguage"
         >
-          <DialogTitle id="simple-dialog-title">
-            <Translator id="chooseLanguage" />
-          </DialogTitle>
           <List>
             <ListItem button onClick={() => handleSetLocale(LOCALE.english)}>
               <ListItemAvatar>
@@ -84,7 +80,7 @@ const Language: React.FC<LanguageProps> = ({ locale, setLocale }) => {
               <ListItemText primary="Polski" />
             </ListItem>
           </List>
-        </DialogStyled>
+        </DialogRU>
       </>
     </Rosetta>
   );

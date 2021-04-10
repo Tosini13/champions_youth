@@ -6,10 +6,10 @@ import { TeamData } from "../../../models/teamData";
 import AddTeam from "../../teams/AddTeam";
 import TeamList from "../../teams/TeamList";
 
-import { DialogStyled, DialogTitle } from "../../../styled/styledLayout";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
 import { ButtonStyled } from "../../../styled/styledButtons";
+import { DialogRU } from "../../../styled/styledDialog";
 
 type Props = {
   teams?: TeamData[];
@@ -37,17 +37,16 @@ const TournamentTeams: React.FC<Props> = ({
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <>
-        <DialogStyled
+        <DialogRU
           onClose={handleClose}
           aria-labelledby="simple-dialog-title"
           open={opened}
           color="primary"
+          title={"addTeam"}
+          locale={locale}
         >
-          <DialogTitle>
-            <Translator id="addTeam" />
-          </DialogTitle>
           <AddTeam handleClose={handleClose} />
-        </DialogStyled>
+        </DialogRU>
         {isOwner ? (
           <ButtonStyled
             variant="outlined"

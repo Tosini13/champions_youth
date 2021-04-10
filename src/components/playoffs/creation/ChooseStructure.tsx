@@ -3,9 +3,9 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import { Button, DialogContent, Grid } from "@material-ui/core";
 
-import { DialogStyled, DialogTitle } from "../../../styled/styledLayout";
 import { LOCALE } from "../../../locale/config";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
+import { DialogRU } from "../../../styled/styledDialog";
 
 export interface ChooseStructureProps {
   locale: LOCALE;
@@ -24,10 +24,12 @@ const ChooseStructure: React.FC<ChooseStructureProps> = ({
 }) => {
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
-      <DialogStyled open={opened} onClose={handleClose}>
-        <DialogTitle>
-          <Translator id="chooseStructure" />
-        </DialogTitle>
+      <DialogRU
+        open={opened}
+        onClose={handleClose}
+        title={"chooseStructure"}
+        locale={locale}
+      >
         <DialogContent>
           <Grid container justify="space-around">
             <Grid item>
@@ -56,7 +58,7 @@ const ChooseStructure: React.FC<ChooseStructureProps> = ({
             </Grid>
           </Grid>
         </DialogContent>
-      </DialogStyled>
+      </DialogRU>
     </Rosetta>
   );
 };

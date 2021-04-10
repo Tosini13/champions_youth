@@ -5,8 +5,10 @@ import { Group } from "../../../../../models/groupData";
 import ChoosePromotedListElement from "./ChoosePromotedListElement";
 import { Id } from "../../../../../const/structuresConst";
 import { Placeholder, PromotedTeam } from "../../../../../NewModels/Team";
+import { LOCALE } from "../../../../../locale/config";
 
 type Props = {
+  locale: LOCALE;
   groups?: Group[];
   chosenTeams: Placeholder[];
   setChosenTeams: (teams: Placeholder[]) => void;
@@ -15,12 +17,26 @@ type Props = {
 };
 
 const ChoosePromotedList: React.FC<Props> = ({
+  locale,
   groups,
   chosenTeams,
   setChosenTeams,
   handleChooseTeam,
   gameTeam,
 }) => {
+  const isDisabled = (team: PromotedTeam, groupId?: Id | null) => {
+    const game = {
+      ...team,
+      id: groupId === null ? undefined : groupId,
+    };
+    return (
+      (gameTeam &&
+        !comparePlaceholders(gameTeam, game) &&
+        doesChosenTeamsIncludes(team.place, groupId)) ||
+      (!gameTeam && doesChosenTeamsIncludes(team.place, groupId))
+    );
+  };
+
   const addTeam = (team: PromotedTeam, groupId: Id) => {
     const game = {
       ...team,
@@ -75,11 +91,13 @@ const ChoosePromotedList: React.FC<Props> = ({
           <p>{group.name}</p>
           {group.promoted.map((team, id) => (
             <ChoosePromotedListElement
+              locale={locale}
               key={id}
               groupId={group.id}
               element={team}
               selected={doesChosenTeamsIncludes(team.place, group.id)}
               addToChosenTeams={addTeam}
+              disabled={Boolean(isDisabled(team, group.id))}
             />
           ))}
         </div>

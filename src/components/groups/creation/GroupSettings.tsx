@@ -1,21 +1,14 @@
 import React, { useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import {
-  DialogContent,
-  FormControlLabel,
-  Grid,
-  IconButton,
-  Typography,
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { DialogContent, FormControlLabel, Grid } from "@material-ui/core";
 
 import { TextFieldStyled, CheckboxStyled } from "../../../styled/styledForm";
-import { DialogStyled } from "../../../styled/styledLayout";
 import { LOCALE } from "../../../locale/config";
 import groupCreationDict from "../../../locale/creationNav.dict.";
 import { useForm } from "react-hook-form";
 import { SettingType } from "./CreateGroupsScreen";
+import { DialogRU } from "../../../styled/styledDialog";
 
 export interface GroupSettingsProps {
   locale: LOCALE;
@@ -64,37 +57,16 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
   return (
     <Rosetta translations={groupCreationDict} locale={locale}>
       <form onSubmit={handleSubmit(onSubmit)} ref={formRef}>
-        <DialogStyled
+        <DialogRU
           open={open}
           onClose={() => {
             formRef.current?.dispatchEvent(new Event("submit"));
             handleClose();
           }}
+          locale={locale}
+          title={"settings"}
         >
           <DialogContent>
-            <Grid
-              container
-              justify="space-between"
-              alignItems="flex-start"
-              spacing={5}
-            >
-              <Grid item>
-                <Typography variant="h6">
-                  <Translator id="settings" />
-                </Typography>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  color="secondary"
-                  onClick={() => {
-                    formRef.current?.dispatchEvent(new Event("submit"));
-                    handleClose();
-                  }}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
             <FormControlLabel
               control={
                 <CheckboxStyled
@@ -169,7 +141,8 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
               </Grid>
             </Grid>
           </DialogContent>
-        </DialogStyled>
+          {/* TODO: ACTIONS!!! */}
+        </DialogRU>
       </form>
     </Rosetta>
   );

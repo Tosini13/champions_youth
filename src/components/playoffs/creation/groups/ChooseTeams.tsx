@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Rosetta, Translator } from "react-rosetta";
-
-import { Grid, IconButton, Typography } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { Rosetta } from "react-rosetta";
 
 import chooseTeamDict from "../../../../locale/chooseTeam.dict";
 import { LOCALE } from "../../../../locale/config";
@@ -11,15 +8,16 @@ import { connect } from "react-redux";
 import { Id } from "../../../../const/structuresConst";
 import { TeamListStyled } from "../../../../styled/styledTeams";
 import ChooseTeamsElement from "./ChooseTeamsElement";
-import { DialogStyled } from "../../../../styled/styledLayout";
 import { GroupModel } from "../../../../NewModels/Group";
 import { NewPlaceholder } from "../../../../NewModels/Team";
 import { PromotedGroup } from "./CreatePlayOffsGroupPage";
 import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
+import { DialogRU } from "../../../../styled/styledDialog";
 
 const TeamList = styled(TeamListStyled)`
   overflow-x: hidden;
   flex-wrap: nowrap;
+  padding-bottom: 5px;
   ${ScrollBarStyled}
 `;
 
@@ -64,19 +62,12 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
 
   return (
     <Rosetta translations={chooseTeamDict} locale={locale}>
-      <DialogStyled onClose={handleClose} open={open}>
-        <Grid container justify="space-between" alignItems="center" spacing={5}>
-          <Grid item>
-            <Typography variant="h6">
-              <Translator id="chooseTeams" />
-            </Typography>
-          </Grid>
-          <Grid item>
-            <IconButton color="secondary" size="small" onClick={handleClose}>
-              <CloseIcon />
-            </IconButton>
-          </Grid>
-        </Grid>
+      <DialogRU
+        onClose={handleClose}
+        open={open}
+        title={"chooseTeams"}
+        locale={locale}
+      >
         {promotedGroups.map((group) => (
           <div key={group.id}>
             <p>{group.name}</p>
@@ -97,7 +88,7 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
             </TeamList>
           </div>
         ))}
-      </DialogStyled>
+      </DialogRU>
     </Rosetta>
   );
 };

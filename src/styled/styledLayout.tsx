@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { mainTheme } from "./styledConst";
 
-import { Dialog, Divider, Grid } from "@material-ui/core";
+import { Divider, Grid } from "@material-ui/core";
 import { ScrollBarStyled } from "./styledScrollBar";
+import { CSSProperties } from "@material-ui/styles";
 
 export const BodyContainer = styled.div<{ sm: boolean }>`
   display: flex;
@@ -57,17 +58,6 @@ export const GroupsContentContainerStyled = styled(ContentContainerStyled)`
 export const LinkStyled = styled(Link)`
   color: inherit;
   text-decoration: none;
-`;
-
-export const DialogStyled = styled(Dialog)`
-  .MuiPaper-root {
-    padding: 3px;
-    color: ${mainTheme.palette.secondary.dark};
-    background-color: ${mainTheme.palette.primary.dark};
-    width: 90%;
-    min-width: 290px;
-    position: relative;
-  }
 `;
 
 export const DialogTitle = styled.p`
@@ -177,8 +167,13 @@ const GridSectionStyled = styled(Grid)`
   flex-wrap: nowrap;
 `;
 
-export const SectionStyled: React.FC<{}> = ({ children }) => (
-  <GridSectionStyled container direction="column">
+type TSectionStyledProps = { style?: CSSProperties };
+
+export const SectionStyled: React.FC<TSectionStyledProps> = ({
+  children,
+  style,
+}) => (
+  <GridSectionStyled container direction="column" style={style}>
     {children}
   </GridSectionStyled>
 );

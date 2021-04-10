@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  Typography,
-} from "@material-ui/core";
-import { DialogStyled } from "../../styled/styledLayout";
+import { Button, DialogActions } from "@material-ui/core";
 import { connect } from "react-redux";
 import { LOCALE } from "../../locale/config";
 import notificationsDict from "../../locale/notifications.dict";
+import { DialogRU } from "../../styled/styledDialog";
 
 export type Answer = {
   title: string;
@@ -51,14 +46,17 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
     setOpen(false);
   };
 
+  // TODO: DISABLE SAVE WHEN NO GROUPS CHOSEN OR NO TEAMS IN GROUPS
   return (
     <Rosetta translations={notificationsDict} locale={locale}>
-      <DialogStyled open={open} keepMounted color="primary">
-        <DialogContent>
-          <Typography>
-            <Translator id={question} />
-          </Typography>
-        </DialogContent>
+      <DialogRU
+        open={open}
+        keepMounted
+        color="primary"
+        onClose={handleClose}
+        locale={locale}
+        title={question}
+      >
         <DialogActions>
           {answers?.map((answer) => (
             <Button
@@ -76,7 +74,7 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
             </Button>
           ))}
         </DialogActions>
-      </DialogStyled>
+      </DialogRU>
     </Rosetta>
   );
 };
