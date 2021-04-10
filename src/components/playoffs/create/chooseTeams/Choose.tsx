@@ -5,7 +5,6 @@ import { Rosetta, Translator } from "react-rosetta";
 import { Button, Grid } from "@material-ui/core";
 
 import { GameStructure } from "../../../../structures/game";
-import { DialogStyled } from "../../../../styled/styledLayout";
 import MatchSummaryMock from "../../../matches/MatchSummaryMock";
 import { GAME_SIDE } from "../../../../const/playOffsConst";
 import { TeamData } from "../../../../models/teamData";
@@ -16,6 +15,7 @@ import { BracketStructure } from "../../../../structures/bracket";
 import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import { Placeholder } from "../../../../NewModels/Team";
+import { DialogRU } from "../../../../styled/styledDialog";
 
 type Props = {
   teams?: TeamData[];
@@ -46,56 +46,63 @@ const Choose: React.FC<Props> = ({
 }) => {
   const [gameSide, setGameSide] = useState(GAME_SIDE.HOME);
   return (
-    <Rosetta translations={tournamentDetailsDict} locale={locale}>
-      <DialogStyled open={open} onClose={handleClose}>
-        <MatchSummaryMock match={game.match} locale={locale} />
-        <Grid container justify="space-around">
+    <DialogRU
+      open={open}
+      onClose={handleClose}
+      locale={locale}
+      title="chooseTeams"
+    >
+      <Rosetta translations={tournamentDetailsDict} locale={locale}>
+        <>
+          <MatchSummaryMock match={game.match} locale={locale} />
+          <Grid container justify="space-around">
+            <Button
+              variant={gameSide === GAME_SIDE.HOME ? "contained" : "outlined"}
+              color="secondary"
+              onClick={() => setGameSide(GAME_SIDE.HOME)}
+            >
+              <Translator id="host" />
+            </Button>
+            <Button
+              variant={gameSide === GAME_SIDE.AWAY ? "contained" : "outlined"}
+              color="secondary"
+              onClick={() => setGameSide(GAME_SIDE.AWAY)}
+            >
+              <Translator id="guest" />
+            </Button>
+          </Grid>
+          {groups && groups?.length > 0 ? (
+            <ChoosePromoted
+              chosenTeams={chosenPromoted}
+              setChosenPromoted={setChosenPromoted}
+              bracket={bracket}
+              groups={groups}
+              game={game}
+              gameSide={gameSide}
+            />
+          ) : (
+            <ChooseTeam
+              chosenTeams={chosenTeams}
+              setChosenTeams={setChosenTeams}
+              bracket={bracket}
+              teams={teams}
+              game={game}
+              gameSide={gameSide}
+            />
+          )}
           <Button
-            variant={gameSide === GAME_SIDE.HOME ? "contained" : "outlined"}
+            variant="outlined"
             color="secondary"
-            onClick={() => setGameSide(GAME_SIDE.HOME)}
+            onClick={handleClose}
+            style={{
+              margin: "0px 5px 5px 5px",
+            }}
           >
-            <Translator id="host" />
+            <Translator id="ok" />
           </Button>
-          <Button
-            variant={gameSide === GAME_SIDE.AWAY ? "contained" : "outlined"}
-            color="secondary"
-            onClick={() => setGameSide(GAME_SIDE.AWAY)}
-          >
-            <Translator id="guest" />
-          </Button>
-        </Grid>
-        {groups && groups?.length > 0 ? (
-          <ChoosePromoted
-            chosenTeams={chosenPromoted}
-            setChosenPromoted={setChosenPromoted}
-            bracket={bracket}
-            groups={groups}
-            game={game}
-            gameSide={gameSide}
-          />
-        ) : (
-          <ChooseTeam
-            chosenTeams={chosenTeams}
-            setChosenTeams={setChosenTeams}
-            bracket={bracket}
-            teams={teams}
-            game={game}
-            gameSide={gameSide}
-          />
-        )}
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={handleClose}
-          style={{
-            margin: "0px 5px 5px 5px",
-          }}
-        >
-          <Translator id="ok" />
-        </Button>
-      </DialogStyled>
-    </Rosetta>
+        </>
+      </Rosetta>
+    </DialogRU>
   );
 };
 

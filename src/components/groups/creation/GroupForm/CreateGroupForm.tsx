@@ -15,7 +15,8 @@ import { useNotification } from "../../../global/Notification";
 import { Id } from "../../../../const/structuresConst";
 import { GroupModel } from "../../../../NewModels/Group";
 import MatchSummaryMock from "./MatchSummaryMock";
-import { DialogStyled } from "../../../../styled/styledLayout";
+import { DialogRU } from "../../../../styled/styledDialog";
+import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
 
 const GridContainer = styled(Grid)`
   border-radius: 5px;
@@ -35,6 +36,7 @@ const DeleteIconButton = styled(IconButton)`
 const GridMatchesContainer = styled(Grid)`
   overflow-x: hidden;
   flex-wrap: nowrap;
+  ${ScrollBarStyled}
 `;
 
 export interface CreateGroupFormProps {
@@ -152,28 +154,12 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
           >
             <DeleteOutlineIcon />
           </DeleteIconButton>
-          <DialogStyled open={open} onClose={handleClose}>
-            <Grid
-              container
-              justify="space-between"
-              alignItems="center"
-              spacing={5}
-            >
-              <Grid item>
-                <Typography variant="h6">
-                  <Translator id="matches" />
-                </Typography>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  color="secondary"
-                  size="small"
-                  onClick={handleClose}
-                >
-                  <CloseIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
+          <DialogRU
+            open={open}
+            onClose={handleClose}
+            title="matches"
+            locale={locale}
+          >
             <GridMatchesContainer container direction="column">
               {group.matches?.map((match) => {
                 const homePlaceholder = group.groupTeams?.find(
@@ -203,7 +189,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
                 );
               })}
             </GridMatchesContainer>
-          </DialogStyled>
+          </DialogRU>
         </GridContainer>
       </form>
     </Rosetta>

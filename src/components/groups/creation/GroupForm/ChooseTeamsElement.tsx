@@ -56,7 +56,7 @@ const ChooseTeamsElement: React.FC<Props> = ({
       <>
         <ListItemTextStyled primary={team.name} style={{ marginLeft: "5px" }} />
         <ListItemSecondaryAction>
-          <IconButton color={restricted ? "primary" : "secondary"}>
+          <IconButton color={restricted ? "primary" : "secondary"} size="small">
             {selected ? <RemoveIcon /> : <AddIcon />}
           </IconButton>
         </ListItemSecondaryAction>

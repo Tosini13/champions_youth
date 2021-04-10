@@ -50,7 +50,7 @@ const CreationNav: React.FC<CreationNavProps> = ({
 }) => {
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const handleSave = () => {
-    setQuestion("doCreateGroup");
+    setQuestion("doCreateGroups");
     setAnswers([
       {
         title: "yes",

@@ -7,11 +7,7 @@ import { Rosetta, Translator } from "react-rosetta";
 import { MatchData } from "../../structures/match";
 import { Match } from "../../models/matchData";
 import { TeamData } from "../../models/teamData";
-import {
-  DialogStyled,
-  DialogTitle,
-  LinkStyled,
-} from "../../styled/styledLayout";
+import { DialogTitle, LinkStyled } from "../../styled/styledLayout";
 import { routerGenerateConst } from "../../const/menuConst";
 import { Id } from "../../const/structuresConst";
 import { matchGame } from "../../store/actions/PlayOffsActions";
@@ -19,6 +15,7 @@ import MatchSummary from "../matches/MatchSummary/MatchSummary";
 import { LOCALE } from "../../locale/config";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
 import useTranslationHelp from "../../hooks/useTranslationHelp";
+import { DialogRU } from "../../styled/styledDialog";
 
 type Props = {
   locale: LOCALE;
@@ -47,38 +44,43 @@ const GameDetails: React.FC<Props> = ({
     returnMatch?.round ?? ""
   );
   return (
-    <Rosetta translations={tournamentDetailsDict} locale={locale}>
-      <DialogStyled open={open} onClose={handleClose}>
-        {match ? (
-          <LinkStyled
-            to={routerGenerateConst.matchPlayOffs(
-              tournamentId,
-              gameId,
-              matchGame.match
-            )}
-          >
-            <DialogTitle>
-              <Translator id={matchRound} /> {matchNumber}
-            </DialogTitle>
-            <MatchSummary match={match} locale={locale} />
-          </LinkStyled>
-        ) : null}
-        {returnMatch ? (
-          <LinkStyled
-            to={routerGenerateConst.matchPlayOffs(
-              tournamentId,
-              gameId,
-              matchGame.returnMatch
-            )}
-          >
-            <DialogTitle>
-              <Translator id={returnMatchRound} /> {returnMatchNumber}
-            </DialogTitle>
-            <MatchSummary match={returnMatch} locale={locale} />
-          </LinkStyled>
-        ) : null}
-      </DialogStyled>
-    </Rosetta>
+    <DialogRU
+      open={open}
+      onClose={handleClose}
+      locale={locale}
+      title={matchRound}
+      matchNumber={matchNumber}
+    >
+      <Rosetta translations={tournamentDetailsDict} locale={locale}>
+        <>
+          {match ? (
+            <LinkStyled
+              to={routerGenerateConst.matchPlayOffs(
+                tournamentId,
+                gameId,
+                matchGame.match
+              )}
+            >
+              <MatchSummary match={match} locale={locale} />
+            </LinkStyled>
+          ) : null}
+          {returnMatch ? (
+            <LinkStyled
+              to={routerGenerateConst.matchPlayOffs(
+                tournamentId,
+                gameId,
+                matchGame.returnMatch
+              )}
+            >
+              <DialogTitle>
+                <Translator id={returnMatchRound} /> {returnMatchNumber}
+              </DialogTitle>
+              <MatchSummary match={returnMatch} locale={locale} />
+            </LinkStyled>
+          ) : null}
+        </>
+      </Rosetta>
+    </DialogRU>
   );
 };
 

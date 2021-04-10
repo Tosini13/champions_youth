@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { mainTheme } from "./styledConst";
 
-import { Dialog, Divider, Grid } from "@material-ui/core";
+import { Divider, Grid } from "@material-ui/core";
 import { ScrollBarStyled } from "./styledScrollBar";
 
 export const BodyContainer = styled.div<{ sm: boolean }>`
@@ -57,17 +57,6 @@ export const GroupsContentContainerStyled = styled(ContentContainerStyled)`
 export const LinkStyled = styled(Link)`
   color: inherit;
   text-decoration: none;
-`;
-
-export const DialogStyled = styled(Dialog)`
-  .MuiPaper-root {
-    padding: 3px;
-    color: ${mainTheme.palette.secondary.dark};
-    background-color: ${mainTheme.palette.primary.dark};
-    width: 90%;
-    min-width: 290px;
-    position: relative;
-  }
 `;
 
 export const DialogTitle = styled.p`
