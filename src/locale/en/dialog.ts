@@ -11,6 +11,7 @@ export const dialog = {
   groupsStructure: "Groups",
   bracketStructure: "Bracket",
   chooseLanguage: "Choose Language",
+  share: "Share",
   ...matchRound,
   ...notifications,
 };

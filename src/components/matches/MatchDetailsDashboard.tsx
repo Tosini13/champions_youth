@@ -3,9 +3,7 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import SportsIcon from "@material-ui/icons/Sports";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
+import { Sports, Add, Remove } from "@material-ui/icons";
 
 import { matchModeConst } from "../../const/matchConst";
 import { Match } from "../../structures/dbAPI/matchData";
@@ -47,7 +45,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
               color="secondary"
               onClick={() => finishMatch()}
             >
-              <SportsIcon /> <Translator id="finish" />
+              <Sports /> <Translator id="finish" />
             </Button>
           </Grid>
         );
@@ -61,7 +59,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
                   color="secondary"
                   onClick={() => resetMatch()}
                 >
-                  <SportsIcon /> <Translator id="reset" />
+                  <Sports /> <Translator id="reset" />
                 </Button>
               </Grid>
               <Grid item>
@@ -70,7 +68,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
                   color="secondary"
                   onClick={() => updateMode(matchModeConst.live)}
                 >
-                  <SportsIcon /> <Translator id="continue" />
+                  <Sports /> <Translator id="continue" />
                 </Button>
               </Grid>
             </Grid>
@@ -84,7 +82,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
               color="secondary"
               onClick={() => startMatch()}
             >
-              <SportsIcon /> <Translator id="start" />
+              <Sports /> <Translator id="start" />
             </Button>
           </Grid>
         );
@@ -127,15 +125,15 @@ const MatchDetailsDashboard: React.FC<Props> = ({
         container
         justify="space-evenly"
         alignItems="center"
-        style={{ marginTop: "50px", minHeight: "100px" }}
+        style={{ marginTop: "10px", minHeight: "100px" }}
       >
         {match.mode === matchModeConst.live ? (
           <Grid item>
             <IconButton color="secondary" onClick={handleHomeScore}>
-              <AddIcon />
+              <Add />
             </IconButton>
             <IconButton color="secondary" onClick={handleHomeLose}>
-              <RemoveIcon />
+              <Remove />
             </IconButton>
           </Grid>
         ) : null}
@@ -143,10 +141,10 @@ const MatchDetailsDashboard: React.FC<Props> = ({
         {match.mode === matchModeConst.live ? (
           <Grid item>
             <IconButton color="secondary" onClick={handleAwayLose}>
-              <RemoveIcon />
+              <Remove />
             </IconButton>
             <IconButton color="secondary" onClick={handleAwayScore}>
-              <AddIcon />
+              <Add />
             </IconButton>
           </Grid>
         ) : null}

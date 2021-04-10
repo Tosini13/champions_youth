@@ -12,6 +12,7 @@ export const ButtonHorizontalContainerStyled = styled.div`
 `;
 
 export const IconButtonNavStyled = styled(IconButton)`
+  z-index: 1500;
   padding: 0px;
   color: ${mainTheme.palette.secondary.main};
 `;
