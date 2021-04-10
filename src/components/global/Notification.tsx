@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  Typography,
-} from "@material-ui/core";
+import { Button, DialogActions } from "@material-ui/core";
 import { connect } from "react-redux";
 import { LOCALE } from "../../locale/config";
 import notificationsDict from "../../locale/notifications.dict";

@@ -79,6 +79,7 @@ const Choose: React.FC<Props> = ({
               groups={groups}
               game={game}
               gameSide={gameSide}
+              locale={locale}
             />
           ) : (
             <ChooseTeam
@@ -88,6 +89,7 @@ const Choose: React.FC<Props> = ({
               teams={teams}
               game={game}
               gameSide={gameSide}
+              locale={locale}
             />
           )}
           <Button

@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Rosetta, Translator } from "react-rosetta";
+import { Rosetta } from "react-rosetta";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import { DialogTitle, FlagImgStyled } from "../../styled/styledLayout";
+import { FlagImgStyled } from "../../styled/styledLayout";
 
 import { LOCALE } from "../../locale/config";
 import { setLocale } from "../../store/actions/DictionaryActions";

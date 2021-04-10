@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { Button, Grid, IconButton, Typography } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { Button, Grid, IconButton } from "@material-ui/core";
 
 import styled from "styled-components";
 import { mainTheme } from "../../../../styled/styledConst";

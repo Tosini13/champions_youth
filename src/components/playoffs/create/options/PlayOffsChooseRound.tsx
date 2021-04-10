@@ -46,7 +46,6 @@ const PlayOffsChooseRound: React.FC<Props> = ({
   };
 
   const { translateRound } = useTranslationHelp();
-  console.log(roundMatchesTitle);
 
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>

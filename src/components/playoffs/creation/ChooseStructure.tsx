@@ -3,7 +3,6 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import { Button, DialogContent, Grid } from "@material-ui/core";
 
-import { DialogTitle } from "../../../styled/styledLayout";
 import { LOCALE } from "../../../locale/config";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { DialogRU } from "../../../styled/styledDialog";

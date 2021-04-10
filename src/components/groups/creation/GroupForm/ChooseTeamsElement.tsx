@@ -51,12 +51,13 @@ const ChooseTeamsElement: React.FC<Props> = ({
     <TeamListElementStyled
       button
       onClick={() => (restricted ? false : handleChooseTeam(team))}
+      disabled={restricted}
     >
       <Logo src={logo} size={SIZE_LOGO.sm} />
       <>
         <ListItemTextStyled primary={team.name} style={{ marginLeft: "5px" }} />
         <ListItemSecondaryAction>
-          <IconButton color={restricted ? "primary" : "secondary"} size="small">
+          <IconButton color="secondary" size="small">
             {selected ? <RemoveIcon /> : <AddIcon />}
           </IconButton>
         </ListItemSecondaryAction>

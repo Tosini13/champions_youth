@@ -6,6 +6,7 @@ import { Group } from "../../../../../models/groupData";
 import ChoosePromotedList from "./ChoosePromotedList";
 import { Id } from "../../../../../const/structuresConst";
 import { Placeholder } from "../../../../../NewModels/Team";
+import { LOCALE } from "../../../../../locale/config";
 
 const GAME_SIDE = {
   HOME: "HOME",
@@ -19,9 +20,11 @@ type Props = {
   gameSide: string;
   chosenTeams: Placeholder[];
   setChosenPromoted: (teams: Placeholder[]) => void;
+  locale: LOCALE;
 };
 
 const ChoosePromoted: React.FC<Props> = ({
+  locale,
   groups,
   game,
   bracket,
@@ -59,6 +62,7 @@ const ChoosePromoted: React.FC<Props> = ({
 
   return (
     <ChoosePromotedList
+      locale={locale}
       groups={groups}
       handleChooseTeam={handleChooseTeam}
       chosenTeams={chosenTeams}

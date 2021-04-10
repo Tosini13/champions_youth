@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Rosetta, Translator } from "react-rosetta";
-
-import { Grid, IconButton, Typography } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+import { Rosetta } from "react-rosetta";
 
 import chooseTeamDict from "../../../../locale/chooseTeam.dict";
 import { LOCALE } from "../../../../locale/config";
