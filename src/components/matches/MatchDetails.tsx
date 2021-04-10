@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
+import styled from "styled-components";
+
+import { Share as ShareIcon } from "@material-ui/icons";
 
 import MatchDetailsDashboard from "./MatchDetailsDashboard";
 import { Match } from "../../structures/dbAPI/matchData";
@@ -18,17 +21,26 @@ import { updateGame, UpdateGame } from "../../store/actions/GameActions";
 import { matchGame } from "../../store/actions/PlayOffsActions";
 import { routerConstString } from "../../const/menuConst";
 import { GroupModelDB } from "../../NewModels/Group";
-import { Grid, Hidden, Paper } from "@material-ui/core";
+import { Grid, Hidden, IconButton, Paper } from "@material-ui/core";
 import { mainTheme } from "../../styled/styledConst";
-import styled from "styled-components";
 import { LOCALE } from "../../locale/config";
+import Share from "../share/Share";
+import { routerGenerateConst } from "../../const/menuConst";
 
 const PaperStyled = styled(Paper)`
   background-color: ${mainTheme.palette.primary.main};
   padding: 5px;
 `;
 
+const IconButtonDesktopStyled = styled(IconButton)`
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  transform: translateY(-105%);
+`;
+
 type Props = {
+  0;
   locale: LOCALE;
   nextWinner?: GameDataDb;
   nextLoser?: GameDataDb;
@@ -75,6 +87,35 @@ const MatchDetails: React.FC<Props> = ({
   updateMatch,
   updateGame,
 }) => {
+  const [openShare, setOpenShare] = useState<boolean>(false);
+
+  const getLink = () => {
+    if (groupId && !playOffsGroup) {
+      return `${
+        process.env.REACT_APP_URL
+      }${routerGenerateConst.directMatchGroup(tournamentId, groupId, matchId)}`;
+    }
+
+    if (groupId && playOffsGroup) {
+      return `${
+        process.env.REACT_APP_URL
+      }${routerGenerateConst.directMatchPlayOffsGroup(
+        tournamentId,
+        groupId,
+        matchId
+      )}`;
+    }
+
+    if (gameId) {
+      return `${process.env.REACT_APP_URL}${routerGenerateConst.matchPlayOffs(
+        tournamentId,
+        gameId,
+        matchId
+      )}`;
+    }
+    return "";
+  };
+
   const getWinnerTeam = (reset?: boolean) => {
     if (reset) return null;
     if (!matchData.result) return undefined;
@@ -255,7 +296,16 @@ const MatchDetails: React.FC<Props> = ({
           style={{ width: "100%", height: "100%" }}
         >
           <Grid item lg={6} md={8}>
-            <PaperStyled style={{ padding: "10px" }} color="primary">
+            <PaperStyled
+              style={{ padding: "10px", position: "relative" }}
+              color="primary"
+            >
+              <IconButtonDesktopStyled>
+                <ShareIcon
+                  color="secondary"
+                  onClick={() => setOpenShare(true)}
+                />
+              </IconButtonDesktopStyled>
               <MatchDetailsDisplay
                 match={matchData}
                 authorId={authorId}
@@ -280,6 +330,13 @@ const MatchDetails: React.FC<Props> = ({
           authorId={authorId}
           tournamentId={tournamentId}
         />
+        <Grid container justify="center">
+          <Grid item>
+            <IconButton style={{ margin: "auto" }}>
+              <ShareIcon color="secondary" onClick={() => setOpenShare(true)} />
+            </IconButton>
+          </Grid>
+        </Grid>
         <MatchDetailsDashboard
           locale={locale}
           match={matchData}
@@ -290,6 +347,12 @@ const MatchDetails: React.FC<Props> = ({
           finishMatch={finishMatch}
         />
       </Hidden>
+      <Share
+        locale={locale}
+        open={openShare}
+        handleClose={() => setOpenShare(false)}
+        message={getLink()}
+      />
     </>
   );
 };

@@ -40,5 +40,6 @@ export const tournamentDetails = {
   chooseStructure: "Choose Structure",
   groupsStructure: "Groups",
   bracketStructure: "Bracket",
+  share: "Share",
   ...matchRound,
 };

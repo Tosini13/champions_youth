@@ -60,6 +60,11 @@ export const LinkStyled = styled(Link)`
   text-decoration: none;
 `;
 
+export const AStyled = styled.a`
+  color: inherit;
+  text-decoration: none;
+`;
+
 export const DialogTitle = styled.p`
   padding: 2px;
   margin: 0px;

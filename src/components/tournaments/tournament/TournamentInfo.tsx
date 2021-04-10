@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import moment from "moment";
 import { Rosetta, Translator } from "react-rosetta";
 
-import EventAvailableIcon from "@material-ui/icons/EventAvailable";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import PlaceIcon from "@material-ui/icons/Place";
 import Button from "@material-ui/core/Button";
+import {
+  Share as ShareIcon,
+  Place,
+  Schedule,
+  EventAvailable,
+} from "@material-ui/icons";
 
 import {
   ALinkStyled,
@@ -26,6 +29,7 @@ import { setInProgress } from "../../global/InProgress";
 import { useHistory } from "react-router-dom";
 import { routerConstString } from "../../../const/menuConst";
 import { useNotification } from "../../global/Notification";
+import Share from "../../share/Share";
 
 type Props = {
   tournament: TournamentData;
@@ -49,6 +53,7 @@ const TournamentInfo: React.FC<Props> = ({
   isOwner,
   tournamentId,
 }) => {
+  const [openShare, setOpenShare] = useState<boolean>(false);
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const history = useHistory();
 
@@ -81,55 +86,69 @@ const TournamentInfo: React.FC<Props> = ({
   };
 
   return (
-    <Rosetta translations={tournamentDetailsDict} locale={locale}>
-      <MainContainerStyled>
-        <MainContainerContentStyled>
-          <TournamentDetailsInfoStyled>
-            <Logo src={image} size={SIZE_LOGO.lg} />
-            <TournamentTitle>{tournament.name}</TournamentTitle>
-          </TournamentDetailsInfoStyled>
-          <TournamentDetailsInfoStyled>
-            <EventAvailableIcon fontSize="small" />
-            <TournamentDetailsInfoContentStyled>
-              {moment(tournament.date).locale(locale).format("yyyy MMMM DD")}
-            </TournamentDetailsInfoContentStyled>
-          </TournamentDetailsInfoStyled>
-          <TournamentDetailsInfoStyled>
-            <ScheduleIcon fontSize="small" />
-            <TournamentDetailsInfoContentStyled>
-              {moment(tournament.date).format("HH:mm")}
-            </TournamentDetailsInfoContentStyled>
-          </TournamentDetailsInfoStyled>
-          {tournament.address?.localeCompare("") &&
-          tournament.city?.localeCompare("") ? (
+    <>
+      <Rosetta translations={tournamentDetailsDict} locale={locale}>
+        <MainContainerStyled>
+          <MainContainerContentStyled>
             <TournamentDetailsInfoStyled>
-              <PlaceIcon fontSize="small" />
+              <Logo src={image} size={SIZE_LOGO.lg} />
+              <TournamentTitle>{tournament.name}</TournamentTitle>
+            </TournamentDetailsInfoStyled>
+            <TournamentDetailsInfoStyled>
+              <ShareIcon fontSize="small" onClick={() => setOpenShare(true)} />
               <TournamentDetailsInfoContentStyled>
-                <ALinkStyled
-                  href={`https://www.google.com/maps/search/?api=1&query=${tournament.address
-                    .split(" ")
-                    .join("+")}+${tournament.city.split(" ").join("+")}`}
-                  target="_blank"
-                >
-                  {tournament.address} {tournament.city}
-                </ALinkStyled>
+                <Translator id="share" />
               </TournamentDetailsInfoContentStyled>
             </TournamentDetailsInfoStyled>
+            <TournamentDetailsInfoStyled>
+              <EventAvailable fontSize="small" />
+              <TournamentDetailsInfoContentStyled>
+                {moment(tournament.date).locale(locale).format("yyyy MMMM DD")}
+              </TournamentDetailsInfoContentStyled>
+            </TournamentDetailsInfoStyled>
+            <TournamentDetailsInfoStyled>
+              <Schedule fontSize="small" />
+              <TournamentDetailsInfoContentStyled>
+                {moment(tournament.date).format("HH:mm")}
+              </TournamentDetailsInfoContentStyled>
+            </TournamentDetailsInfoStyled>
+            {tournament.address?.localeCompare("") &&
+            tournament.city?.localeCompare("") ? (
+              <TournamentDetailsInfoStyled>
+                <Place fontSize="small" />
+                <TournamentDetailsInfoContentStyled>
+                  <ALinkStyled
+                    href={`https://www.google.com/maps/search/?api=1&query=${tournament.address
+                      .split(" ")
+                      .join("+")}+${tournament.city.split(" ").join("+")}`}
+                    target="_blank"
+                  >
+                    {tournament.address} {tournament.city}
+                  </ALinkStyled>
+                </TournamentDetailsInfoContentStyled>
+              </TournamentDetailsInfoStyled>
+            ) : null}
+          </MainContainerContentStyled>
+          {isOwner ? (
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleDelete}
+              style={{ margin: "5px auto", width: "fit-content" }}
+            >
+              <Translator id="deleteTournament" />
+            </Button>
           ) : null}
-        </MainContainerContentStyled>
-        {isOwner ? (
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={handleDelete}
-            style={{ margin: "5px auto", width: "fit-content" }}
-          >
-            <Translator id="deleteTournament" />
-          </Button>
-        ) : null}
-        {children}
-      </MainContainerStyled>
-    </Rosetta>
+          {children}
+        </MainContainerStyled>
+      </Rosetta>
+      <Share
+        locale={locale}
+        open={openShare}
+        handleClose={() => setOpenShare(false)}
+        message={`${process.env.REACT_APP_URL}/tournament/${tournamentId}`}
+      />
+    </>
   );
 };
 
