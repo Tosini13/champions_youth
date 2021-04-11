@@ -26,6 +26,7 @@ import { mainTheme } from "../../styled/styledConst";
 import { LOCALE } from "../../locale/config";
 import Share from "../share/Share";
 import { routerGenerateConst } from "../../const/menuConst";
+import { TournamentData } from "../../models/tournamentData";
 
 const PaperStyled = styled(Paper)`
   background-color: ${mainTheme.palette.primary.main};
@@ -40,7 +41,7 @@ const IconButtonDesktopStyled = styled(IconButton)`
 `;
 
 type Props = {
-  0;
+  isOwner: boolean;
   locale: LOCALE;
   nextWinner?: GameDataDb;
   nextLoser?: GameDataDb;
@@ -73,6 +74,7 @@ type Props = {
 };
 
 const MatchDetails: React.FC<Props> = ({
+  isOwner,
   locale,
   nextWinner,
   nextLoser,
@@ -284,6 +286,11 @@ const MatchDetails: React.FC<Props> = ({
     }
   };
 
+  const hasTeams = () => {
+    return matchData.home !== undefined && matchData.away !== undefined;
+  };
+
+  console.log(matchData);
   if (matchData === undefined) return <SplashScreen />;
   return (
     <>
@@ -300,26 +307,25 @@ const MatchDetails: React.FC<Props> = ({
               style={{ padding: "10px", position: "relative" }}
               color="primary"
             >
-              <IconButtonDesktopStyled>
-                <ShareIcon
-                  color="secondary"
-                  onClick={() => setOpenShare(true)}
-                />
+              <IconButtonDesktopStyled onClick={() => setOpenShare(true)}>
+                <ShareIcon color="secondary" />
               </IconButtonDesktopStyled>
               <MatchDetailsDisplay
                 match={matchData}
                 authorId={authorId}
                 tournamentId={tournamentId}
               />
-              <MatchDetailsDashboard
-                locale={locale}
-                match={matchData}
-                updateMode={updateMode}
-                updateResult={updateResult}
-                resetMatch={resetMatch}
-                startMatch={startMatch}
-                finishMatch={finishMatch}
-              />
+              {isOwner && hasTeams() ? (
+                <MatchDetailsDashboard
+                  locale={locale}
+                  match={matchData}
+                  updateMode={updateMode}
+                  updateResult={updateResult}
+                  resetMatch={resetMatch}
+                  startMatch={startMatch}
+                  finishMatch={finishMatch}
+                />
+              ) : null}
             </PaperStyled>
           </Grid>
         </Grid>
@@ -337,15 +343,17 @@ const MatchDetails: React.FC<Props> = ({
             </IconButton>
           </Grid>
         </Grid>
-        <MatchDetailsDashboard
-          locale={locale}
-          match={matchData}
-          updateMode={updateMode}
-          updateResult={updateResult}
-          resetMatch={resetMatch}
-          startMatch={startMatch}
-          finishMatch={finishMatch}
-        />
+        {isOwner && hasTeams() ? (
+          <MatchDetailsDashboard
+            locale={locale}
+            match={matchData}
+            updateMode={updateMode}
+            updateResult={updateResult}
+            resetMatch={resetMatch}
+            startMatch={startMatch}
+            finishMatch={finishMatch}
+          />
+        ) : null}
       </Hidden>
       <Share
         locale={locale}
@@ -360,6 +368,14 @@ const MatchDetails: React.FC<Props> = ({
 const mapStateToProps = (state: any, ownProps: any) => {
   const { tournamentId, groupId, gameId, matchId } = ownProps.match.params;
   const authorId = state.firebase.auth.uid;
+  const tournaments = state.firestore.data.tournaments;
+  const tournament: TournamentData | undefined = tournaments
+    ? {
+        ...tournaments[tournamentId],
+        id: tournamentId,
+      }
+    : undefined;
+  const isOwner = tournament && tournament.ownerId === authorId;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
 
   const groups: GroupModelDB[] | undefined = state.firestore.ordered.groups;
@@ -389,6 +405,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
       ? new Match({ matchDataDb: match, teams, playOffsGroup, groups })
       : undefined;
   return {
+    isOwner,
     nextWinner,
     nextLoser,
     game,
@@ -452,6 +469,7 @@ export default compose(
   firestoreConnect((props: any) => {
     if (props.match.path === routerConstString.matchPlayOffsGroup) {
       return [
+        { collection: "tournaments" },
         {
           collection: "tournaments",
           doc: props.match.params.tournamentId,
@@ -486,6 +504,7 @@ export default compose(
     }
     if (props.match.params.groupId) {
       return [
+        { collection: "tournaments" },
         {
           collection: "tournaments",
           doc: props.match.params.tournamentId,
@@ -508,6 +527,7 @@ export default compose(
     }
     if (props.match.params.gameId) {
       return [
+        { collection: "tournaments" },
         {
           collection: "tournaments",
           doc: props.match.params.tournamentId,
