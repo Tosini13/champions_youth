@@ -1,13 +1,26 @@
-import React from "react";
-import { Rosetta } from "react-rosetta";
+import React, { useEffect, useState } from "react";
+import { Rosetta, Translator } from "react-rosetta";
+import styled from "styled-components";
 
-import { Grid, IconButton, List, Typography } from "@material-ui/core";
-import { WhatsApp } from "@material-ui/icons";
+import {
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  Typography,
+} from "@material-ui/core";
+import { WhatsApp, FileCopy } from "@material-ui/icons";
 
 import { DialogRU } from "../../styled/styledDialog";
 import { LOCALE } from "../../locale/config";
 import shareDict from "../../locale/shareDict.dict";
 import { AStyled } from "../../styled/styledLayout";
+import { mainTheme } from "../../styled/styledConst";
+
+const TypographyCopiedStyled = styled(Typography)`
+  color: ${mainTheme.palette.primary.light};
+  text-align: right;
+`;
 
 export interface ShareProps {
   locale: LOCALE;
@@ -22,28 +35,65 @@ const Share: React.FC<ShareProps> = ({
   open,
   handleClose,
 }) => {
+  const [copied, setCopied] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!open) {
+      setCopied(false);
+    }
+  }, [open]);
   return (
-    <Rosetta translations={shareDict} locale={locale}>
-      <DialogRU open={open} onClose={handleClose} title="share">
+    <DialogRU open={open} onClose={handleClose} title="share" locale={locale}>
+      <Rosetta translations={shareDict} locale={locale}>
         <List>
-          <AStyled
-            href={`whatsapp://send?text=${message}`}
-            data-action="share/whatsapp/share"
-          >
-            <Grid container alignItems="center">
+          <ListItem button>
+            <Grid
+              container
+              alignItems="center"
+              onClick={() => {
+                navigator.clipboard.writeText(message);
+                setCopied(true);
+              }}
+            >
               <Grid item>
                 <IconButton>
-                  <WhatsApp color="secondary" />
+                  <FileCopy color="secondary" />
                 </IconButton>
               </Grid>
               <Grid item>
-                <Typography>WhatsApp</Typography>
+                <Typography>
+                  <Translator id="copyLink" />
+                </Typography>
               </Grid>
+              {copied ? (
+                <Grid item style={{ flexGrow: 1 }}>
+                  <TypographyCopiedStyled>
+                    <Translator id="copied" />!
+                  </TypographyCopiedStyled>
+                </Grid>
+              ) : null}
             </Grid>
-          </AStyled>
+          </ListItem>
+          <ListItem button>
+            <AStyled
+              href={`whatsapp://send?text=${message}`}
+              data-action="share/whatsapp/share"
+            >
+              <Grid container alignItems="center">
+                <Grid item>
+                  <IconButton>
+                    <WhatsApp color="secondary" />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <Typography>WhatsApp</Typography>
+                </Grid>
+              </Grid>
+            </AStyled>
+          </ListItem>
         </List>
-      </DialogRU>
-    </Rosetta>
+      </Rosetta>
+    </DialogRU>
   );
 };
 

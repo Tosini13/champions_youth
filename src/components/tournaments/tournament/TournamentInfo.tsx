@@ -94,8 +94,11 @@ const TournamentInfo: React.FC<Props> = ({
               <Logo src={image} size={SIZE_LOGO.lg} />
               <TournamentTitle>{tournament.name}</TournamentTitle>
             </TournamentDetailsInfoStyled>
-            <TournamentDetailsInfoStyled>
-              <ShareIcon fontSize="small" onClick={() => setOpenShare(true)} />
+            <TournamentDetailsInfoStyled
+              onClick={() => setOpenShare(true)}
+              style={{ cursor: "pointer" }}
+            >
+              <ShareIcon fontSize="small" />
               <TournamentDetailsInfoContentStyled>
                 <Translator id="share" />
               </TournamentDetailsInfoContentStyled>
