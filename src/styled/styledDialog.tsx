@@ -59,6 +59,7 @@ export const DialogRU: React.FC<TDialogRUProps> = ({
             container
             justify="space-between"
             alignItems="center"
+            wrap="nowrap"
           >
             <Grid item>
               <Typography variant="h6">

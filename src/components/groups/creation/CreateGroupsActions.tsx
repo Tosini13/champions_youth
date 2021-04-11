@@ -9,7 +9,7 @@ import AddIcon from "@material-ui/icons/Add";
 const GridContainer = styled(Grid)`
   position: absolute;
   bottom: 0px;
-  transform: translateY(-180%);
+  transform: translateY(-80%);
 `;
 
 export interface CreateGroupsActionsProps {

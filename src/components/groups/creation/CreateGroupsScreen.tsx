@@ -27,7 +27,7 @@ import { TournamentModel } from "../../../NewModels/Tournament";
 import GroupTeamsList from "./GroupForm/GroupTeamsList";
 
 const GridContainer = styled(Grid)`
-  margin-bottom: 20px;
+  margin-bottom: 120px;
 `;
 
 export interface CreateGroupsScreenProps {
