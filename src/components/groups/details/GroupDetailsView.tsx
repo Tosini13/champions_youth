@@ -9,7 +9,10 @@ import { matchGame } from "../../../store/actions/PlayOffsActions";
 import GroupTableView from "./table/GroupTableView";
 import GroupMatchesView from "./GroupMatches";
 import { Hidden } from "@material-ui/core";
-import { UpdatePlayOffsGroupTeamsParams } from "../../../store/actions/GroupActions";
+import {
+  TContinueAllGroups,
+  UpdatePlayOffsGroupTeamsParams,
+} from "../../../store/actions/GroupActions";
 import {
   DesktopMainContainerStyled,
   DesktopMainDividerStyled,
@@ -21,6 +24,7 @@ import {
 import { Placeholder } from "../../../NewModels/Team";
 import GroupDetailsNav, { E_GROUP_DETAILS_NAV } from "./GroupDetailsNav";
 import { LOCALE } from "../../../locale/config";
+import { useNotification } from "../../global/Notification";
 
 export interface GroupDetailsViewProps {
   locale: LOCALE;
@@ -51,6 +55,8 @@ export interface GroupDetailsViewProps {
     groupId,
     groupTeams,
   }: UpdatePlayOffsGroupTeamsParams) => void;
+  resetNextGames?: ({ tournamentId: Id }) => void;
+  continueAllGroups?: ({ tournamentId }: TContinueAllGroups) => void;
 }
 
 const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
@@ -63,11 +69,42 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
   updateGame,
   updateGroupMode,
   updatePlayOffsGroupTeams,
+  resetNextGames,
+  continueAllGroups,
 }) => {
+  const { setQuestion, setAnswers, openNotification } = useNotification();
   const { matches } = group;
   const [view, setView] = useState<E_GROUP_DETAILS_NAV>(
     E_GROUP_DETAILS_NAV.TABLE
   );
+
+  const handleFinishGroupNotification = () => {
+    setQuestion("doFinishGroup");
+    setAnswers([
+      {
+        title: "yes",
+        action: handleFinishGroup,
+      },
+      {
+        title: "no",
+      },
+    ]);
+    openNotification();
+  };
+
+  const handleContinueGroupsNotification = () => {
+    setQuestion("doContinueGroups");
+    setAnswers([
+      {
+        title: "yes",
+        action: handleContinueGroups,
+      },
+      {
+        title: "no",
+      },
+    ]);
+    openNotification();
+  };
 
   const handleFinishGroup = () => {
     const promoted = getPromoted(group?.teams, matches) as Placeholder[];
@@ -136,35 +173,11 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
     }
   };
 
-  const handleContinueGroup = () => {
-    const promoted = getPromoted(group?.teams, matches);
-    group?.playOffs?.forEach((promotedTeam) => {
-      let homeTeam: undefined | null = undefined;
-      let awayTeam: undefined | null = undefined;
-      const teamId = promoted[promotedTeam.place - 1];
-      if (promotedTeam.home) {
-        homeTeam = null;
-      } else {
-        awayTeam = null;
-      }
-      if (teamId) {
-        updateGroupMode(tournamentId, groupId, false);
-        updateGame({
-          tournamentId,
-          gameId: promotedTeam.gameId,
-          homeTeam,
-          awayTeam,
-          returnMatch: false,
-        });
-        updateMatch({
-          tournamentId,
-          gameId: promotedTeam.gameId,
-          matchId: matchGame.match,
-          homeTeam,
-          awayTeam,
-        });
-      }
-    });
+  const handleContinueGroups = () => {
+    if (group?.playOffs && resetNextGames && continueAllGroups) {
+      continueAllGroups({ tournamentId });
+      resetNextGames({ tournamentId });
+    }
     if (playOffsGroups?.length) {
       let groupsTeams = playOffsGroups.map((playOffsGroup) => ({
         id: playOffsGroup.id,
@@ -214,8 +227,8 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
                 <GroupTableView
                   locale={locale}
                   group={group}
-                  handleFinishGroup={handleFinishGroup}
-                  handleContinueGroup={handleContinueGroup}
+                  handleFinishGroup={handleFinishGroupNotification}
+                  handleContinueGroup={handleContinueGroupsNotification}
                 />
               ) : null}
               {view === E_GROUP_DETAILS_NAV.MATCHES ? (
@@ -235,8 +248,8 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
               <GroupTableView
                 locale={locale}
                 group={group}
-                handleFinishGroup={handleFinishGroup}
-                handleContinueGroup={handleContinueGroup}
+                handleFinishGroup={handleFinishGroupNotification}
+                handleContinueGroup={handleContinueGroupsNotification}
               />
             </DesktopMainItemStyled>
             <DesktopMainItemStyled>
@@ -264,8 +277,8 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
               <GroupTableView
                 locale={locale}
                 group={group}
-                handleFinishGroup={handleFinishGroup}
-                handleContinueGroup={handleContinueGroup}
+                handleFinishGroup={handleFinishGroupNotification}
+                handleContinueGroup={handleContinueGroupsNotification}
               />
             ) : null}
             {view === E_GROUP_DETAILS_NAV.MATCHES ? (
@@ -285,8 +298,8 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             <GroupTableView
               locale={locale}
               group={group}
-              handleFinishGroup={handleFinishGroup}
-              handleContinueGroup={handleContinueGroup}
+              handleFinishGroup={handleFinishGroupNotification}
+              handleContinueGroup={handleContinueGroupsNotification}
             />
           </DesktopMainItemStyled>
           <DesktopMainDividerStyled />

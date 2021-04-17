@@ -7,6 +7,9 @@ export const notifications = {
   deletePlayOffsToDeleteGroups: "Usuń najpierw fazę pucharową",
   doCreateGroup: "Czy na pewno chcesz stworzyć fazę grupową?",
   theresNoTeamsOrMatchesInGroup: "Nie ma drużyn lub meczy w grupach",
+  doContinueGroups: `Czy na pewno chcesz kontynuować groupy?
+   Wszystkie mecze w następnej fazie będą zresetowane.`,
+  doFinishGroup: "Czy na pewno chcesz zakończyć grupę?",
   yes: "Tak",
   no: "Nie",
   ok: "Ok",

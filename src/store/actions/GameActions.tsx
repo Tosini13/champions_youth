@@ -1,4 +1,5 @@
 import { Id } from "../../const/structuresConst";
+import { matchModeConst } from "../../const/matchConst";
 
 export type UpdateGame = {
   tournamentId: Id;
@@ -70,4 +71,75 @@ const updateGameAwayTeam = ({
         dispatch({ type: "UPDATE_GAME_ERROR", err });
       });
   };
+};
+
+export type TResetNextGames = {
+  tournamentId: Id;
+};
+
+export const resetNextGames = ({ tournamentId }: TResetNextGames) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .collection("playOffs")
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          console.log("game.id", doc.id);
+          doc.ref
+            .update({
+              homeTeam: null,
+              awayTeam: null,
+            })
+            .then((game) => {
+              console.log("game", game);
+              resetMatches({ tournamentId, gameId: doc.id, firestore });
+            })
+            .catch((err) => {
+              console.log("update", err);
+            });
+        });
+      })
+      .catch((err) => {
+        console.log("get", err);
+      });
+  };
+};
+
+type TResetMatches = {
+  tournamentId: Id;
+  gameId: Id;
+  firestore: any;
+};
+
+export const resetMatches = ({
+  tournamentId,
+  gameId,
+  firestore,
+}: TResetMatches) => {
+  firestore
+    .collection("tournaments")
+    .doc(tournamentId)
+    .collection("playOffs")
+    .doc(gameId)
+    .collection("matches")
+    .get()
+    .then((snapshot) => {
+      snapshot.forEach((doc) => {
+        doc.ref
+          .update({
+            home: null,
+            away: null,
+            mode: matchModeConst.notStarted,
+            result: null,
+          })
+          .catch((err) => {});
+      });
+    })
+    .catch((err) => {
+      console.log("get", err);
+    });
 };

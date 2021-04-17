@@ -6,9 +6,15 @@ import { firestoreConnect } from "react-redux-firebase";
 import { Id } from "../../const/structuresConst";
 import { TeamData } from "../../models/teamData";
 import SplashScreen from "../global/SplashScreen";
-import { updateGame, UpdateGame } from "../../store/actions/GameActions";
+import {
+  updateGame,
+  UpdateGame,
+  resetNextGames,
+} from "../../store/actions/GameActions";
 import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
 import {
+  continueAllGroups,
+  TContinueAllGroups,
   updateGroupMode,
   updatePlayOffsGroupTeams,
   UpdatePlayOffsGroupTeamsParams,
@@ -47,6 +53,8 @@ export interface GroupsComponentProps {
     groupId,
     groupTeams,
   }: UpdatePlayOffsGroupTeamsParams) => void;
+  resetNextGames: ({ tournamentId: Id }) => void;
+  continueAllGroups: ({ tournamentId }: TContinueAllGroups) => void;
 }
 
 const GroupDetails: React.FC<GroupsComponentProps> = ({
@@ -58,6 +66,8 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   updateGame,
   updateGroupMode,
   updatePlayOffsGroupTeams,
+  resetNextGames,
+  continueAllGroups,
   playOffsGroups,
 }) => {
   if (!group || !groupId || groupId !== group.id) return <SplashScreen />;
@@ -72,6 +82,8 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
       updateGame={updateGame}
       updateGroupMode={updateGroupMode}
       updatePlayOffsGroupTeams={updatePlayOffsGroupTeams}
+      resetNextGames={resetNextGames}
+      continueAllGroups={continueAllGroups}
     />
   );
 };
@@ -170,6 +182,10 @@ const mapDispatchToProps = (dispatch: any) => {
           groupTeams,
         })
       ),
+    resetNextGames: ({ tournamentId: Id }) =>
+      dispatch(resetNextGames({ tournamentId: Id })),
+    continueAllGroups: ({ tournamentId }: TContinueAllGroups) =>
+      dispatch(continueAllGroups({ tournamentId })),
   };
 };
 
