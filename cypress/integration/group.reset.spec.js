@@ -161,5 +161,17 @@ describe("Reset Group", () => {
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(11) > ${teamName}`).contains(
       "Semi-final 2Winner"
     );
+
+    // continue all groups - init
+    groups.forEach((group, i) => {
+      if (i !== 1) {
+        cy.wait(waitForLoading);
+        cy.get("p").contains(group.name).click();
+        cy.wait(waitForLoading);
+        cy.get("button").contains("Continue Group").click();
+        cy.get("button").contains("Yes").click();
+        cy.go("back");
+      }
+    });
   });
 });
