@@ -129,10 +129,18 @@ const MatchDetailsDashboard: React.FC<Props> = ({
       >
         {match.mode === matchModeConst.live ? (
           <Grid item>
-            <IconButton color="secondary" onClick={handleHomeScore}>
+            <IconButton
+              color="secondary"
+              onClick={handleHomeScore}
+              aria-label="add-home-goal"
+            >
               <Add />
             </IconButton>
-            <IconButton color="secondary" onClick={handleHomeLose}>
+            <IconButton
+              color="secondary"
+              onClick={handleHomeLose}
+              aria-label="remove-away-goal"
+            >
               <Remove />
             </IconButton>
           </Grid>
@@ -140,10 +148,18 @@ const MatchDetailsDashboard: React.FC<Props> = ({
         {changeMatchMode()}
         {match.mode === matchModeConst.live ? (
           <Grid item>
-            <IconButton color="secondary" onClick={handleAwayLose}>
+            <IconButton
+              color="secondary"
+              onClick={handleAwayLose}
+              aria-label="remove-away-goal"
+            >
               <Remove />
             </IconButton>
-            <IconButton color="secondary" onClick={handleAwayScore}>
+            <IconButton
+              color="secondary"
+              onClick={handleAwayScore}
+              aria-label="add-away-goal"
+            >
               <Add />
             </IconButton>
           </Grid>
