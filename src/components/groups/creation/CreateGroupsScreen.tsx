@@ -223,7 +223,12 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         draw={handleDrawGroup}
       />
       <GroupsContentContainerStyled>
-        <GridContainer container spacing={5} direction="row">
+        <GridContainer
+          container
+          spacing={5}
+          direction="row"
+          aria-label="group-forms-container"
+        >
           {groups.map((group) => {
             return (
               <Grid item key={group.id} xs={12} md={6} lg={4}>

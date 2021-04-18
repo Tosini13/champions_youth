@@ -1,34 +1,32 @@
-// import cy from "cypress";
-const loginUrl = "http://localhost:3000/logni";
-const mockTournamentUrl =
-  "http://localhost:3000/tournament/LpMuVIiQFj1jWiTbY0NA";
+import { groups, teams } from "../support/const";
 
-const groups = ["Group A", "Group B", "Group C", "Group D"];
+const mockTournamentUrl =
+  "http://localhost:3000/tournament/TAf0Y6ohX7sSk1eywIs0";
+
 const noPlayOffs = 11;
 
 const waitForLoading = 500;
 
-describe("My First Test", () => {
+describe("Reset Group", () => {
   beforeEach(() => {
-    // cy.visit(loginUrl);
-    // cy.get('input[name="email"]').clear().type("admin@gmail.com");
-    // cy.get('input[name="password"]').clear().type("admin1234");
-    // cy.wait(1500);
     cy.visit(mockTournamentUrl);
   });
 
   it("Should reset appropriate matches", () => {
-    // finish groups
-    cy.wait(waitForLoading);
-    cy.get("p").contains("Group A").click();
-    cy.wait(waitForLoading);
-    cy.get("button").contains("Continue Group").click();
-    cy.get("button").contains("Yes").click();
-    cy.go("back");
+    // continues groups - init!
+    // groups.forEach((group) => {
+    //   cy.wait(waitForLoading);
+    //   cy.get("p").contains(group.name).click();
+    //   cy.wait(waitForLoading);
+    //   cy.get("button").contains("Continue Group").click();
+    //   cy.get("button").contains("Yes").click();
+    //   cy.go("back");
+    // });
 
+    // finish groups
     groups.forEach((group) => {
       cy.wait(waitForLoading);
-      cy.get("p").contains(group).click();
+      cy.get("p").contains(group.name).click();
       cy.wait(waitForLoading);
       cy.get("button").contains("Finish Group").click();
       cy.get("button").contains("Yes").click();
@@ -54,7 +52,7 @@ describe("My First Test", () => {
     // continue groups
     cy.get(".MuiTab-wrapper").contains("Groups").click();
     cy.wait(waitForLoading);
-    cy.get("p").contains("Group B").click();
+    cy.get("p").contains(groups[1].name).click();
     cy.wait(waitForLoading);
     cy.get("button").contains("Continue Group").click();
     cy.get("button").contains("Yes").click();
@@ -68,43 +66,43 @@ describe("My First Test", () => {
       "Quater-final 1"
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(1) > ${teamName}`).contains(
-      "Arsenal London"
+      teams.juve
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(1) > ${teamName}`).contains(
-      "Liverpool"
+      teams.barca
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(2) > ${teamName}`).contains(
       "Quater-final 2"
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(2) > ${teamName}`).contains(
-      "Group B 1place"
+      teams.arsenal
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(2) > ${teamName}`).contains(
-      "F.C. Barcelona"
+      "South Group 2place"
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(3) > ${teamName}`).contains(
       "Quater-final 3"
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(3) > ${teamName}`).contains(
-      "Bayern"
+      "South Group 1place"
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(3) > ${teamName}`).contains(
-      "Group B 2place"
+      teams.chelsea
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(4) > ${teamName}`).contains(
       "Quater-final 4"
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(4) > ${teamName}`).contains(
-      "Juve"
+      teams.bayern
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(4) > ${teamName}`).contains(
-      "Chelsea"
+      teams.liverpool
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(5) > ${teamName}`).contains(
       "Semi_final B 1"
     ); // TODO: change to Semi-final
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(5) > ${teamName}`).contains(
-      "Arsenal London"
+      teams.juve
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(5) > ${teamName}`).contains(
       "Quater-final 2Loser"
@@ -116,13 +114,13 @@ describe("My First Test", () => {
       "Quater-final 3Loser"
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(6) > ${teamName}`).contains(
-      "Juve"
+      teams.bayern
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(7) > ${teamName}`).contains(
       "Semi-final 1"
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(7) > ${teamName}`).contains(
-      "Liverpool"
+      teams.barca
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(7) > ${teamName}`).contains(
       "Quater-final 2Winner"
@@ -134,7 +132,7 @@ describe("My First Test", () => {
       "Quater-final 3Winner"
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(8) > ${teamName}`).contains(
-      "Chelsea"
+      teams.liverpool
     );
     cy.get(`.sc-gXfWUo div.sc-eXuzZk:nth-child(9) > ${teamName}`).contains(
       "th place 5"

@@ -115,6 +115,7 @@ const TournamentGroups: React.FC<Props> = ({
                   color="secondary"
                   startIcon={<DeleteIcon />}
                   disabled={playOffs || playOffsGroups}
+                  aria-label="delete groups"
                 >
                   <Translator id="deleteGroupStage" />
                 </ButtonErrorStyled>
@@ -150,6 +151,7 @@ const TournamentGroups: React.FC<Props> = ({
               color="secondary"
               startIcon={<AddIcon />}
               disabled={playOffs}
+              aria-label="create groups"
             >
               <Translator id="createGroupStage" />
             </ButtonSuccessStyled>

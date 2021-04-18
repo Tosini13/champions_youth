@@ -68,6 +68,7 @@ export const DialogRU: React.FC<TDialogRUProps> = ({
             </Grid>
             <Grid item>
               <IconButton
+                aria-label="close-dialog"
                 color="secondary"
                 onClick={() => (onClose ? onClose({}, "backdropClick") : {})}
               >

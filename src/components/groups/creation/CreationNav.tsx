@@ -75,19 +75,34 @@ const CreationNav: React.FC<CreationNavProps> = ({
           <Grid container spacing={5}>
             <Hidden smDown>
               <Grid item>
-                <IconButton size="small" color="secondary" onClick={draw}>
+                <IconButton
+                  size="small"
+                  color="secondary"
+                  onClick={draw}
+                  aria-label="draw-groups"
+                >
                   <AutorenewIcon />
                 </IconButton>
               </Grid>
             </Hidden>
             <Grid item>
-              <IconButton size="small" color="secondary" onClick={openSettings}>
+              <IconButton
+                size="small"
+                color="secondary"
+                onClick={openSettings}
+                aria-label="open-setting"
+              >
                 <SettingsIcon />
               </IconButton>
             </Grid>
             <Hidden smDown>
               <Grid item>
-                <IconButton size="small" color="secondary" onClick={add}>
+                <IconButton
+                  size="small"
+                  color="secondary"
+                  onClick={add}
+                  aria-label="add-group"
+                >
                   <AddIcon />
                 </IconButton>
               </Grid>
