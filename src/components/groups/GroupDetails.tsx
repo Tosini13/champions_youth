@@ -6,7 +6,12 @@ import { firestoreConnect } from "react-redux-firebase";
 import { Id } from "../../const/structuresConst";
 import { TeamData } from "../../models/teamData";
 import SplashScreen from "../global/SplashScreen";
-import { updateGame, UpdateGame } from "../../store/actions/GameActions";
+import {
+  updateGame,
+  UpdateGame,
+  resetNextGames,
+  TResetNextGames,
+} from "../../store/actions/GameActions";
 import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
 import {
   updateGroupMode,
@@ -47,6 +52,7 @@ export interface GroupsComponentProps {
     groupId,
     groupTeams,
   }: UpdatePlayOffsGroupTeamsParams) => void;
+  resetNextGames: ({ tournamentId, teamsId, gamesId }: TResetNextGames) => void;
 }
 
 const GroupDetails: React.FC<GroupsComponentProps> = ({
@@ -58,6 +64,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   updateGame,
   updateGroupMode,
   updatePlayOffsGroupTeams,
+  resetNextGames,
   playOffsGroups,
 }) => {
   if (!group || !groupId || groupId !== group.id) return <SplashScreen />;
@@ -72,6 +79,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
       updateGame={updateGame}
       updateGroupMode={updateGroupMode}
       updatePlayOffsGroupTeams={updatePlayOffsGroupTeams}
+      resetNextGames={resetNextGames}
     />
   );
 };
@@ -170,6 +178,8 @@ const mapDispatchToProps = (dispatch: any) => {
           groupTeams,
         })
       ),
+    resetNextGames: ({ tournamentId, teamsId, gamesId }: TResetNextGames) =>
+      dispatch(resetNextGames({ tournamentId, teamsId, gamesId })),
   };
 };
 

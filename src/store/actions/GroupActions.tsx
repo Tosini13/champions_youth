@@ -270,3 +270,33 @@ export const deleteGroups = (
       });
   };
 };
+
+export type TContinueAllGroups = {
+  tournamentId: Id;
+};
+
+export const continueAllGroups = ({ tournamentId }: TContinueAllGroups) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .collection("groups")
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          doc.ref
+            .update({
+              finished: false,
+            })
+            .catch((err) => {
+              console.log("update", err);
+            });
+        });
+      })
+      .catch((err) => {
+        console.log("get", err);
+      });
+  };
+};
