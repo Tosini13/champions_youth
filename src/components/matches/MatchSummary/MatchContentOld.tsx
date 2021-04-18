@@ -1,3 +1,4 @@
+// TODO: Remove the file
 import React from "react";
 import { Rosetta } from "react-rosetta";
 import { connect } from "react-redux";
@@ -36,7 +37,6 @@ const ResultGoal = styled(Grid)`
   text-align: center;
 `;
 
-const ResultTypographyStyled = styled(Typography)``;
 const Goal = styled(Typography)`
   font-size: 13px;
 `;
@@ -55,40 +55,56 @@ const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
   const isResult = match.mode !== matchModeConst.notStarted;
   return (
     <Rosetta translations={matchDict} locale={locale}>
-      <Grid container justify="space-evenly" alignItems="center" wrap="nowrap">
-        <Grid item xs={5}>
-          <HostName>
-            <ShowTeam
-              team={match.home}
-              placeholder={match?.placeholder?.home}
-            />
-          </HostName>
+      <Grid container wrap="nowrap" alignItems="center">
+        <Grid item xs={10}>
+          <Grid
+            container
+            justify="space-evenly"
+            alignItems="center"
+            wrap="nowrap"
+          >
+            <Grid item xs={5}>
+              <HostName>
+                <ShowTeam
+                  team={match.home}
+                  placeholder={match?.placeholder?.home}
+                />
+              </HostName>
+            </Grid>
+            <Grid item xs={2}>
+              <Divider color="secondary">vs</Divider>
+            </Grid>
+            <Grid item xs={5}>
+              <GuestName>
+                <ShowTeam
+                  team={match.away}
+                  placeholder={match?.placeholder?.away}
+                />
+              </GuestName>
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs={2}>
-          <Result home={match.result?.home} away={match.result?.away} />
-          {/* <Grid container>
-            <Grid item xs={5}>
+          <Grid
+            container
+            justify="space-evenly"
+            alignItems="center"
+            wrap="nowrap"
+          >
+            <ResultGoal item>
               <Goal color="secondary">
                 {isResult ? match.result?.home : null}
               </Goal>
+            </ResultGoal>
+            <Grid item>
+              <Divider color="secondary">:</Divider>
             </Grid>
-            <Grid item xs={2}>
-              -
-            </Grid>
-            <Grid item xs={5}>
+            <ResultGoal item>
               <Goal color="secondary">
                 {isResult ? match.result?.away : null}
               </Goal>
-            </Grid>
-          </Grid> */}
-        </Grid>
-        <Grid item xs={5}>
-          <GuestName>
-            <ShowTeam
-              team={match.away}
-              placeholder={match?.placeholder?.away}
-            />
-          </GuestName>
+            </ResultGoal>
+          </Grid>
         </Grid>
       </Grid>
     </Rosetta>
@@ -101,30 +117,3 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 export default connect(mapStateToProps)(MatchContent);
-
-type TResultProps = {
-  home?: number;
-  away?: number;
-};
-
-const Result: React.FC<TResultProps> = ({ home, away }) => {
-  return (
-    <Grid container alignItems="center">
-      <Grid item xs={5}>
-        <ResultTypographyStyled color="secondary" align="center">
-          {home ?? ""}
-        </ResultTypographyStyled>
-      </Grid>
-      <Grid item xs={2}>
-        <ResultTypographyStyled color="secondary" align="center">
-          -
-        </ResultTypographyStyled>
-      </Grid>
-      <Grid item xs={5}>
-        <ResultTypographyStyled color="secondary" align="center">
-          {away ?? ""}
-        </ResultTypographyStyled>
-      </Grid>
-    </Grid>
-  );
-};

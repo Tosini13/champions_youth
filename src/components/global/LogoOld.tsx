@@ -1,3 +1,4 @@
+// TODO: Remove the file
 import React from "react";
 import styled from "styled-components";
 import trophy from "../../images/logo/tournament_logo_trophy2.png";
@@ -11,9 +12,12 @@ export enum SIZE_LOGO {
 const LogoContainer = styled.div<{
   size: string;
 }>`
+  background-color: rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 5px;
+  border-radius: 5px;
   ${(props) =>
     props.size
       ? `
