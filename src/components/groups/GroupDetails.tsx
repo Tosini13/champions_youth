@@ -10,6 +10,9 @@ import {
   updateGame,
   UpdateGame,
   resetNextGames,
+  TResetNextGames,
+  resetGames,
+  TResetGames,
 } from "../../store/actions/GameActions";
 import { UpdateMatch, updateMatch } from "../../store/actions/MatchActions";
 import {
@@ -53,8 +56,9 @@ export interface GroupsComponentProps {
     groupId,
     groupTeams,
   }: UpdatePlayOffsGroupTeamsParams) => void;
-  resetNextGames: ({ tournamentId: Id }) => void;
+  resetNextGames: ({ tournamentId, teamsId, gamesId }: TResetNextGames) => void;
   continueAllGroups: ({ tournamentId }: TContinueAllGroups) => void;
+  resetGames: (params: TResetGames) => void;
 }
 
 const GroupDetails: React.FC<GroupsComponentProps> = ({
@@ -84,6 +88,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
       updatePlayOffsGroupTeams={updatePlayOffsGroupTeams}
       resetNextGames={resetNextGames}
       continueAllGroups={continueAllGroups}
+      resetGames={resetGames}
     />
   );
 };
@@ -182,10 +187,11 @@ const mapDispatchToProps = (dispatch: any) => {
           groupTeams,
         })
       ),
-    resetNextGames: ({ tournamentId: Id }) =>
-      dispatch(resetNextGames({ tournamentId: Id })),
+    resetNextGames: ({ tournamentId, teamsId, gamesId }: TResetNextGames) =>
+      dispatch(resetNextGames({ tournamentId, teamsId, gamesId })),
     continueAllGroups: ({ tournamentId }: TContinueAllGroups) =>
       dispatch(continueAllGroups({ tournamentId })),
+    resetGames: (params: TResetGames) => dispatch(resetGames(params)),
   };
 };
 

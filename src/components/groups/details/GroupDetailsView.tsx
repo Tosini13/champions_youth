@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import { Id } from "../../../const/structuresConst";
 import { GroupModel } from "../../../NewModels/Group";
 import { UpdateMatch } from "../../../store/actions/MatchActions";
-import { UpdateGame } from "../../../store/actions/GameActions";
+import {
+  TResetGames,
+  TResetNextGames,
+  UpdateGame,
+} from "../../../store/actions/GameActions";
 import { getPromoted } from "../../../structures/groupPromotion";
 import { matchGame } from "../../../store/actions/PlayOffsActions";
 import GroupTableView from "./table/GroupTableView";
@@ -55,8 +59,13 @@ export interface GroupDetailsViewProps {
     groupId,
     groupTeams,
   }: UpdatePlayOffsGroupTeamsParams) => void;
-  resetNextGames?: ({ tournamentId: Id }) => void;
+  resetNextGames?: ({
+    tournamentId,
+    teamsId,
+    gamesId,
+  }: TResetNextGames) => void;
   continueAllGroups?: ({ tournamentId }: TContinueAllGroups) => void;
+  resetGames?: (params: TResetGames) => void;
 }
 
 const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
@@ -71,6 +80,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
   updatePlayOffsGroupTeams,
   resetNextGames,
   continueAllGroups,
+  resetGames,
 }) => {
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const { matches } = group;
@@ -174,9 +184,17 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
   };
 
   const handleContinueGroups = () => {
-    if (group?.playOffs && resetNextGames && continueAllGroups) {
+    const promoted = getPromoted(group?.teams, matches) as Placeholder[];
+    if (group?.playOffs && resetGames && continueAllGroups && resetNextGames) {
       continueAllGroups({ tournamentId });
-      resetNextGames({ tournamentId });
+      const teamsId = group?.playOffs?.map(
+        (promotedTeam) => promoted[promotedTeam.place - 1].id ?? ""
+      );
+      const gamesId = group?.playOffs?.map(
+        (promotedTeam) => promotedTeam.gameId
+      );
+      resetNextGames({ tournamentId, teamsId, gamesId });
+      // resetGames({ tournamentId, teamsId });
     }
     if (playOffsGroups?.length) {
       let groupsTeams = playOffsGroups.map((playOffsGroup) => ({
