@@ -23,6 +23,7 @@ import menuDict from "../../../locale/menu";
 import { LOCALE } from "../../../locale/config";
 import styled from "styled-components";
 import { Grid, Hidden } from "@material-ui/core";
+import Theme from "../Theme";
 
 type BorderPosition = "bottom" | "top";
 
@@ -67,6 +68,7 @@ const SignedInMenu: React.FC<Props> = ({
               </ListItemIcon>
               <ListItemText primary={user?.login} />
               <Language />
+              <Theme />
             </ListItemStyled>
             <Hidden smDown>
               <ListItemStyled borderposition="bottom" button>

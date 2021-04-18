@@ -12,6 +12,7 @@ import playOffsReducer from "./PlayOffsReducer";
 import dictionaryReducer from "./DictionaryReducer";
 import matchReducer from "./MatchReducer";
 import gameReducer from "./GameReducer";
+import themeReducer from "./ThemeReducer";
 
 const rootReducer = combineReducers({
   tournament: tournamentReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   menu: menuReducer,
   dictionary: dictionaryReducer,
+  theme: themeReducer,
   auth: authReducer,
   firestore: firestoreReducer,
   firebase: firebaseReducer,
