@@ -87,9 +87,6 @@ export const resetNextGames = ({
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
     const firestore = getFirestore();
 
-    console.log("tournamentId", tournamentId);
-    console.log("gamesId", gamesId);
-    console.log("teamsId", teamsId);
     firestore
       .collection("tournaments")
       .doc(tournamentId)
@@ -97,27 +94,18 @@ export const resetNextGames = ({
       .get()
       .then((snapshot) => {
         const recursiveReset = (gameId, teamsId) => {
-          console.log("----------------recursiveReset-----------------");
-          console.log("gameId", gameId);
           let gameSnapshot: any = undefined;
           snapshot.forEach((snapshot) =>
             snapshot.id === gameId ? (gameSnapshot = snapshot) : {}
           );
-          console.log("gameSnapshot", gameSnapshot);
           if (gameSnapshot) {
             const gameFields = gameSnapshot.xf.nn.proto.mapValue.fields;
             const homeId = gameFields.homeTeam?.stringValue;
             const awayId = gameFields.awayTeam?.stringValue;
-            console.log("homeId", homeId);
-            console.log("awayId", awayId);
             const isHomeTeam = teamsId.find((teamId) => teamId === homeId);
             const isAwayTeam = teamsId.find((teamId) => teamId === awayId);
-            console.log("isHomeTeam", isHomeTeam);
-            console.log("isAwayTeam", isAwayTeam);
             const winnerGameId = gameFields.winnerMatch?.stringValue;
             const looserGameId = gameFields.loserMatch?.stringValue;
-            console.log("winnerGameId", winnerGameId);
-            console.log("looserGameId", looserGameId);
             if (isHomeTeam || isAwayTeam) {
               // reset game and matches
               const copyTeamsId = teamsId.slice(0);
@@ -145,11 +133,9 @@ export const resetNextGames = ({
                 teamsId.push(awayId);
               }
               if (winnerGameId) {
-                console.log("winnerGameId");
                 recursiveReset(winnerGameId, teamsId);
               }
               if (looserGameId) {
-                console.log("looserGameId");
                 recursiveReset(looserGameId, teamsId);
               }
             }
@@ -158,7 +144,6 @@ export const resetNextGames = ({
 
         gamesId.forEach((gameId) => {
           const copyTeamsId = teamsId.slice(0);
-          console.log(copyTeamsId);
           recursiveReset(gameId, copyTeamsId);
         });
       })
@@ -190,14 +175,9 @@ export const resetMatches = ({
     .get()
     .then((snapshot) => {
       snapshot.forEach((matchSnapshot) => {
-        console.log("matchSnapshot", matchSnapshot);
         const matchFields = matchSnapshot.xf.nn.proto.mapValue.fields;
-        console.log("matchFields", matchFields);
         const isHome = teamsId.includes(matchFields.home.stringValue);
         const isAway = teamsId.includes(matchFields.away.stringValue);
-        console.log("matchSnapshot.id", matchSnapshot.id);
-        console.log("isHome", isHome);
-        console.log("isAway", isAway);
         matchSnapshot.ref
           .update({
             home: isHome ? null : undefined,
@@ -211,88 +191,4 @@ export const resetMatches = ({
     .catch((err) => {
       console.log("get", err);
     });
-};
-
-export type TResetGames = {
-  tournamentId: Id;
-  teamsId: Id[];
-};
-
-export const resetGames = ({ tournamentId, teamsId }: TResetGames) => {
-  // reset 1) game home/away 2) match result and home/away 3) rematch if exists result and home/away
-  console.log("resetGames! ------------------------");
-  console.log("Ids", tournamentId, teamsId);
-  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
-    const firestore = getFirestore();
-    console.log("inner func");
-    firestore
-      .collection("tournaments")
-      .doc(tournamentId)
-      .collection("playOffs")
-      .get()
-      .then((games) => {
-        console.log("games", games);
-        games.forEach((gameSnapshot) => {
-          // // check just teams
-          // if (teamId === gameFields.homeTeam) {
-          // } else if (teamId === gameFields.awayTeam) {
-          // }
-          // const winnerGameId: Id | undefined =
-          //   gameFields.winnerMatch.stringValue;
-
-          // // NOOO
-          // console.log("doc.id === gameId", gameSnapshot.id === gameId);
-          // if (gameSnapshot.id === gameId) {
-          //   const winnerGameId: Id | undefined =
-          //     gameSnapshot.xf.nn.proto.mapValue.fields.winnerMatch.stringValue;
-          //   const looserGameId: Id | undefined =
-          //     gameSnapshot.xf.nn.proto.mapValue.fields.loserMatch.stringValue;
-
-          //   if (winnerGameId) {
-          //     // check games again
-          //   }
-          //   if (looserGameId) {
-          //     // check games again
-          //   }
-          // }
-
-          // // console.log(
-          // //   "doc.xf.nn.proto.mapValue.fields.winnerMatch",
-          // //   gameSnapshot.xf.nn.proto.mapValue.fields.winnerMatch.stringValue
-          // // );
-          // // // doc.ref.once("value").then((snapshotGame) => {
-          // // // });
-
-          const gameFields = gameSnapshot.xf.nn.proto.mapValue.fields;
-          const isHomeTeam = teamsId.includes(gameFields.homeTeam);
-          const isAwayTeam = teamsId.includes(gameFields.awayTeam);
-
-          console.log("gameSnapshot.id", gameSnapshot.id);
-          console.log("isHomeTeam", isHomeTeam);
-          console.log("isAwayTeam", isAwayTeam);
-
-          gameSnapshot.ref
-            .update({
-              homeTeam: isHomeTeam ? null : undefined,
-              awayTeam: isAwayTeam ? null : undefined,
-            })
-            .then(() => {
-              if (isHomeTeam || isAwayTeam) {
-                resetMatches({
-                  tournamentId,
-                  gameId: gameSnapshot.id,
-                  teamsId,
-                  firestore,
-                });
-              }
-            })
-            .catch((err) => {
-              console.log("update", err);
-            });
-        });
-      })
-      .catch((err) => {
-        console.log("get", err);
-      });
-  };
 };
