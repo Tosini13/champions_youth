@@ -88,6 +88,7 @@ export const resetNextGames = ({
     const firestore = getFirestore();
 
     console.log("tournamentId", tournamentId);
+    console.log("gamesId", gamesId);
     console.log("teamsId", teamsId);
     firestore
       .collection("tournaments")
@@ -95,36 +96,70 @@ export const resetNextGames = ({
       .collection("playOffs")
       .get()
       .then((snapshot) => {
-        console.log("snapshot", snapshot);
-        snapshot.forEach((gameSnapshot) => {
-          const gameFields = gameSnapshot.xf.nn.proto.mapValue.fields;
-          const isHomeTeam = teamsId.includes(gameFields.homeTeam.stringValue);
-          const isAwayTeam = teamsId.includes(gameFields.awayTeam.stringValue);
-
-          console.log("gameSnapshot.id", gameSnapshot.id);
-          console.log("gameFields.homeTeam", gameFields.homeTeam.stringValue);
-          console.log("gameFields.awayTeam", gameFields.awayTeam.stringValue);
-          console.log("isHomeTeam", isHomeTeam);
-          console.log("isAwayTeam", isAwayTeam);
-
-          gameSnapshot.ref
-            .update({
-              homeTeam: isHomeTeam ? null : undefined,
-              awayTeam: isAwayTeam ? null : undefined,
-            })
-            .then(() => {
-              if (isHomeTeam || isAwayTeam) {
-                resetMatches({
-                  tournamentId,
-                  gameId: gameSnapshot.id,
-                  teamsId,
-                  firestore,
+        const recursiveReset = (gameId, teamsId) => {
+          console.log("----------------recursiveReset-----------------");
+          console.log("gameId", gameId);
+          let gameSnapshot: any = undefined;
+          snapshot.forEach((snapshot) =>
+            snapshot.id === gameId ? (gameSnapshot = snapshot) : {}
+          );
+          console.log("gameSnapshot", gameSnapshot);
+          if (gameSnapshot) {
+            const gameFields = gameSnapshot.xf.nn.proto.mapValue.fields;
+            const homeId = gameFields.homeTeam?.stringValue;
+            const awayId = gameFields.awayTeam?.stringValue;
+            console.log("homeId", homeId);
+            console.log("awayId", awayId);
+            const isHomeTeam = teamsId.find((teamId) => teamId === homeId);
+            const isAwayTeam = teamsId.find((teamId) => teamId === awayId);
+            console.log("isHomeTeam", isHomeTeam);
+            console.log("isAwayTeam", isAwayTeam);
+            const winnerGameId = gameFields.winnerMatch?.stringValue;
+            const looserGameId = gameFields.loserMatch?.stringValue;
+            console.log("winnerGameId", winnerGameId);
+            console.log("looserGameId", looserGameId);
+            if (isHomeTeam || isAwayTeam) {
+              // reset game and matches
+              const copyTeamsId = teamsId.slice(0);
+              gameSnapshot.ref
+                .update({
+                  homeTeam: isHomeTeam ? null : undefined,
+                  awayTeam: isAwayTeam ? null : undefined,
+                })
+                .then(() => {
+                  resetMatches({
+                    tournamentId,
+                    gameId,
+                    teamsId: copyTeamsId,
+                    firestore,
+                  });
+                })
+                .catch((err) => {
+                  console.log("update", err);
                 });
+
+              if (!isHomeTeam) {
+                teamsId.push(homeId);
               }
-            })
-            .catch((err) => {
-              console.log("update", err);
-            });
+              if (!isAwayTeam) {
+                teamsId.push(awayId);
+              }
+              if (winnerGameId) {
+                console.log("winnerGameId");
+                recursiveReset(winnerGameId, teamsId);
+              }
+              if (looserGameId) {
+                console.log("looserGameId");
+                recursiveReset(looserGameId, teamsId);
+              }
+            }
+          }
+        };
+
+        gamesId.forEach((gameId) => {
+          const copyTeamsId = teamsId.slice(0);
+          console.log(copyTeamsId);
+          recursiveReset(gameId, copyTeamsId);
         });
       })
       .catch((err) => {
