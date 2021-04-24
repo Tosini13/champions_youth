@@ -61,7 +61,11 @@ const GameDetails: React.FC<Props> = ({
                 matchGame.match
               )}
             >
-              <MatchSummary match={match} locale={locale} />
+              <MatchSummary
+                match={match}
+                locale={locale}
+                tournamentId={tournamentId}
+              />
             </LinkStyled>
           ) : null}
           {returnMatch ? (
@@ -75,7 +79,11 @@ const GameDetails: React.FC<Props> = ({
               <DialogTitle>
                 <Translator id={returnMatchRound} /> {returnMatchNumber}
               </DialogTitle>
-              <MatchSummary match={returnMatch} locale={locale} />
+              <MatchSummary
+                match={returnMatch}
+                locale={locale}
+                tournamentId={tournamentId}
+              />
             </LinkStyled>
           ) : null}
         </>
