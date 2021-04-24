@@ -6,10 +6,11 @@ import { LOCALE } from "../../locale/config";
 import { UserData } from "../../models/credentialsData";
 import { TournamentData } from "../../models/tournamentData";
 import tournamentDashboardDict from "../../locale/tournamentDashboard";
-import { NoContentContainer, NoContentTitle } from "../../styled/styledLayout";
+import { NoContentContainer } from "../../styled/styledLayout";
 import TournamentSummary from "./TournamentSummary";
 import { Button, List } from "@material-ui/core";
 import { ScrollBarStyled } from "../../styled/styledScrollBar";
+import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
 
 const ListStyled = styled(List)`
   height: 100%;
@@ -24,7 +25,7 @@ export interface TournamentSummaryContainerProps {
   handleRedirectLogin: () => void;
 }
 
-const TournamentSummaryContainer: React.SFC<TournamentSummaryContainerProps> = ({
+const TournamentSummaryContainer: React.FC<TournamentSummaryContainerProps> = ({
   user,
   tournaments,
   locale,
@@ -34,15 +35,15 @@ const TournamentSummaryContainer: React.SFC<TournamentSummaryContainerProps> = (
     <Rosetta translations={tournamentDashboardDict} locale={locale}>
       <>
         {!tournaments?.length && user ? (
-          <NoContentTitle>
+          <TypographyPrimaryText align="center" style={{ marginTop: "30px" }}>
             <Translator id={"noTournaments"} />
-          </NoContentTitle>
+          </TypographyPrimaryText>
         ) : null}
         {!tournaments?.length && !user ? (
           <NoContentContainer>
-            <NoContentTitle>
+            <TypographyPrimaryText align="center">
               <Translator id={"mustBeLoggedInToAddTournament"} />
-            </NoContentTitle>
+            </TypographyPrimaryText>
             <Button
               variant="outlined"
               color="secondary"

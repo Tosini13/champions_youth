@@ -1,10 +1,12 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
+// TODO: REMOVE FILE
 export const mainTheme = createMuiTheme({
   palette: {
+    type: "dark",
     primary: {
       main: "#042A46",
-      light: "#0269E2",
+      light: "#0269E2", //
       dark: "#001626",
     },
     secondary: {
@@ -43,37 +45,3 @@ export const styledColors = {
     dark: "rgba(255,255,255,0.05)",
   },
 };
-
-// -----------------------------------
-// LIGHT THEME
-// ----------------------------------
-
-export const lightTheme = createMuiTheme({
-  palette: {
-    primary: {
-      main: "#D8D8D8",
-      light: "#001626",
-      dark: "#EBEBEB",
-    },
-    secondary: {
-      main: "#C4C4C4",
-      light: "#FFFFFF",
-      dark: "#969696",
-    },
-    error: {
-      main: "#D90E00",
-      light: "#FF3B2E",
-      dark: "#960A00",
-    },
-    success: {
-      main: "#1D850D",
-      light: "#18B500",
-      dark: "#094200",
-    },
-    info: {
-      main: "#4B58B8",
-      light: "#576BFF",
-      dark: "#07168A",
-    },
-  },
-});

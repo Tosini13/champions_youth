@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import { Link } from "react-router-dom";
-import { mainTheme } from "./styledConst";
 
 import { Divider, Grid } from "@material-ui/core";
 import { ScrollBarStyled } from "./styledScrollBar";
@@ -17,19 +16,10 @@ export const BodyContainer = styled.div<{ sm: boolean }>`
   ${(props) =>
     props.sm
       ? `
-  width: calc(100vw - 250px);
-  margin-left: auto;
-  `
+width: calc(100vw - 250px);
+margin-left: auto;
+`
       : ``}
-`;
-
-export const MainContainer = styled.main`
-  overflow-x: hidden;
-  overflow-y: auto;
-  flex-grow: 1;
-  background-color: ${mainTheme.palette.primary.dark};
-  position: relative;
-  overflow: hidden;
 `;
 
 export const NoContentContainer = styled.div`
@@ -37,11 +27,6 @@ export const NoContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`;
-
-export const NoContentTitle = styled.p`
-  text-align: center;
-  color: ${mainTheme.palette.secondary.dark};
 `;
 
 export const ContentContainerStyled = styled.div`

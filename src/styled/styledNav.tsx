@@ -2,11 +2,10 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import BottomNavigation from "@material-ui/core/BottomNavigation";
-import { KeyboardDatePicker } from "@material-ui/pickers";
 import List from "@material-ui/core/List";
 
 import { mainTheme, styledColors } from "./styledConst";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 export const ListStyled = styled(List)`
   padding: 0px;
@@ -41,21 +40,6 @@ export const MenuSideBarContainerStyled = styled.div<{ opened: boolean }>`
       : `translateX(-100%);
         box-shadow: none;`};
 `;
-
-export const GridNavBarStyled = styled(Grid)`
-  position: relative;
-  padding: 6px 10px;
-  width: 100%;
-`;
-
-export const NavContainerStyled = styled.div`
-  width: 100%;
-  background-color: ${mainTheme.palette.primary.main};
-  color: ${mainTheme.palette.secondary.main};
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24);
-  z-index: 10;
-`;
-
 export const MenuLinkStyled = styled(Link)`
   color: inherit;
   width: 100%;
@@ -121,28 +105,4 @@ export const DayDateStyled = styled(Typography)`
   padding: 0px;
   font-size: 10px;
   text-align: center;
-`;
-
-export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
-  margin: 0px;
-  .MuiInputBase-root,
-  .MuiFormControl-root {
-    margin: 0px;
-  }
-  .MuiInputBase-root::before,
-  .MuiInputBase-root::after {
-    content: none;
-  }
-  .Mui-error,
-  input,
-  label {
-    display: none;
-  }
-  .MuiIconButton-root {
-    padding: 1.5px;
-    color: ${mainTheme.palette.secondary.main};
-  }
-  .MuiInputAdornment-root {
-    height: 100%;
-  }
 `;

@@ -17,12 +17,12 @@ import {
   ReactReduxFirebaseProvider,
   isLoaded,
 } from "react-redux-firebase";
-import ThemeProviderWrapper from "./styled/ThemeProviderWrapper";
 import fbConfig from "./config/fbConfig";
 import firebase from "firebase/app";
 
 import { StylesProvider } from "@material-ui/core/styles";
 import SplashScreen from "./components/global/SplashScreen";
+import CustomThemeProvider from "./styled/themes/CustomThemeProvider";
 
 export const store = createStore(
   rootReducer,
@@ -51,17 +51,17 @@ const rrfProps = {
 
 ReactDOM.render(
   // <React.StrictMode>
-  <StylesProvider injectFirst>
-    <ReactReduxFirebaseProvider {...rrfProps}>
-      <Provider store={store}>
-        <AuthIsLoaded>
-          <ThemeProviderWrapper>
+  <CustomThemeProvider>
+    <StylesProvider injectFirst>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <Provider store={store}>
+          <AuthIsLoaded>
             <App />
-          </ThemeProviderWrapper>
-        </AuthIsLoaded>
-      </Provider>
-    </ReactReduxFirebaseProvider>
-  </StylesProvider>,
+          </AuthIsLoaded>
+        </Provider>
+      </ReactReduxFirebaseProvider>
+    </StylesProvider>
+  </CustomThemeProvider>,
   // </React.StrictMode>
   document.getElementById("root")
 );
