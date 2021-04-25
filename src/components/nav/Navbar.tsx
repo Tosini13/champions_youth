@@ -12,7 +12,7 @@ import { setSelectedDate } from "../../store/actions/MenuActions";
 import { routerConstString } from "../../const/menuConst";
 import DateNav from "./DateNav";
 import { LOCALE } from "../../locale/config";
-import { NavContainer } from "../../styled/styledComponents/navigation/styledNavigation";
+import { NavContainer } from "../../styled/styledComponents/navigation/styledLayout";
 
 const Navbar = ({
   locale,
