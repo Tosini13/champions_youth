@@ -6,7 +6,6 @@ import {
 } from "../../../styled/styledComponents/match/styledLayout";
 
 import { MatchData } from "../../../structures/match";
-import styled from "styled-components";
 import MatchContent from "./MatchContent";
 import { LOCALE } from "../../../locale/config";
 import {

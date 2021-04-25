@@ -10,11 +10,14 @@ import styled from "styled-components";
 import { Link, LinkProps } from "react-router-dom";
 import { styledColors } from "../../themes/other";
 
+// ######################## NAV TOP ###########################
+
+// box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24);
 const NavContainerStyled = styled.div`
   width: 100%;
   background-color: ${(props) => props.theme.palette.primary.main};
   color: ${(props) => props.theme.palette.text.primary};
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24);
+  border-bottom: 1px solid ${(props) => props.theme.palette.primary.dark};
   z-index: 10;
   padding: 5px;
   box-sizing: border-box;

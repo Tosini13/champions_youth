@@ -9,11 +9,7 @@ import {
   SectionNavStyled,
   SectionStyled,
 } from "../../../styled/styledLayout";
-import {
-  menuTournamentConst,
-  routerConstString,
-} from "../../../const/menuConst";
-import TournamentMenu from "./TournamentMenu";
+import { routerConstString } from "../../../const/menuConst";
 import TournamentTeams from "./TournamentTeams";
 import TournamentGroups from "./TournamentGroups";
 import { TeamData } from "../../../models/teamData";
@@ -30,6 +26,10 @@ import { GroupModel } from "../../../NewModels/Group";
 import { Hidden } from "@material-ui/core";
 import TournamentDetailsDesktop from "./TournamentDetailsDesktop";
 import { LOCALE } from "../../../locale/config";
+import TournamentNav, {
+  E_TOURNAMENT_MENU,
+  useTournamentNav,
+} from "./nav/TournamentNav";
 
 type Props = {
   locale: LOCALE;
@@ -55,6 +55,7 @@ const TournamentDetails: React.FC<Props> = ({
   playOffs,
   playOffsGroups,
 }) => {
+  const { getLocalStorageTournamentNav } = useTournamentNav();
   const [image, setImage] = useState<any | null>(null);
 
   useEffect(() => {
@@ -71,18 +72,21 @@ const TournamentDetails: React.FC<Props> = ({
     }
   }, [tournament, tournamentId, authorId]);
 
-  const [view, setView] = useState(menuTournamentConst.info);
+  const [view, setView] = useState(
+    getLocalStorageTournamentNav() || E_TOURNAMENT_MENU.INFO
+  );
+
   if (tournament && teams) {
     return (
       <>
         <Hidden mdUp>
           <SectionStyled>
             <SectionNavStyled>
-              <TournamentMenu view={view} setView={setView} />
+              <TournamentNav value={view} setValue={setView} locale={locale} />
             </SectionNavStyled>
             <SectionContentStyled>
               <ContentContainerStyled>
-                {view === menuTournamentConst.groups && tournament ? (
+                {view === E_TOURNAMENT_MENU.GROUPS && tournament ? (
                   <TournamentGroups
                     tournamentId={tournamentId}
                     tournament={tournament}
@@ -93,7 +97,7 @@ const TournamentDetails: React.FC<Props> = ({
                     isOwner={isOwner}
                   />
                 ) : null}
-                {view === menuTournamentConst.playoffs &&
+                {view === E_TOURNAMENT_MENU.PLAY_OFFS &&
                 tournament &&
                 playOffs ? (
                   <TournamentPlayOffs
@@ -106,7 +110,7 @@ const TournamentDetails: React.FC<Props> = ({
                     isOwner={isOwner}
                   />
                 ) : null}
-                {view === menuTournamentConst.info && tournament ? (
+                {view === E_TOURNAMENT_MENU.INFO && tournament ? (
                   <TournamentInfo
                     tournament={tournament}
                     image={image}
@@ -114,7 +118,7 @@ const TournamentDetails: React.FC<Props> = ({
                     tournamentId={tournamentId}
                   />
                 ) : null}
-                {view === menuTournamentConst.teams && tournament ? (
+                {view === E_TOURNAMENT_MENU.TEAMS && tournament ? (
                   <TournamentTeams
                     teams={teams}
                     isOwner={isOwner}

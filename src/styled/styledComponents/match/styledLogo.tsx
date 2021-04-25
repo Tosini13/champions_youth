@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TypographyProps, useTheme } from "@material-ui/core";
+import { useTheme } from "@material-ui/core";
 import styled from "styled-components";
 import { EThemes } from "../../themes/CustomThemeProvider";
 
@@ -37,10 +37,14 @@ const AwayLogoContainerStyled = styled(LogoContainerStyled)`
 
 export const HomeLogoContainer: React.FC = ({ children }) => {
   const theme = useTheme();
-  return <HomeLogoContainerStyled>{children}</HomeLogoContainerStyled>;
+  return (
+    <HomeLogoContainerStyled theme={theme}>{children}</HomeLogoContainerStyled>
+  );
 };
 
 export const AwayLogoContainer: React.FC = ({ children }) => {
   const theme = useTheme();
-  return <AwayLogoContainerStyled>{children}</AwayLogoContainerStyled>;
+  return (
+    <AwayLogoContainerStyled theme={theme}>{children}</AwayLogoContainerStyled>
+  );
 };
