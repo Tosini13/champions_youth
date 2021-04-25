@@ -7,12 +7,13 @@ import { UserData } from "../../models/credentialsData";
 import { TournamentData } from "../../models/tournamentData";
 import tournamentDashboardDict from "../../locale/tournamentDashboard";
 import { NoContentContainer } from "../../styled/styledLayout";
-import TournamentSummary from "./TournamentSummary";
-import { Button, List } from "@material-ui/core";
+import TournamentSummary from "./tournamentSummary/TournamentSummary";
+import { Button, Divider, List } from "@material-ui/core";
 import { ScrollBarStyled } from "../../styled/styledScrollBar";
 import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
 
 const ListStyled = styled(List)`
+  padding: 0px 2px;
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -55,11 +56,10 @@ const TournamentSummaryContainer: React.FC<TournamentSummaryContainerProps> = ({
         ) : null}
         <ListStyled>
           {tournaments?.map((tournament: TournamentData) => (
-            <TournamentSummary
-              key={tournament.id}
-              tournament={tournament}
-              user={user}
-            />
+            <React.Fragment key={tournament.id}>
+              <TournamentSummary tournament={tournament} user={user} />
+              <Divider color="primary" />
+            </React.Fragment>
           ))}
         </ListStyled>
       </>

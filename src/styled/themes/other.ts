@@ -1,4 +1,7 @@
 export const styledColors = {
+  champions: {
+    white: "#EBEBEB",
+  },
   icons: {
     tournament: "#7E6714",
     live: "#FA49FE",
