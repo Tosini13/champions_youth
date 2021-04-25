@@ -10,7 +10,6 @@ export const lightTheme = createMuiTheme({
     },
     secondary: {
       main: "#030839",
-      light: "#969696",
       dark: "#FFFFFF",
     },
     error: {
@@ -31,6 +30,11 @@ export const lightTheme = createMuiTheme({
     text: {
       primary: "#001626",
       secondary: "#CFCFCF",
+    },
+    background: {
+      default: `linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(0, 22, 38, 0.8) 27.08%, #001626 52.08%, rgba(0, 22, 38, 0.8) 77.6%, rgba(0, 22, 38, 0.15) 100%)`,
+      paper:
+        "linear-gradient(90deg, rgba(46, 102, 134, 0.15) 0%, rgba(46, 102, 134, 0.8) 27.08%, #2E6686 52.08%, rgba(46, 102, 134, 0.8) 77.6%, rgba(46, 102, 134, 0.15) 100%)",
     },
   },
 });

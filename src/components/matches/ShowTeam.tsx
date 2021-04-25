@@ -21,7 +21,10 @@ const ShowTeam: React.FC<ShowTeamProps> = ({ team, placeholder, locale }) => {
   const { round, number } = translateRound(placeholder?.name ?? "");
   return (
     <Rosetta translations={matchDict} locale={locale}>
-      <Typography variant="body2" color="secondary">
+      <Typography
+        color="secondary"
+        style={{ color: "white", fontSize: "0.9rem" }}
+      >
         {team ? (
           team.name
         ) : placeholder ? (
