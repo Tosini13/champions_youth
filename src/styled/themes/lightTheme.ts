@@ -29,7 +29,7 @@ export const lightTheme = createMuiTheme({
     },
     text: {
       primary: "#001626",
-      secondary: "#CFCFCF",
+      secondary: "#4FC9F0",
     },
     background: {
       default: `linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(0, 22, 38, 0.8) 27.08%, #001626 52.08%, rgba(0, 22, 38, 0.8) 77.6%, rgba(0, 22, 38, 0.15) 100%)`,

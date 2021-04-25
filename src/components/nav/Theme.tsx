@@ -2,13 +2,13 @@ import React, { useContext } from "react";
 import { connect } from "react-redux";
 
 import { THEME } from "../../locale/config";
-import { IconButton } from "@material-ui/core";
 import { setTheme } from "../../store/actions/ThemeActions";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import {
   CustomThemeContext,
   EThemes,
 } from "../../styled/themes/CustomThemeProvider";
+import { IconButtonRC } from "../../styled/styledComponents/styledButtons";
 
 export interface ThemeProps {
   theme: THEME;
@@ -29,9 +29,12 @@ const Theme: React.FC<ThemeProps> = ({ theme }) => {
   };
 
   return (
-    <IconButton onClick={handleChangeTheme}>
+    <IconButtonRC
+      onClick={handleChangeTheme}
+      style={{ marginLeft: "7px", padding: "4px" }}
+    >
       <WbSunnyIcon />
-    </IconButton>
+    </IconButtonRC>
   );
 };
 

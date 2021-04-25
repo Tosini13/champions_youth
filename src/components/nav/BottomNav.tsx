@@ -13,14 +13,14 @@ import {
   routerConst,
   routerConstString,
 } from "../../const/menuConst";
-import {
-  BottomNavigationStyled,
-  RedBottomNavigationActionLinkStyled,
-  GoldBottomNavigationActionLinkStyled,
-} from "../../styled/styledNav";
 import menuDict from "../../locale/menu";
 import { connect } from "react-redux";
 import { LOCALE } from "../../locale/config";
+import {
+  BottomNavigationRC,
+  NavBottomLink,
+  NavBottomLiveLink,
+} from "../../styled/styledComponents/navigation/styledLayout";
 
 type Props = {
   locale: LOCALE;
@@ -31,40 +31,38 @@ const BottomNav: React.FC<Props> = ({ locale }) => {
 
   return (
     <Rosetta translations={menuDict} locale={locale}>
-      <>
-        <BottomNavigationStyled
-          value={routerConst.get(location.pathname + location.search)}
-        >
-          <BottomNavigationAction
-            component={GoldBottomNavigationActionLinkStyled}
-            to={routerConstString.tournaments}
-            label={<Translator id={bottomMenuConst.tournaments} />}
-            value={bottomMenuConst.tournaments}
-            icon={<EmojiEventsIcon />}
-          />
-          <BottomNavigationAction
-            component={RedBottomNavigationActionLinkStyled}
-            to={routerConstString.live}
-            label={<Translator id={bottomMenuConst.live} />}
-            value={bottomMenuConst.live}
-            icon={<AdjustIcon />}
-          />
-          <BottomNavigationAction
-            component={RedBottomNavigationActionLinkStyled}
-            to={routerConstString.my}
-            label={<Translator id={bottomMenuConst.my} />}
-            value={bottomMenuConst.my}
-            icon={<FavoriteIcon />}
-          />
-          <BottomNavigationAction
-            component={GoldBottomNavigationActionLinkStyled}
-            to={routerConstString.favorites}
-            label={<Translator id={bottomMenuConst.favorites} />}
-            value={bottomMenuConst.favorites}
-            icon={<StarIcon />}
-          />
-        </BottomNavigationStyled>
-      </>
+      <BottomNavigationRC
+        value={routerConst.get(location.pathname + location.search)}
+      >
+        <BottomNavigationAction
+          component={NavBottomLink}
+          to={routerConstString.tournaments}
+          label={<Translator id={bottomMenuConst.tournaments} />}
+          value={bottomMenuConst.tournaments}
+          icon={<EmojiEventsIcon />}
+        />
+        <BottomNavigationAction
+          component={NavBottomLiveLink}
+          to={routerConstString.live}
+          label={<Translator id={bottomMenuConst.live} />}
+          value={bottomMenuConst.live}
+          icon={<AdjustIcon />}
+        />
+        <BottomNavigationAction
+          component={NavBottomLiveLink}
+          to={routerConstString.my}
+          label={<Translator id={bottomMenuConst.my} />}
+          value={bottomMenuConst.my}
+          icon={<FavoriteIcon />}
+        />
+        <BottomNavigationAction
+          component={NavBottomLink}
+          to={routerConstString.favorites}
+          label={<Translator id={bottomMenuConst.favorites} />}
+          value={bottomMenuConst.favorites}
+          icon={<StarIcon />}
+        />
+      </BottomNavigationRC>
     </Rosetta>
   );
 };

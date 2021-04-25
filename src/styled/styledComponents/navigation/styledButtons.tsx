@@ -1,11 +1,12 @@
 import React from "react";
-import { IconButton, IconButtonProps, useTheme } from "@material-ui/core";
+import { IconButtonProps, useTheme } from "@material-ui/core";
 import styled from "styled-components";
 import { parseStyledBoolean } from "../../../helpers/booleanParser";
 import {
   KeyboardDatePicker,
   KeyboardDatePickerProps,
 } from "@material-ui/pickers";
+import { IconButtonStyled } from "../styledButtons";
 
 const HamburgerStyled = styled.div<{ open: boolean }>`
   display: flex;
@@ -56,9 +57,8 @@ export const Hamburger: React.FC<THamburger> = ({ open, toggleOpen }) => {
   );
 };
 
-export const IconButtonNavStyled = styled(IconButton)`
+export const IconButtonNavStyled = styled(IconButtonStyled)`
   padding: 0px;
-  color: ${(props) => props.theme.palette.text.primary};
 `;
 export const IconButtonNav: React.FC<IconButtonProps> = ({
   children,

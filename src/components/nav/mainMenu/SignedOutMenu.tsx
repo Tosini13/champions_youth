@@ -15,6 +15,7 @@ import menuDict from "../../../locale/menu";
 import { LOCALE } from "../../../locale/config";
 import { GridContainer, ListItemStyled } from "./SignedInMenu";
 import { Grid } from "@material-ui/core";
+import Theme from "../Theme";
 
 type Props = {
   handleCloseSideBar: () => void;
@@ -33,6 +34,7 @@ const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar, locale }) => {
               </ListItemIcon>
               <ListItemText primary={<Translator id="youAreLockedOut" />} />
               <Language />
+              <Theme />
             </ListItemStyled>
           </ListStyled>
         </Grid>
