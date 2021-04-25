@@ -108,7 +108,7 @@ export const NavBottomLiveLink: React.FC<LinkProps> = ({
 
 const DrawerStyled = styled(Drawer)`
   .MuiDrawer-paper {
-    background-color: ${(props) => props.theme.palette.primary.main};
+    background-color: ${(props) => props.theme.palette.primary.dark};
     color: ${(props) => props.theme.palette.text.primary};
     width: 250px;
   }

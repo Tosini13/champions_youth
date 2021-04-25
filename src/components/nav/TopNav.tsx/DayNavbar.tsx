@@ -20,6 +20,7 @@ import {
 
 const GridContainer = styled(Grid)`
   max-width: 250px;
+  margin: auto;
 `;
 
 const DayNavbar = ({

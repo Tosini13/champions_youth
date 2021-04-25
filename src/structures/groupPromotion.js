@@ -67,7 +67,7 @@ export const createTable = (teamsId, matches) => {
                     console.log("Matches didn't start!!");
                 }
                 //team is host
-                if (match.home.id === row.team) {
+                if (match.home?.id === row.team) {
                     //add points
                     if (match.result.home > match.result.away) {
                         row.points += parseInt(3);
@@ -83,7 +83,7 @@ export const createTable = (teamsId, matches) => {
                     row.matches++;
                 }
                 //team is guest
-                if (match.away.id === row.team) {
+                if (match.away?.id === row.team) {
                     //add points
                     if (match.result.home < match.result.away) {
                         row.points += parseInt(3);

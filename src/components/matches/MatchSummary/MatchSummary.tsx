@@ -16,16 +16,10 @@ import {
 import { Id } from "../../../const/structuresConst";
 import Logo, { SIZE_LOGO } from "../../global/Logo";
 import MatchHeader from "./MatchHeader";
-
-const HomeLogoContainer = styled.div`
-  position: absolute;
-  left: 0px;
-`;
-
-const AwayLogoContainer = styled.div`
-  position: absolute;
-  right: 0px;
-`;
+import {
+  AwayLogoContainer,
+  HomeLogoContainer,
+} from "../../../styled/styledComponents/match/styledLogo";
 
 export interface MatchSummaryProps {
   match: MatchData;

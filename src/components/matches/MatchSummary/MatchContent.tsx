@@ -38,6 +38,10 @@ const ResultTypographyStyled = styled(Typography)<{ isLive?: string }>`
       : ""}
 `;
 
+const GridContainer = styled(Grid)`
+  padding: 0px 20px;
+`;
+
 export interface MatchContentProps {
   match: MatchData;
   locale: LOCALE;
@@ -46,12 +50,7 @@ export interface MatchContentProps {
 const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
   return (
     <Rosetta translations={matchDict} locale={locale}>
-      <Grid
-        container
-        alignItems="center"
-        wrap="nowrap"
-        style={{ padding: "0px 15px" }}
-      >
+      <GridContainer container alignItems="center" wrap="nowrap">
         <Grid item xs={5}>
           <HostName>
             <ShowTeam
@@ -75,7 +74,7 @@ const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
             />
           </GuestName>
         </Grid>
-      </Grid>
+      </GridContainer>
     </Rosetta>
   );
 };

@@ -5,7 +5,6 @@ import { SIZE_LOGO } from "../../../components/global/Logo";
 
 export const MatchContainerStyled = styled(Grid)`
   height: 60px;
-  max-width: 300px;
   position: relative;
   margin: auto;
 `;

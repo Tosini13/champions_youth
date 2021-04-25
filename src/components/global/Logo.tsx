@@ -4,7 +4,7 @@ import trophy from "../../images/logo/tournament_logo_trophy2.png";
 
 export enum SIZE_LOGO {
   lg = "60px",
-  md = "30px",
+  md = "40px",
   sm = "20px",
 }
 
