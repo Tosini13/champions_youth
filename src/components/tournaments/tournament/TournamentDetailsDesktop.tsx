@@ -42,6 +42,7 @@ export const GridSectionContentStyled = styled(Grid)`
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   ${ScrollBarStyled}
 `;
 

@@ -5,6 +5,7 @@ import styled from "styled-components";
 const MainContainerStyled = styled.main`
   overflow-x: hidden;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   flex-grow: 1;
   background-color: ${(props) => props.theme.palette.primary.dark};
   position: relative;

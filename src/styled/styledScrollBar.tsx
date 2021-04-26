@@ -1,6 +1,7 @@
 import { mainTheme } from "./styledConst";
 
 export const ScrollBarStyled = `
+-webkit-overflow-scrolling: touch;
 /* width */
 ::-webkit-scrollbar {
   width: 3px;

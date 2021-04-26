@@ -27,6 +27,7 @@ export const BracketNavStyled = styled.div`
   align-items: center;
   justify-content: space-between;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 `;
 
 export const BracketNavMenuStyled = styled.div`
