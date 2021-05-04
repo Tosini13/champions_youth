@@ -2,6 +2,7 @@ import React from "react";
 import { Grid, useTheme } from "@material-ui/core";
 import styled from "styled-components";
 import { SIZE_LOGO } from "../../../components/global/Logo";
+import { useColors } from "../../themes/CustomThemeProvider";
 
 export const MatchContainerStyled = styled(Grid)`
   height: 60px;
@@ -21,10 +22,12 @@ export const MatchContainer: React.FC = ({ children }) => {
   );
 };
 
-const MatchContentContainerStyled = styled.div`
+const MatchContentContainerStyled = styled.div<{
+  gradient: string;
+}>`
   height: 25px;
   width: calc(100% - ${SIZE_LOGO.md});
-  background: ${(props) => props.theme.palette.background.default};
+  background: ${(props) => props.gradient};
   margin: auto;
   position: relative;
   padding: 0px;
@@ -33,9 +36,9 @@ const MatchContentContainerStyled = styled.div`
 `;
 
 export const MatchContentContainer: React.FC = ({ children }) => {
-  const theme = useTheme();
+  const { darkGradient } = useColors();
   return (
-    <MatchContentContainerStyled theme={theme}>
+    <MatchContentContainerStyled gradient={darkGradient}>
       {children}
     </MatchContentContainerStyled>
   );
@@ -43,10 +46,12 @@ export const MatchContentContainer: React.FC = ({ children }) => {
 
 // #################### HEADER ##########################
 
-const MatchHeaderContainerStyled = styled(Grid)`
+const MatchHeaderContainerStyled = styled(Grid)<{
+  gradient: string;
+}>`
   height: 15px;
   width: 85%;
-  background: ${(props) => props.theme.palette.background.paper};
+  background: ${(props) => props.gradient};
   margin: auto;
   position: absolute;
   top: 0px;
@@ -58,10 +63,10 @@ const MatchHeaderContainerStyled = styled(Grid)`
 `;
 
 export const MatchHeaderContainer: React.FC = ({ children }) => {
-  const theme = useTheme();
+  const { lightGradient } = useColors();
   return (
     <MatchHeaderContainerStyled
-      theme={theme}
+      gradient={lightGradient}
       container
       justify="space-between"
       alignItems="flex-end"

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ThemeProvider } from "@material-ui/styles";
-import { lightTheme } from "./lightTheme";
-import { mainTheme } from "./darkTheme";
+import { lightTheme, lightThemeGradient } from "./lightTheme";
+import { mainTheme, darkThemeGradient } from "./darkTheme";
 
 export enum EThemes {
   dark = "dark",
@@ -49,3 +49,18 @@ export const CustomThemeProvider: React.FC<{}> = ({ children }) => {
 };
 
 export default CustomThemeProvider;
+
+export const useColors = () => {
+  const currentTheme =
+    (localStorage.getItem("championsYouthTheme") as EThemes) || EThemes.dark;
+  return {
+    lightGradient:
+      currentTheme === EThemes.dark
+        ? darkThemeGradient.light
+        : lightThemeGradient.light,
+    darkGradient:
+      currentTheme === EThemes.dark
+        ? darkThemeGradient.dark
+        : lightThemeGradient.dark,
+  };
+};

@@ -1,39 +1,46 @@
 import React from "react";
 import { useTheme } from "@material-ui/core";
 import styled from "styled-components";
+import { useColors } from "../../themes/CustomThemeProvider";
 
-const TournamentTitleContainerStyled = styled.div`
-  background: ${(props) => props.theme.palette.background.default};
+const TournamentTitleContainerStyled = styled.div<{
+  gradient: string;
+}>`
+  background: ${(props) => props.gradient};
   margin-top: 2px;
 `;
 
 export const TournamentTitleContainer: React.FC = ({ children }) => {
-  const theme = useTheme();
+  const { darkGradient } = useColors();
   return (
-    <TournamentTitleContainerStyled theme={theme}>
+    <TournamentTitleContainerStyled gradient={darkGradient}>
       {children}
     </TournamentTitleContainerStyled>
   );
 };
 
-const TournamentHeaderContainerStyled = styled.div`
-  background: ${(props) => props.theme.palette.background.paper};
+const TournamentHeaderContainerStyled = styled.div<{
+  gradient: string;
+}>`
+  background: ${(props) => props.gradient};
   width: 85%;
   margin: auto;
   padding: 0px 5px;
 `;
 
 export const TournamentHeaderContainer: React.FC = ({ children }) => {
-  const theme = useTheme();
+  const { lightGradient } = useColors();
   return (
-    <TournamentHeaderContainerStyled theme={theme}>
+    <TournamentHeaderContainerStyled gradient={lightGradient}>
       {children}
     </TournamentHeaderContainerStyled>
   );
 };
 
-const TournamentFooterContainerStyled = styled.div`
-  background: ${(props) => props.theme.palette.background.paper};
+const TournamentFooterContainerStyled = styled.div<{
+  gradient: string;
+}>`
+  background: ${(props) => props.gradient};
   width: 80%;
   margin: auto;
   border-bottom-left-radius: 20px;
@@ -41,9 +48,9 @@ const TournamentFooterContainerStyled = styled.div`
 `;
 
 export const TournamentFooterContainer: React.FC = ({ children }) => {
-  const theme = useTheme();
+  const { lightGradient } = useColors();
   return (
-    <TournamentFooterContainerStyled theme={theme}>
+    <TournamentFooterContainerStyled gradient={lightGradient}>
       {children}
     </TournamentFooterContainerStyled>
   );
@@ -59,10 +66,7 @@ const TournamentLogoContainerStyled = styled.div`
 `;
 
 export const TournamentLogoContainer: React.FC = ({ children }) => {
-  const theme = useTheme();
   return (
-    <TournamentLogoContainerStyled theme={theme}>
-      {children}
-    </TournamentLogoContainerStyled>
+    <TournamentLogoContainerStyled>{children}</TournamentLogoContainerStyled>
   );
 };

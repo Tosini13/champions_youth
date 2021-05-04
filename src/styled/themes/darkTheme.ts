@@ -32,11 +32,12 @@ export const mainTheme = createMuiTheme({
       primary: "#FFF",
       secondary: "#4FC9F0",
     },
-    background: {
-      // match background
-      default: `linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(2, 105, 226, 0.8) 27.08%, #0269E2 52.08%, rgba(2, 105, 226, 0.8) 77.6%, rgba(0, 22, 38, 0.15) 100%)`,
-      // match header background
-      paper: `linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(46, 102, 134, 0.8) 27.08%, #2E6686 52.08%, rgba(46, 102, 134, 0.8) 77.6%, rgba(0, 22, 38, 0.15) 100%)`,
-    },
   },
 });
+
+export const darkThemeGradient = {
+  dark:
+    "linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(2, 105, 226, 0.8) 27.08%, #0269E2 52.08%, rgba(2, 105, 226, 0.8) 77.6%, rgba(0, 22, 38, 0.15) 100%)",
+  light:
+    "linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(46, 102, 134, 0.8) 27.08%, #2E6686 52.08%, rgba(46, 102, 134, 0.8) 77.6%, rgba(0, 22, 38, 0.15) 100%)",
+};

@@ -31,10 +31,12 @@ export const lightTheme = createMuiTheme({
       primary: "#001626",
       secondary: "#4FC9F0",
     },
-    background: {
-      default: `linear-gradient(90deg, rgba(235, 235, 235, 0.15) 0%, rgba(0, 22, 38, 0.8) 27.08%, #001626 52.08%, rgba(0, 22, 38, 0.8) 77.6%, rgba(235, 235, 235, 0.15) 100%)`,
-      paper:
-        "linear-gradient(90deg, rgba(235, 235, 235, 0.15) 0%, rgba(46, 102, 134, 0.8) 27.08%, #2E6686 52.08%, rgba(46, 102, 134, 0.8) 77.6%, rgba(235, 235, 235, 0.15) 100%)",
-    },
   },
 });
+
+export const lightThemeGradient = {
+  dark:
+    "linear-gradient(90deg, rgba(235, 235, 235, 0.15) 0%, rgba(0, 22, 38, 0.8) 27.08%, #001626 52.08%, rgba(0, 22, 38, 0.8) 77.6%, rgba(235, 235, 235, 0.15) 100%)",
+  light:
+    "linear-gradient(90deg, rgba(235, 235, 235, 0.15) 0%, rgba(46, 102, 134, 0.8) 27.08%, #2E6686 52.08%, rgba(46, 102, 134, 0.8) 77.6%, rgba(235, 235, 235, 0.15) 100%)",
+};
