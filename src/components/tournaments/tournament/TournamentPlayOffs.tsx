@@ -121,7 +121,11 @@ const TournamentPlayOffs: React.FC<Props> = ({
       <>
         {playOffs?.length && !playOffsGroups?.length ? (
           <>
-            <PlayOffsBracket playOffs={playOffs} />
+            <PlayOffsBracket
+              playOffs={playOffs}
+              locale={locale}
+              tournamentId={tournamentId}
+            />
             {isOwner ? (
               <ButtonHorizontalContainerStyled>
                 <ButtonErrorStyled

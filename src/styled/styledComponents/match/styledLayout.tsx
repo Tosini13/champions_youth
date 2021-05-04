@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, GridProps } from "@material-ui/core";
 import styled from "styled-components";
 import { SIZE_LOGO } from "../../../components/global/Logo";
 import { useColors } from "../../themes/CustomThemeProvider";
@@ -62,7 +62,10 @@ const MatchHeaderContainerStyled = styled(Grid)<{
   padding: 0px 11px;
 `;
 
-export const MatchHeaderContainer: React.FC = ({ children }) => {
+export const MatchHeaderContainer: React.FC<GridProps> = ({
+  children,
+  ...props
+}) => {
   const { lightGradient } = useColors();
   return (
     <MatchHeaderContainerStyled
@@ -71,6 +74,7 @@ export const MatchHeaderContainer: React.FC = ({ children }) => {
       justify="space-between"
       alignItems="flex-end"
       wrap="nowrap"
+      {...props}
     >
       {children}
     </MatchHeaderContainerStyled>
