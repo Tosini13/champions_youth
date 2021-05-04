@@ -11,67 +11,80 @@ import { styledColors } from "../../../styled/themes/other";
 import { parseStyledBoolean } from "../../../helpers/booleanParser";
 import ShowTeam from "../../matches/ShowTeam";
 import { Game } from "../../../models/gameData";
+import { MatchData } from "../../../structures/match";
+import {
+  GridMatchContainer,
+  HostName,
+  GuestName,
+  ResultTypographyStyled,
+} from "../../matches/MatchSummary/MatchContent";
 
-const TeamName = styled.div`
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  font-size: 10px;
-  padding: 2px;
-`;
-
-const HostName = styled(TeamName)`
-  text-align: right;
-`;
-
-const GuestName = styled(TeamName)`
-  text-align: left;
-`;
-
-const ResultTypographyStyled = styled(Typography)<{ isLive?: string }>`
-  color: white;
+const ResultReturnMatchTypographyStyled = styled(Typography)<{
+  isLive?: string;
+}>`
+  color: black;
   ${(props) =>
     props.isLive
       ? `
   color: ${styledColors.icons.live};
   font-weight: bold;`
       : ""}
-`;
-
-const GridContainer = styled(Grid)`
-  padding: 0px 20px;
+  font-size: 12px;
 `;
 
 export interface MatchContentProps {
   game: Game;
   locale: LOCALE;
+  match?: MatchData;
+  returnMatch?: MatchData;
 }
 
-const GameContent: React.FC<MatchContentProps> = ({ game, locale }) => {
-  console.log("game", game);
+const GameContent: React.FC<MatchContentProps> = ({
+  game,
+  locale,
+  match,
+  returnMatch,
+}) => {
   return (
     <Rosetta translations={matchDict} locale={locale}>
-      <GridContainer container alignItems="center" wrap="nowrap">
-        <Grid item xs={5}>
-          <HostName>
-            <ShowTeam
-              team={game?.homeTeam}
-              placeholder={game?.placeholder?.home}
-            />
-          </HostName>
-        </Grid>
-        <Grid item xs={2}>
-          <ResultTypographyStyled align="center">VS</ResultTypographyStyled>
-        </Grid>
-        <Grid item xs={5}>
-          <GuestName>
-            <ShowTeam
-              team={game?.awayTeam}
-              placeholder={game?.placeholder?.away}
-            />
-          </GuestName>
-        </Grid>
-      </GridContainer>
+      <>
+        <GridMatchContainer container alignItems="center" wrap="nowrap">
+          <Grid item xs={5}>
+            <HostName>
+              <ShowTeam
+                team={game?.homeTeam}
+                placeholder={game?.placeholder?.home}
+              />
+            </HostName>
+          </Grid>
+          <Grid item xs={2}>
+            {match ? (
+              <Result
+                mode={match?.mode}
+                home={match?.result?.home}
+                away={match?.result?.away}
+              />
+            ) : (
+              <ResultTypographyStyled align="center">VS</ResultTypographyStyled>
+            )}
+            {returnMatch ? (
+              <ResultReturnMatch
+                mode={returnMatch?.mode}
+                home={returnMatch?.result?.home}
+                away={returnMatch?.result?.away}
+              />
+            ) : null}
+          </Grid>
+          <Grid item xs={5}>
+            <GuestName>
+              <ShowTeam
+                team={game?.awayTeam}
+                placeholder={game?.placeholder?.away}
+              />
+            </GuestName>
+          </Grid>
+        </GridMatchContainer>
+      </>
     </Rosetta>
   );
 };
@@ -117,5 +130,60 @@ const Result: React.FC<TResultProps> = ({ home, away, mode }) => {
         </ResultTypographyStyled>
       </Grid>
     </Grid>
+  );
+};
+
+const ResultReturnMatchContainer = styled.div`
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  background-color: white;
+  color: black;
+  width: 44px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+`;
+
+type TResultReturnMatchProps = {
+  home?: number;
+  away?: number;
+  mode: string;
+};
+
+const ResultReturnMatch: React.FC<TResultReturnMatchProps> = ({
+  home,
+  away,
+  mode,
+}) => {
+  return (
+    <ResultReturnMatchContainer>
+      <Grid container alignItems="center">
+        <Grid item xs={5}>
+          <ResultReturnMatchTypographyStyled
+            align="right"
+            isLive={parseStyledBoolean(mode === matchModeConst.live)}
+          >
+            {home ?? ""}
+          </ResultReturnMatchTypographyStyled>
+        </Grid>
+        <Grid item xs={2}>
+          <ResultReturnMatchTypographyStyled
+            align="center"
+            isLive={parseStyledBoolean(mode === matchModeConst.live)}
+          >
+            -
+          </ResultReturnMatchTypographyStyled>
+        </Grid>
+        <Grid item xs={5}>
+          <ResultReturnMatchTypographyStyled
+            align="left"
+            isLive={parseStyledBoolean(mode === matchModeConst.live)}
+          >
+            {away ?? ""}
+          </ResultReturnMatchTypographyStyled>
+        </Grid>
+      </Grid>
+    </ResultReturnMatchContainer>
   );
 };

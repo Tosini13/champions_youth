@@ -12,7 +12,7 @@ import ShowTeam from "../ShowTeam";
 import { styledColors } from "../../../styled/themes/other";
 import { parseStyledBoolean } from "../../../helpers/booleanParser";
 
-const TeamName = styled.div`
+export const TeamName = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -20,15 +20,15 @@ const TeamName = styled.div`
   padding: 2px;
 `;
 
-const HostName = styled(TeamName)`
+export const HostName = styled(TeamName)`
   text-align: right;
 `;
 
-const GuestName = styled(TeamName)`
+export const GuestName = styled(TeamName)`
   text-align: left;
 `;
 
-const ResultTypographyStyled = styled(Typography)<{ isLive?: string }>`
+export const ResultTypographyStyled = styled(Typography)<{ isLive?: string }>`
   color: white;
   ${(props) =>
     props.isLive
@@ -38,7 +38,7 @@ const ResultTypographyStyled = styled(Typography)<{ isLive?: string }>`
       : ""}
 `;
 
-const GridContainer = styled(Grid)`
+export const GridMatchContainer = styled(Grid)`
   padding: 0px 20px;
 `;
 
@@ -50,7 +50,7 @@ export interface MatchContentProps {
 const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
   return (
     <Rosetta translations={matchDict} locale={locale}>
-      <GridContainer container alignItems="center" wrap="nowrap">
+      <GridMatchContainer container alignItems="center" wrap="nowrap">
         <Grid item xs={5}>
           <HostName>
             <ShowTeam
@@ -74,7 +74,7 @@ const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
             />
           </GuestName>
         </Grid>
-      </GridContainer>
+      </GridMatchContainer>
     </Rosetta>
   );
 };

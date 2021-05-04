@@ -4,12 +4,14 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import styled from "styled-components";
+import { routerGenerateConst } from "../../../const/menuConst";
 import { Id } from "../../../const/structuresConst";
 import { LOCALE } from "../../../locale/config";
 import { Game } from "../../../models/gameData";
 import { TeamData } from "../../../models/teamData";
 import { MatchData } from "../../../structures/match";
 import { DialogRU } from "../../../styled/styledDialog";
+import { LinkStyled } from "../../../styled/styledLayout";
 import MatchSummary from "../../matches/MatchSummary/MatchSummary";
 
 const GridContainer = styled(Grid)`
@@ -40,11 +42,19 @@ const GameDetails: React.FC<GameDetailsProps> = ({
       {match ? (
         <GridContainer container>
           <Grid item xs={12}>
-            <MatchSummary
-              match={match}
-              locale={locale}
-              tournamentId={tournamentId}
-            />
+            <LinkStyled
+              to={routerGenerateConst.matchPlayOffs(
+                tournamentId,
+                game.id,
+                match.id
+              )}
+            >
+              <MatchSummary
+                match={match}
+                locale={locale}
+                tournamentId={tournamentId}
+              />
+            </LinkStyled>
           </Grid>
           {returnMatch ? (
             <Grid item xs={12}>

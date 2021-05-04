@@ -1,7 +1,7 @@
 import React from "react";
 import { LOCALE } from "../../locale/config";
 import { Game } from "../../models/gameData";
-import GameSummary from "./gameSummary/GameSummary";
+import GameSummaryContainer from "./gameSummary/GameSummaryContainer";
 
 type Props = {
   playOffs: Game[];
@@ -18,10 +18,11 @@ const PlayOffsBracket: React.FC<Props> = ({
     <>
       {playOffs.map((game) => (
         <React.Fragment key={game.id}>
-          <GameSummary
+          <GameSummaryContainer
             game={game}
             locale={locale}
             tournamentId={tournamentId}
+            gameId={game.id}
           />
         </React.Fragment>
       ))}
