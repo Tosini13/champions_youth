@@ -5,6 +5,7 @@ import { LOCALE } from "../../../locale/config";
 import menuDict from "../../../locale/menu";
 import { bottomMenuConst } from "../../../const/menuConst";
 import {
+  E_TAB_PLACE,
   TabRC,
   TabsContainer,
 } from "../../../styled/styledComponents/navigation/styledTabs";
@@ -30,6 +31,7 @@ export default function LeftBottomNav({
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <TabsContainer
+        place={E_TAB_PLACE.TOP}
         value={value}
         indicatorColor="secondary"
         textColor="secondary"

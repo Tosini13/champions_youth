@@ -2,14 +2,23 @@ import React from "react";
 import { Tab, TabProps, Tabs, TabsProps, useTheme } from "@material-ui/core";
 import styled from "styled-components";
 
-const TabsStyled = styled(Tabs)`
+export enum E_TAB_PLACE {
+  "TOP" = "TOP",
+  "BOTTOM" = "BOTTOM",
+}
+
+const TabsStyled = styled(Tabs)<{
+  place?: E_TAB_PLACE;
+}>`
   background-color: ${(props) => props.theme.palette.primary.main};
   .MuiTabs-scroller > span {
     background-color: ${(props) => props.theme.palette.text.secondary};
+    ${(props) => (props.place ? "top: 0px;" : "")};
   }
 `;
 
 type TTabsContainer = TabsProps & {
+  place?: E_TAB_PLACE;
   handleChange: (event: React.ChangeEvent<{}>, newValue: number) => void;
 };
 
