@@ -1,6 +1,5 @@
 import React from "react";
 
-import List from "@material-ui/core/List";
 import GroupSummary from "./GroupSummary";
 import { Group } from "../../models/groupData";
 import { Grid } from "@material-ui/core";

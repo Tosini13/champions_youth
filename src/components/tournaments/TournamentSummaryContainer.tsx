@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Rosetta, Translator } from "react-rosetta";
 
@@ -11,6 +11,7 @@ import TournamentSummary from "./tournamentSummary/TournamentSummary";
 import { Button, Divider, List } from "@material-ui/core";
 import { ScrollBarStyled } from "../../styled/styledScrollBar";
 import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
+import { useTournamentNav } from "../../hooks/useTournamentNavs";
 
 const ListStyled = styled(List)`
   padding: 0px 2px;
@@ -33,6 +34,10 @@ const TournamentSummaryContainer: React.FC<TournamentSummaryContainerProps> = ({
   locale,
   handleRedirectLogin,
 }) => {
+  const { clearLocalStorageTournamentNav } = useTournamentNav();
+  useEffect(() => {
+    clearLocalStorageTournamentNav();
+  }, [clearLocalStorageTournamentNav]);
   return (
     <Rosetta translations={tournamentDashboardDict} locale={locale}>
       <>

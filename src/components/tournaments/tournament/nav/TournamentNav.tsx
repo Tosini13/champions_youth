@@ -4,39 +4,15 @@ import { LOCALE } from "../../../../locale/config";
 
 import { Rosetta, Translator } from "react-rosetta";
 
-import { TabStyled } from "../../../../styled/styledTabs";
 import menuDict from "../../../../locale/menu";
-import { TabsContainer } from "../../../../styled/styledComponents/navigation/styledTabs";
-
-export enum E_TOURNAMENT_MENU {
-  "INFO" = 0,
-  "TEAMS" = 1,
-  "GROUPS" = 2,
-  "PLAY_OFFS" = 3,
-}
-
-export const useTournamentNav = () => {
-  const getLocalStorageTournamentNav = () => {
-    const value = Number(
-      localStorage.getItem("TournamentNav")
-    ) as E_TOURNAMENT_MENU;
-    return value;
-  };
-
-  const setLocalStorageTournamentNav = (value: E_TOURNAMENT_MENU) => {
-    localStorage.setItem("TournamentNav", value.toString());
-  };
-
-  const clearLocalStorageTournamentNav = () => {
-    localStorage.setItem("TournamentNav", "");
-  };
-
-  return {
-    getLocalStorageTournamentNav,
-    setLocalStorageTournamentNav,
-    clearLocalStorageTournamentNav,
-  };
-};
+import {
+  TabRC,
+  TabsContainer,
+} from "../../../../styled/styledComponents/navigation/styledTabs";
+import {
+  E_TOURNAMENT_MENU,
+  useTournamentNav,
+} from "../../../../hooks/useTournamentNavs";
 
 export default function TournamentNav({
   locale,
@@ -61,10 +37,10 @@ export default function TournamentNav({
         textColor="secondary"
         handleChange={handleChange}
       >
-        <TabStyled label={<Translator id={"info"} />} />
-        <TabStyled label={<Translator id={"teams"} />} />
-        <TabStyled label={<Translator id={"groups"} />} />
-        <TabStyled label={<Translator id={"playOffs"} />} />
+        <TabRC label={<Translator id={"info"} />} />
+        <TabRC label={<Translator id={"teams"} />} />
+        <TabRC label={<Translator id={"groups"} />} />
+        <TabRC label={<Translator id={"playOffs"} />} />
       </TabsContainer>
     </Rosetta>
   );

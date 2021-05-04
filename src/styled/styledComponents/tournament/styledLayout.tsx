@@ -1,5 +1,4 @@
 import React from "react";
-import { useTheme } from "@material-ui/core";
 import styled from "styled-components";
 import { useColors } from "../../themes/CustomThemeProvider";
 

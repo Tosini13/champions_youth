@@ -26,10 +26,11 @@ import { GroupModel } from "../../../NewModels/Group";
 import { Hidden } from "@material-ui/core";
 import TournamentDetailsDesktop from "./TournamentDetailsDesktop";
 import { LOCALE } from "../../../locale/config";
-import TournamentNav, {
+import TournamentNav from "./nav/TournamentNav";
+import {
   E_TOURNAMENT_MENU,
   useTournamentNav,
-} from "./nav/TournamentNav";
+} from "../../../hooks/useTournamentNavs";
 
 type Props = {
   locale: LOCALE;
@@ -55,8 +56,15 @@ const TournamentDetails: React.FC<Props> = ({
   playOffs,
   playOffsGroups,
 }) => {
-  const { getLocalStorageTournamentNav } = useTournamentNav();
+  const {
+    getLocalStorageTournamentNav,
+    clearLocalStorageGroupNav,
+  } = useTournamentNav();
   const [image, setImage] = useState<any | null>(null);
+
+  useEffect(() => {
+    clearLocalStorageGroupNav();
+  }, [clearLocalStorageGroupNav]);
 
   useEffect(() => {
     if (tournament?.image && tournamentId && authorId) {

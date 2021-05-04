@@ -1,9 +1,9 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
-import { TabStyled } from "../../../../styled/styledTabs";
 import { Tabs } from "@material-ui/core";
 import menuDict from "../../../../locale/menu";
 import { LOCALE } from "../../../../locale/config";
+import { TabRC } from "../../../../styled/styledComponents/navigation/styledTabs";
 
 export enum TOURNAMENT_RIGHT_MENU {
   "GROUPS" = 0,
@@ -31,8 +31,8 @@ export default function TournamentRightMenu({
         textColor="secondary"
         onChange={handleChange}
       >
-        <TabStyled label={<Translator id={"groups"} />} />
-        <TabStyled label={<Translator id={"playOffs"} />} />
+        <TabRC label={<Translator id={"groups"} />} />
+        <TabRC label={<Translator id={"playOffs"} />} />
       </Tabs>
     </Rosetta>
   );

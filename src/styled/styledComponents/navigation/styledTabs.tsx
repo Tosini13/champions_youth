@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, TabsProps, useTheme } from "@material-ui/core";
+import { Tab, TabProps, Tabs, TabsProps, useTheme } from "@material-ui/core";
 import styled from "styled-components";
 
 const TabsStyled = styled(Tabs)`
@@ -24,4 +24,15 @@ export const TabsContainer: React.FC<TTabsContainer> = ({
       {children}
     </TabsStyled>
   );
+};
+
+export const TabStyled = styled(Tab)`
+  flex-grow: 1;
+  max-width: none;
+  color: ${(props) => props.theme.palette.text.primary};
+`;
+
+export const TabRC: React.FC<TabProps> = ({ children, ...props }) => {
+  const theme = useTheme();
+  return <TabStyled {...props} theme={theme} />;
 };

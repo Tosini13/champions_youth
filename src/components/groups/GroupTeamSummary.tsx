@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
-import { useLogo } from "../../hooks/useLogo";
 import { TeamData } from "../../models/teamData";
 import Logo, { SIZE_LOGO } from "../global/Logo";
 import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";

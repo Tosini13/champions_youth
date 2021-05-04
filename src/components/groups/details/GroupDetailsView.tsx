@@ -22,9 +22,13 @@ import {
   SectionStyled,
 } from "../../../styled/styledLayout";
 import { Placeholder } from "../../../NewModels/Team";
-import GroupDetailsNav, { E_GROUP_DETAILS_NAV } from "./GroupDetailsNav";
+import GroupDetailsNav from "./GroupDetailsNav";
 import { LOCALE } from "../../../locale/config";
 import { useNotification } from "../../global/Notification";
+import {
+  E_GROUP_MENU,
+  useTournamentNav,
+} from "../../../hooks/useTournamentNavs";
 
 export interface GroupDetailsViewProps {
   locale: LOCALE;
@@ -76,8 +80,9 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
 }) => {
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const { matches } = group;
-  const [view, setView] = useState<E_GROUP_DETAILS_NAV>(
-    E_GROUP_DETAILS_NAV.TABLE
+  const { getLocalStorageGroupNav } = useTournamentNav();
+  const [view, setView] = useState<E_GROUP_MENU>(
+    getLocalStorageGroupNav() || E_GROUP_MENU.TABLE
   );
 
   const handleFinishGroupNotification = () => {
@@ -232,7 +237,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
               />
             </SectionNavStyled>
             <SectionContentStyled>
-              {view === E_GROUP_DETAILS_NAV.TABLE ? (
+              {view === E_GROUP_MENU.TABLE ? (
                 <GroupTableView
                   locale={locale}
                   group={group}
@@ -240,7 +245,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
                   handleContinueGroup={handleContinueGroupsNotification}
                 />
               ) : null}
-              {view === E_GROUP_DETAILS_NAV.MATCHES ? (
+              {view === E_GROUP_MENU.MATCHES ? (
                 <GroupMatchesView
                   locale={locale}
                   tournamentId={tournamentId}
@@ -282,7 +287,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             <GroupDetailsNav locale={locale} value={view} setValue={setView} />
           </SectionNavStyled>
           <SectionContentStyled>
-            {view === E_GROUP_DETAILS_NAV.TABLE ? (
+            {view === E_GROUP_MENU.TABLE ? (
               <GroupTableView
                 locale={locale}
                 group={group}
@@ -290,7 +295,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
                 handleContinueGroup={handleContinueGroupsNotification}
               />
             ) : null}
-            {view === E_GROUP_DETAILS_NAV.MATCHES ? (
+            {view === E_GROUP_MENU.MATCHES ? (
               <GroupMatchesView
                 locale={locale}
                 tournamentId={tournamentId}

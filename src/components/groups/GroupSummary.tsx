@@ -2,7 +2,6 @@ import React from "react";
 
 import Grid from "@material-ui/core/Grid";
 
-import { GroupTeamText, GroupTitleText } from "../../styled/styledGroup";
 import { useParams } from "react-router-dom";
 import { routerGenerateConst } from "../../const/menuConst";
 import { Id } from "../../const/structuresConst";
