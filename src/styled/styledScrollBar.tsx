@@ -1,4 +1,4 @@
-import { mainTheme } from "./styledConst";
+import { mainTheme } from "./themes/darkTheme";
 
 export const ScrollBarStyled = `
 -webkit-overflow-scrolling: touch;
@@ -9,7 +9,7 @@ export const ScrollBarStyled = `
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: ${mainTheme.palette.primary.light};
+  background: ${mainTheme.palette.primary.dark};
 }
 
 /* Handle */
