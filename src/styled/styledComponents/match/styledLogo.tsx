@@ -6,6 +6,7 @@ import { EThemes } from "../../themes/CustomThemeProvider";
 
 const LogoContainerStyled = styled.div`
   position: absolute;
+  z-index: 2;
   border-radius: 5px;
   overflow: hidden;
   ${(props) =>

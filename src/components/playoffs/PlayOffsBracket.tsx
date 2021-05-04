@@ -2,7 +2,6 @@ import React from "react";
 import { LOCALE } from "../../locale/config";
 import { Game } from "../../models/gameData";
 import GameSummary from "./gameSummary/GameSummary";
-import PlayOffsBracketGame from "./PlayOffsBracketGame";
 
 type Props = {
   playOffs: Game[];

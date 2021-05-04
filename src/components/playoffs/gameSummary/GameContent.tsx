@@ -2,7 +2,6 @@ import React from "react";
 import { Rosetta } from "react-rosetta";
 import { connect } from "react-redux";
 
-import { MatchData } from "../../../structures/match";
 import { Grid, Typography } from "@material-ui/core";
 import styled from "styled-components";
 import { matchModeConst } from "../../../const/matchConst";
