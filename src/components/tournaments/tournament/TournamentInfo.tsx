@@ -16,7 +16,6 @@ import {
   MainContainerStyled,
   TournamentDetailsInfoContentStyled,
   TournamentDetailsInfoStyled,
-  TournamentTitle,
 } from "../../../styled/styledTournamentInfo";
 import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
@@ -27,9 +26,13 @@ import { LOCALE } from "../../../locale/config";
 import Logo, { SIZE_LOGO } from "../../global/Logo";
 import { setInProgress } from "../../global/InProgress";
 import { useHistory } from "react-router-dom";
-import { routerConstString } from "../../../const/menuConst";
+import {
+  routerConstString,
+  routerGenerateConst,
+} from "../../../const/menuConst";
 import { useNotification } from "../../global/Notification";
 import Share from "../../share/Share";
+import { TournamentTitle } from "../../../styled/styledComponents/tournament/info/styledTypography";
 
 type Props = {
   tournament: TournamentData;
@@ -133,14 +136,26 @@ const TournamentInfo: React.FC<Props> = ({
             ) : null}
           </MainContainerContentStyled>
           {isOwner ? (
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleDelete}
-              style={{ margin: "5px auto", width: "fit-content" }}
-            >
-              <Translator id="deleteTournament" />
-            </Button>
+            <>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleDelete}
+                style={{ margin: "5px auto", width: "fit-content" }}
+              >
+                <Translator id="deleteTournament" />
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() =>
+                  history.push(routerGenerateConst.editTournament(tournamentId))
+                }
+                style={{ margin: "5px auto", width: "fit-content" }}
+              >
+                <Translator id="editTournament" />
+              </Button>
+            </>
           ) : null}
           {children}
         </MainContainerStyled>

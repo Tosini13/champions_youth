@@ -19,6 +19,7 @@ import PlayOffsGroupDetails from "./components/playoffs/groups/GroupDetails";
 import { Hidden, useMediaQuery } from "@material-ui/core";
 import { BodyContainer } from "./styled/styledLayout";
 import { MainContainer } from "./styled/styledComponents/styledLayout";
+import EditTournament from "./components/tournaments/edit/EditTournament";
 
 const App = () => {
   const matches = useMediaQuery((theme) => theme.breakpoints.up("sm"));
@@ -42,6 +43,11 @@ const App = () => {
               exact
               path={routerConstString.create}
               component={CreateTournament}
+            />
+            <Route
+              exact
+              path={routerConstString.edit}
+              component={EditTournament}
             />
             <Route
               path={routerConstString.matchGroup}

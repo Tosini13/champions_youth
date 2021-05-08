@@ -28,6 +28,7 @@ export enum bottomMenuConst {
 
 export enum routerConstString {
   create = "/create",
+  edit = "/edit/:tournamentId",
   login = "/login",
   logout = "/logout",
   signUp = "/signup",
@@ -49,6 +50,9 @@ export enum routerConstString {
 export const routerGenerateConst = {
   tournament: (tournamentId: Id) => {
     return `/tournament/${tournamentId}`;
+  },
+  editTournament: (tournamentId: Id) => {
+    return `/edit/${tournamentId}`;
   },
   createGroups: (tournamentId: Id) => {
     return `/tournament/${tournamentId}/groups/add`;

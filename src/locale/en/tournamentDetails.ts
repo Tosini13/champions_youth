@@ -13,6 +13,7 @@ export const tournamentDetails = {
   playOffs: "Play Offs",
   teams: "Teams",
   deleteTournament: "Delete tournament",
+  editTournament: "Edit tournament",
   deleteGroupStage: "Delete group stage",
   createGroupStage: "Create group stage",
   noGroup: "No groups",

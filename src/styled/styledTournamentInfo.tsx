@@ -2,14 +2,6 @@ import styled from "styled-components";
 
 import { mainTheme } from "./styledConst";
 
-export const TournamentTitle = styled.p`
-  padding: 0px 5px;
-  margin: 0px;
-  font-size: 20px;
-  text-align: center;
-  width: 100%;
-`;
-
 export const ALinkStyled = styled.a`
   text-decoration: none;
   color: ${mainTheme.palette.secondary.main};

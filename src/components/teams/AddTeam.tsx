@@ -33,6 +33,7 @@ const AddTeam: React.FC<Props> = ({
   const { handleSubmit, register, errors } = useForm();
   const { tournamentId } = useParams<{ tournamentId: Id }>();
 
+  const [oldImage, setOldImage] = useState<string | undefined>(undefined);
   const [image, setImage] = useState<any | null>(null);
   const [name, setName] = useState<string>("");
 
@@ -67,13 +68,16 @@ const AddTeam: React.FC<Props> = ({
               maxLength: 255,
             }),
           }}
-          helperText={
-            errors.name && <Translator id="nameRequired" />
-          }
+          helperText={errors.name && <Translator id="nameRequired" />}
           error={Boolean(errors.name)}
         />
         {errors.username && errors.username.message}
-        <AddLogo image={image} setImage={setImage} />
+        <AddLogo
+          oldImage={oldImage}
+          deleteOldImage={() => setOldImage(undefined)}
+          image={image}
+          setImage={setImage}
+        />
         <Button
           variant="outlined"
           color="secondary"

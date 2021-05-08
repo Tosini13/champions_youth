@@ -118,16 +118,22 @@ const TeamSummary: React.FC<Props> = ({
             primary={team.name}
             style={{ marginLeft: "5px" }}
           />
-          {isOwner && !isCreated ? (
-            <ListItemSecondaryAction>
-              <TeamsListIconButtonStyled onClick={handleDelete}>
+          <ListItemSecondaryAction>
+            {isOwner && !isCreated ? (
+              <TeamsListIconButtonStyled onClick={handleDelete} size="small">
                 <DeleteIconStyled />
               </TeamsListIconButtonStyled>
-              <TeamsListIconButtonStyled onClick={() => setEdit(true)}>
+            ) : null}
+
+            {isOwner ? (
+              <TeamsListIconButtonStyled
+                onClick={() => setEdit(true)}
+                size="small"
+              >
                 <EditIconStyled />
               </TeamsListIconButtonStyled>
-            </ListItemSecondaryAction>
-          ) : null}
+            ) : null}
+          </ListItemSecondaryAction>
         </>
       )}
     </TeamListElementStyled>
