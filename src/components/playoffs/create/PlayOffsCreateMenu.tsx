@@ -1,4 +1,3 @@
-import { Button } from "@material-ui/core";
 import React from "react";
 import { Options } from "../../../structures/bracket";
 import { connect } from "react-redux";
@@ -13,6 +12,7 @@ import PlayOffsChooseLastMatchPlace from "./options/PlayOffsChooseLastMatchPlace
 import PlayOffsChooseRound from "./options/PlayOffsChooseRound";
 import { LOCALE } from "../../../locale/config";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
+import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
 
 type Props = {
   toggleCreate: () => void;
@@ -33,7 +33,7 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
   setAutoTeams,
   submitBracket,
   maxRounds,
-  locale
+  locale,
 }) => {
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
@@ -44,19 +44,19 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
             color="secondary"
             onClick={toggleCreate}
           >
-          <Translator id="cancel" />
+            <Translator id="cancel" />
           </ButtonErrorStyled>
           <ButtonSuccessStyled
             variant="outlined"
             color="secondary"
             onClick={submitBracket}
           >
-          <Translator id="create" />
+            <Translator id="create" />
           </ButtonSuccessStyled>
         </ButtonHorizontalContainerStyled>
-        <Button variant="outlined" color="secondary" onClick={setAutoTeams}>
+        <ButtonRC onClick={setAutoTeams}>
           <Translator id="draw" />
-        </Button>
+        </ButtonRC>
         <PlayOffsChooseLastMatchPlace
           options={options}
           setPlaceMatchesQtt={setPlaceMatchesQtt}

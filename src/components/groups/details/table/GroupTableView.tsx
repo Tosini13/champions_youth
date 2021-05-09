@@ -2,7 +2,7 @@ import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import Grid from "@material-ui/core/Grid";
-import { Button, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 
 import { GroupModel } from "../../../../NewModels/Group";
 import GroupTable from "./GroupTable";
@@ -13,6 +13,7 @@ import {
 } from "../../../../styled/styledLayout";
 import { LOCALE } from "../../../../locale/config";
 import groupDetailsDict from "../../../../locale/groupDetails.dict";
+import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 
 export interface GroupTableViewProps {
   locale: LOCALE;
@@ -48,23 +49,19 @@ const GroupTableView: React.FC<GroupTableViewProps> = ({
                 <Grid container justify="center" alignItems="center">
                   <Grid item>
                     {group.finished === true ? (
-                      <Button
-                        variant="outlined"
-                        color="secondary"
+                      <ButtonRC
                         style={{ margin: "0px auto" }}
                         onClick={handleContinueGroup}
                       >
                         <Translator id="continueGroup" />
-                      </Button>
+                      </ButtonRC>
                     ) : (
-                      <Button
-                        variant="outlined"
-                        color="secondary"
+                      <ButtonRC
                         style={{ margin: "0px auto" }}
                         onClick={handleFinishGroup}
                       >
                         <Translator id="finishGroup" />
-                      </Button>
+                      </ButtonRC>
                     )}
                   </Grid>
                 </Grid>

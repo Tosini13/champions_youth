@@ -3,13 +3,15 @@ import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 
-import Button from "@material-ui/core/Button";
-
-import { FormStyled, TextFieldContainerStyled, TextFieldStyled } from "../../styled/styledForm";
+import {
+  FormStyled,
+  TextFieldContainerStyled,
+  TextFieldStyled,
+} from "../../styled/styledForm";
 import { signUp } from "../../store/actions/AuthActions";
 import { Credentials, User } from "../../models/credentialsData";
 import { routerConstString } from "../../const/menuConst";
-
+import { ButtonRC } from "../../styled/styledComponents/styledButtons";
 
 type Props = {
   signUp: (credentials: Credentials, user: User) => void;
@@ -89,16 +91,14 @@ const SignUp: React.FC<Props> = ({ signUp, authError, loggedIn }) => {
             type: "password",
             ref: register({
               required: "Required",
-              validate: value => value === watch('password')
+              validate: (value) => value === watch("password"),
             }),
           }}
           helperText={errors.passwordRepeat && "Źle powtórzone hasło"}
           error={Boolean(errors.passwordRepeat)}
         />
       </TextFieldContainerStyled>
-      <Button variant="outlined" color="secondary" type="submit">
-        Zarejestruj
-      </Button>
+      <ButtonRC type="submit">Zarejestruj</ButtonRC>
     </FormStyled>
   );
 };

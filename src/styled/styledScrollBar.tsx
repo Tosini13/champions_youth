@@ -5,6 +5,9 @@ export const ScrollBarStyled = `
 /* width */
 ::-webkit-scrollbar {
   width: 3px;
+  &:hover{
+    width: 10px;
+  }
 }
 
 /* Track */

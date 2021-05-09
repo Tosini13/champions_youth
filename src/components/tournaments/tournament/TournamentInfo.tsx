@@ -1,21 +1,11 @@
 import React, { useState } from "react";
-import moment from "moment";
 import { Rosetta, Translator } from "react-rosetta";
 
-import Button from "@material-ui/core/Button";
-import {
-  Share as ShareIcon,
-  Place,
-  Schedule,
-  EventAvailable,
-} from "@material-ui/icons";
+import { Delete, Edit } from "@material-ui/icons";
 
 import {
-  ALinkStyled,
   MainContainerContentStyled,
   MainContainerStyled,
-  TournamentDetailsInfoContentStyled,
-  TournamentDetailsInfoStyled,
 } from "../../../styled/styledTournamentInfo";
 import { TournamentData } from "../../../models/tournamentData";
 import { Id } from "../../../const/structuresConst";
@@ -23,7 +13,6 @@ import { deleteTournament } from "../../../store/actions/TournamentActions";
 import { connect } from "react-redux";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
-import Logo, { SIZE_LOGO } from "../../global/Logo";
 import { setInProgress } from "../../global/InProgress";
 import { useHistory } from "react-router-dom";
 import {
@@ -32,7 +21,10 @@ import {
 } from "../../../const/menuConst";
 import { useNotification } from "../../global/Notification";
 import Share from "../../share/Share";
-import { TournamentTitle } from "../../../styled/styledComponents/tournament/info/styledTypography";
+import TournamentInfoHeader from "./info/TournamentInfoHeader";
+import TournamentMainInfo from "./info/TournamentMainInfo";
+import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
+import { Grid } from "@material-ui/core";
 
 type Props = {
   tournament: TournamentData;
@@ -93,69 +85,35 @@ const TournamentInfo: React.FC<Props> = ({
       <Rosetta translations={tournamentDetailsDict} locale={locale}>
         <MainContainerStyled>
           <MainContainerContentStyled>
-            <TournamentDetailsInfoStyled>
-              <Logo src={image} size={SIZE_LOGO.lg} />
-              <TournamentTitle>{tournament.name}</TournamentTitle>
-            </TournamentDetailsInfoStyled>
-            <TournamentDetailsInfoStyled
-              onClick={() => setOpenShare(true)}
-              style={{ cursor: "pointer" }}
-            >
-              <ShareIcon fontSize="small" />
-              <TournamentDetailsInfoContentStyled>
-                <Translator id="share" />
-              </TournamentDetailsInfoContentStyled>
-            </TournamentDetailsInfoStyled>
-            <TournamentDetailsInfoStyled>
-              <EventAvailable fontSize="small" />
-              <TournamentDetailsInfoContentStyled>
-                {moment(tournament.date).locale(locale).format("yyyy MMMM DD")}
-              </TournamentDetailsInfoContentStyled>
-            </TournamentDetailsInfoStyled>
-            <TournamentDetailsInfoStyled>
-              <Schedule fontSize="small" />
-              <TournamentDetailsInfoContentStyled>
-                {moment(tournament.date).format("HH:mm")}
-              </TournamentDetailsInfoContentStyled>
-            </TournamentDetailsInfoStyled>
-            {tournament.address?.localeCompare("") &&
-            tournament.city?.localeCompare("") ? (
-              <TournamentDetailsInfoStyled>
-                <Place fontSize="small" />
-                <TournamentDetailsInfoContentStyled>
-                  <ALinkStyled
-                    href={`https://www.google.com/maps/search/?api=1&query=${tournament.address
-                      .split(" ")
-                      .join("+")}+${tournament.city.split(" ").join("+")}`}
-                    target="_blank"
-                  >
-                    {tournament.address} {tournament.city}
-                  </ALinkStyled>
-                </TournamentDetailsInfoContentStyled>
-              </TournamentDetailsInfoStyled>
-            ) : null}
+            <TournamentInfoHeader image={image} title={tournament.name} />
+            <TournamentMainInfo
+              date={tournament.date}
+              city={tournament.city}
+              address={tournament.address}
+              locale={locale}
+              tournamentId={tournamentId}
+            />
           </MainContainerContentStyled>
           {isOwner ? (
-            <>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={handleDelete}
-                style={{ margin: "5px auto", width: "fit-content" }}
-              >
-                <Translator id="deleteTournament" />
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() =>
-                  history.push(routerGenerateConst.editTournament(tournamentId))
-                }
-                style={{ margin: "5px auto", width: "fit-content" }}
-              >
-                <Translator id="editTournament" />
-              </Button>
-            </>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <ButtonRC
+                  startIcon={<Edit />}
+                  onClick={() =>
+                    history.push(
+                      routerGenerateConst.editTournament(tournamentId)
+                    )
+                  }
+                >
+                  <Translator id="editTournament" />
+                </ButtonRC>
+              </Grid>
+              <Grid item>
+                <ButtonRC onClick={handleDelete} startIcon={<Delete />}>
+                  <Translator id="deleteTournament" />
+                </ButtonRC>
+              </Grid>
+            </Grid>
           ) : null}
           {children}
         </MainContainerStyled>

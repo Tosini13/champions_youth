@@ -6,7 +6,6 @@ import moment from "moment";
 import { Rosetta, Translator } from "react-rosetta";
 
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
-import Button from "@material-ui/core/Button";
 import FormGroup from "@material-ui/core/FormGroup";
 
 import {
@@ -31,6 +30,7 @@ import AddLogo from "./AddLogo";
 import { LOCALE } from "../../../locale/config";
 import createTournamentDict from "../../../locale/createTournament.dict";
 import { getImage, getImageJustUploaded } from "../actions/getImage";
+import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
 
 export type BasicInfoDataForm = {
   name: string;
@@ -175,15 +175,13 @@ const CreateTournament: React.FC<Props> = ({
         return (
           <Rosetta translations={createTournamentDict} locale={locale}>
             <FormGroup>
-              <Button
-                variant="outlined"
-                color="secondary"
+              <ButtonRC
                 type="submit"
                 onClick={onCreate}
                 style={{ margin: "5px auto" }}
               >
                 <Translator id="create" />
-              </Button>
+              </ButtonRC>
             </FormGroup>
           </Rosetta>
         );

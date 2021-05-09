@@ -27,7 +27,7 @@ const GroupSummary: React.FC<GroupsComponentProps> = ({ group }) => {
       <Grid container direction="column">
         <Grid item>
           <GroupHeaderContainer>
-            <TypographyPrimaryText align="center">
+            <TypographyPrimaryText align="center" style={{ color: "white" }}>
               {group.name}
             </TypographyPrimaryText>
           </GroupHeaderContainer>

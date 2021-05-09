@@ -31,11 +31,6 @@ export const IconButtonStyled = styled(IconButton)`
   width: fit-content;
 `;
 
-export const ALinkStyled = styled.a`
-  text-decoration: none;
-  color: ${mainTheme.palette.secondary.main};
-`;
-
 export const ButtonStyled = styled(Button)`
   &.Mui-disabled {
     border-color: rgba(150, 150, 150, 0.26);

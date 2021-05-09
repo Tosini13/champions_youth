@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { Button, DialogActions } from "@material-ui/core";
+import { DialogActions } from "@material-ui/core";
 import { connect } from "react-redux";
 import { LOCALE } from "../../locale/config";
 import notificationsDict from "../../locale/notifications.dict";
 import { DialogRU } from "../../styled/styledDialog";
+import { ButtonRC } from "../../styled/styledComponents/styledButtons";
 
 export type Answer = {
   title: string;
@@ -59,10 +60,8 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
       >
         <DialogActions>
           {answers?.map((answer) => (
-            <Button
+            <ButtonRC
               key={answer.title}
-              variant="outlined"
-              color="secondary"
               onClick={() => {
                 if (answer.action) {
                   answer.action();
@@ -71,7 +70,7 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
               }}
             >
               <Translator id={answer.title} />
-            </Button>
+            </ButtonRC>
           ))}
         </DialogActions>
       </DialogRU>

@@ -4,8 +4,6 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { Button } from "@material-ui/core";
-
 import { AddTeamFormStyled } from "../../styled/styledTeams";
 import { addTeamToTournament } from "../../store/actions/TeamActions";
 import { Id } from "../../const/structuresConst";
@@ -14,6 +12,7 @@ import AddLogo from "../tournaments/create/AddLogo";
 import { TeamCreateData } from "../../models/teamData";
 import { LOCALE } from "../../locale/config";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
+import { ButtonRC } from "../../styled/styledComponents/styledButtons";
 
 type Props = {
   addTeamToTournament: (
@@ -78,14 +77,9 @@ const AddTeam: React.FC<Props> = ({
           image={image}
           setImage={setImage}
         />
-        <Button
-          variant="outlined"
-          color="secondary"
-          type="submit"
-          style={{ margin: "15px auto", width: "fit-content" }}
-        >
+        <ButtonRC type="submit" style={{ margin: "15px auto" }}>
           <Translator id="add" />
-        </Button>
+        </ButtonRC>
       </AddTeamFormStyled>
     </Rosetta>
   );

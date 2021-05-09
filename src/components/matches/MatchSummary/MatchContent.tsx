@@ -28,10 +28,10 @@ export const GuestName = styled(TeamName)`
   text-align: left;
 `;
 
-export const ResultTypographyStyled = styled(Typography)<{ isLive?: string }>`
+export const ResultTypographyStyled = styled(Typography)<{ islive?: string }>`
   color: white;
   ${(props) =>
-    props.isLive
+    props.islive
       ? `
   color: ${styledColors.icons.live};
   font-weight: bold;`
@@ -98,7 +98,7 @@ const Result: React.FC<TResultProps> = ({ home, away, mode }) => {
       <Grid item xs={5}>
         <ResultTypographyStyled
           align="right"
-          isLive={parseStyledBoolean(mode === matchModeConst.live)}
+          islive={parseStyledBoolean(mode === matchModeConst.live)}
         >
           {home ?? ""}
         </ResultTypographyStyled>
@@ -106,7 +106,7 @@ const Result: React.FC<TResultProps> = ({ home, away, mode }) => {
       <Grid item xs={2}>
         <ResultTypographyStyled
           align="center"
-          isLive={parseStyledBoolean(mode === matchModeConst.live)}
+          islive={parseStyledBoolean(mode === matchModeConst.live)}
         >
           -
         </ResultTypographyStyled>
@@ -114,7 +114,7 @@ const Result: React.FC<TResultProps> = ({ home, away, mode }) => {
       <Grid item xs={5}>
         <ResultTypographyStyled
           align="left"
-          isLive={parseStyledBoolean(mode === matchModeConst.live)}
+          islive={parseStyledBoolean(mode === matchModeConst.live)}
         >
           {away ?? ""}
         </ResultTypographyStyled>

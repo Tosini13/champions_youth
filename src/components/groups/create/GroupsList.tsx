@@ -4,7 +4,6 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
-import Button from "@material-ui/core/Button";
 
 import MatchSummaryMock from "../../matches/MatchSummaryMock";
 import {
@@ -16,6 +15,7 @@ import {
 import { GroupData } from "../../../models/groupData";
 import { LOCALE } from "../../../locale/config";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
+import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
 
 export interface GroupListProps {
   groups: GroupData[];
@@ -53,16 +53,14 @@ const GroupList: React.FC<GroupListProps> = ({
                 </div>
               ))}
             </List>
-            <Button
-              variant="outlined"
-              color="secondary"
+            <ButtonRC
               style={{ width: "100%" }}
               onClick={() => {
                 handleChooseGroup(group);
               }}
             >
               <Translator id="add" />
-            </Button>
+            </ButtonRC>
           </GroupContainer>
         ))}
       </List>

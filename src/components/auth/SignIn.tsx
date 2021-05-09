@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 
-import Button from "@material-ui/core/Button";
 import {
   FormStyled,
   TextFieldContainerStyled,
@@ -13,6 +12,7 @@ import {
 import { Credentials } from "../../models/credentialsData";
 import { signIn } from "../../store/actions/AuthActions";
 import { routerConstString } from "../../const/menuConst";
+import { ButtonRC } from "../../styled/styledComponents/styledButtons";
 
 type Props = {
   authError: boolean;
@@ -66,9 +66,7 @@ const SignIn: React.FC<Props> = ({ signIn, authError, loggedIn }) => {
           error={Boolean(errors.password)}
         />
       </TextFieldContainerStyled>
-      <Button variant="outlined" color="secondary" type="submit">
-        Zaloguj
-      </Button>
+      <ButtonRC type="submit">Zaloguj</ButtonRC>
       {authError ? (
         <ErrorTextContainerStyled>
           Login lub hasło są nie prawidłowe

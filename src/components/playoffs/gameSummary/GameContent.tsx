@@ -20,11 +20,11 @@ import {
 } from "../../matches/MatchSummary/MatchContent";
 
 const ResultReturnMatchTypographyStyled = styled(Typography)<{
-  isLive?: string;
+  islive?: string;
 }>`
   color: black;
   ${(props) =>
-    props.isLive
+    props.islive
       ? `
   color: ${styledColors.icons.live};
   font-weight: bold;`
@@ -108,7 +108,7 @@ const Result: React.FC<TResultProps> = ({ home, away, mode }) => {
       <Grid item xs={5}>
         <ResultTypographyStyled
           align="right"
-          isLive={parseStyledBoolean(mode === matchModeConst.live)}
+          islive={parseStyledBoolean(mode === matchModeConst.live)}
         >
           {home ?? ""}
         </ResultTypographyStyled>
@@ -116,7 +116,7 @@ const Result: React.FC<TResultProps> = ({ home, away, mode }) => {
       <Grid item xs={2}>
         <ResultTypographyStyled
           align="center"
-          isLive={parseStyledBoolean(mode === matchModeConst.live)}
+          islive={parseStyledBoolean(mode === matchModeConst.live)}
         >
           -
         </ResultTypographyStyled>
@@ -124,7 +124,7 @@ const Result: React.FC<TResultProps> = ({ home, away, mode }) => {
       <Grid item xs={5}>
         <ResultTypographyStyled
           align="left"
-          isLive={parseStyledBoolean(mode === matchModeConst.live)}
+          islive={parseStyledBoolean(mode === matchModeConst.live)}
         >
           {away ?? ""}
         </ResultTypographyStyled>
@@ -162,7 +162,7 @@ const ResultReturnMatch: React.FC<TResultReturnMatchProps> = ({
         <Grid item xs={5}>
           <ResultReturnMatchTypographyStyled
             align="right"
-            isLive={parseStyledBoolean(mode === matchModeConst.live)}
+            islive={parseStyledBoolean(mode === matchModeConst.live)}
           >
             {home ?? ""}
           </ResultReturnMatchTypographyStyled>
@@ -170,7 +170,7 @@ const ResultReturnMatch: React.FC<TResultReturnMatchProps> = ({
         <Grid item xs={2}>
           <ResultReturnMatchTypographyStyled
             align="center"
-            isLive={parseStyledBoolean(mode === matchModeConst.live)}
+            islive={parseStyledBoolean(mode === matchModeConst.live)}
           >
             -
           </ResultReturnMatchTypographyStyled>
@@ -178,7 +178,7 @@ const ResultReturnMatch: React.FC<TResultReturnMatchProps> = ({
         <Grid item xs={5}>
           <ResultReturnMatchTypographyStyled
             align="left"
-            isLive={parseStyledBoolean(mode === matchModeConst.live)}
+            islive={parseStyledBoolean(mode === matchModeConst.live)}
           >
             {away ?? ""}
           </ResultReturnMatchTypographyStyled>

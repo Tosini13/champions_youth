@@ -2,13 +2,8 @@ import styled from "styled-components";
 
 import { mainTheme } from "./styledConst";
 
-export const ALinkStyled = styled.a`
-  text-decoration: none;
-  color: ${mainTheme.palette.secondary.main};
-`;
-
 export const TournamentDetailsInfoStyled = styled.div`
-  color: ${mainTheme.palette.secondary.main};
+  color: black;
   display: flex;
   align-items: center;
   padding: 3px 0px;

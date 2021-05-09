@@ -2,12 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { Button } from "@material-ui/core";
-
 import { GameStructure } from "../../structures/game";
 import MatchSummaryMock from "../matches/MatchSummaryMock";
 import { LOCALE } from "../../locale/config";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
+import { ButtonRC } from "../../styled/styledComponents/styledButtons";
 
 type Props = {
   game: GameStructure;
@@ -42,13 +41,9 @@ const GameSummaryRecursiveMock: React.FC<Props> = ({
         ) : null}
         {game.previousMatchHome === undefined ||
         game.previousMatchAway === undefined ? (
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => handleOpenTeams(game)}
-          >
+          <ButtonRC onClick={() => handleOpenTeams(game)}>
             <Translator id="chooseTeams" />
-          </Button>
+          </ButtonRC>
         ) : null}
       </>
     </Rosetta>

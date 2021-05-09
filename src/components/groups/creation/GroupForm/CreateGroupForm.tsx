@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { Button, Grid, IconButton } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 
 import styled from "styled-components";
 import { mainTheme } from "../../../../styled/styledConst";
@@ -16,6 +16,7 @@ import { GroupModel } from "../../../../NewModels/Group";
 import MatchSummaryMock from "./MatchSummaryMock";
 import { DialogRU } from "../../../../styled/styledDialog";
 import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
+import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 
 const GridContainer = styled(Grid)`
   border-radius: 5px;
@@ -125,25 +126,15 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
           </Grid>
           <Grid item>
             {children}
-            <Button
-              variant="outlined"
-              color="secondary"
-              size="small"
-              onClick={() => handleOpenTeams(group)}
-            >
+            <ButtonRC size="small" onClick={() => handleOpenTeams(group)}>
               <Translator id="addTeam" />
-            </Button>
+            </ButtonRC>
           </Grid>
           {group.matches.length ? (
             <Grid item>
-              <Button
-                variant="outlined"
-                color="secondary"
-                size="small"
-                onClick={() => setOpen(true)}
-              >
+              <ButtonRC size="small" onClick={() => setOpen(true)}>
                 <Translator id="showMatches" />
-              </Button>
+              </ButtonRC>
             </Grid>
           ) : null}
           <DeleteIconButton

@@ -8,3 +8,9 @@ export const TournamentTitle = styled(TypographyPrimaryText)`
   text-align: center;
   width: 100%;
 `;
+
+export const TournamentInfoTypography = styled(TypographyPrimaryText)`
+  font-size: 15px;
+  margin: 5px;
+  margin-left: 10px;
+`;

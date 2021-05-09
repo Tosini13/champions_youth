@@ -1,7 +1,6 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { Sports, Add, Remove } from "@material-ui/icons";
 
@@ -11,6 +10,7 @@ import { Grid } from "@material-ui/core";
 import { Result } from "../../const/structuresConst";
 import matchDict from "../../locale/matchDict";
 import { LOCALE } from "../../locale/config";
+import { ButtonRC } from "../../styled/styledComponents/styledButtons";
 
 type Props = {
   locale: LOCALE;
@@ -40,13 +40,9 @@ const MatchDetailsDashboard: React.FC<Props> = ({
       case matchModeConst.live:
         return (
           <Grid item>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => finishMatch()}
-            >
+            <ButtonRC onClick={() => finishMatch()}>
               <Sports /> <Translator id="finish" />
-            </Button>
+            </ButtonRC>
           </Grid>
         );
       case matchModeConst.finished:
@@ -54,22 +50,14 @@ const MatchDetailsDashboard: React.FC<Props> = ({
           <Grid item xs={12}>
             <Grid container justify="space-evenly" alignItems="center">
               <Grid item>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => resetMatch()}
-                >
+                <ButtonRC onClick={() => resetMatch()}>
                   <Sports /> <Translator id="reset" />
-                </Button>
+                </ButtonRC>
               </Grid>
               <Grid item>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => updateMode(matchModeConst.live)}
-                >
+                <ButtonRC onClick={() => updateMode(matchModeConst.live)}>
                   <Sports /> <Translator id="continue" />
-                </Button>
+                </ButtonRC>
               </Grid>
             </Grid>
           </Grid>
@@ -77,13 +65,9 @@ const MatchDetailsDashboard: React.FC<Props> = ({
       case matchModeConst.notStarted:
         return (
           <Grid item>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => startMatch()}
-            >
+            <ButtonRC onClick={() => startMatch()}>
               <Sports /> <Translator id="start" />
-            </Button>
+            </ButtonRC>
           </Grid>
         );
       default:

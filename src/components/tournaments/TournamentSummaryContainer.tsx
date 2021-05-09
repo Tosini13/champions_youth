@@ -8,10 +8,11 @@ import { TournamentData } from "../../models/tournamentData";
 import tournamentDashboardDict from "../../locale/tournamentDashboard";
 import { NoContentContainer } from "../../styled/styledLayout";
 import TournamentSummary from "./tournamentSummary/TournamentSummary";
-import { Button, Divider, List } from "@material-ui/core";
+import { Divider, List } from "@material-ui/core";
 import { ScrollBarStyled } from "../../styled/styledScrollBar";
 import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
 import { useTournamentNav } from "../../hooks/useTournamentNavs";
+import { ButtonRC } from "../../styled/styledComponents/styledButtons";
 
 const ListStyled = styled(List)`
   padding: 0px 2px;
@@ -51,13 +52,9 @@ const TournamentSummaryContainer: React.FC<TournamentSummaryContainerProps> = ({
             <TypographyPrimaryText align="center">
               <Translator id={"mustBeLoggedInToAddTournament"} />
             </TypographyPrimaryText>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleRedirectLogin}
-            >
+            <ButtonRC onClick={handleRedirectLogin}>
               <Translator id={"logIn"} />
-            </Button>
+            </ButtonRC>
           </NoContentContainer>
         ) : null}
         <ListStyled>

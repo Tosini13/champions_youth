@@ -6,7 +6,6 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import {
-  ButtonErrorStyled,
   ButtonHorizontalContainerStyled,
   ButtonSuccessStyled,
 } from "../../../styled/styledButtons";
@@ -25,6 +24,7 @@ import InfoStatic from "../../global/InfoStatic";
 import { useNotification } from "../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../const/menuConst";
+import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
 
 type Props = {
   tournament: TournamentData;
@@ -109,16 +109,13 @@ const TournamentGroups: React.FC<Props> = ({
             <GroupsComponent groups={groups} />
             {isOwner ? (
               <ButtonHorizontalContainerStyled>
-                <ButtonErrorStyled
+                <ButtonRC
                   onClick={handleDelete}
-                  variant="outlined"
-                  color="secondary"
                   startIcon={<DeleteIcon />}
                   disabled={playOffs || playOffsGroups}
-                  aria-label="delete groups"
                 >
                   <Translator id="deleteGroupStage" />
-                </ButtonErrorStyled>
+                </ButtonRC>
               </ButtonHorizontalContainerStyled>
             ) : null}
           </>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import { GameStructure } from "../../../../structures/game";
 import MatchSummaryMock from "../../../matches/MatchSummaryMock";
@@ -16,6 +16,7 @@ import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import { Placeholder } from "../../../../NewModels/Team";
 import { DialogRU } from "../../../../styled/styledDialog";
+import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 
 type Props = {
   teams?: TeamData[];
@@ -56,20 +57,18 @@ const Choose: React.FC<Props> = ({
         <>
           <MatchSummaryMock match={game.match} locale={locale} />
           <Grid container justify="space-around">
-            <Button
+            <ButtonRC
               variant={gameSide === GAME_SIDE.HOME ? "contained" : "outlined"}
-              color="secondary"
               onClick={() => setGameSide(GAME_SIDE.HOME)}
             >
               <Translator id="host" />
-            </Button>
-            <Button
+            </ButtonRC>
+            <ButtonRC
               variant={gameSide === GAME_SIDE.AWAY ? "contained" : "outlined"}
-              color="secondary"
               onClick={() => setGameSide(GAME_SIDE.AWAY)}
             >
               <Translator id="guest" />
-            </Button>
+            </ButtonRC>
           </Grid>
           {groups && groups?.length > 0 ? (
             <ChoosePromoted
@@ -92,16 +91,14 @@ const Choose: React.FC<Props> = ({
               locale={locale}
             />
           )}
-          <Button
-            variant="outlined"
-            color="secondary"
+          <ButtonRC
             onClick={handleClose}
             style={{
               margin: "0px 5px 5px 5px",
             }}
           >
             <Translator id="ok" />
-          </Button>
+          </ButtonRC>
         </>
       </Rosetta>
     </DialogRU>
