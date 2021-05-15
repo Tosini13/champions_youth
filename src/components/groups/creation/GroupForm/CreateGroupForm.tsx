@@ -14,7 +14,7 @@ import { useNotification } from "../../../global/Notification";
 import { Id } from "../../../../const/structuresConst";
 import { GroupModel } from "../../../../NewModels/Group";
 import MatchSummaryMock from "./MatchSummaryMock";
-import { DialogRU } from "../../../../styled/styledDialog";
+import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
 import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 

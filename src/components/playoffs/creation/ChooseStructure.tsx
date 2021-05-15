@@ -5,7 +5,7 @@ import { DialogContent, Grid } from "@material-ui/core";
 
 import { LOCALE } from "../../../locale/config";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
-import { DialogRU } from "../../../styled/styledDialog";
+import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
 import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
 
 export interface ChooseStructureProps {

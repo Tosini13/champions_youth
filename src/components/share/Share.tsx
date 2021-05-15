@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { WhatsApp, FileCopy } from "@material-ui/icons";
 
-import { DialogRU } from "../../styled/styledDialog";
+import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
 import { LOCALE } from "../../locale/config";
 import shareDict from "../../locale/shareDict.dict";
 import { AStyled } from "../../styled/styledLayout";

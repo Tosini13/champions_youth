@@ -9,7 +9,7 @@ import TeamList from "../../teams/TeamList";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
 import { ButtonStyled } from "../../../styled/styledButtons";
-import { DialogRU } from "../../../styled/styledDialog";
+import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
 
 type Props = {
   teams?: TeamData[];

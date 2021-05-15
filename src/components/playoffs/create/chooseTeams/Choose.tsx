@@ -15,7 +15,7 @@ import { BracketStructure } from "../../../../structures/bracket";
 import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import { Placeholder } from "../../../../NewModels/Team";
-import { DialogRU } from "../../../../styled/styledDialog";
+import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 
 type Props = {

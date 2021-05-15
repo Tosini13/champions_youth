@@ -8,7 +8,7 @@ import { LOCALE } from "../../../locale/config";
 import groupCreationDict from "../../../locale/creationNav.dict.";
 import { useForm } from "react-hook-form";
 import { SettingType } from "./CreateGroupsScreen";
-import { DialogRU } from "../../../styled/styledDialog";
+import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
 
 export interface GroupSettingsProps {
   locale: LOCALE;

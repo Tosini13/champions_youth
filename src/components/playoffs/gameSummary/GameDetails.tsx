@@ -10,7 +10,7 @@ import { LOCALE } from "../../../locale/config";
 import { Game } from "../../../models/gameData";
 import { TeamData } from "../../../models/teamData";
 import { MatchData } from "../../../structures/match";
-import { DialogRU } from "../../../styled/styledDialog";
+import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
 import { LinkStyled } from "../../../styled/styledLayout";
 import MatchSummary from "../../matches/MatchSummary/MatchSummary";
 

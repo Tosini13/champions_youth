@@ -12,7 +12,7 @@ import { GroupModel } from "../../../../NewModels/Group";
 import { NewPlaceholder } from "../../../../NewModels/Team";
 import { PromotedGroup } from "./CreatePlayOffsGroupPage";
 import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
-import { DialogRU } from "../../../../styled/styledDialog";
+import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
 
 const TeamList = styled(TeamListStyled)`
   overflow-x: hidden;

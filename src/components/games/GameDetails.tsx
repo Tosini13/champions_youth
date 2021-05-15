@@ -15,7 +15,7 @@ import MatchSummary from "../matches/MatchSummary/MatchSummary";
 import { LOCALE } from "../../locale/config";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
 import useTranslationHelp from "../../hooks/useTranslationHelp";
-import { DialogRU } from "../../styled/styledDialog";
+import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
 
 type Props = {
   locale: LOCALE;

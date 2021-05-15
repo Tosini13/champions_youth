@@ -5,7 +5,7 @@ import { DialogActions } from "@material-ui/core";
 import { connect } from "react-redux";
 import { LOCALE } from "../../locale/config";
 import notificationsDict from "../../locale/notifications.dict";
-import { DialogRU } from "../../styled/styledDialog";
+import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
 import { ButtonRC } from "../../styled/styledComponents/styledButtons";
 
 export type Answer = {
