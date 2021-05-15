@@ -87,21 +87,22 @@ export const TRRC: React.FC<{
   );
 };
 
-export const TableStyled = styled.table`
+export const TableStyled = styled.table<{
+  specialColor: string;
+}>`
   width: 100%;
   text-align: center;
   border-radius: 3px;
   border-collapse: collapse;
   color: ${(props) => props.theme.palette?.text.primary};
   thead {
-    border-bottom: ${(props) => props.theme.palette?.text.secondary} solid 0.1px;
+    border-bottom: ${(props) => props.specialColor} solid 0.1px;
   }
   tr {
-    border-bottom: ${(props) => props.theme.palette?.text.secondary} solid 0.1px;
+    border-bottom: ${(props) => props.specialColor} solid 0.1px;
     > td,
     > th {
-      border-right: ${(props) => props.theme.palette?.text.secondary} solid
-        0.1px;
+      border-right: ${(props) => props.specialColor} solid 0.1px;
     }
     > td:last-child,
     > th:last-child {
@@ -115,5 +116,10 @@ export const TableStyled = styled.table`
 
 export const TableRC: React.FC<{}> = ({ children }) => {
   const theme = useTheme();
-  return <TableStyled theme={theme}>{children}</TableStyled>;
+  const { specialColor } = useColors();
+  return (
+    <TableStyled theme={theme} specialColor={specialColor}>
+      {children}
+    </TableStyled>
+  );
 };

@@ -19,8 +19,8 @@ export const lightTheme = createMuiTheme({
     },
     success: {
       main: "#1D850D",
-      light: "#18B500",
-      dark: "#094200",
+      dark: "#18B500",
+      light: "#094200",
     },
     info: {
       main: "#4B58B8",

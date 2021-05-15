@@ -5,10 +5,7 @@ import { Rosetta, Translator } from "react-rosetta";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import {
-  ButtonHorizontalContainerStyled,
-  ButtonSuccessStyled,
-} from "../../../styled/styledButtons";
+import { ButtonHorizontalContainerStyled } from "../../../styled/styledButtons";
 import GroupsCreate from "../../groups/create/GroupsCreate";
 import { TournamentData } from "../../../models/tournamentData";
 import { GroupStage } from "../../../structures/groupStage";
@@ -140,7 +137,7 @@ const TournamentGroups: React.FC<Props> = ({
         ) : null}
         {!create && !groups?.length && isOwner && teams.length ? (
           <ButtonHorizontalContainerStyled>
-            <ButtonSuccessStyled
+            <ButtonRC
               onClick={() => {
                 history.push(routerGenerateConst.createGroups(tournamentId));
               }}
@@ -151,7 +148,7 @@ const TournamentGroups: React.FC<Props> = ({
               aria-label="create groups"
             >
               <Translator id="createGroupStage" />
-            </ButtonSuccessStyled>
+            </ButtonRC>
           </ButtonHorizontalContainerStyled>
         ) : null}
       </>

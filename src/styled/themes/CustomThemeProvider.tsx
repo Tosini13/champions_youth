@@ -63,7 +63,7 @@ export const useColors = () => {
       currentTheme === EThemes.dark
         ? darkThemeGradient.dark
         : lightThemeGradient.dark,
-    specialColor: currentTheme === EThemes.dark ? "#4FC9F0" : "#FFF",
+    specialColor: currentTheme === EThemes.dark ? "#4FC9F0" : "#000",
     isDarkCurrent: currentTheme === EThemes.dark,
     liveColor: styledColors.icons.live,
   };

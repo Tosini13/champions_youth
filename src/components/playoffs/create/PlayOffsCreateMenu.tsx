@@ -3,11 +3,7 @@ import { Options } from "../../../structures/bracket";
 import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
-import {
-  ButtonErrorStyled,
-  ButtonHorizontalContainerStyled,
-  ButtonSuccessStyled,
-} from "../../../styled/styledButtons";
+import { ButtonHorizontalContainerStyled } from "../../../styled/styledButtons";
 import PlayOffsChooseLastMatchPlace from "./options/PlayOffsChooseLastMatchPlace";
 import PlayOffsChooseRound from "./options/PlayOffsChooseRound";
 import { LOCALE } from "../../../locale/config";
@@ -39,20 +35,12 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <>
         <ButtonHorizontalContainerStyled>
-          <ButtonErrorStyled
-            variant="outlined"
-            color="secondary"
-            onClick={toggleCreate}
-          >
+          <ButtonRC onClick={toggleCreate}>
             <Translator id="cancel" />
-          </ButtonErrorStyled>
-          <ButtonSuccessStyled
-            variant="outlined"
-            color="secondary"
-            onClick={submitBracket}
-          >
+          </ButtonRC>
+          <ButtonRC onClick={submitBracket}>
             <Translator id="create" />
-          </ButtonSuccessStyled>
+          </ButtonRC>
         </ButtonHorizontalContainerStyled>
         <ButtonRC onClick={setAutoTeams}>
           <Translator id="draw" />
