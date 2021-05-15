@@ -2,7 +2,6 @@ import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import Grid from "@material-ui/core/Grid";
-import { Typography } from "@material-ui/core";
 
 import { GroupModel } from "../../../../NewModels/Group";
 import GroupTable from "./GroupTable";
@@ -10,10 +9,12 @@ import {
   SectionContentStyled,
   SectionNavStyled,
   SectionStyled,
+  SectionFooterStyled,
 } from "../../../../styled/styledLayout";
 import { LOCALE } from "../../../../locale/config";
 import groupDetailsDict from "../../../../locale/groupDetails.dict";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
+import { TypographyPrimaryText } from "../../../../styled/styledComponents/styledTypography";
 
 export interface GroupTableViewProps {
   locale: LOCALE;
@@ -32,42 +33,10 @@ const GroupTableView: React.FC<GroupTableViewProps> = ({
   return (
     <Rosetta translations={groupDetailsDict} locale={locale}>
       <SectionStyled>
-        <SectionNavStyled>
-          <Grid
-            container
-            justify="space-between"
-            alignItems="center"
-            style={{ padding: "10px" }}
-          >
-            <Grid item>
-              <Typography color="secondary">
-                <Translator id="groupName" />: {group.name}
-              </Typography>
-            </Grid>
-            {handleContinueGroup || handleFinishGroup ? (
-              <Grid item>
-                <Grid container justify="center" alignItems="center">
-                  <Grid item>
-                    {group.finished === true ? (
-                      <ButtonRC
-                        style={{ margin: "0px auto" }}
-                        onClick={handleContinueGroup}
-                      >
-                        <Translator id="continueGroup" />
-                      </ButtonRC>
-                    ) : (
-                      <ButtonRC
-                        style={{ margin: "0px auto" }}
-                        onClick={handleFinishGroup}
-                      >
-                        <Translator id="finishGroup" />
-                      </ButtonRC>
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-            ) : null}
-          </Grid>
+        <SectionNavStyled style={{ paddingTop: "10px" }}>
+          <TypographyPrimaryText variant="h6" align="center">
+            {group.name}
+          </TypographyPrimaryText>
         </SectionNavStyled>
         <SectionContentStyled>
           <GroupTable
@@ -79,6 +48,31 @@ const GroupTableView: React.FC<GroupTableViewProps> = ({
             playOffsGroup={group.playOffsGroup}
           />
         </SectionContentStyled>
+        <SectionFooterStyled>
+          {handleContinueGroup || handleFinishGroup ? (
+            <Grid item>
+              <Grid container justify="center" alignItems="center">
+                <Grid item>
+                  {group.finished === true ? (
+                    <ButtonRC
+                      style={{ margin: "0px auto" }}
+                      onClick={handleContinueGroup}
+                    >
+                      <Translator id="continueGroup" />
+                    </ButtonRC>
+                  ) : (
+                    <ButtonRC
+                      style={{ margin: "0px auto" }}
+                      onClick={handleFinishGroup}
+                    >
+                      <Translator id="finishGroup" />
+                    </ButtonRC>
+                  )}
+                </Grid>
+              </Grid>
+            </Grid>
+          ) : null}
+        </SectionFooterStyled>
       </SectionStyled>
     </Rosetta>
   );

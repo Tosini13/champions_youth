@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Link } from "react-router-dom";
 
-import { Divider, Grid } from "@material-ui/core";
+import { Divider, Grid, GridProps } from "@material-ui/core";
 import { ScrollBarStyled } from "./styledScrollBar";
 import { CSSProperties } from "@material-ui/styles";
 
@@ -154,7 +154,8 @@ export const DesktopMainDividerStyled: React.FC<{}> = ({ children }) => (
 /* -------------------------------------- */
 
 const GridSectionStyled = styled(Grid)`
-  max-height: 100%;
+  // max-height: 100%;
+  height: 100%;
   flex-wrap: nowrap;
 `;
 
@@ -173,8 +174,13 @@ const GridSectionNavStyled = styled(Grid)`
   z-index: 1;
 `;
 
-export const SectionNavStyled: React.FC<{}> = ({ children }) => (
-  <GridSectionNavStyled item>{children}</GridSectionNavStyled>
+export const SectionNavStyled: React.FC<GridProps> = ({
+  children,
+  ...props
+}) => (
+  <GridSectionNavStyled item {...props}>
+    {children}
+  </GridSectionNavStyled>
 );
 
 const GridSectionContentStyled = styled(Grid)`
@@ -184,6 +190,19 @@ const GridSectionContentStyled = styled(Grid)`
   ${ScrollBarStyled}
   padding: 5px;
 `;
-export const SectionContentStyled: React.FC<{}> = ({ children }) => (
-  <GridSectionContentStyled item>{children}</GridSectionContentStyled>
+export const SectionContentStyled: React.FC<GridProps> = ({
+  children,
+  ...props
+}) => (
+  <GridSectionContentStyled item {...props}>
+    {children}
+  </GridSectionContentStyled>
+);
+
+const GridSectionFooterStyled = styled(Grid)`
+  padding: 5px 0px;
+  text-align: center;
+`;
+export const SectionFooterStyled: React.FC<{}> = ({ children }) => (
+  <GridSectionFooterStyled item>{children}</GridSectionFooterStyled>
 );

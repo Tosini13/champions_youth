@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
 import {
-  ContentContainerStyled,
   SectionContentStyled,
   SectionNavStyled,
   SectionStyled,
@@ -56,10 +55,8 @@ const TournamentDetails: React.FC<Props> = ({
   playOffs,
   playOffsGroups,
 }) => {
-  const {
-    getLocalStorageTournamentNav,
-    clearLocalStorageGroupNav,
-  } = useTournamentNav();
+  const { getLocalStorageTournamentNav, clearLocalStorageGroupNav } =
+    useTournamentNav();
   const [image, setImage] = useState<any | null>(null);
 
   useEffect(() => {
@@ -93,47 +90,45 @@ const TournamentDetails: React.FC<Props> = ({
               <TournamentNav value={view} setValue={setView} locale={locale} />
             </SectionNavStyled>
             <SectionContentStyled>
-              <ContentContainerStyled>
-                {view === E_TOURNAMENT_MENU.GROUPS && tournament ? (
-                  <TournamentGroups
-                    tournamentId={tournamentId}
-                    tournament={tournament}
-                    groups={groups}
-                    playOffs={Boolean(playOffs?.length)}
-                    playOffsGroups={Boolean(playOffsGroups?.length)}
-                    teams={teams}
-                    isOwner={isOwner}
-                  />
-                ) : null}
-                {view === E_TOURNAMENT_MENU.PLAY_OFFS &&
-                tournament &&
-                playOffs ? (
-                  <TournamentPlayOffs
-                    tournamentId={tournamentId}
-                    tournament={tournament}
-                    playOffs={playOffs}
-                    playOffsGroups={playOffsGroups}
-                    teams={teams}
-                    groups={groups}
-                    isOwner={isOwner}
-                  />
-                ) : null}
-                {view === E_TOURNAMENT_MENU.INFO && tournament ? (
-                  <TournamentInfo
-                    tournament={tournament}
-                    image={image}
-                    isOwner={isOwner}
-                    tournamentId={tournamentId}
-                  />
-                ) : null}
-                {view === E_TOURNAMENT_MENU.TEAMS && tournament ? (
-                  <TournamentTeams
-                    teams={teams}
-                    isOwner={isOwner}
-                    isCreated={Boolean(playOffs?.length || groups?.length)}
-                  />
-                ) : null}
-              </ContentContainerStyled>
+              {view === E_TOURNAMENT_MENU.GROUPS && tournament ? (
+                <TournamentGroups
+                  tournamentId={tournamentId}
+                  tournament={tournament}
+                  groups={groups}
+                  playOffs={Boolean(playOffs?.length)}
+                  playOffsGroups={Boolean(playOffsGroups?.length)}
+                  teams={teams}
+                  isOwner={isOwner}
+                />
+              ) : null}
+              {view === E_TOURNAMENT_MENU.PLAY_OFFS &&
+              tournament &&
+              playOffs ? (
+                <TournamentPlayOffs
+                  tournamentId={tournamentId}
+                  tournament={tournament}
+                  playOffs={playOffs}
+                  playOffsGroups={playOffsGroups}
+                  teams={teams}
+                  groups={groups}
+                  isOwner={isOwner}
+                />
+              ) : null}
+              {view === E_TOURNAMENT_MENU.INFO && tournament ? (
+                <TournamentInfo
+                  tournament={tournament}
+                  image={image}
+                  isOwner={isOwner}
+                  tournamentId={tournamentId}
+                />
+              ) : null}
+              {view === E_TOURNAMENT_MENU.TEAMS && tournament ? (
+                <TournamentTeams
+                  teams={teams}
+                  isOwner={isOwner}
+                  isCreated={Boolean(playOffs?.length || groups?.length)}
+                />
+              ) : null}
             </SectionContentStyled>
           </SectionStyled>
         </Hidden>

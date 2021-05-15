@@ -10,6 +10,11 @@ import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { LOCALE } from "../../../locale/config";
 import { ButtonStyled } from "../../../styled/styledButtons";
 import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
+import {
+  SectionContentStyled,
+  SectionFooterStyled,
+  SectionStyled,
+} from "../../../styled/styledLayout";
 
 type Props = {
   teams?: TeamData[];
@@ -36,7 +41,7 @@ const TournamentTeams: React.FC<Props> = ({
 
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
-      <>
+      <SectionStyled>
         <DialogRU
           onClose={handleClose}
           aria-labelledby="simple-dialog-title"
@@ -47,19 +52,23 @@ const TournamentTeams: React.FC<Props> = ({
         >
           <AddTeam handleClose={handleClose} />
         </DialogRU>
-        {isOwner ? (
-          <ButtonStyled
-            variant="outlined"
-            color="secondary"
-            onClick={handleOpen}
-            style={{ margin: "5px auto", width: "fit-content" }}
-            disabled={isCreated}
-          >
-            <Translator id="addTeam" />
-          </ButtonStyled>
-        ) : null}
-        <TeamList teams={teams} isOwner={isOwner} isCreated={isCreated} />
-      </>
+        <SectionContentStyled>
+          <TeamList teams={teams} isOwner={isOwner} isCreated={isCreated} />
+        </SectionContentStyled>
+        <SectionFooterStyled>
+          {isOwner ? (
+            <ButtonStyled
+              variant="outlined"
+              color="secondary"
+              onClick={handleOpen}
+              style={{ margin: "5px auto", width: "fit-content" }}
+              disabled={isCreated}
+            >
+              <Translator id="addTeam" />
+            </ButtonStyled>
+          ) : null}
+        </SectionFooterStyled>
+      </SectionStyled>
     </Rosetta>
   );
 };

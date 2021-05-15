@@ -25,6 +25,10 @@ import TournamentInfoHeader from "./info/TournamentInfoHeader";
 import TournamentMainInfo from "./info/TournamentMainInfo";
 import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
 import { Grid } from "@material-ui/core";
+import {
+  SectionFooterStyled,
+  SectionStyled,
+} from "../../../styled/styledLayout";
 
 type Props = {
   tournament: TournamentData;
@@ -83,40 +87,44 @@ const TournamentInfo: React.FC<Props> = ({
   return (
     <>
       <Rosetta translations={tournamentDetailsDict} locale={locale}>
-        <MainContainerStyled>
-          <MainContainerContentStyled>
-            <TournamentInfoHeader image={image} title={tournament.name} />
-            <TournamentMainInfo
-              date={tournament.date}
-              city={tournament.city}
-              address={tournament.address}
-              locale={locale}
-              tournamentId={tournamentId}
-            />
-          </MainContainerContentStyled>
-          {isOwner ? (
-            <Grid container direction="column" spacing={2}>
-              <Grid item>
-                <ButtonRC
-                  startIcon={<Edit />}
-                  onClick={() =>
-                    history.push(
-                      routerGenerateConst.editTournament(tournamentId)
-                    )
-                  }
-                >
-                  <Translator id="editTournament" />
-                </ButtonRC>
+        <SectionStyled>
+          <MainContainerStyled>
+            <MainContainerContentStyled>
+              <TournamentInfoHeader image={image} title={tournament.name} />
+              <TournamentMainInfo
+                date={tournament.date}
+                city={tournament.city}
+                address={tournament.address}
+                locale={locale}
+                tournamentId={tournamentId}
+              />
+            </MainContainerContentStyled>
+            {children}
+          </MainContainerStyled>
+          <SectionFooterStyled>
+            {isOwner ? (
+              <Grid container direction="column" spacing={2}>
+                <Grid item>
+                  <ButtonRC
+                    startIcon={<Edit />}
+                    onClick={() =>
+                      history.push(
+                        routerGenerateConst.editTournament(tournamentId)
+                      )
+                    }
+                  >
+                    <Translator id="editTournament" />
+                  </ButtonRC>
+                </Grid>
+                <Grid item>
+                  <ButtonRC onClick={handleDelete} startIcon={<Delete />}>
+                    <Translator id="deleteTournament" />
+                  </ButtonRC>
+                </Grid>
               </Grid>
-              <Grid item>
-                <ButtonRC onClick={handleDelete} startIcon={<Delete />}>
-                  <Translator id="deleteTournament" />
-                </ButtonRC>
-              </Grid>
-            </Grid>
-          ) : null}
-          {children}
-        </MainContainerStyled>
+            ) : null}
+          </SectionFooterStyled>
+        </SectionStyled>
       </Rosetta>
       <Share
         locale={locale}

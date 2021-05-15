@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ThemeProvider } from "@material-ui/styles";
 import { lightTheme, lightThemeGradient } from "./lightTheme";
 import { mainTheme, darkThemeGradient } from "./darkTheme";
+import { styledColors } from "./other";
 
 export enum EThemes {
   dark = "dark",
@@ -64,5 +65,6 @@ export const useColors = () => {
         : lightThemeGradient.dark,
     specialColor: currentTheme === EThemes.dark ? "#4FC9F0" : "#FFF",
     isDarkCurrent: currentTheme === EThemes.dark,
+    liveColor: styledColors.icons.live,
   };
 };

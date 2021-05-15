@@ -85,24 +85,22 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
               setValue={setLeftView}
             />
           </SectionNavStyled>
-          <SectionContentStyled>
-            <ContentContainerStyled>
-              {leftView === TOURNAMENT_LEFT_MENU.INFO && tournament ? (
-                <TournamentInfo
-                  tournament={tournament}
-                  image={image}
-                  isOwner={isOwner}
-                  tournamentId={tournamentId}
-                />
-              ) : null}
-              {leftView === TOURNAMENT_LEFT_MENU.TEAMS && tournament ? (
-                <TournamentTeams
-                  teams={teams}
-                  isOwner={isOwner}
-                  isCreated={Boolean(playOffs?.length || groups?.length)}
-                />
-              ) : null}
-            </ContentContainerStyled>
+          <SectionContentStyled style={{ padding: "20px" }}>
+            {leftView === TOURNAMENT_LEFT_MENU.INFO && tournament ? (
+              <TournamentInfo
+                tournament={tournament}
+                image={image}
+                isOwner={isOwner}
+                tournamentId={tournamentId}
+              />
+            ) : null}
+            {leftView === TOURNAMENT_LEFT_MENU.TEAMS && tournament ? (
+              <TournamentTeams
+                teams={teams}
+                isOwner={isOwner}
+                isCreated={Boolean(playOffs?.length || groups?.length)}
+              />
+            ) : null}
           </SectionContentStyled>
         </SectionStyled>
       </DesktopMainItemStyled>
