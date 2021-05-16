@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-
 import { TeamData } from "../../models/teamData";
 import { Edit, Delete } from "@material-ui/icons";
 
@@ -17,6 +15,7 @@ import {
   TeamLogoContainer,
   TeamsItem,
   TeamContainerStyled,
+  TeamActionContainer,
 } from "../../styled/styledComponents/teams/styledLayout";
 import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
 import { TeamItemIconButton } from "../../styled/styledComponents/teams/styledButtons";
@@ -82,23 +81,20 @@ const TeamSummary: React.FC<Props> = ({
           <TypographyPrimaryText style={{ color: "white" }}>
             {team.name}
           </TypographyPrimaryText>
-          <ListItemSecondaryAction>
-            {isOwner && !isCreated ? (
-              <TeamItemIconButton onClick={handleDelete} size="small">
-                <Delete />
-              </TeamItemIconButton>
-            ) : null}
-
-            {isOwner ? (
-              <TeamItemIconButton
-                onClick={() => handleEditTeam()}
-                size="medium"
-              >
-                <Edit />
-              </TeamItemIconButton>
-            ) : null}
-          </ListItemSecondaryAction>
         </TeamContentContainer>
+        <TeamActionContainer>
+          {isOwner && !isCreated ? (
+            <TeamItemIconButton onClick={handleDelete} size="medium">
+              <Delete />
+            </TeamItemIconButton>
+          ) : null}
+
+          {isOwner ? (
+            <TeamItemIconButton onClick={() => handleEditTeam()} size="medium">
+              <Edit />
+            </TeamItemIconButton>
+          ) : null}
+        </TeamActionContainer>
       </TeamContainerStyled>
     </TeamsItem>
   );

@@ -78,3 +78,24 @@ export const TeamContentContainer: React.FC = ({ children }) => {
     </TeamContentContainerStyled>
   );
 };
+
+const TeamActionContainerStyled = styled(Grid)`
+  position: absolute;
+  right: 5px;
+  top: 0%;
+  transform: translateY(-25%);
+  width: fit-content;
+`;
+
+export const TeamActionContainer: React.FC = ({ children }) => {
+  return (
+    <TeamActionContainerStyled
+      container
+      justify="center"
+      alignItems="center"
+      wrap="nowrap"
+    >
+      {children}
+    </TeamActionContainerStyled>
+  );
+};

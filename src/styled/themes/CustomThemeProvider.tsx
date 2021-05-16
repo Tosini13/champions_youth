@@ -63,6 +63,10 @@ export const useColors = () => {
       currentTheme === EThemes.dark
         ? darkThemeGradient.dark
         : lightThemeGradient.dark,
+    transparentGradient:
+      currentTheme === EThemes.dark
+        ? darkThemeGradient.transparent
+        : lightThemeGradient.transparent,
     specialColor:
       currentTheme === EThemes.dark
         ? "rgba(79, 201, 240, 0.2)"

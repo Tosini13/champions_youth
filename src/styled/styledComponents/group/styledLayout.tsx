@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, GridProps, useTheme } from "@material-ui/core";
+import { Grid, GridProps } from "@material-ui/core";
 import styled from "styled-components";
 import { useColors } from "../../themes/CustomThemeProvider";
 
@@ -25,19 +25,27 @@ export const GroupHeaderContainer: React.FC = ({ children }) => {
 
 const GroupTeamsContainerStyled = styled(Grid)<{
   gradient: string;
+  specialcolor: string;
 }>`
-  padding: 5px 0px;
-  padding-left: 70px;
+  padding: 5px 70px;
+  background: ${(props) => props.gradient};
+  > div {
+    border-bottom: solid 1px ${(props) => props.specialcolor};
+  }
+  > div:last-child {
+    border-bottom: none;
+  }
 `;
 
 export const GroupTeamsContainer: React.FC<GridProps> = ({
   children,
   ...props
 }) => {
-  const { darkGradient } = useColors();
+  const { transparentGradient, specialColor } = useColors();
   return (
     <GroupTeamsContainerStyled
-      gradient={darkGradient}
+      gradient={transparentGradient}
+      specialcolor={specialColor}
       container
       alignItems="stretch"
       direction="column"
@@ -49,17 +57,14 @@ export const GroupTeamsContainer: React.FC<GridProps> = ({
   );
 };
 
-const GroupTeamSummaryContainerStyled = styled(Grid)`
-  border-bottom: solid 1px ${(props) => props.theme.palette.text.primary};
-`;
+const GroupTeamSummaryContainerStyled = styled(Grid)``;
 
 export const GroupTeamSummaryContainer: React.FC<GridProps> = ({
   children,
   ...props
 }) => {
-  const theme = useTheme();
   return (
-    <GroupTeamSummaryContainerStyled item {...props} theme={theme}>
+    <GroupTeamSummaryContainerStyled item {...props}>
       {children}
     </GroupTeamSummaryContainerStyled>
   );
