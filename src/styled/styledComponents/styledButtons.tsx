@@ -29,19 +29,19 @@ export const IconButtonRC: React.FC<IconButtonProps> = ({
 
 const ButtonStyled = styled(Button)<{
   gradient: string;
-  specialColor: string;
+  buttoncolor: string;
 }>`
-  border-color: ${(props) => props.specialColor};
-  color: ${(props) => props.specialColor};
+  border-color: ${(props) => props.buttoncolor};
+  color: ${(props) => props.buttoncolor};
 `;
 
 export const ButtonRC: React.FC<ButtonProps> = ({ children, ...props }) => {
   const theme = useTheme();
-  const { lightGradient, specialColor } = useColors();
+  const { lightGradient, buttonColor } = useColors();
   return (
     <ButtonStyled
       gradient={lightGradient}
-      specialColor={specialColor}
+      buttoncolor={buttonColor}
       theme={theme}
       variant="outlined"
       {...props}
