@@ -21,16 +21,11 @@ import { updateGame, UpdateGame } from "../../store/actions/GameActions";
 import { matchGame } from "../../store/actions/PlayOffsActions";
 import { routerConstString } from "../../const/menuConst";
 import { GroupModelDB } from "../../NewModels/Group";
-import { Grid, Hidden, IconButton, Paper } from "@material-ui/core";
-import { mainTheme } from "../../styled/styledConst";
+import { Grid, Hidden, IconButton } from "@material-ui/core";
 import Share from "../share/Share";
 import { routerGenerateConst } from "../../const/menuConst";
 import { TournamentData } from "../../models/tournamentData";
-
-const PaperStyled = styled(Paper)`
-  background-color: ${mainTheme.palette.primary.main};
-  padding: 5px;
-`;
+import { PaperRC } from "../../styled/styledComponents/styledPaper";
 
 const IconButtonDesktopStyled = styled(IconButton)`
   position: absolute;
@@ -299,10 +294,7 @@ const MatchDetails: React.FC<Props> = ({
           style={{ width: "100%", height: "100%" }}
         >
           <Grid item lg={6} md={8}>
-            <PaperStyled
-              style={{ padding: "10px", position: "relative" }}
-              color="primary"
-            >
+            <PaperRC style={{ padding: "10px", position: "relative" }}>
               <IconButtonDesktopStyled onClick={() => setOpenShare(true)}>
                 <ShareIcon color="secondary" />
               </IconButtonDesktopStyled>
@@ -321,7 +313,7 @@ const MatchDetails: React.FC<Props> = ({
                   finishMatch={finishMatch}
                 />
               ) : null}
-            </PaperStyled>
+            </PaperRC>
           </Grid>
         </Grid>
       </Hidden>

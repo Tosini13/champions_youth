@@ -13,16 +13,16 @@ import { useLocale } from "../../Provider/LocaleProvider";
 export interface ShowTeamProps {
   team?: TeamData | null;
   placeholder?: Placeholder;
+  color?: string;
 }
-const ShowTeam: React.FC<ShowTeamProps> = ({ team, placeholder }) => {
+const ShowTeam: React.FC<ShowTeamProps> = ({ team, placeholder, color }) => {
   const { locale } = useLocale();
   const { translateRound } = useTranslationHelp();
   const { round, number } = translateRound(placeholder?.name ?? "");
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <Typography
-        color="secondary"
-        style={{ color: "white", fontSize: "0.9rem" }}
+        style={{ color: color ? color : "white", fontSize: "0.9rem" }}
       >
         {team ? (
           team.name
