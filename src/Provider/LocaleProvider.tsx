@@ -1,40 +1,27 @@
-import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { LOCALE } from "../locale/config";
+import { LOCAL_STORAGE_LOCALE } from "../store/reducers/DictionaryReducer";
 
-export const LocaleContext = React.createContext({
-  currentLocale: LOCALE.english,
-  setLocale: (locale: LOCALE) => {},
-});
-
-export const LocaleProvider: React.FC<{}> = ({ children }) => {
-  const currentLocale =
-    (localStorage.getItem("championsYouthLocale") as LOCALE) || LOCALE.english;
-
-  const [localeName, _setLocaleName] = useState<LOCALE>(currentLocale);
-
-  const setLocaleName = (locale: LOCALE) => {
-    localStorage.setItem("championsYouthLocale", locale);
-    _setLocaleName(locale);
+type TState = {
+  dictionary: {
+    locale: LOCALE;
   };
-
-  const contextValue = {
-    currentLocale: localeName as LOCALE,
-    setLocale: setLocaleName,
-  };
-
-  return (
-    <LocaleContext.Provider value={contextValue}>
-      {children}
-    </LocaleContext.Provider>
-  );
 };
 
-export default LocaleProvider;
-
 export const useLocale = () => {
-  const currentLocale =
-    (localStorage.getItem("championsYouthLocale") as LOCALE) || LOCALE.english;
+  const dispatch = useDispatch();
+  const selector = useSelector((state: TState) => state);
+
+  const handleChangeLocale = (locale: LOCALE) => {
+    localStorage.setItem(LOCAL_STORAGE_LOCALE, locale);
+    dispatch({
+      type: "LANGUAGE_SET",
+      locale,
+    });
+  };
+
   return {
-    locale: currentLocale,
+    locale: selector.dictionary.locale,
+    handleChangeLocale,
   };
 };

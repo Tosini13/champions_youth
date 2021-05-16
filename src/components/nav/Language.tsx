@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Rosetta } from "react-rosetta";
 
@@ -16,12 +16,12 @@ import enFlag from "../../images/flags/us.png";
 import languageDict from "../../locale/language";
 import { IconButton } from "@material-ui/core";
 import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
-import { LocaleContext } from "../../Provider/LocaleProvider";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 export interface LanguageProps {}
 
 const Language: React.FC<LanguageProps> = () => {
-  const { currentLocale, setLocale } = useContext(LocaleContext);
+  const { handleChangeLocale, locale } = useLocale();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -33,7 +33,7 @@ const Language: React.FC<LanguageProps> = () => {
   };
 
   const handleSetLocale = (locale: LOCALE) => {
-    setLocale(locale);
+    handleChangeLocale(locale);
     setOpen(false);
   };
 
@@ -47,10 +47,10 @@ const Language: React.FC<LanguageProps> = () => {
   };
 
   return (
-    <Rosetta translations={languageDict} locale={currentLocale}>
+    <Rosetta translations={languageDict} locale={locale}>
       <>
         <IconButton size="small" onClick={handleOpen}>
-          <FlagImgStyled src={getFlag(currentLocale)} alt={currentLocale} />
+          <FlagImgStyled src={getFlag(locale)} alt={locale} />
         </IconButton>
         <DialogRU
           onClose={handleClose}

@@ -1,8 +1,10 @@
 import { LOCALE } from "../../locale/config";
 import { DictionaryActions } from "../actions/DictionaryActions";
 
+export const LOCAL_STORAGE_LOCALE = "championsYouthLocale";
 const initState = {
-  locale: LOCALE.english,
+  locale:
+    (localStorage.getItem(LOCAL_STORAGE_LOCALE) as LOCALE) || LOCALE.english,
 };
 
 const dictionaryReducer = (state = initState, action: DictionaryActions) => {
