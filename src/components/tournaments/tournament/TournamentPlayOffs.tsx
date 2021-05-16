@@ -14,7 +14,6 @@ import { Game } from "../../../models/gameData";
 import PlayOffsBracket from "../../playoffs/PlayOffsBracket";
 import { Group } from "../../../models/groupData";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
-import { LOCALE } from "../../../locale/config";
 import {
   deletePlayOffs,
   deletePlayOffsGroups,
@@ -28,6 +27,7 @@ import { routerGenerateConst } from "../../../const/menuConst";
 import { GroupModel } from "../../../NewModels/Group";
 import PlayOffsGroups from "../../playoffs/groups/PlayOffsGroups";
 import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   tournamentId: Id;
@@ -36,7 +36,6 @@ type Props = {
   teams: TeamData[];
   groups?: Group[];
   playOffsGroups?: GroupModel[];
-  locale: LOCALE;
   isOwner: boolean;
   deletePlayOffs: (
     tournamentId: Id,
@@ -57,11 +56,11 @@ const TournamentPlayOffs: React.FC<Props> = ({
   tournament,
   teams,
   groups,
-  locale,
   isOwner,
   deletePlayOffs,
   deletePlayOffsGroups,
 }) => {
+  const { locale } = useLocale();
   const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [create, setCreate] = useState<boolean>(false);
@@ -117,11 +116,7 @@ const TournamentPlayOffs: React.FC<Props> = ({
       <>
         {playOffs?.length && !playOffsGroups?.length ? (
           <>
-            <PlayOffsBracket
-              playOffs={playOffs}
-              locale={locale}
-              tournamentId={tournamentId}
-            />
+            <PlayOffsBracket playOffs={playOffs} tournamentId={tournamentId} />
             {isOwner ? (
               <ButtonHorizontalContainerStyled>
                 <ButtonRC onClick={handleDelete} startIcon={<DeleteIcon />}>
@@ -186,7 +181,6 @@ const TournamentPlayOffs: React.FC<Props> = ({
           </ButtonHorizontalContainerStyled>
         ) : null}
         <ChooseStructure
-          locale={locale}
           opened={openChosenStructure}
           handleClose={() => setOpenChosenStructure(false)}
           chooseGroup={() =>
@@ -197,12 +191,6 @@ const TournamentPlayOffs: React.FC<Props> = ({
       </>
     </Rosetta>
   );
-};
-
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -222,4 +210,4 @@ const mapDispatchToProps = (dispatch: any) => {
       ),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(TournamentPlayOffs);
+export default connect(null, mapDispatchToProps)(TournamentPlayOffs);

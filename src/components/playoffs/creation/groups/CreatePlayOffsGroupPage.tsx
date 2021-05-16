@@ -12,7 +12,6 @@ import {
   updateGroupPromoted,
   UpdateGroupPromotedParams,
 } from "../../../../store/actions/GroupActions";
-import { LOCALE } from "../../../../locale/config";
 import CreatePlayOffsGroupScreen from "./CreatePlayOffsGroupScreen";
 import { useHistory } from "react-router-dom";
 
@@ -26,7 +25,6 @@ export interface CreatePlayOffsGroupPageProps {
   groups?: GroupModel[];
   tournamentId: Id;
   createGroup: (tournamentId: Id, group: GroupModel) => void;
-  locale: LOCALE;
   userId: Id;
   doesGroupsExist: boolean;
   updateGroupPromoted: ({
@@ -41,7 +39,6 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
   groups,
   tournamentId,
   createGroup,
-  locale,
   userId,
   doesGroupsExist,
   updateGroupPromoted,
@@ -72,7 +69,6 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
       tournamentId={tournamentId}
       createGroup={createGroup}
       updateGroupPromoted={updateGroupPromoted}
-      locale={locale}
       userId={userId}
       startDate={mockDate}
       teamsQtt={teamsQtt}
@@ -83,7 +79,6 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
     groups: state.firestore.ordered.groups,
-    locale: state.dictionary.locale,
     userId: state.firebase.auth.uid,
     tournamentId: ownProps.match.params.tournamentId,
     doesGroupsExist: Boolean(state.firestore.ordered.playOffsGroups?.length),

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { Rosetta, Translator } from "react-rosetta";
-import { connect } from "react-redux";
 
 import { Grid, Typography } from "@material-ui/core";
 import { matchModeConst } from "../../const/matchConst";
@@ -19,22 +18,21 @@ import {
   getImageJustUploaded,
 } from "../tournaments/actions/getImage";
 import matchDict from "../../locale/matchDict";
-import { LOCALE } from "../../locale/config";
 import ShowTeam from "./ShowTeam";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 export interface MatchDetailsDisplayProps {
   match: Match;
   tournamentId: Id;
   authorId: Id;
-  locale: LOCALE;
 }
 
 const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
   match,
   tournamentId,
   authorId,
-  locale,
 }) => {
+  const { locale } = useLocale();
   const [imageHome, setImageHome] = useState<any>(null);
   const [imageAway, setImageAway] = useState<any>(null);
 
@@ -133,9 +131,4 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-export default connect(mapStateToProps)(MatchDetailsDisplay);
+export default MatchDetailsDisplay;

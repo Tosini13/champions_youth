@@ -4,14 +4,13 @@ import { Rosetta, Translator } from "react-rosetta";
 import { DialogContent, FormControlLabel, Grid } from "@material-ui/core";
 
 import { TextFieldStyled, CheckboxStyled } from "../../../styled/styledForm";
-import { LOCALE } from "../../../locale/config";
 import groupCreationDict from "../../../locale/creationNav.dict.";
 import { useForm } from "react-hook-form";
 import { SettingType } from "./CreateGroupsScreen";
 import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 export interface GroupSettingsProps {
-  locale: LOCALE;
   open: boolean;
   handleClose: () => void;
   settings: SettingType;
@@ -19,12 +18,12 @@ export interface GroupSettingsProps {
 }
 
 const GroupSettings: React.FC<GroupSettingsProps> = ({
-  locale,
   open,
   handleClose,
   settings,
   setSettings,
 }) => {
+  const { locale } = useLocale();
   const [time, setTime] = useState<boolean>(Boolean(settings.time));
   const [returnMatches, setReturnMatches] = useState<boolean>(
     Boolean(settings.returnMatches)
@@ -63,7 +62,6 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
             formRef.current?.dispatchEvent(new Event("submit"));
             handleClose();
           }}
-          locale={locale}
           title={"settings"}
         >
           <DialogContent>

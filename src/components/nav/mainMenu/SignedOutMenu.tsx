@@ -10,19 +10,18 @@ import DraftsIcon from "@material-ui/icons/Drafts";
 import { ListStyled, MenuLinkStyled } from "../../../styled/styledNav";
 import { routerConstString } from "../../../const/menuConst";
 import Language from "../Language";
-import { connect } from "react-redux";
 import menuDict from "../../../locale/menu";
-import { LOCALE } from "../../../locale/config";
 import { GridContainer, ListItemStyled } from "./SignedInMenu";
 import { Grid } from "@material-ui/core";
 import Theme from "../Theme";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   handleCloseSideBar: () => void;
-  locale: LOCALE;
 };
 
-const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar, locale }) => {
+const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar }) => {
+  const { locale } = useLocale();
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <GridContainer container direction="column" justify="space-between">
@@ -69,10 +68,4 @@ const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar, locale }) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(SignedOutMenu);
+export default SignedOutMenu;

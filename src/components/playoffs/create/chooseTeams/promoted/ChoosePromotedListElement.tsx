@@ -11,12 +11,11 @@ import {
 } from "../../../../../styled/styledBracket";
 import { Id } from "../../../../../const/structuresConst";
 import { PromotedTeam } from "../../../../../NewModels/Team";
-import { LOCALE } from "../../../../../locale/config";
 import chooseTeamDict from "../../../../../locale/chooseTeam.dict";
 import { Typography } from "@material-ui/core";
+import { useLocale } from "../../../../../Provider/LocaleProvider";
 
 type Props = {
-  locale: LOCALE;
   element: PromotedTeam;
   selected: boolean;
   groupId?: Id | null;
@@ -25,13 +24,13 @@ type Props = {
 };
 
 const ChoosePromotedListElement: React.FC<Props> = ({
-  locale,
   element,
   selected,
   disabled,
   groupId,
   addToChosenTeams,
 }) => {
+  const { locale } = useLocale();
   // PLACE TEXT TRANSLATE
   return (
     <Rosetta translations={chooseTeamDict} locale={locale}>

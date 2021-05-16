@@ -23,6 +23,7 @@ import firebase from "firebase/app";
 import { StylesProvider } from "@material-ui/core/styles";
 import SplashScreen from "./components/global/SplashScreen";
 import CustomThemeProvider from "./styled/themes/CustomThemeProvider";
+import LocaleProvider from "./Provider/LocaleProvider";
 
 export const store = createStore(
   rootReducer,
@@ -52,15 +53,17 @@ const rrfProps = {
 ReactDOM.render(
   // <React.StrictMode>
   <CustomThemeProvider>
-    <StylesProvider injectFirst>
-      <ReactReduxFirebaseProvider {...rrfProps}>
-        <Provider store={store}>
-          <AuthIsLoaded>
-            <App />
-          </AuthIsLoaded>
-        </Provider>
-      </ReactReduxFirebaseProvider>
-    </StylesProvider>
+    <LocaleProvider>
+      <StylesProvider injectFirst>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          <Provider store={store}>
+            <AuthIsLoaded>
+              <App />
+            </AuthIsLoaded>
+          </Provider>
+        </ReactReduxFirebaseProvider>
+      </StylesProvider>
+    </LocaleProvider>
   </CustomThemeProvider>,
   // </React.StrictMode>
   document.getElementById("root")

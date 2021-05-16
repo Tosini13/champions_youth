@@ -2,11 +2,11 @@ import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import menuDict from "../../../../locale/menu";
-import { LOCALE } from "../../../../locale/config";
 import {
   TabRC,
   TabsContainer,
 } from "../../../../styled/styledComponents/navigation/styledTabs";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 export enum TOURNAMENT_LEFT_MENU {
   "INFO" = 0,
@@ -14,14 +14,13 @@ export enum TOURNAMENT_LEFT_MENU {
 }
 
 export default function TournamentLeftMenu({
-  locale,
   value,
   setValue,
 }: {
-  locale: LOCALE;
   value: TOURNAMENT_LEFT_MENU;
   setValue: (value: TOURNAMENT_LEFT_MENU) => void;
 }) {
+  const { locale } = useLocale();
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };

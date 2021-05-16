@@ -3,13 +3,12 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import { DialogContent, Grid } from "@material-ui/core";
 
-import { LOCALE } from "../../../locale/config";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
 import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 export interface ChooseStructureProps {
-  locale: LOCALE;
   opened: boolean;
   handleClose: () => void;
   chooseGroup: () => void;
@@ -17,20 +16,15 @@ export interface ChooseStructureProps {
 }
 
 const ChooseStructure: React.FC<ChooseStructureProps> = ({
-  locale,
   opened,
   handleClose,
   chooseGroup,
   chooseBracket,
 }) => {
+  const { locale } = useLocale();
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
-      <DialogRU
-        open={opened}
-        onClose={handleClose}
-        title={"chooseStructure"}
-        locale={locale}
-      >
+      <DialogRU open={opened} onClose={handleClose} title={"chooseStructure"}>
         <DialogContent>
           <Grid container justify="space-around">
             <Grid item>

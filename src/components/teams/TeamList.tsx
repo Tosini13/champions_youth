@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -8,9 +8,11 @@ import {
   deleteTeamFromTournament,
   editTeamFromTournament,
 } from "../../store/actions/TeamActions";
+import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
 import { TeamListStyled } from "../../styled/styledTeams";
 
-import TeamSummary from "./TeamSummary";
+import TeamSummary from "./TeamSummaryOld";
+import TeamForm from "./TeamForm";
 
 type Props = {
   teams?: TeamData[];
@@ -29,6 +31,7 @@ const TeamList: React.FC<Props> = ({
   isOwner,
   isCreated,
 }) => {
+  const [selectedTeam, setSelectedTeam] = useState<TeamData | undefined>();
   const { tournamentId } = useParams<{ tournamentId: Id }>();
 
   const handleDeleteTeam = (team: TeamData) => {
@@ -37,6 +40,10 @@ const TeamList: React.FC<Props> = ({
 
   const handleEditTeam = (team: TeamData) => {
     editTeamFromTournament(tournamentId, team);
+  };
+
+  const handleClose = () => {
+    setSelectedTeam(undefined);
   };
 
   return (
@@ -53,6 +60,15 @@ const TeamList: React.FC<Props> = ({
           tournamentId={tournamentId}
         />
       ))}
+      <DialogRU
+        onClose={handleClose}
+        aria-labelledby="simple-dialog-title"
+        open={Boolean(selectedTeam)}
+        color="primary"
+        title={"addTeam"}
+      >
+        <TeamForm handleClose={handleClose} />
+      </DialogRU>
     </TeamListStyled>
   );
 };

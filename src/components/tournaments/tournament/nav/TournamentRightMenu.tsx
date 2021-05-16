@@ -1,11 +1,11 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 import menuDict from "../../../../locale/menu";
-import { LOCALE } from "../../../../locale/config";
 import {
   TabRC,
   TabsContainer,
 } from "../../../../styled/styledComponents/navigation/styledTabs";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 export enum TOURNAMENT_RIGHT_MENU {
   "GROUPS" = 0,
@@ -13,14 +13,13 @@ export enum TOURNAMENT_RIGHT_MENU {
 }
 
 export default function TournamentRightMenu({
-  locale,
   value,
   setValue,
 }: {
-  locale: LOCALE;
   value: TOURNAMENT_RIGHT_MENU;
   setValue: (value: TOURNAMENT_RIGHT_MENU) => void;
 }) {
+  const { locale } = useLocale();
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };

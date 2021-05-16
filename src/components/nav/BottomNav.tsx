@@ -14,19 +14,17 @@ import {
   routerConstString,
 } from "../../const/menuConst";
 import menuDict from "../../locale/menu";
-import { connect } from "react-redux";
-import { LOCALE } from "../../locale/config";
 import {
   BottomNavigationRC,
   NavBottomLink,
   NavBottomLiveLink,
 } from "../../styled/styledComponents/navigation/styledLayout";
+import { useLocale } from "../../Provider/LocaleProvider";
 
-type Props = {
-  locale: LOCALE;
-};
+type Props = {};
 
-const BottomNav: React.FC<Props> = ({ locale }) => {
+const BottomNav: React.FC<Props> = () => {
+  const { locale } = useLocale();
   const location = useLocation();
 
   return (
@@ -67,9 +65,4 @@ const BottomNav: React.FC<Props> = ({ locale }) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-export default connect(mapStateToProps)(BottomNav);
+export default BottomNav;

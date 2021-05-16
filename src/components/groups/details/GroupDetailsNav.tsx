@@ -1,7 +1,6 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 import groupDetailsDict from "../../../locale/groupDetails.dict";
-import { LOCALE } from "../../../locale/config";
 import {
   TabRC,
   TabsContainer,
@@ -10,16 +9,16 @@ import {
   E_GROUP_MENU,
   useTournamentNav,
 } from "../../../hooks/useTournamentNavs";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 export default function GroupDetailsNav({
-  locale,
   value,
   setValue,
 }: {
-  locale: LOCALE;
   value: E_GROUP_MENU;
   setValue: (value: E_GROUP_MENU) => void;
 }) {
+  const { locale } = useLocale();
   const { setLocalStorageGroupNav } = useTournamentNav();
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {

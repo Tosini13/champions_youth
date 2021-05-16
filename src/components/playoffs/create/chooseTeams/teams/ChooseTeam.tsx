@@ -1,5 +1,4 @@
 import React from "react";
-import { LOCALE } from "../../../../../locale/config";
 
 import { TeamData } from "../../../../../models/teamData";
 import { BracketStructure } from "../../../../../structures/bracket";
@@ -12,7 +11,6 @@ const GAME_SIDE = {
 };
 
 type Props = {
-  locale: LOCALE;
   teams?: TeamData[];
   game: GameStructure;
   bracket: BracketStructure;
@@ -22,7 +20,6 @@ type Props = {
 };
 
 const ChooseTeam: React.FC<Props> = ({
-  locale,
   teams,
   game,
   bracket,
@@ -52,7 +49,6 @@ const ChooseTeam: React.FC<Props> = ({
 
   return (
     <PlayOffsChooseList
-      locale={locale}
       teams={teams}
       handleChooseTeam={handleChooseTeam}
       chosenTeams={chosenTeams}

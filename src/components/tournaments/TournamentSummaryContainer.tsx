@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { LOCALE } from "../../locale/config";
 import { UserData } from "../../models/credentialsData";
 import { TournamentData } from "../../models/tournamentData";
 import tournamentDashboardDict from "../../locale/tournamentDashboard";
@@ -13,6 +12,7 @@ import { ScrollBarStyled } from "../../styled/styledScrollBar";
 import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
 import { useTournamentNav } from "../../hooks/useTournamentNavs";
 import { ButtonRC } from "../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 const ListStyled = styled(List)`
   padding: 0px 2px;
@@ -25,16 +25,15 @@ const ListStyled = styled(List)`
 export interface TournamentSummaryContainerProps {
   user?: UserData;
   tournaments?: TournamentData[];
-  locale: LOCALE;
   handleRedirectLogin: () => void;
 }
 
 const TournamentSummaryContainer: React.FC<TournamentSummaryContainerProps> = ({
   user,
   tournaments,
-  locale,
   handleRedirectLogin,
 }) => {
+  const { locale } = useLocale();
   const { clearLocalStorageTournamentNav } = useTournamentNav();
   useEffect(() => {
     clearLocalStorageTournamentNav();

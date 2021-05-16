@@ -23,7 +23,6 @@ const GroupSummary: React.FC<GroupsComponentProps> = ({
   teams,
 }) => {
   const { tournamentId } = useParams<{ tournamentId: Id }>();
-  console.log(group);
   return (
     <div>
       <LinkStyled

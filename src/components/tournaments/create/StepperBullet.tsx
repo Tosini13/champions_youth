@@ -1,40 +1,43 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import clsx from "clsx";
 
 import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
 import DoneIcon from "@material-ui/icons/Done";
 import RoomIcon from "@material-ui/icons/Room";
-import { mainTheme } from "../../../styled/styledConst";
-
-const useColorlibStepIconStyles = makeStyles({
-  root: {
-    backgroundColor: mainTheme.palette.primary.light,
-    zIndex: 1,
-    color: "#fff",
-    width: 28,
-    height: 28,
-    display: "flex",
-    borderRadius: "50%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  icon: {
-    width: "0.8em",
-    height: "0.8em",
-  },
-  active: {
-    backgroundColor: mainTheme.palette.secondary.main,
-    color: mainTheme.palette.primary.main,
-    boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
-  },
-  completed: {
-    backgroundColor: mainTheme.palette.primary.light,
-  },
-});
+import { useColors } from "../../../styled/themes/CustomThemeProvider";
 
 export function ColorlibStepIcon(props: any) {
+  const { specialColor } = useColors();
+  const theme = useTheme();
+
+  const useColorlibStepIconStyles = makeStyles({
+    root: {
+      backgroundColor: theme.palette.primary.main,
+      color: specialColor,
+      zIndex: 1,
+      width: 28,
+      height: 28,
+      display: "flex",
+      borderRadius: "50%",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    icon: {
+      width: "0.8em",
+      height: "0.8em",
+    },
+    active: {
+      backgroundColor: theme.palette.secondary.main,
+      color: theme.palette.primary.main,
+      boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
+    },
+    completed: {
+      backgroundColor: theme.palette.primary.dark,
+    },
+  });
+
   const classes = useColorlibStepIconStyles();
   const { active, completed } = props;
 

@@ -29,7 +29,6 @@ import TournamentRightMenu, {
   TOURNAMENT_RIGHT_MENU,
 } from "./nav/TournamentRightMenu";
 import { ScrollBarStyled } from "../../../styled/styledScrollBar";
-import { LOCALE } from "../../../locale/config";
 
 export const GridSectionStyled = styled(Grid)`
   max-height: 100%;
@@ -47,7 +46,6 @@ export const GridSectionContentStyled = styled(Grid)`
 `;
 
 export interface TournamentDetailsDesktopProps {
-  locale: LOCALE;
   image: any | null;
   tournament?: TournamentData;
   teams?: TeamData[];
@@ -60,7 +58,6 @@ export interface TournamentDetailsDesktopProps {
 }
 
 const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
-  locale,
   image,
   isOwner,
   tournamentId,
@@ -79,14 +76,12 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
       <DesktopMainItemStyled>
         <SectionStyled>
           <SectionNavStyled>
-            <TournamentLeftMenu
-              locale={locale}
-              value={leftView}
-              setValue={setLeftView}
-            />
+            <TournamentLeftMenu value={leftView} setValue={setLeftView} />
           </SectionNavStyled>
           <SectionContentStyled style={{ padding: "20px" }}>
-            {leftView === TOURNAMENT_LEFT_MENU.INFO && tournament ? (
+            {leftView === TOURNAMENT_LEFT_MENU.INFO &&
+            tournament &&
+            tournamentId ? (
               <TournamentInfo
                 tournament={tournament}
                 image={image}
@@ -108,34 +103,35 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
       <DesktopMainItemStyled>
         <SectionStyled>
           <SectionNavStyled>
-            <TournamentRightMenu
-              locale={locale}
-              value={rightView}
-              setValue={setRightView}
-            />
+            <TournamentRightMenu value={rightView} setValue={setRightView} />
           </SectionNavStyled>
           <SectionContentStyled>
             <ContentContainerStyled>
-              {rightView === TOURNAMENT_RIGHT_MENU.GROUPS && tournament ? (
+              {rightView === TOURNAMENT_RIGHT_MENU.GROUPS &&
+              tournament &&
+              tournamentId &&
+              teams ? (
                 <TournamentGroups
                   tournamentId={tournamentId}
                   tournament={tournament}
+                  teams={teams}
                   groups={groups}
                   playOffs={Boolean(playOffs?.length)}
                   playOffsGroups={Boolean(playOffsGroups?.length)}
-                  teams={teams}
                   isOwner={isOwner}
                 />
               ) : null}
               {rightView === TOURNAMENT_RIGHT_MENU.PLAY_OFFS &&
               tournament &&
-              playOffs ? (
+              playOffs &&
+              tournamentId &&
+              teams ? (
                 <TournamentPlayOffs
+                  teams={teams}
                   tournamentId={tournamentId}
                   tournament={tournament}
                   playOffs={playOffs}
                   playOffsGroups={playOffsGroups}
-                  teams={teams}
                   groups={groups}
                   isOwner={isOwner}
                 />

@@ -1,14 +1,13 @@
 import React from "react";
 import { Options } from "../../../structures/bracket";
-import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
 import { ButtonHorizontalContainerStyled } from "../../../styled/styledButtons";
 import PlayOffsChooseLastMatchPlace from "./options/PlayOffsChooseLastMatchPlace";
 import PlayOffsChooseRound from "./options/PlayOffsChooseRound";
-import { LOCALE } from "../../../locale/config";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   toggleCreate: () => void;
@@ -18,7 +17,6 @@ type Props = {
   setPlaceMatchesQtt: (placeMatchesQtt: number) => void;
   setAutoTeams: () => void;
   submitBracket: () => void;
-  locale: LOCALE;
 };
 
 const PlayOffsCreateMenu: React.FC<Props> = ({
@@ -29,8 +27,8 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
   setAutoTeams,
   submitBracket,
   maxRounds,
-  locale,
 }) => {
+  const { locale } = useLocale();
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <>
@@ -59,10 +57,4 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(PlayOffsCreateMenu);
+export default PlayOffsCreateMenu;

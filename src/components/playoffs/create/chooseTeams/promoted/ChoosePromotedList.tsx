@@ -5,10 +5,8 @@ import { Group } from "../../../../../models/groupData";
 import ChoosePromotedListElement from "./ChoosePromotedListElement";
 import { Id } from "../../../../../const/structuresConst";
 import { Placeholder, PromotedTeam } from "../../../../../NewModels/Team";
-import { LOCALE } from "../../../../../locale/config";
 
 type Props = {
-  locale: LOCALE;
   groups?: Group[];
   chosenTeams: Placeholder[];
   setChosenTeams: (teams: Placeholder[]) => void;
@@ -17,7 +15,6 @@ type Props = {
 };
 
 const ChoosePromotedList: React.FC<Props> = ({
-  locale,
   groups,
   chosenTeams,
   setChosenTeams,
@@ -91,7 +88,6 @@ const ChoosePromotedList: React.FC<Props> = ({
           <p>{group.name}</p>
           {group.promoted.map((team, id) => (
             <ChoosePromotedListElement
-              locale={locale}
               key={id}
               groupId={group.id}
               element={team}

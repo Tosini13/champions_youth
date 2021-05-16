@@ -13,7 +13,6 @@ import { TeamData } from "../../../models/teamData";
 import GroupsComponent from "../../groups/GroupsComponent";
 import { Group } from "../../../models/groupData";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
-import { LOCALE } from "../../../locale/config";
 import { Id } from "../../../const/structuresConst";
 import { deleteGroups } from "../../../store/actions/GroupActions";
 import { setInProgress } from "../../global/InProgress";
@@ -22,6 +21,7 @@ import { useNotification } from "../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../const/menuConst";
 import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   tournament: TournamentData;
@@ -29,7 +29,6 @@ type Props = {
   teams: TeamData[];
   playOffs: boolean;
   playOffsGroups: boolean;
-  locale: LOCALE;
   tournamentId: Id;
   deleteGroups: (
     tournamentId: Id,
@@ -45,11 +44,11 @@ const TournamentGroups: React.FC<Props> = ({
   playOffs,
   playOffsGroups,
   groups,
-  locale,
   tournamentId,
   deleteGroups,
   isOwner,
 }) => {
+  const { locale } = useLocale();
   const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [create, setCreate] = useState<boolean>(false);
@@ -156,12 +155,6 @@ const TournamentGroups: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
 const mapDispatchToProps = (dispatch: any) => {
   return {
     deleteGroups: (
@@ -171,4 +164,4 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(deleteGroups(tournamentId, callBackSuccess, callBackError)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(TournamentGroups);
+export default connect(null, mapDispatchToProps)(TournamentGroups);

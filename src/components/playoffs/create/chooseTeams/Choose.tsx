@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
 import { Grid } from "@material-ui/core";
@@ -12,11 +11,11 @@ import { Group } from "../../../../models/groupData";
 import ChoosePromoted from "./promoted/ChoosePromoted";
 import ChooseTeam from "./teams/ChooseTeam";
 import { BracketStructure } from "../../../../structures/bracket";
-import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import { Placeholder } from "../../../../NewModels/Team";
 import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 type Props = {
   teams?: TeamData[];
@@ -29,7 +28,6 @@ type Props = {
   setChosenTeams: (teams: TeamData[]) => void;
   chosenPromoted: Placeholder[];
   setChosenPromoted: (teams: Placeholder[]) => void;
-  locale: LOCALE;
 };
 
 const Choose: React.FC<Props> = ({
@@ -43,19 +41,14 @@ const Choose: React.FC<Props> = ({
   setChosenTeams,
   chosenPromoted,
   setChosenPromoted,
-  locale,
 }) => {
+  const { locale } = useLocale();
   const [gameSide, setGameSide] = useState(GAME_SIDE.HOME);
   return (
-    <DialogRU
-      open={open}
-      onClose={handleClose}
-      locale={locale}
-      title="chooseTeams"
-    >
+    <DialogRU open={open} onClose={handleClose} title="chooseTeams">
       <Rosetta translations={tournamentDetailsDict} locale={locale}>
         <>
-          <MatchSummaryMock match={game.match} locale={locale} />
+          <MatchSummaryMock match={game.match} />
           <Grid container justify="space-around">
             <ButtonRC
               variant={gameSide === GAME_SIDE.HOME ? "contained" : "outlined"}
@@ -78,7 +71,6 @@ const Choose: React.FC<Props> = ({
               groups={groups}
               game={game}
               gameSide={gameSide}
-              locale={locale}
             />
           ) : (
             <ChooseTeam
@@ -88,7 +80,6 @@ const Choose: React.FC<Props> = ({
               teams={teams}
               game={game}
               gameSide={gameSide}
-              locale={locale}
             />
           )}
           <ButtonRC
@@ -105,10 +96,4 @@ const Choose: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(Choose);
+export default Choose;

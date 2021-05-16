@@ -23,7 +23,6 @@ import {
 } from "../../../styled/styledLayout";
 import { Placeholder } from "../../../NewModels/Team";
 import GroupDetailsNav from "./GroupDetailsNav";
-import { LOCALE } from "../../../locale/config";
 import { useNotification } from "../../global/Notification";
 import {
   E_GROUP_MENU,
@@ -31,7 +30,6 @@ import {
 } from "../../../hooks/useTournamentNavs";
 
 export interface GroupDetailsViewProps {
-  locale: LOCALE;
   tournamentId: Id;
   groupId: Id;
   group: GroupModel;
@@ -67,7 +65,6 @@ export interface GroupDetailsViewProps {
 }
 
 const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
-  locale,
   tournamentId,
   groupId,
   group,
@@ -230,16 +227,11 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         <Hidden mdUp>
           <SectionStyled>
             <SectionNavStyled>
-              <GroupDetailsNav
-                locale={locale}
-                value={view}
-                setValue={setView}
-              />
+              <GroupDetailsNav value={view} setValue={setView} />
             </SectionNavStyled>
             <SectionContentStyled>
               {view === E_GROUP_MENU.TABLE ? (
                 <GroupTableView
-                  locale={locale}
                   group={group}
                   handleFinishGroup={handleFinishGroupNotification}
                   handleContinueGroup={handleContinueGroupsNotification}
@@ -247,7 +239,6 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
               ) : null}
               {view === E_GROUP_MENU.MATCHES ? (
                 <GroupMatchesView
-                  locale={locale}
                   tournamentId={tournamentId}
                   groupId={groupId}
                   matches={matches}
@@ -260,7 +251,6 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
           <DesktopMainContainerStyled>
             <DesktopMainItemStyled>
               <GroupTableView
-                locale={locale}
                 group={group}
                 handleFinishGroup={handleFinishGroupNotification}
                 handleContinueGroup={handleContinueGroupsNotification}
@@ -268,7 +258,6 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             </DesktopMainItemStyled>
             <DesktopMainItemStyled>
               <GroupMatchesView
-                locale={locale}
                 tournamentId={tournamentId}
                 groupId={groupId}
                 matches={matches}
@@ -284,12 +273,11 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
       <Hidden mdUp>
         <SectionStyled>
           <SectionNavStyled>
-            <GroupDetailsNav locale={locale} value={view} setValue={setView} />
+            <GroupDetailsNav value={view} setValue={setView} />
           </SectionNavStyled>
           <SectionContentStyled>
             {view === E_GROUP_MENU.TABLE ? (
               <GroupTableView
-                locale={locale}
                 group={group}
                 handleFinishGroup={handleFinishGroupNotification}
                 handleContinueGroup={handleContinueGroupsNotification}
@@ -297,7 +285,6 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             ) : null}
             {view === E_GROUP_MENU.MATCHES ? (
               <GroupMatchesView
-                locale={locale}
                 tournamentId={tournamentId}
                 groupId={groupId}
                 matches={matches}
@@ -310,7 +297,6 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         <DesktopMainContainerStyled>
           <DesktopMainItemStyled>
             <GroupTableView
-              locale={locale}
               group={group}
               handleFinishGroup={handleFinishGroupNotification}
               handleContinueGroup={handleContinueGroupsNotification}
@@ -319,7 +305,6 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
           <DesktopMainDividerStyled />
           <DesktopMainItemStyled>
             <GroupMatchesView
-              locale={locale}
               tournamentId={tournamentId}
               groupId={groupId}
               matches={matches}

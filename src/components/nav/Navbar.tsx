@@ -11,15 +11,12 @@ import MenuSideBar from "./mainMenu/MenuSideBar";
 import { setSelectedDate } from "../../store/actions/MenuActions";
 import { routerConstString } from "../../const/menuConst";
 import DateNav from "./DateNav";
-import { LOCALE } from "../../locale/config";
 import { NavContainer } from "../../styled/styledComponents/navigation/styledLayout";
 
 const Navbar = ({
-  locale,
   selectedDate,
   setSelectedDate,
 }: {
-  locale: LOCALE;
   selectedDate: Moment;
   setSelectedDate: (menu: Moment) => void;
 }) => {
@@ -64,7 +61,6 @@ const Navbar = ({
             wrap="nowrap"
           >
             <DateNav
-              locale={locale}
               isDateActive={isDateActive}
               selectedDate={selectedDate}
               isHamburgerOpen={sideBarMenuOpened}
@@ -87,7 +83,6 @@ const Navbar = ({
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
     selectedDate: state.menu.selectedDate,
-    locale: state.dictionary.locale,
   };
 };
 

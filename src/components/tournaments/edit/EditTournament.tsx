@@ -38,7 +38,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
     authorId,
     tournament,
     tournamentId,
-    locale: state.dictionary.locale,
   };
 };
 

@@ -12,8 +12,8 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import dialogDict from "../../../locale/dialog.dict";
-import { LOCALE } from "../../../locale/config";
 import { SectionContentStyled, SectionStyled } from "../../styledLayout";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 export const DialogHeaderStyled = styled(Grid)`
   padding: 5px;
@@ -32,7 +32,6 @@ export const DialogStyled = styled(Dialog)`
 `;
 
 type TDialogRUProps = DialogProps & {
-  locale?: LOCALE; // Translate Element,
   title?: string;
   matchNumber?: string;
 };
@@ -42,10 +41,10 @@ export const DialogRU: React.FC<TDialogRUProps> = ({
   children,
   title,
   matchNumber,
-  locale,
   onClose,
   ...props
 }) => {
+  const { locale } = useLocale();
   const theme = useTheme();
   return (
     <Rosetta translations={dialogDict} locale={locale}>

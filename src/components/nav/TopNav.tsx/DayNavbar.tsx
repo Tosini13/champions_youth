@@ -8,8 +8,6 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 
 import { DayNameStyled, DayDateStyled } from "../../../styled/styledNav";
 import { DATE_FORMAT_SHOW } from "../../../const/menuConst";
-import { connect } from "react-redux";
-import { LOCALE } from "../../../locale/config";
 import menuDict from "../../../locale/menu";
 import { Grid } from "@material-ui/core";
 import styled from "styled-components";
@@ -17,6 +15,7 @@ import {
   IconButtonPreviosDay,
   IconButtonNextDay,
 } from "../../../styled/styledComponents/navigation/styledButtons";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 const GridContainer = styled(Grid)`
   max-width: 250px;
@@ -27,13 +26,12 @@ const DayNavbar = ({
   selectedDate,
   setSelectedDate,
   isDateActive,
-  locale,
 }: {
   selectedDate: Moment;
   setSelectedDate: (date: Moment) => void;
   isDateActive: boolean;
-  locale: LOCALE;
 }) => {
+  const { locale } = useLocale();
   const handleDayBack = () => {
     if (isDateActive) setSelectedDate(moment(date).subtract(1, "day"));
   };
@@ -84,9 +82,4 @@ const DayNavbar = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-export default connect(mapStateToProps)(DayNavbar);
+export default DayNavbar;

@@ -7,16 +7,15 @@ import {
   TournamentDashboardMenuItemStyled,
   TournamentDashboardMenuStyled,
 } from "../../../styled/styledTournament";
-import { connect } from "react-redux";
-import { LOCALE } from "../../../locale/config";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   view: menuTournamentConst;
   setView: (view: menuTournamentConst) => void;
-  locale: LOCALE;
 };
 
-const TournamentMenu: React.FC<Props> = ({ view, setView, locale }) => {
+const TournamentMenu: React.FC<Props> = ({ view, setView }) => {
+  const { locale } = useLocale();
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <TournamentDashboardMenuStyled>
@@ -57,10 +56,4 @@ const TournamentMenu: React.FC<Props> = ({ view, setView, locale }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(TournamentMenu);
+export default TournamentMenu;

@@ -10,9 +10,9 @@ import { Id } from "../../const/structuresConst";
 import { AddTeamTextFieldStyled } from "../../styled/styledForm";
 import AddLogo from "../tournaments/create/AddLogo";
 import { TeamCreateData } from "../../models/teamData";
-import { LOCALE } from "../../locale/config";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
 import { ButtonRC } from "../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 type Props = {
   addTeamToTournament: (
@@ -21,14 +21,10 @@ type Props = {
     image: any
   ) => void;
   handleClose: () => void;
-  locale: LOCALE;
 };
 
-const AddTeam: React.FC<Props> = ({
-  addTeamToTournament,
-  handleClose,
-  locale,
-}) => {
+const TeamForm: React.FC<Props> = ({ addTeamToTournament, handleClose }) => {
+  const { locale } = useLocale();
   const { handleSubmit, register, errors } = useForm();
   const { tournamentId } = useParams<{ tournamentId: Id }>();
 
@@ -84,13 +80,6 @@ const AddTeam: React.FC<Props> = ({
     </Rosetta>
   );
 };
-
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
 const mapDispatchToProps = (dispatch: any) => {
   return {
     addTeamToTournament: (tournamentId: Id, team: TeamCreateData, image: any) =>
@@ -98,4 +87,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddTeam);
+export default connect(null, mapDispatchToProps)(TeamForm);

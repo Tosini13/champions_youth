@@ -7,7 +7,6 @@ import {
 
 import { MatchData } from "../../../structures/match";
 import MatchContent from "./MatchContent";
-import { LOCALE } from "../../../locale/config";
 import {
   getImage,
   getImageJustUploaded,
@@ -22,15 +21,10 @@ import {
 
 export interface MatchSummaryProps {
   match: MatchData;
-  locale: LOCALE;
   tournamentId: Id;
 }
 
-const MatchSummary: React.FC<MatchSummaryProps> = ({
-  match,
-  locale,
-  tournamentId,
-}) => {
+const MatchSummary: React.FC<MatchSummaryProps> = ({ match, tournamentId }) => {
   const [imageHome, setImageHome] = useState<any>(null);
   const [imageAway, setImageAway] = useState<any>(null);
 
@@ -68,12 +62,7 @@ const MatchSummary: React.FC<MatchSummaryProps> = ({
         <Logo src={imageHome} size={SIZE_LOGO.md} />
       </HomeLogoContainer>
       <MatchContentContainer>
-        <MatchHeader
-          locale={locale}
-          mode={match.mode}
-          date={match.date}
-          round={match.round}
-        />
+        <MatchHeader mode={match.mode} date={match.date} round={match.round} />
         <MatchContent match={match} />
       </MatchContentContainer>
       <AwayLogoContainer>

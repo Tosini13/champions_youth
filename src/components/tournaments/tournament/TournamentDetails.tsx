@@ -24,7 +24,6 @@ import SplashScreen from "../../global/SplashScreen";
 import { GroupModel } from "../../../NewModels/Group";
 import { Hidden } from "@material-ui/core";
 import TournamentDetailsDesktop from "./TournamentDetailsDesktop";
-import { LOCALE } from "../../../locale/config";
 import TournamentNav from "./nav/TournamentNav";
 import {
   E_TOURNAMENT_MENU,
@@ -32,7 +31,6 @@ import {
 } from "../../../hooks/useTournamentNavs";
 
 type Props = {
-  locale: LOCALE;
   tournament?: TournamentData;
   teams?: TeamData[];
   groups?: Group[];
@@ -45,7 +43,6 @@ type Props = {
 };
 
 const TournamentDetails: React.FC<Props> = ({
-  locale,
   authorId,
   isOwner,
   tournamentId,
@@ -87,10 +84,12 @@ const TournamentDetails: React.FC<Props> = ({
         <Hidden mdUp>
           <SectionStyled>
             <SectionNavStyled>
-              <TournamentNav value={view} setValue={setView} locale={locale} />
+              <TournamentNav value={view} setValue={setView} />
             </SectionNavStyled>
             <SectionContentStyled style={{ padding: "5px" }}>
-              {view === E_TOURNAMENT_MENU.GROUPS && tournament ? (
+              {view === E_TOURNAMENT_MENU.GROUPS &&
+              tournament &&
+              tournamentId ? (
                 <TournamentGroups
                   tournamentId={tournamentId}
                   tournament={tournament}
@@ -103,7 +102,8 @@ const TournamentDetails: React.FC<Props> = ({
               ) : null}
               {view === E_TOURNAMENT_MENU.PLAY_OFFS &&
               tournament &&
-              playOffs ? (
+              playOffs &&
+              tournamentId ? (
                 <TournamentPlayOffs
                   tournamentId={tournamentId}
                   tournament={tournament}
@@ -114,7 +114,7 @@ const TournamentDetails: React.FC<Props> = ({
                   isOwner={isOwner}
                 />
               ) : null}
-              {view === E_TOURNAMENT_MENU.INFO && tournament ? (
+              {view === E_TOURNAMENT_MENU.INFO && tournament && tournamentId ? (
                 <TournamentInfo
                   tournament={tournament}
                   image={image}
@@ -134,7 +134,6 @@ const TournamentDetails: React.FC<Props> = ({
         </Hidden>
         <Hidden smDown>
           <TournamentDetailsDesktop
-            locale={locale}
             authorId={authorId}
             isOwner={isOwner}
             tournamentId={tournamentId}
@@ -186,7 +185,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
     playOffsGroups,
     tournamentId,
     groups,
-    locale: state.dictionary.locale,
   };
 };
 

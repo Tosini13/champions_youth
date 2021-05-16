@@ -12,13 +12,12 @@ import { routerGenerateConst } from "../../const/menuConst";
 import { Id } from "../../const/structuresConst";
 import { matchGame } from "../../store/actions/PlayOffsActions";
 import MatchSummary from "../matches/MatchSummary/MatchSummary";
-import { LOCALE } from "../../locale/config";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
 import useTranslationHelp from "../../hooks/useTranslationHelp";
 import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 type Props = {
-  locale: LOCALE;
   handleClose: () => void;
   open: boolean;
   match?: MatchData;
@@ -28,7 +27,6 @@ type Props = {
 };
 
 const GameDetails: React.FC<Props> = ({
-  locale,
   handleClose,
   open,
   match,
@@ -36,6 +34,7 @@ const GameDetails: React.FC<Props> = ({
   gameId,
   tournamentId,
 }) => {
+  const { locale } = useLocale();
   const { translateRound } = useTranslationHelp();
   const { round: matchRound, number: matchNumber } = translateRound(
     match?.round ?? ""
@@ -47,7 +46,6 @@ const GameDetails: React.FC<Props> = ({
     <DialogRU
       open={open}
       onClose={handleClose}
-      locale={locale}
       title={matchRound}
       matchNumber={matchNumber}
     >
@@ -61,11 +59,7 @@ const GameDetails: React.FC<Props> = ({
                 matchGame.match
               )}
             >
-              <MatchSummary
-                match={match}
-                locale={locale}
-                tournamentId={tournamentId}
-              />
+              <MatchSummary match={match} tournamentId={tournamentId} />
             </LinkStyled>
           ) : null}
           {returnMatch ? (
@@ -79,11 +73,7 @@ const GameDetails: React.FC<Props> = ({
               <DialogTitle>
                 <Translator id={returnMatchRound} /> {returnMatchNumber}
               </DialogTitle>
-              <MatchSummary
-                match={returnMatch}
-                locale={locale}
-                tournamentId={tournamentId}
-              />
+              <MatchSummary match={returnMatch} tournamentId={tournamentId} />
             </LinkStyled>
           ) : null}
         </>

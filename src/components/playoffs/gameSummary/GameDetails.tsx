@@ -6,7 +6,6 @@ import { compose } from "redux";
 import styled from "styled-components";
 import { routerGenerateConst } from "../../../const/menuConst";
 import { Id } from "../../../const/structuresConst";
-import { LOCALE } from "../../../locale/config";
 import { Game } from "../../../models/gameData";
 import { TeamData } from "../../../models/teamData";
 import { MatchData } from "../../../structures/match";
@@ -19,7 +18,6 @@ const GridContainer = styled(Grid)`
 `;
 
 export interface GameDetailsProps {
-  locale: LOCALE;
   tournamentId: Id;
   open: boolean;
   game: Game;
@@ -29,7 +27,6 @@ export interface GameDetailsProps {
 }
 
 const GameDetails: React.FC<GameDetailsProps> = ({
-  locale,
   tournamentId,
   open,
   game,
@@ -49,20 +46,12 @@ const GameDetails: React.FC<GameDetailsProps> = ({
                 match.id
               )}
             >
-              <MatchSummary
-                match={match}
-                locale={locale}
-                tournamentId={tournamentId}
-              />
+              <MatchSummary match={match} tournamentId={tournamentId} />
             </LinkStyled>
           </Grid>
           {returnMatch ? (
             <Grid item xs={12}>
-              <MatchSummary
-                match={returnMatch}
-                locale={locale}
-                tournamentId={tournamentId}
-              />
+              <MatchSummary match={returnMatch} tournamentId={tournamentId} />
             </Grid>
           ) : null}
         </GridContainer>
@@ -96,7 +85,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
         }
       : undefined;
   return {
-    locale: state.dictionary.locale,
     match,
     returnMatch,
     gameId: ownProps.gameId,

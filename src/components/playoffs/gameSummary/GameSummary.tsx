@@ -6,7 +6,6 @@ import {
 } from "../../../styled/styledComponents/match/styledLayout";
 
 import GameContent from "./GameContent";
-import { LOCALE } from "../../../locale/config";
 import {
   getImage,
   getImageJustUploaded,
@@ -28,7 +27,6 @@ import GameDetailsContainer from "./GameDetailsContainer";
 
 export interface GameSummaryProps {
   game: Game;
-  locale: LOCALE;
   tournamentId: Id;
   match?: MatchData;
   returnMatch?: MatchData;
@@ -36,7 +34,6 @@ export interface GameSummaryProps {
 
 const GameSummary: React.FC<GameSummaryProps> = ({
   game,
-  locale,
   tournamentId,
   match,
   returnMatch,
@@ -86,7 +83,7 @@ const GameSummary: React.FC<GameSummaryProps> = ({
             <Logo src={imageHome} size={SIZE_LOGO.md} />
           </HomeLogoContainer>
           <MatchContentContainer>
-            <GameHeader locale={locale} round={game.round} />
+            <GameHeader round={game.round} />
             <GameContent game={game} match={match} returnMatch={returnMatch} />
           </MatchContentContainer>
           <AwayLogoContainer>
@@ -96,7 +93,6 @@ const GameSummary: React.FC<GameSummaryProps> = ({
       </div>
       {openDetails ? (
         <GameDetailsContainer
-          locale={locale}
           tournamentId={tournamentId}
           open={openDetails}
           game={game}
@@ -132,7 +128,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
         }
       : undefined;
   return {
-    locale: state.dictionary.locale,
     match,
     returnMatch,
     gameId: ownProps.gameId,

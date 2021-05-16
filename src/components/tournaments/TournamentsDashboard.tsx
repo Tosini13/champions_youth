@@ -3,14 +3,11 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import moment, { Moment } from "moment";
-import { Rosetta } from "react-rosetta";
 
 import { TournamentData } from "../../models/tournamentData";
 import { routerConstString } from "../../const/menuConst";
 import { UserData } from "../../models/credentialsData";
 import { Id } from "../../const/structuresConst";
-import tournamentDashboardDict from "../../locale/tournamentDashboard";
-import { LOCALE } from "../../locale/config";
 import SplashScreen from "../global/SplashScreen";
 import { Divider, Grid, Hidden } from "@material-ui/core";
 import LeftBottomNav, { LEFT_VIEW } from "../nav/bottomNav/LeftBottomNav";
@@ -79,7 +76,6 @@ type TProps = {
   favoriteTournaments?: TournamentData[];
   history: any;
   location: any;
-  locale: LOCALE;
   selectedDate: Moment;
   setSelectedDate: (menu: Moment) => void;
 };
@@ -132,103 +128,91 @@ class TournamentsDashboard extends Component<TProps, IState> {
     )
       return <SplashScreen />;
     return (
-      <Rosetta
-        translations={tournamentDashboardDict}
-        locale={this.props.locale}
-      >
-        <>
-          <Hidden mdUp>
-            <TournamentSummaryContainer
-              handleRedirectLogin={this.handleRedirectLogin}
-              {...this.props}
-              tournaments={this.handleGetTournamentsView()}
-            />
-          </Hidden>
-          <Hidden smDown>
-            <GridMainContainer container>
-              <Grid item style={{ flexGrow: 1 }}>
-                <GridSideContainer container direction="column">
-                  <GridContent item>
-                    <GridSideContainer
-                      container
-                      direction="column"
-                      wrap="nowrap"
-                    >
-                      <Grid item>
-                        <Grid
-                          container
-                          alignItems="center"
-                          justify="space-between"
-                        >
-                          <DateNav
-                            locale={this.props.locale}
-                            isDateActive={true}
-                            selectedDate={this.props.selectedDate}
-                            handleDateChange={this.handleDateChange}
-                            setSelectedDate={this.props.setSelectedDate}
-                          />
-                          <Grid item xs={1}></Grid>
-                        </Grid>
-                      </Grid>
-                      <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
-                        <TournamentSummaryContainer
-                          handleRedirectLogin={this.handleRedirectLogin}
-                          {...this.props}
-                          tournaments={
-                            this.state.leftView === LEFT_VIEW.TOURNAMENTS
-                              ? tournaments
-                              : liveTournaments
-                          }
+      <>
+        <Hidden mdUp>
+          <TournamentSummaryContainer
+            handleRedirectLogin={this.handleRedirectLogin}
+            {...this.props}
+            tournaments={this.handleGetTournamentsView()}
+          />
+        </Hidden>
+        <Hidden smDown>
+          <GridMainContainer container>
+            <Grid item style={{ flexGrow: 1 }}>
+              <GridSideContainer container direction="column">
+                <GridContent item>
+                  <GridSideContainer container direction="column" wrap="nowrap">
+                    <Grid item>
+                      <Grid
+                        container
+                        alignItems="center"
+                        justify="space-between"
+                      >
+                        <DateNav
+                          isDateActive={true}
+                          selectedDate={this.props.selectedDate}
+                          handleDateChange={this.handleDateChange}
+                          setSelectedDate={this.props.setSelectedDate}
                         />
-                      </GridContent>
-                    </GridSideContainer>
-                  </GridContent>
-                  <Grid item>
-                    <LeftBottomNav
-                      locale={this.props.locale}
-                      value={this.state.leftView}
-                      setValue={(leftView: number) =>
-                        this.setState({
-                          ...this.state,
-                          leftView,
-                        })
-                      }
-                    />
-                  </Grid>
-                </GridSideContainer>
-              </Grid>
-              <Divider orientation="vertical" />
-              <Grid item style={{ flexGrow: 1 }}>
-                <GridSideContainer container direction="column">
-                  <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
-                    <TournamentSummaryContainer
-                      handleRedirectLogin={this.handleRedirectLogin}
-                      {...this.props}
-                      tournaments={
-                        this.state.rightView === RIGHT_VIEW.MY
-                          ? myTournaments
-                          : favoriteTournaments
-                      }
-                    />
-                  </GridContent>
-                  <Grid item>
-                    <RightBottomNav
-                      locale={this.props.locale}
-                      value={this.state.rightView}
-                      setValue={(rightView: number) =>
-                        this.setState({
-                          ...this.state,
-                          rightView,
-                        })
-                      }
-                    />
-                  </Grid>
-                </GridSideContainer>
-              </Grid>
-            </GridMainContainer>
-          </Hidden>
-        </>
-      </Rosetta>
+                        <Grid item xs={1}></Grid>
+                      </Grid>
+                    </Grid>
+                    <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
+                      <TournamentSummaryContainer
+                        handleRedirectLogin={this.handleRedirectLogin}
+                        {...this.props}
+                        tournaments={
+                          this.state.leftView === LEFT_VIEW.TOURNAMENTS
+                            ? tournaments
+                            : liveTournaments
+                        }
+                      />
+                    </GridContent>
+                  </GridSideContainer>
+                </GridContent>
+                <Grid item>
+                  <LeftBottomNav
+                    value={this.state.leftView}
+                    setValue={(leftView: number) =>
+                      this.setState({
+                        ...this.state,
+                        leftView,
+                      })
+                    }
+                  />
+                </Grid>
+              </GridSideContainer>
+            </Grid>
+            <Divider orientation="vertical" />
+            <Grid item style={{ flexGrow: 1 }}>
+              <GridSideContainer container direction="column">
+                <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
+                  <TournamentSummaryContainer
+                    handleRedirectLogin={this.handleRedirectLogin}
+                    {...this.props}
+                    tournaments={
+                      this.state.rightView === RIGHT_VIEW.MY
+                        ? myTournaments
+                        : favoriteTournaments
+                    }
+                  />
+                </GridContent>
+                <Grid item>
+                  <RightBottomNav
+                    value={this.state.rightView}
+                    setValue={(rightView: number) =>
+                      this.setState({
+                        ...this.state,
+                        rightView,
+                      })
+                    }
+                  />
+                </Grid>
+              </GridSideContainer>
+            </Grid>
+          </GridMainContainer>
+        </Hidden>
+      </>
     );
   }
 }
@@ -241,12 +225,8 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const user: UserData | undefined = users?.find((user) => user.id === userId);
   const selectedDate: Moment = state.menu.selectedDate;
 
-  const {
-    tournaments,
-    liveTournaments,
-    myTournaments,
-    favoriteTournaments,
-  } = getFilteredTournaments(allTournaments ?? [], selectedDate, user);
+  const { tournaments, liveTournaments, myTournaments, favoriteTournaments } =
+    getFilteredTournaments(allTournaments ?? [], selectedDate, user);
 
   return {
     tournaments,
@@ -256,7 +236,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
     user,
     menu: state.menu,
     selectedDate,
-    locale: state.dictionary.locale,
   };
 };
 

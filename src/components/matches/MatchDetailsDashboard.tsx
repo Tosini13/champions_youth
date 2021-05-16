@@ -9,11 +9,10 @@ import { Match } from "../../structures/dbAPI/matchData";
 import { Grid } from "@material-ui/core";
 import { Result } from "../../const/structuresConst";
 import matchDict from "../../locale/matchDict";
-import { LOCALE } from "../../locale/config";
 import { ButtonRC } from "../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 type Props = {
-  locale: LOCALE;
   match: Match;
   gameIsFinished?: () => boolean;
   updateMode: (mode: matchModeConst) => void;
@@ -24,7 +23,6 @@ type Props = {
 };
 
 const MatchDetailsDashboard: React.FC<Props> = ({
-  locale,
   match,
   gameIsFinished,
   updateMode,
@@ -33,7 +31,7 @@ const MatchDetailsDashboard: React.FC<Props> = ({
   startMatch,
   finishMatch,
 }) => {
-  console.log(locale);
+  const { locale } = useLocale();
 
   const changeMatchMode = () => {
     switch (match.mode) {
