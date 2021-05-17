@@ -5,7 +5,6 @@ import { Rosetta, Translator } from "react-rosetta";
 import { Grid } from "@material-ui/core";
 
 import { GameStructure } from "../../../../structures/game";
-import MatchSummaryMock from "../../../matches/MatchSummaryMock";
 import { GAME_SIDE } from "../../../../const/playOffsConst";
 import { TeamData } from "../../../../models/teamData";
 import { Group } from "../../../../models/groupData";
@@ -17,6 +16,8 @@ import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import { Placeholder } from "../../../../NewModels/Team";
 import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
+import MatchSummary from "../../../matches/MatchSummary/MatchSummary";
+import { convertMatchStructureToData } from "../../../../structures/match";
 
 type Props = {
   teams?: TeamData[];
@@ -55,7 +56,10 @@ const Choose: React.FC<Props> = ({
     >
       <Rosetta translations={tournamentDetailsDict} locale={locale}>
         <>
-          <MatchSummaryMock match={game.match} locale={locale} />
+          <MatchSummary
+            match={convertMatchStructureToData(game.match)}
+            locale={locale}
+          />
           <Grid container justify="space-around">
             <ButtonRC
               variant={gameSide === GAME_SIDE.HOME ? "contained" : "outlined"}
