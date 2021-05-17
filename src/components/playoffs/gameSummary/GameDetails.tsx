@@ -49,20 +49,12 @@ const GameDetails: React.FC<GameDetailsProps> = ({
                 match.id
               )}
             >
-              <MatchSummary
-                match={match}
-                locale={locale}
-                tournamentId={tournamentId}
-              />
+              <MatchSummary match={match} locale={locale} />
             </LinkStyled>
           </Grid>
           {returnMatch ? (
             <Grid item xs={12}>
-              <MatchSummary
-                match={returnMatch}
-                locale={locale}
-                tournamentId={tournamentId}
-              />
+              <MatchSummary match={returnMatch} locale={locale} />
             </Grid>
           ) : null}
         </GridContainer>

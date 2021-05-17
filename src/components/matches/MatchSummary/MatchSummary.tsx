@@ -19,18 +19,20 @@ import {
   AwayLogoContainer,
   HomeLogoContainer,
 } from "../../../styled/styledComponents/match/styledLogo";
+import { useParams } from "react-router";
+
+type TUrlParams = {
+  tournamentId: Id;
+};
 
 export interface MatchSummaryProps {
   match: MatchData;
   locale: LOCALE;
-  tournamentId: Id;
 }
 
-const MatchSummary: React.FC<MatchSummaryProps> = ({
-  match,
-  locale,
-  tournamentId,
-}) => {
+const MatchSummary: React.FC<MatchSummaryProps> = ({ match, locale }) => {
+  const { tournamentId } = useParams<TUrlParams>();
+
   const [imageHome, setImageHome] = useState<any>(null);
   const [imageAway, setImageAway] = useState<any>(null);
 

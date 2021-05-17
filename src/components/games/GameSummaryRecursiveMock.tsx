@@ -3,10 +3,11 @@ import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
 import { GameStructure } from "../../structures/game";
-import MatchSummaryMock from "../matches/MatchSummaryMock";
 import { LOCALE } from "../../locale/config";
 import tournamentDetailsDict from "../../locale/tournamentDetails";
 import { ButtonRC } from "../../styled/styledComponents/styledButtons";
+import MatchSummary from "../matches/MatchSummary/MatchSummary";
+import { convertMatchStructureToData } from "../../structures/match";
 
 type Props = {
   game: GameStructure;
@@ -24,7 +25,10 @@ const GameSummaryRecursiveMock: React.FC<Props> = ({
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <>
-        <MatchSummaryMock match={game.match} locale={locale} />
+        <MatchSummary
+          match={convertMatchStructureToData(game.match)}
+          locale={locale}
+        />
         {!lastMatch && game.previousMatchHome ? (
           <GameSummaryRecursiveMock
             game={game.previousMatchHome}

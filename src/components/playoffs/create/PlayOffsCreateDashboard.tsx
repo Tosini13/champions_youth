@@ -202,6 +202,7 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
       <PlayOffsCreateBracketMock
         placeMatches={bracket.placeMatches}
         handleOpenTeams={handleOpenTeams}
+        // tournamentId={tournament.id}
       />
       {game ? (
         <Choose

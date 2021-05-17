@@ -34,11 +34,7 @@ const GroupMatchesView: React.SFC<GroupMatchesViewProps> = ({
               key={match.id}
               to={routerGenerateConst.matchGroup(groupId, match.id)}
             >
-              <MatchSummary
-                match={match}
-                locale={locale}
-                tournamentId={tournamentId}
-              />
+              <MatchSummary match={match} locale={locale} />
             </LinkStyled>
           ))}
         </List>
