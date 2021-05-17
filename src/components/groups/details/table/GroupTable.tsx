@@ -11,7 +11,6 @@ import { createTable } from "../../../../structures/groupPromotion";
 import { GroupPlayOffs } from "../../../../store/actions/GroupActions";
 import { GroupPlayOffsGroup } from "../../../../NewModels/Group";
 import { Typography } from "@material-ui/core";
-import { LOCALE } from "../../../../locale/config";
 import groupDetailsDict from "../../../../locale/groupDetails.dict";
 import {
   TableRC,
@@ -20,6 +19,7 @@ import {
   TablePlaceRC,
 } from "../../../../styled/styledComponents/group/styledTable";
 import { parseStyledBoolean } from "../../../../helpers/booleanParser";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 const GroupTableStyled = styled.div`
   margin: 10px 0px;
@@ -52,7 +52,6 @@ const GroupTableStyled = styled.div`
 `;
 
 export interface GroupTableProps {
-  locale: LOCALE;
   teamsDb?: TeamData[];
   teams: TeamData[];
   groupTeams?: GroupTeamModel[];
@@ -62,13 +61,13 @@ export interface GroupTableProps {
 }
 
 const GroupTable: React.FC<GroupTableProps> = ({
-  locale,
   groupTeams,
   teams,
   matches,
   playOffs,
   playOffsGroup,
 }) => {
+  const { locale } = useLocale();
   const teamsId =
     teams.map((team) => team.id) ?? groupTeams?.map((team) => team.id);
 

@@ -38,14 +38,6 @@ export const ButtonStyled = styled(Button)`
   }
 `;
 
-export const ButtonSuccessStyled = styled(ButtonStyled)`
-  color: ${mainTheme.palette.success.main};
-`;
-
-export const ButtonErrorStyled = styled(ButtonStyled)`
-  color: ${mainTheme.palette.error.main};
-`;
-
 export const ButtonInfoStyled = styled(ButtonStyled)`
   color: ${mainTheme.palette.info.main};
 `;

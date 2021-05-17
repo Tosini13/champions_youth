@@ -10,7 +10,6 @@ import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 import DayNavbar from "./TopNav.tsx/DayNavbar";
 import { Grid, Hidden } from "@material-ui/core";
-import { LOCALE } from "../../locale/config";
 import menuDict from "../../locale/menu";
 import {
   CalendarPicker,
@@ -18,6 +17,7 @@ import {
   IconButtonNav,
 } from "../../styled/styledComponents/navigation/styledButtons";
 import styled from "styled-components";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 const NavSideGrid = styled(Grid)`
   min-width: 50px;
@@ -27,7 +27,6 @@ const NavMainGrid = styled(Grid)`
 `;
 
 export interface DateNavProps {
-  locale: LOCALE;
   isDateActive: boolean;
   isHamburgerOpen?: boolean;
   selectedDate: Moment;
@@ -38,7 +37,6 @@ export interface DateNavProps {
 }
 
 const DateNav: React.FC<DateNavProps> = ({
-  locale,
   isDateActive,
   isHamburgerOpen,
   selectedDate,
@@ -47,6 +45,7 @@ const DateNav: React.FC<DateNavProps> = ({
   goBack,
   toggleHamnburgerOpen,
 }) => {
+  const { locale } = useLocale();
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <>

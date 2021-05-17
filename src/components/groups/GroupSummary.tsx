@@ -10,6 +10,7 @@ import { LinkStyled } from "../../styled/styledLayout";
 import {
   GroupHeaderContainer,
   GroupTeamsContainer,
+  GroupTeamSummaryContainer,
 } from "../../styled/styledComponents/group/styledLayout";
 import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
 import GroupTeamSummary from "./GroupTeamSummary";
@@ -32,12 +33,12 @@ const GroupSummary: React.FC<GroupsComponentProps> = ({ group }) => {
             </TypographyPrimaryText>
           </GroupHeaderContainer>
         </Grid>
-        <Grid item>
+        <Grid item style={{ marginTop: "4px" }}>
           <GroupTeamsContainer>
             {group.teams?.map((team) => (
-              <Grid item key={team.id}>
+              <GroupTeamSummaryContainer key={team.id}>
                 <GroupTeamSummary team={team} tournamentId={tournamentId} />
-              </Grid>
+              </GroupTeamSummaryContainer>
             ))}
           </GroupTeamsContainer>
         </Grid>

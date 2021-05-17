@@ -10,10 +10,8 @@ import {
   ListItemTextStyled,
 } from "../../../../../styled/styledBracket";
 import { TeamData } from "../../../../../models/teamData";
-import { LOCALE } from "../../../../../locale/config";
 
 type Props = {
-  locale: LOCALE;
   element: TeamData;
   selected: boolean;
   addToChosenTeams: (chosenTeam: TeamData) => void;
@@ -21,7 +19,6 @@ type Props = {
 };
 
 const PlayOffsChooseListElement: React.FC<Props> = ({
-  locale,
   element,
   selected,
   disabled,

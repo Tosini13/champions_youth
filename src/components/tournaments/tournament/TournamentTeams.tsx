@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
 import { TeamData } from "../../../models/teamData";
-import AddTeam from "../../teams/AddTeam";
+import TeamForm from "../../teams/TeamForm";
 import TeamList from "../../teams/TeamList";
 
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
-import { LOCALE } from "../../../locale/config";
 import { ButtonStyled } from "../../../styled/styledButtons";
 import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
 import {
@@ -15,20 +13,16 @@ import {
   SectionFooterStyled,
   SectionStyled,
 } from "../../../styled/styledLayout";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   teams?: TeamData[];
-  locale: LOCALE;
   isOwner: boolean;
   isCreated: boolean;
 };
 
-const TournamentTeams: React.FC<Props> = ({
-  teams,
-  locale,
-  isOwner,
-  isCreated,
-}) => {
+const TournamentTeams: React.FC<Props> = ({ teams, isOwner, isCreated }) => {
+  const { locale } = useLocale();
   const [opened, setOpened] = useState<boolean>(false);
 
   const handleClose = () => {
@@ -48,9 +42,8 @@ const TournamentTeams: React.FC<Props> = ({
           open={opened}
           color="primary"
           title={"addTeam"}
-          locale={locale}
         >
-          <AddTeam handleClose={handleClose} />
+          <TeamForm handleClose={handleClose} />
         </DialogRU>
         <SectionContentStyled>
           <TeamList teams={teams} isOwner={isOwner} isCreated={isCreated} />
@@ -73,10 +66,4 @@ const TournamentTeams: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(TournamentTeams);
+export default TournamentTeams;

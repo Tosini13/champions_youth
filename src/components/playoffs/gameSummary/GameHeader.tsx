@@ -3,18 +3,18 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import { Grid } from "@material-ui/core";
 
-import { LOCALE } from "../../../locale/config";
 import { MatchHeaderContainer } from "../../../styled/styledComponents/match/styledLayout";
 import useTranslationHelp from "../../../hooks/useTranslationHelp";
 import matchDict from "../../../locale/matchDict";
 import { TypographyMatchHeader } from "../../../styled/styledComponents/match/styledTypography";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 export interface MatchHeaderProps {
   round: string;
-  locale: LOCALE;
 }
 
-const GameHeader: React.FC<MatchHeaderProps> = ({ round, locale }) => {
+const GameHeader: React.FC<MatchHeaderProps> = ({ round }) => {
+  const { locale } = useLocale();
   const { translateRound } = useTranslationHelp();
   const { round: gameRound, number } = translateRound(round);
   return (

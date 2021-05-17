@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import { DialogActions } from "@material-ui/core";
-import { connect } from "react-redux";
-import { LOCALE } from "../../locale/config";
 import notificationsDict from "../../locale/notifications.dict";
 import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
 import { ButtonRC } from "../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 export type Answer = {
   title: string;
@@ -28,11 +27,10 @@ export const useNotification = () => {
   };
 };
 
-export interface NotificationProps {
-  locale: LOCALE;
-}
+export interface NotificationProps {}
 
-const Notification: React.FC<NotificationProps> = ({ locale }) => {
+const Notification: React.FC<NotificationProps> = () => {
+  const { locale } = useLocale();
   const [open, setOpen] = useState<boolean>(false);
   const [question, setQuestion] = useState<string>("");
   const [answers, setAnswers] = useState<Answer[] | undefined>();
@@ -55,7 +53,6 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
         keepMounted
         color="primary"
         onClose={handleClose}
-        locale={locale}
         title={question}
       >
         <DialogActions>
@@ -78,10 +75,4 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(Notification);
+export default Notification;

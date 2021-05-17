@@ -1,7 +1,6 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { LOCALE } from "../../../locale/config";
 import menuDict from "../../../locale/menu";
 import { bottomMenuConst } from "../../../const/menuConst";
 import {
@@ -9,6 +8,7 @@ import {
   TabRC,
   TabsContainer,
 } from "../../../styled/styledComponents/navigation/styledTabs";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 export enum LEFT_VIEW {
   "TOURNAMENTS" = 0,
@@ -16,14 +16,14 @@ export enum LEFT_VIEW {
 }
 
 export default function LeftBottomNav({
-  locale,
   value,
   setValue,
 }: {
-  locale: LOCALE;
   value: number;
   setValue: (value: number) => void;
 }) {
+  const { locale } = useLocale();
+
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };

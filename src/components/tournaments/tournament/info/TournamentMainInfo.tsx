@@ -11,17 +11,16 @@ import {
 } from "@material-ui/icons";
 
 import { TypographyPrimaryText } from "../../../../styled/styledComponents/styledTypography";
-import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import TournamentInfoLocation from "./TournamentInfoLocation";
 import Share from "../../../share/Share";
 import { Id } from "../../../../const/structuresConst";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 export interface TournamentMainInfoProps {
   date?: string | Moment;
   city?: string;
   address?: string;
-  locale: LOCALE;
   tournamentId: Id;
 }
 
@@ -29,9 +28,9 @@ const TournamentMainInfo: React.FC<TournamentMainInfoProps> = ({
   date,
   city,
   address,
-  locale,
   tournamentId,
 }) => {
+  const { locale } = useLocale();
   const [openShare, setOpenShare] = useState<boolean>(false);
 
   const infos = [
@@ -77,7 +76,6 @@ const TournamentMainInfo: React.FC<TournamentMainInfoProps> = ({
           </InfoItem>
         </Grid>
         <Share
-          locale={locale}
           open={openShare}
           handleClose={() => setOpenShare(false)}
           message={`${process.env.REACT_APP_URL}/tournament/${tournamentId}`}

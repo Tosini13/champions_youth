@@ -12,10 +12,10 @@ import {
 import { WhatsApp, FileCopy } from "@material-ui/icons";
 
 import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
-import { LOCALE } from "../../locale/config";
 import shareDict from "../../locale/shareDict.dict";
 import { AStyled } from "../../styled/styledLayout";
 import { mainTheme } from "../../styled/styledConst";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 const TypographyCopiedStyled = styled(Typography)`
   color: ${mainTheme.palette.primary.light};
@@ -23,18 +23,13 @@ const TypographyCopiedStyled = styled(Typography)`
 `;
 
 export interface ShareProps {
-  locale: LOCALE;
   message: string;
   open: boolean;
   handleClose: () => void;
 }
 
-const Share: React.FC<ShareProps> = ({
-  locale,
-  message,
-  open,
-  handleClose,
-}) => {
+const Share: React.FC<ShareProps> = ({ message, open, handleClose }) => {
+  const { locale } = useLocale();
   const [copied, setCopied] = useState<boolean>(false);
 
   useEffect(() => {
@@ -43,7 +38,7 @@ const Share: React.FC<ShareProps> = ({
     }
   }, [open]);
   return (
-    <DialogRU open={open} onClose={handleClose} title="share" locale={locale}>
+    <DialogRU open={open} onClose={handleClose} title="share">
       <Rosetta translations={shareDict} locale={locale}>
         <List>
           <ListItem button>

@@ -11,24 +11,23 @@ import {
   SectionStyled,
   SectionFooterStyled,
 } from "../../../../styled/styledLayout";
-import { LOCALE } from "../../../../locale/config";
 import groupDetailsDict from "../../../../locale/groupDetails.dict";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 import { TypographyPrimaryText } from "../../../../styled/styledComponents/styledTypography";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 export interface GroupTableViewProps {
-  locale: LOCALE;
   group: GroupModel;
   handleFinishGroup?: () => void;
   handleContinueGroup?: () => void;
 }
 
 const GroupTableView: React.FC<GroupTableViewProps> = ({
-  locale,
   group,
   handleFinishGroup,
   handleContinueGroup,
 }) => {
+  const { locale } = useLocale();
   // TODO: REMOVE BUTTONS WHEN THERE'S NO PLAYOFFS - OR SET WINNERS
   return (
     <Rosetta translations={groupDetailsDict} locale={locale}>
@@ -40,7 +39,6 @@ const GroupTableView: React.FC<GroupTableViewProps> = ({
         </SectionNavStyled>
         <SectionContentStyled>
           <GroupTable
-            locale={locale}
             groupTeams={group.groupTeams}
             matches={group.matches}
             teams={group.teams}

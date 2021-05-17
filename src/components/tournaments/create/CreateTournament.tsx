@@ -27,10 +27,14 @@ import CreateTournamentLocation from "./Location";
 import VerticalStepper from "./VerticalStepper";
 import { setBack } from "../../../store/actions/MenuActions";
 import AddLogo from "./AddLogo";
-import { LOCALE } from "../../../locale/config";
 import createTournamentDict from "../../../locale/createTournament.dict";
 import { getImage, getImageJustUploaded } from "../actions/getImage";
 import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../Provider/LocaleProvider";
+import {
+  SectionContentStyled,
+  SectionStyled,
+} from "../../../styled/styledLayout";
 
 export type BasicInfoDataForm = {
   name: string;
@@ -48,7 +52,6 @@ type Props = {
   createTournament: (data: TournamentCreateData, image?: any) => void;
   updateTournament: (data: TupdateTournament) => void;
   setBack: (route: routerConstString) => void;
-  locale: LOCALE;
   tournamentData?: TournamentData;
 };
 
@@ -56,9 +59,9 @@ const CreateTournament: React.FC<Props> = ({
   createTournament,
   updateTournament,
   setBack,
-  locale,
   tournamentData,
 }) => {
+  const { locale } = useLocale();
   const history = useHistory();
   const { handleSubmit, register, errors, trigger } = useForm<FormModel>({
     defaultValues: tournamentData
@@ -71,9 +74,8 @@ const CreateTournament: React.FC<Props> = ({
       : {},
   });
 
-  const [currentInputs, setCurrentInputs] = useState<
-    string | string[] | undefined
-  >();
+  const [currentInputs, setCurrentInputs] =
+    useState<string | string[] | undefined>();
 
   const handleTrigger = async () => {
     await trigger(currentInputs);
@@ -191,21 +193,19 @@ const CreateTournament: React.FC<Props> = ({
   };
 
   return (
-    <FormStyled onSubmit={handleSubmit(() => {})}>
-      <VerticalStepper
-        locale={locale}
-        getStepContent={getStepContent}
-        errors={errors}
-        handleTrigger={handleTrigger}
-      />
-    </FormStyled>
+    <SectionStyled>
+      <SectionContentStyled>
+        <FormStyled onSubmit={handleSubmit(() => {})}>
+          <VerticalStepper
+            locale={locale}
+            getStepContent={getStepContent}
+            errors={errors}
+            handleTrigger={handleTrigger}
+          />
+        </FormStyled>
+      </SectionContentStyled>
+    </SectionStyled>
   );
-};
-
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -217,4 +217,4 @@ const mapDispatchToProps = (dispatch: any) => {
     setBack: (route: routerConstString) => dispatch(setBack(route)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(CreateTournament);
+export default connect(null, mapDispatchToProps)(CreateTournament);

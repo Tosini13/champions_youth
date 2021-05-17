@@ -1,11 +1,9 @@
 import React from "react";
 import { Rosetta } from "react-rosetta";
-import { connect } from "react-redux";
 
 import { Grid, Typography } from "@material-ui/core";
 import styled from "styled-components";
 import { matchModeConst } from "../../../const/matchConst";
-import { LOCALE } from "../../../locale/config";
 import matchDict from "../../../locale/matchDict";
 import { styledColors } from "../../../styled/themes/other";
 import { parseStyledBoolean } from "../../../helpers/booleanParser";
@@ -18,6 +16,7 @@ import {
   GuestName,
   ResultTypographyStyled,
 } from "../../matches/MatchSummary/MatchContent";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 const ResultReturnMatchTypographyStyled = styled(Typography)<{
   islive?: string;
@@ -34,17 +33,16 @@ const ResultReturnMatchTypographyStyled = styled(Typography)<{
 
 export interface MatchContentProps {
   game: Game;
-  locale: LOCALE;
   match?: MatchData;
   returnMatch?: MatchData;
 }
 
 const GameContent: React.FC<MatchContentProps> = ({
   game,
-  locale,
   match,
   returnMatch,
 }) => {
+  const { locale } = useLocale();
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <>
@@ -89,12 +87,7 @@ const GameContent: React.FC<MatchContentProps> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-export default connect(mapStateToProps)(GameContent);
+export default GameContent;
 
 type TResultProps = {
   home?: number;

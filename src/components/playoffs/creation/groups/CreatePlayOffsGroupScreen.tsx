@@ -6,7 +6,6 @@ import { Grid } from "@material-ui/core";
 import { GroupsContentContainerStyled } from "../../../../styled/styledLayout";
 import useCreateGroup from "../../../../hooks/useCreateGroup";
 import { GroupModel, GroupPlayOffsGroup } from "../../../../NewModels/Group";
-import { LOCALE } from "../../../../locale/config";
 import { Id } from "../../../../const/structuresConst";
 import { MatchTime } from "../../../../NewModels/Matches";
 import { useNotification } from "../../../global/Notification";
@@ -33,7 +32,6 @@ export interface CreatePlayOffsGroupScreenProps {
   startDate: string;
   teamsQtt: number;
   createGroup: (tournamentId: Id, group: GroupModel) => void;
-  locale: LOCALE;
   userId: Id;
   updateGroupPromoted: ({
     tournamentId,
@@ -55,7 +53,6 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   startDate,
   teamsQtt,
   createGroup,
-  locale,
   userId,
   updateGroupPromoted,
 }) => {
@@ -66,9 +63,8 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     returnMatches: false,
     fields: 1,
   });
-  const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
-    undefined
-  );
+  const [chosenGroup, setChosenGroup] =
+    useState<GroupModel | undefined>(undefined);
   const [chosenTeams, setChosenTeams] = useState<NewPlaceholder[]>([]);
   const [groups, setGroups] = useState<GroupModel[]>([]);
 
@@ -276,7 +272,6 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
             return (
               <Grid item key={group.id} xs={12} md={6} lg={4}>
                 <CreateGroupForm
-                  locale={locale}
                   userId={userId}
                   group={group}
                   handleOpenTeams={handleOpenTeams}
@@ -301,7 +296,6 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         handleChooseGroupTeam={handleChooseTeam}
       />
       <GroupSettings
-        locale={locale}
         open={openSettings}
         handleClose={handleCloseSettings}
         settings={settings}

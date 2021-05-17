@@ -1,18 +1,13 @@
 import React from "react";
 import { Options } from "../../../structures/bracket";
-import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
-import {
-  ButtonErrorStyled,
-  ButtonHorizontalContainerStyled,
-  ButtonSuccessStyled,
-} from "../../../styled/styledButtons";
+import { ButtonHorizontalContainerStyled } from "../../../styled/styledButtons";
 import PlayOffsChooseLastMatchPlace from "./options/PlayOffsChooseLastMatchPlace";
 import PlayOffsChooseRound from "./options/PlayOffsChooseRound";
-import { LOCALE } from "../../../locale/config";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
 import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   toggleCreate: () => void;
@@ -22,7 +17,6 @@ type Props = {
   setPlaceMatchesQtt: (placeMatchesQtt: number) => void;
   setAutoTeams: () => void;
   submitBracket: () => void;
-  locale: LOCALE;
 };
 
 const PlayOffsCreateMenu: React.FC<Props> = ({
@@ -33,26 +27,18 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
   setAutoTeams,
   submitBracket,
   maxRounds,
-  locale,
 }) => {
+  const { locale } = useLocale();
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <>
         <ButtonHorizontalContainerStyled>
-          <ButtonErrorStyled
-            variant="outlined"
-            color="secondary"
-            onClick={toggleCreate}
-          >
+          <ButtonRC onClick={toggleCreate}>
             <Translator id="cancel" />
-          </ButtonErrorStyled>
-          <ButtonSuccessStyled
-            variant="outlined"
-            color="secondary"
-            onClick={submitBracket}
-          >
+          </ButtonRC>
+          <ButtonRC onClick={submitBracket}>
             <Translator id="create" />
-          </ButtonSuccessStyled>
+          </ButtonRC>
         </ButtonHorizontalContainerStyled>
         <ButtonRC onClick={setAutoTeams}>
           <Translator id="draw" />
@@ -71,10 +57,4 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(PlayOffsCreateMenu);
+export default PlayOffsCreateMenu;

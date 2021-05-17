@@ -8,8 +8,6 @@ import styled from "styled-components";
 import { mainTheme } from "../../../../styled/styledConst";
 import { useForm } from "react-hook-form";
 import { TextFieldStyled } from "../../../../styled/styledForm";
-import groupCreationDict from "../../../../locale/creationNav.dict.";
-import { LOCALE } from "../../../../locale/config";
 import { useNotification } from "../../../global/Notification";
 import { Id } from "../../../../const/structuresConst";
 import { GroupModel } from "../../../../NewModels/Group";
@@ -17,6 +15,8 @@ import MatchSummaryMock from "./MatchSummaryMock";
 import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
 import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../../Provider/LocaleProvider";
+import groupCreationDict from "../../../../locale/creationNav.dict.";
 
 const GridContainer = styled(Grid)`
   border-radius: 5px;
@@ -44,7 +44,6 @@ export interface CreateGroupFormProps {
   handleOpenTeams: (group: GroupModel) => void;
   handleRemoveGroup: (selected: GroupModel) => void;
   handleUpdateGroup: (updatedGroup: GroupModel) => void;
-  locale: LOCALE;
   userId: Id;
 }
 
@@ -53,10 +52,10 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
   handleOpenTeams,
   handleRemoveGroup,
   handleUpdateGroup,
-  locale,
   userId,
   children,
 }) => {
+  const { locale } = useLocale();
   const [open, setOpen] = useState<boolean>(false);
   const { openNotification, setQuestion, setAnswers } = useNotification();
   const { handleSubmit, register, errors, getValues } = useForm<GroupModel>({
@@ -144,12 +143,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
           >
             <DeleteOutlineIcon />
           </DeleteIconButton>
-          <DialogRU
-            open={open}
-            onClose={handleClose}
-            title="matches"
-            locale={locale}
-          >
+          <DialogRU open={open} onClose={handleClose} title="matches">
             <GridMatchesContainer container direction="column">
               {group.matches?.map((match) => {
                 const homePlaceholder = group.groupTeams?.find(
@@ -174,7 +168,7 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
                 }
                 return (
                   <Grid item key={match.id}>
-                    <MatchSummaryMock match={match} locale={locale} />
+                    <MatchSummaryMock match={match} />
                   </Grid>
                 );
               })}

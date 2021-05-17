@@ -36,8 +36,9 @@ export const mainTheme = createMuiTheme({
 });
 
 export const darkThemeGradient = {
-  dark:
-    "linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(2, 105, 226, 0.8) 27.08%, #0269E2 52.08%, rgba(2, 105, 226, 0.8) 77.6%, rgba(0, 22, 38, 0.15) 100%)",
+  dark: "linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(2, 105, 226, 0.8) 27.08%, #0269E2 52.08%, rgba(2, 105, 226, 0.8) 77.6%, rgba(0, 22, 38, 0.15) 100%)",
   light:
     "linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(46, 102, 134, 0.8) 27.08%, #2E6686 52.08%, rgba(46, 102, 134, 0.8) 77.6%, rgba(0, 22, 38, 0.15) 100%)",
+  transparent:
+    "linear-gradient(90deg, rgba(0, 22, 38, 0.15) 0%, rgba(0,0,0, 0.6) 27.08%, rgba(0,0,0, 0.6) 52.08%, rgba(0,0,0, 0.6) 77.6%, rgba(0, 22, 38, 0.15) 100%)",
 };

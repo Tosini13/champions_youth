@@ -1,29 +1,28 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { connect } from "react-redux";
 import { PlaceLabel } from "./MatchSummaryMock";
 import matchDict from "../../locale/matchDict";
 import { isNumber } from "util";
-import { LOCALE } from "../../locale/config";
 import { TeamData } from "../../models/teamData";
 import { Placeholder } from "../../NewModels/Team";
 import useTranslationHelp from "../../hooks/useTranslationHelp";
 import { Typography } from "@material-ui/core";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 export interface ShowTeamProps {
-  team?: TeamData;
+  team?: TeamData | null;
   placeholder?: Placeholder;
-  locale: LOCALE;
+  color?: string;
 }
-const ShowTeam: React.FC<ShowTeamProps> = ({ team, placeholder, locale }) => {
+const ShowTeam: React.FC<ShowTeamProps> = ({ team, placeholder, color }) => {
+  const { locale } = useLocale();
   const { translateRound } = useTranslationHelp();
   const { round, number } = translateRound(placeholder?.name ?? "");
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <Typography
-        color="secondary"
-        style={{ color: "white", fontSize: "0.9rem" }}
+        style={{ color: color ? color : "white", fontSize: "0.9rem" }}
       >
         {team ? (
           team.name
@@ -49,9 +48,4 @@ const ShowTeam: React.FC<ShowTeamProps> = ({ team, placeholder, locale }) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-export default connect(mapStateToProps)(ShowTeam);
+export default ShowTeam;

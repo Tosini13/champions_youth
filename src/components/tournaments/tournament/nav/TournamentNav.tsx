@@ -1,7 +1,5 @@
 import React from "react";
 
-import { LOCALE } from "../../../../locale/config";
-
 import { Rosetta, Translator } from "react-rosetta";
 
 import menuDict from "../../../../locale/menu";
@@ -13,16 +11,16 @@ import {
   E_TOURNAMENT_MENU,
   useTournamentNav,
 } from "../../../../hooks/useTournamentNavs";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 export default function TournamentNav({
-  locale,
   value,
   setValue,
 }: {
-  locale: LOCALE;
   value: E_TOURNAMENT_MENU;
   setValue: (value: E_TOURNAMENT_MENU) => void;
 }) {
+  const { locale } = useLocale();
   const { setLocalStorageTournamentNav } = useTournamentNav();
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {

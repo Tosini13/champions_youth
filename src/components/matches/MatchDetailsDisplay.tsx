@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import { Rosetta, Translator } from "react-rosetta";
-import { connect } from "react-redux";
 
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, useTheme } from "@material-ui/core";
 import { matchModeConst } from "../../const/matchConst";
 import { Id } from "../../const/structuresConst";
 
@@ -11,30 +10,31 @@ import { Match } from "../../structures/dbAPI/matchData";
 import {
   MatchDisplayTeamNameStyled,
   MatchDisplayResultGoalStyled,
-  LiveMarkStyled,
 } from "../../styled/styledMatch";
+
+import { TypographyLiveMatchHeader } from "../../styled/styledComponents/match/styledTypography";
+
 import Logo, { SIZE_LOGO } from "../global/Logo";
 import {
   getImage,
   getImageJustUploaded,
 } from "../tournaments/actions/getImage";
 import matchDict from "../../locale/matchDict";
-import { LOCALE } from "../../locale/config";
 import ShowTeam from "./ShowTeam";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 export interface MatchDetailsDisplayProps {
   match: Match;
   tournamentId: Id;
   authorId: Id;
-  locale: LOCALE;
 }
 
 const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
   match,
   tournamentId,
   authorId,
-  locale,
 }) => {
+  const { locale } = useLocale();
   const [imageHome, setImageHome] = useState<any>(null);
   const [imageAway, setImageAway] = useState<any>(null);
 
@@ -68,6 +68,8 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
 
   const isStarted: boolean = match.mode !== matchModeConst.notStarted;
 
+  const theme = useTheme();
+  console.log(theme);
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <Grid container alignItems="center" style={{ paddingTop: "10px" }}>
@@ -78,6 +80,7 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
               <ShowTeam
                 team={match.home}
                 placeholder={match?.placeholder?.home}
+                color={theme.palette.text.primary}
               />
             </MatchDisplayTeamNameStyled>
           </Grid>
@@ -90,9 +93,11 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
             alignItems="center"
           >
             <Grid item>
-              <LiveMarkStyled live={match.mode === matchModeConst.live}>
+              <TypographyLiveMatchHeader
+                isLive={match.mode === matchModeConst.live}
+              >
                 <Translator id="live" />
-              </LiveMarkStyled>
+              </TypographyLiveMatchHeader>
             </Grid>
             <Grid item>
               <Grid container justify="center" alignItems="center">
@@ -123,6 +128,7 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
                 <ShowTeam
                   team={match.away}
                   placeholder={match?.placeholder?.away}
+                  color={theme.palette.text.primary}
                 />
               </MatchDisplayTeamNameStyled>
             </Grid>
@@ -133,9 +139,4 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-export default connect(mapStateToProps)(MatchDetailsDisplay);
+export default MatchDetailsDisplay;

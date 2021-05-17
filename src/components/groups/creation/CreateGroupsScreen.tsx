@@ -15,7 +15,6 @@ import ChooseTeams from "./GroupForm/ChooseTeams";
 import { shuffle } from "../../playoffs/create/PlayOffsCreateDashboard";
 import useCreateGroup from "../../../hooks/useCreateGroup";
 import { GroupModel } from "../../../NewModels/Group";
-import { LOCALE } from "../../../locale/config";
 import { Id } from "../../../const/structuresConst";
 import { MatchTime } from "../../../NewModels/Matches";
 import GroupSettings from "./GroupSettings";
@@ -32,7 +31,6 @@ const GridContainer = styled(Grid)`
 
 export interface CreateGroupsScreenProps {
   teams?: TeamData[];
-  locale: LOCALE;
   userId: Id;
   tournamentId: Id;
   tournament: TournamentModel;
@@ -48,7 +46,6 @@ export type SettingType = {
 
 const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   teams,
-  locale,
   userId,
   tournamentId,
   tournament,
@@ -65,9 +62,8 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     returnMatches: false,
     fields: 1,
   });
-  const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
-    undefined
-  );
+  const [chosenGroup, setChosenGroup] =
+    useState<GroupModel | undefined>(undefined);
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
   const [groups, setGroups] = useState<GroupModel[]>([]);
 
@@ -233,7 +229,6 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
             return (
               <Grid item key={group.id} xs={12} md={6} lg={4}>
                 <CreateGroupForm
-                  locale={locale}
                   userId={userId}
                   group={group}
                   handleOpenTeams={handleOpenTeams}
@@ -253,6 +248,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
       </GroupsContentContainerStyled>
       <CreateGroupsActions add={handleAddGroup} draw={handleDrawGroup} />
       <ChooseTeams
+        userId={userId}
         tournamentId={tournamentId}
         teams={teams}
         chosenGroup={chosenGroup}
@@ -263,7 +259,6 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         handleChooseGroupTeam={handleChooseTeam}
       />
       <GroupSettings
-        locale={locale}
         open={openSettings}
         handleClose={handleCloseSettings}
         settings={settings}
@@ -285,7 +280,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
     teams,
     tournamentId,
     tournament,
-    locale: state.dictionary.locale,
     userId: state.firebase.auth.uid,
     doesGroupsExist: Boolean(state.firestore.ordered.groups?.length),
   };

@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
 import FormLabel from "@material-ui/core/FormLabel";
@@ -8,22 +7,21 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import { BracketNavSelectStyled } from "../../../../styled/styledBracket";
 import { Options } from "../../../../structures/bracket";
-import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import { SelectStyled } from "../../../../styled/styledForm";
 import { style } from "./PlayOffsChooseRound";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 type Props = {
   options: Options;
   setPlaceMatchesQtt: (placeMatchesQtt: number) => void;
-  locale: LOCALE;
 };
 
 const PlayOffsChooseLastMatchPlace: React.FC<Props> = ({
   options,
   setPlaceMatchesQtt,
-  locale,
 }) => {
+  const { locale } = useLocale();
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const placeMatchesQtt = event.target.value as number;
     if (options.rounds && placeMatchesQtt < options.rounds * 2) {
@@ -68,10 +66,4 @@ const PlayOffsChooseLastMatchPlace: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(PlayOffsChooseLastMatchPlace);
+export default PlayOffsChooseLastMatchPlace;

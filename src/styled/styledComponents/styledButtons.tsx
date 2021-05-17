@@ -29,33 +29,21 @@ export const IconButtonRC: React.FC<IconButtonProps> = ({
 
 const ButtonStyled = styled(Button)<{
   gradient: string;
-  specialColor: string;
+  buttoncolor: string;
 }>`
-  // border-color: ${(props) => props.specialColor};
-  // color: ${(props) => props.specialColor};
-
-  background-color: ${(props) => props.specialColor};
-
-  // color: wheat;
-  // color: ${(props) => props.theme.palette.text.primary};
-  // background: ${(props) => props.gradient};
-  // width: fit-content;
-  // padding: 5px 15px;
-  // border-radius: 5px;
-  // border: 0.3px solid ${(props) => props.theme.palette.primary.dark};
-  // box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-  //   0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+  border-color: ${(props) => props.buttoncolor};
+  color: ${(props) => props.buttoncolor};
 `;
 
 export const ButtonRC: React.FC<ButtonProps> = ({ children, ...props }) => {
   const theme = useTheme();
-  const { lightGradient, specialColor } = useColors();
+  const { lightGradient, buttonColor } = useColors();
   return (
     <ButtonStyled
       gradient={lightGradient}
-      specialColor={specialColor}
+      buttoncolor={buttonColor}
       theme={theme}
-      variant={"contained"}
+      variant="outlined"
       {...props}
     >
       {children}

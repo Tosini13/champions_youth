@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
 import { Button, Grid, IconButton, Hidden } from "@material-ui/core";
@@ -8,10 +7,10 @@ import AutorenewIcon from "@material-ui/icons/Autorenew";
 import AddIcon from "@material-ui/icons/Add";
 
 import styled from "styled-components";
-import { LOCALE } from "../../../locale/config";
 import groupCreationDict from "../../../locale/creationNav.dict.";
 import { mainTheme } from "../../../styled/styledConst";
 import { useNotification } from "../../global/Notification";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 const GridContainer = styled(Grid)`
   padding: 4px;
@@ -35,19 +34,18 @@ export interface CreationNavProps {
   cancel: () => void;
   save: () => void;
   openSettings: () => void;
-  locale: LOCALE;
   add: () => void;
   draw: () => void;
 }
 
 const CreationNav: React.FC<CreationNavProps> = ({
-  locale,
   cancel,
   save,
   openSettings,
   add,
   draw,
 }) => {
+  const { locale } = useLocale();
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const handleSave = () => {
     setQuestion("doCreateGroups");
@@ -119,10 +117,4 @@ const CreationNav: React.FC<CreationNavProps> = ({
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(CreationNav);
+export default CreationNav;

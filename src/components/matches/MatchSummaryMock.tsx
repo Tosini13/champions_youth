@@ -9,12 +9,12 @@ import {
   MatchRoundDateStyled,
 } from "../../styled/styledMatch";
 import { MatchData, MatchStructure } from "../../structures/match";
-import { LOCALE } from "../../locale/config";
 import matchDict from "../../locale/matchDict";
 import styled from "styled-components";
 import ShowTeam from "./ShowTeam";
 import useTranslationHelp from "../../hooks/useTranslationHelp";
 import { Typography } from "@material-ui/core";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 export const PlaceLabel = styled.span`
   margin-left: 2px;
@@ -22,10 +22,10 @@ export const PlaceLabel = styled.span`
 
 type Props = {
   match: MatchStructure | MatchData;
-  locale: LOCALE;
 };
 
-const MatchSummaryMock: React.FC<Props> = ({ match, locale }) => {
+const MatchSummaryMock: React.FC<Props> = ({ match }) => {
+  const { locale } = useLocale();
   const { translateRound } = useTranslationHelp();
   const { round, number } = translateRound(match.round);
   return (

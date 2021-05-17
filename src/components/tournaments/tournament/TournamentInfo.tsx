@@ -12,7 +12,6 @@ import { Id } from "../../../const/structuresConst";
 import { deleteTournament } from "../../../store/actions/TournamentActions";
 import { connect } from "react-redux";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
-import { LOCALE } from "../../../locale/config";
 import { setInProgress } from "../../global/InProgress";
 import { useHistory } from "react-router-dom";
 import {
@@ -29,6 +28,7 @@ import {
   SectionFooterStyled,
   SectionStyled,
 } from "../../../styled/styledLayout";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   tournament: TournamentData;
@@ -38,7 +38,6 @@ type Props = {
     callBackSuccess?: () => void,
     callBackError?: () => void
   ) => void;
-  locale: LOCALE;
   isOwner: boolean;
   tournamentId: Id;
 };
@@ -48,10 +47,10 @@ const TournamentInfo: React.FC<Props> = ({
   deleteTournament,
   children,
   image,
-  locale,
   isOwner,
   tournamentId,
 }) => {
+  const { locale } = useLocale();
   const [openShare, setOpenShare] = useState<boolean>(false);
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const history = useHistory();
@@ -95,7 +94,6 @@ const TournamentInfo: React.FC<Props> = ({
                 date={tournament.date}
                 city={tournament.city}
                 address={tournament.address}
-                locale={locale}
                 tournamentId={tournamentId}
               />
             </MainContainerContentStyled>
@@ -127,19 +125,12 @@ const TournamentInfo: React.FC<Props> = ({
         </SectionStyled>
       </Rosetta>
       <Share
-        locale={locale}
         open={openShare}
         handleClose={() => setOpenShare(false)}
         message={`${process.env.REACT_APP_URL}/tournament/${tournamentId}`}
       />
     </>
   );
-};
-
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -151,4 +142,4 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(deleteTournament(tournament, callBackSuccess, callBackError)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(TournamentInfo);
+export default connect(null, mapDispatchToProps)(TournamentInfo);

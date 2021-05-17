@@ -5,7 +5,6 @@ import { Rosetta, Translator } from "react-rosetta";
 import { Grid } from "@material-ui/core";
 
 import { matchModeConst } from "../../../const/matchConst";
-import { LOCALE } from "../../../locale/config";
 import { MatchHeaderContainer } from "../../../styled/styledComponents/match/styledLayout";
 import useTranslationHelp from "../../../hooks/useTranslationHelp";
 import matchDict from "../../../locale/matchDict";
@@ -13,20 +12,16 @@ import {
   TypographyLiveMatchHeader,
   TypographyMatchHeader,
 } from "../../../styled/styledComponents/match/styledTypography";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 export interface MatchHeaderProps {
   mode: matchModeConst;
   round: string;
   date?: Moment;
-  locale: LOCALE;
 }
 
-const MatchHeader: React.FC<MatchHeaderProps> = ({
-  mode,
-  round,
-  date,
-  locale,
-}) => {
+const MatchHeader: React.FC<MatchHeaderProps> = ({ mode, round, date }) => {
+  const { locale } = useLocale();
   const { translateRound } = useTranslationHelp();
   const { round: matchRound, number } = translateRound(round);
   return (
