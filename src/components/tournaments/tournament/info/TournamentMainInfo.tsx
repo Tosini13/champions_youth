@@ -70,11 +70,13 @@ const TournamentMainInfo: React.FC<TournamentMainInfoProps> = ({
             <InfoItem icon={info.icon}>{info.content}</InfoItem>
           </Grid>
         ))}
-        <Grid item>
-          <InfoItem icon={<Place />}>
-            <TournamentInfoLocation city={city} address={address} />
-          </InfoItem>
-        </Grid>
+        {city && address ? (
+          <Grid item>
+            <InfoItem icon={<Place />}>
+              <TournamentInfoLocation city={city} address={address} />
+            </InfoItem>
+          </Grid>
+        ) : null}
         <Share
           open={openShare}
           handleClose={() => setOpenShare(false)}
