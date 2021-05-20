@@ -1,8 +1,12 @@
 import React from "react";
-import { Grid, IconButton } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import { StarBorder, Star, Favorite } from "@material-ui/icons";
 import styled from "styled-components";
+import {
+  FavoriteIconButton,
+  MyIconButton,
+} from "../../../styled/styledComponents/tournament/summary/styledActions";
 
 const GridContainer = styled(Grid)`
   position: absolute;
@@ -25,19 +29,19 @@ const TournamentSummaryActions: React.FC<TournamentSummaryActionsProps> = ({
   return (
     <GridContainer container direction="column">
       <Grid item>
-        <IconButton aria-label="star" onClick={handleToggleFavorites}>
+        <FavoriteIconButton aria-label="star" onClick={handleToggleFavorites}>
           {isFavorite ? (
-            <Star fontSize="small" color="secondary" />
+            <Star fontSize="small" />
           ) : (
             <StarBorder fontSize="small" color="secondary" />
           )}
-        </IconButton>
+        </FavoriteIconButton>
       </Grid>
       <Grid item>
         {isMy ? (
-          <IconButton aria-label="star">
-            <Favorite fontSize="small" color="secondary" />
-          </IconButton>
+          <MyIconButton aria-label="star">
+            <Favorite fontSize="small" />
+          </MyIconButton>
         ) : null}
       </Grid>
     </GridContainer>
