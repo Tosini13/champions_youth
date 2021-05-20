@@ -6,9 +6,9 @@ import { Redirect } from "react-router-dom";
 import {
   FormStyled,
   TextFieldContainerStyled,
-  TextFieldStyled,
+  TextFieldRC,
   ErrorTextContainerStyled,
-} from "../../styled/styledForm";
+} from "../../styled/styledComponents/styledForm";
 import { Credentials } from "../../models/credentialsData";
 import { signIn } from "../../store/actions/AuthActions";
 import { routerConstString } from "../../const/menuConst";
@@ -34,7 +34,7 @@ const SignIn: React.FC<Props> = ({ signIn, authError, loggedIn }) => {
   return (
     <FormStyled onSubmit={handleSubmit(onSubmit)}>
       <TextFieldContainerStyled>
-        <TextFieldStyled
+        <TextFieldRC
           label="Email"
           color="secondary"
           inputProps={{
@@ -52,7 +52,7 @@ const SignIn: React.FC<Props> = ({ signIn, authError, loggedIn }) => {
         />
       </TextFieldContainerStyled>
       <TextFieldContainerStyled>
-        <TextFieldStyled
+        <TextFieldRC
           label="Hasło"
           color="secondary"
           inputProps={{

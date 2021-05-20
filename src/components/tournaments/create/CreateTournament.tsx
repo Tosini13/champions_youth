@@ -21,7 +21,7 @@ import {
   TournamentCreateData,
   TournamentData,
 } from "../../../models/tournamentData";
-import { FormStyled } from "../../../styled/styledForm";
+import { FormStyled } from "../../../styled/styledComponents/styledForm";
 import CreateTournamentBasicInfo from "./BasicInfo";
 import CreateTournamentLocation from "./Location";
 import VerticalStepper from "./VerticalStepper";

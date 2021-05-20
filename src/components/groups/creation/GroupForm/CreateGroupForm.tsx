@@ -5,9 +5,8 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { Grid, IconButton } from "@material-ui/core";
 
 import styled from "styled-components";
-import { mainTheme } from "../../../../styled/styledConst";
 import { useForm } from "react-hook-form";
-import { TextFieldStyled } from "../../../../styled/styledForm";
+import { GroupNameTextFieldRC } from "../../../../styled/styledComponents/styledForm";
 import { useNotification } from "../../../global/Notification";
 import { Id } from "../../../../const/structuresConst";
 import { GroupModel } from "../../../../NewModels/Group";
@@ -19,10 +18,6 @@ import { useLocale } from "../../../../Provider/LocaleProvider";
 import groupCreationDict from "../../../../locale/creationNav.dict.";
 
 const GridContainer = styled(Grid)`
-  border-radius: 5px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  background-color: ${mainTheme.palette.primary.main};
   position: relative;
 `;
 
@@ -109,9 +104,8 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
           spacing={2}
         >
           <Grid item>
-            <TextFieldStyled
+            <GroupNameTextFieldRC
               label={<Translator id="groupName" />}
-              color="secondary"
               inputProps={{
                 name: "name",
                 ref: register({

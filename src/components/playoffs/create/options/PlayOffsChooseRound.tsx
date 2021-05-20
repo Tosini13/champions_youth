@@ -10,7 +10,7 @@ import { roundMatchesTitle } from "../../../../const/structuresConst";
 import { Options } from "../../../../structures/bracket";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import useTranslationHelp from "../../../../hooks/useTranslationHelp";
-import { SelectStyled } from "../../../../styled/styledForm";
+import { SelectStyled } from "../../../../styled/styledComponents/styledForm";
 import { mainTheme } from "../../../../styled/styledConst";
 import { useLocale } from "../../../../Provider/LocaleProvider";
 

@@ -8,7 +8,7 @@ import StepContent from "@material-ui/core/StepContent";
 import {
   TournamentCreationStepLabelStyled,
   TournamentCreationStepperStyled,
-} from "../../../styled/styledForm";
+} from "../../../styled/styledComponents/styledForm";
 import { ColorlibStepIcon } from "./StepperBullet";
 import { LOCALE } from "../../../locale/config";
 import createTournamentDict from "../../../locale/createTournament.dict";

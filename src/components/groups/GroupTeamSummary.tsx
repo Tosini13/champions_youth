@@ -34,7 +34,7 @@ const GroupTeamSummary: React.FC<GroupTeamSummaryProps> = ({
   }, [team, tournamentId]);
 
   return (
-    <Grid container spacing={1} wrap="nowrap">
+    <Grid container spacing={1} wrap="nowrap" style={{ paddingLeft: "10px" }}>
       <Grid item>
         <Logo src={logo} size={SIZE_LOGO.sm} />
       </Grid>

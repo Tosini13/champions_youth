@@ -8,7 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { BracketNavSelectStyled } from "../../../../styled/styledBracket";
 import { Options } from "../../../../structures/bracket";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
-import { SelectStyled } from "../../../../styled/styledForm";
+import { SelectStyled } from "../../../../styled/styledComponents/styledForm";
 import { style } from "./PlayOffsChooseRound";
 import { useLocale } from "../../../../Provider/LocaleProvider";
 

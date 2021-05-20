@@ -6,8 +6,8 @@ import { Redirect } from "react-router-dom";
 import {
   FormStyled,
   TextFieldContainerStyled,
-  TextFieldStyled,
-} from "../../styled/styledForm";
+  TextFieldRC,
+} from "../../styled/styledComponents/styledForm";
 import { signUp } from "../../store/actions/AuthActions";
 import { Credentials, User } from "../../models/credentialsData";
 import { routerConstString } from "../../const/menuConst";
@@ -36,7 +36,7 @@ const SignUp: React.FC<Props> = ({ signUp, authError, loggedIn }) => {
   return (
     <FormStyled onSubmit={handleSubmit(onSubmit)}>
       <TextFieldContainerStyled>
-        <TextFieldStyled
+        <TextFieldRC
           label="Login"
           color="secondary"
           inputProps={{
@@ -50,7 +50,7 @@ const SignUp: React.FC<Props> = ({ signUp, authError, loggedIn }) => {
         />
       </TextFieldContainerStyled>
       <TextFieldContainerStyled>
-        <TextFieldStyled
+        <TextFieldRC
           label="Email"
           color="secondary"
           inputProps={{
@@ -68,7 +68,7 @@ const SignUp: React.FC<Props> = ({ signUp, authError, loggedIn }) => {
         />
       </TextFieldContainerStyled>
       <TextFieldContainerStyled>
-        <TextFieldStyled
+        <TextFieldRC
           label="Hasło"
           color="secondary"
           inputProps={{
@@ -83,7 +83,7 @@ const SignUp: React.FC<Props> = ({ signUp, authError, loggedIn }) => {
         />
       </TextFieldContainerStyled>
       <TextFieldContainerStyled>
-        <TextFieldStyled
+        <TextFieldRC
           label="Powtórz hasło"
           color="secondary"
           inputProps={{

@@ -11,7 +11,7 @@ import {
   TEditTeam,
 } from "../../store/actions/TeamActions";
 import { Id } from "../../const/structuresConst";
-import { AddTeamTextFieldStyled } from "../../styled/styledForm";
+import { AddTeamTextFieldStyled } from "../../styled/styledComponents/styledForm";
 import AddLogo from "../tournaments/create/AddLogo";
 import { TeamCreateData, TeamData } from "../../models/teamData";
 import tournamentDetailsDict from "../../locale/tournamentDetails";

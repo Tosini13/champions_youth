@@ -4,7 +4,7 @@ import { Rosetta, Translator } from "react-rosetta";
 import { LOCALE } from "../../../locale/config";
 import createTournamentDict from "../../../locale/createTournament.dict";
 
-import { TextFieldStyled } from "../../../styled/styledForm";
+import { TextFieldRC } from "../../../styled/styledComponents/styledForm";
 import { LocationDataForm } from "./CreateTournament";
 
 type Props = {
@@ -34,7 +34,7 @@ const CreateTournamentLocation: React.FC<Props> = ({
     <Rosetta translations={createTournamentDict} locale={locale}>
       <Grid container justify="space-evenly">
         <Grid item>
-          <TextFieldStyled
+          <TextFieldRC
             label={<Translator id="city" />}
             value={location.city}
             onChange={handleOnChange}
@@ -47,7 +47,7 @@ const CreateTournamentLocation: React.FC<Props> = ({
           />
         </Grid>
         <Grid item>
-          <TextFieldStyled
+          <TextFieldRC
             label={<Translator id="address" />}
             value={location.address}
             onChange={handleOnChange}

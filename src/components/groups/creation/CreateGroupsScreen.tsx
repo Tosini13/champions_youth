@@ -23,7 +23,11 @@ import { useNotification } from "../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../const/menuConst";
 import { TournamentModel } from "../../../NewModels/Tournament";
-import GroupTeamsList from "./GroupForm/GroupTeamsList";
+import {
+  GroupTeamsContainer,
+  GroupTeamSummaryContainer,
+} from "../../../styled/styledComponents/group/styledLayout";
+import GroupTeamSummary from "../GroupTeamSummary";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 120px;
@@ -235,11 +239,18 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
                   handleRemoveGroup={handleRemoveGroup}
                   handleUpdateGroup={handleUpdateGroup}
                 >
-                  <GroupTeamsList
-                    teams={group.teams}
-                    userId={userId}
-                    tournamentId={tournamentId}
-                  />
+                  {group.teams.length ? (
+                    <GroupTeamsContainer style={{ marginBottom: "15px" }}>
+                      {group.teams?.map((team) => (
+                        <GroupTeamSummaryContainer key={team.id}>
+                          <GroupTeamSummary
+                            team={team}
+                            tournamentId={tournamentId}
+                          />
+                        </GroupTeamSummaryContainer>
+                      ))}
+                    </GroupTeamsContainer>
+                  ) : null}
                 </CreateGroupForm>
               </Grid>
             );

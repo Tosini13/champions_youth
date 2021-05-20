@@ -1,10 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Checkbox, Select, SelectProps } from "@material-ui/core";
+import {
+  Checkbox,
+  Select,
+  SelectProps,
+  TextField,
+  useTheme,
+} from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Button from "@material-ui/core/Button";
-import TextField, { TextFieldProps } from "@material-ui/core/TextField";
+import { TextFieldProps } from "@material-ui/core/TextField";
 import {
   KeyboardDatePicker,
   KeyboardDatePickerProps,
@@ -14,7 +20,7 @@ import {
 import FormControl from "@material-ui/core/FormControl";
 import Stepper from "@material-ui/core/Stepper";
 
-import { mainTheme } from "./styledConst";
+import { mainTheme } from "../styledConst";
 
 export const FormStyled = styled.form`
   padding: 5px;
@@ -40,21 +46,44 @@ const INPUT_STYLE = `
     color: ${mainTheme.palette.secondary.dark};
   };
   .MuiInput-underline:before{
-    border-color: ${mainTheme.palette.secondary.dark};;
+    border-color: ${mainTheme.palette.secondary.dark};
+    border-color: ${(props) => props.theme.palette.text.secondary};
   };
 `;
 
 /* ---------------------------------------- */
 /* TextField */
 /* ---------------------------------------- */
-export const TemplateTextFieldStyled = styled(TextField)`
-  ${INPUT_STYLE};
+export const TextFieldStyled = styled(TextField)`
+  width: 100%;
+  input {
+    color: ${mainTheme.palette.secondary.main};
+    &::before {
+      border-color: blue;
+    }
+  }
+  label {
+    color: ${mainTheme.palette.secondary.dark};
+  }
+  .MuiInput-underline:before {
+    border-color: ${(props) => props.theme.palette.text.secondary};
+  }
   max-width: 250px;
 `;
 
-export const TextFieldStyled = (props: TextFieldProps) => (
-  <TemplateTextFieldStyled color="secondary" {...props} />
-);
+export const TextFieldRC = (props: TextFieldProps) => {
+  const theme = useTheme();
+  return <TextFieldStyled color="secondary" theme={theme} {...props} />;
+};
+
+export const GroupNameTextFieldRCStyled = styled(TextFieldRC)`
+  input {
+    text-align: center;
+  }
+`;
+export const GroupNameTextFieldRC = (props: TextFieldProps) => {
+  return <GroupNameTextFieldRCStyled {...props} />;
+};
 
 /* ---------------------------------------- */
 /* Select */
@@ -133,11 +162,11 @@ export const TournamentCreationStepLabelStyled = styled(Button)`
   color: ${mainTheme.palette.secondary.light};
 `;
 
-export const AddTeamTextFieldStyled = styled(TextFieldStyled)`
+export const AddTeamTextFieldStyled = styled(TextFieldRC)`
   flex-grow: 1;
 `;
 
-export const EditTeamInputStyled = styled(TextFieldStyled)`
+export const EditTeamInputStyled = styled(TextFieldRC)`
   input {
     font-size: 0.8rem;
   }
