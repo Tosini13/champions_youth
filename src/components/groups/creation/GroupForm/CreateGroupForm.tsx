@@ -10,12 +10,10 @@ import { GroupNameTextFieldRC } from "../../../../styled/styledComponents/styled
 import { useNotification } from "../../../global/Notification";
 import { Id } from "../../../../const/structuresConst";
 import { GroupModel } from "../../../../NewModels/Group";
-import MatchSummaryMock from "./MatchSummaryMock";
-import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
-import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 import { useLocale } from "../../../../Provider/LocaleProvider";
 import groupCreationDict from "../../../../locale/creationNav.dict.";
+import GroupFormMatchesListDialog from "./GroupFormMatchesListDialog";
 
 const GridContainer = styled(Grid)`
   position: relative;
@@ -26,12 +24,6 @@ const DeleteIconButton = styled(IconButton)`
   top: 0px;
   right: 0px;
   transform: translate(-10%, 10%);
-`;
-
-const GridMatchesContainer = styled(Grid)`
-  overflow-x: hidden;
-  flex-wrap: nowrap;
-  ${ScrollBarStyled}
 `;
 
 export interface CreateGroupFormProps {
@@ -137,37 +129,11 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
           >
             <DeleteOutlineIcon />
           </DeleteIconButton>
-          <DialogRU open={open} onClose={handleClose} title="matches">
-            <GridMatchesContainer container direction="column">
-              {group.matches?.map((match) => {
-                const homePlaceholder = group.groupTeams?.find(
-                  (team) => team.place === match.groupPlaceholder?.home
-                );
-                const awayPlaceholder = group.groupTeams?.find(
-                  (team) => team.place === match.groupPlaceholder?.away
-                );
-                if (homePlaceholder) {
-                  match.placeholder.home = {
-                    id: homePlaceholder.group?.id,
-                    place: homePlaceholder.group?.place,
-                    name: `${homePlaceholder.group?.id}`,
-                  };
-                }
-                if (awayPlaceholder) {
-                  match.placeholder.away = {
-                    id: awayPlaceholder.group?.id,
-                    place: awayPlaceholder.group?.place,
-                    name: `${awayPlaceholder.group?.id}`,
-                  };
-                }
-                return (
-                  <Grid item key={match.id}>
-                    <MatchSummaryMock match={match} />
-                  </Grid>
-                );
-              })}
-            </GridMatchesContainer>
-          </DialogRU>
+          <GroupFormMatchesListDialog
+            open={open}
+            handleClose={handleClose}
+            group={group}
+          />
         </GridContainer>
       </form>
     </Rosetta>
