@@ -7,7 +7,7 @@ import { Grid } from "@material-ui/core";
 
 import CreateGroupForm from "./GroupForm/CreateGroupForm";
 import CreateGroupsActions from "./CreateGroupsActions";
-import CreationNav from "./CreationNav";
+import CreationNav from "./nav/CreationNav";
 import { GroupsContentContainerStyled } from "../../../styled/styledLayout";
 import { TeamData } from "../../../models/teamData";
 import { firestoreConnect } from "react-redux-firebase";

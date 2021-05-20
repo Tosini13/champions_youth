@@ -11,7 +11,7 @@ import { MatchTime } from "../../../../NewModels/Matches";
 import { useNotification } from "../../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../../const/menuConst";
-import CreationNav from "../../../groups/creation/CreationNav";
+import CreationNav from "../../../groups/creation/nav/CreationNav";
 import CreateGroupForm from "../../../groups/creation/GroupForm/CreateGroupForm";
 import CreateGroupsActions from "../../../groups/creation/CreateGroupsActions";
 import GroupSettings from "../../../groups/creation/GroupSettings";
