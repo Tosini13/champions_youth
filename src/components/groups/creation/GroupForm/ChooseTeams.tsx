@@ -1,22 +1,20 @@
 import React from "react";
-import styled from "styled-components";
 import { Rosetta } from "react-rosetta";
 
 import chooseTeamDict from "../../../../locale/chooseTeam.dict";
 import { TeamData } from "../../../../models/teamData";
 import { Id } from "../../../../const/structuresConst";
-import { TeamListStyled } from "../../../../styled/styledTeams";
 import ChooseTeamsElement from "./ChooseTeamsElement";
 import { GroupModel } from "../../../../NewModels/Group";
-import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
 import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
 import { useLocale } from "../../../../Provider/LocaleProvider";
+import { TeamsList } from "../../../../styled/styledComponents/teams/styledLayout";
 
-const TeamList = styled(TeamListStyled)`
-  overflow-x: hidden;
-  flex-wrap: nowrap;
-  ${ScrollBarStyled}
-`;
+// const TeamList = styled(TeamListStyled)`
+//   overflow-x: hidden;
+//   flex-wrap: nowrap;
+//   ${ScrollBarStyled}
+// `;
 
 export interface ChooseTeamsProps {
   userId: Id;
@@ -58,7 +56,7 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
   return (
     <Rosetta translations={chooseTeamDict} locale={locale}>
       <DialogRU onClose={handleClose} open={open} title={"chooseTeams"}>
-        <TeamList>
+        <TeamsList>
           {teams?.map((team: TeamData) => (
             <ChooseTeamsElement
               tournamentId={tournamentId}
@@ -72,7 +70,7 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
               )}
             />
           ))}
-        </TeamList>
+        </TeamsList>
       </DialogRU>
     </Rosetta>
   );

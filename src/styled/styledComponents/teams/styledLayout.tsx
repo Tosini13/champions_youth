@@ -79,6 +79,28 @@ export const TeamContentContainer: React.FC = ({ children }) => {
   );
 };
 
+const ChooseTeamContentContainerStyled = styled(TeamContentContainerStyled)<{
+  gradient: string;
+}>`
+  background: ${(props) => props.gradient};
+`;
+
+type TChooseTeamContentContainer = {
+  isRestricted: boolean;
+};
+
+export const ChooseTeamContentContainer: React.FC<TChooseTeamContentContainer> =
+  ({ children, isRestricted }) => {
+    const { darkGradient, lightGradient } = useColors();
+    return (
+      <ChooseTeamContentContainerStyled
+        gradient={isRestricted ? lightGradient : darkGradient}
+      >
+        {children}
+      </ChooseTeamContentContainerStyled>
+    );
+  };
+
 const TeamActionContainerStyled = styled(Grid)`
   position: absolute;
   right: 5px;
