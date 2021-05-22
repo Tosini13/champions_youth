@@ -44,7 +44,7 @@ const Navbar = ({
         location.pathname + location.search ===
           (routerConstString.tournaments ||
             routerConstString.favorites ||
-            routerConstString.live ||
+            routerConstString.matches ||
             routerConstString.my)
       );
     });

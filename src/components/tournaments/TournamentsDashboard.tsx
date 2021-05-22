@@ -95,7 +95,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
 
   handleGetTournamentsView = () => {
     switch (this.props.location.pathname + this.props.location.search) {
-      case routerConstString.live:
+      case routerConstString.matches:
         return this.props.liveTournaments;
       case routerConstString.my:
         return this.props.myTournaments;

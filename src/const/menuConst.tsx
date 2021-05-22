@@ -21,7 +21,7 @@ export enum menuSideBarConst {
 
 export enum bottomMenuConst {
   tournaments = "tournaments",
-  live = "live",
+  matches = "matches",
   my = "my",
   favorites = "favorites",
 }
@@ -42,7 +42,7 @@ export enum routerConstString {
   matchPlayOffsGroup = "/tournament/:tournamentId/playOffs/groups/:groupId/matches/:matchId",
   matchGroup = "/tournament/:tournamentId/groups/:groupId/matches/:matchId",
   matchPlayOffs = "/tournament/:tournamentId/games/:gameId/matches/:matchId",
-  live = "/?view=live",
+  matches = "/?view=matches",
   my = "/?view=my",
   favorites = `/?view=favorites`,
 }
@@ -91,7 +91,7 @@ export const routerGenerateConst = {
 
 export let bottomMenuTitleConst = new Map();
 bottomMenuTitleConst.set(bottomMenuConst.tournaments, "Turnieje");
-bottomMenuTitleConst.set(bottomMenuConst.live, "Na żywo");
+bottomMenuTitleConst.set(bottomMenuConst.matches, "Na żywo");
 bottomMenuTitleConst.set(bottomMenuConst.my, "Moje");
 bottomMenuTitleConst.set(bottomMenuConst.favorites, "Ulubione");
 
@@ -101,7 +101,7 @@ routerConst.set(routerConstString.login, menuSideBarConst.login);
 routerConst.set(routerConstString.logout, menuSideBarConst.logout);
 routerConst.set(routerConstString.signUp, menuSideBarConst.signUp);
 routerConst.set(routerConstString.tournaments, bottomMenuConst.tournaments);
-routerConst.set(routerConstString.live, bottomMenuConst.live);
+routerConst.set(routerConstString.matches, bottomMenuConst.matches);
 routerConst.set(routerConstString.my, bottomMenuConst.my);
 routerConst.set(routerConstString.favorites, bottomMenuConst.favorites);
 

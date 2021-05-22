@@ -4,8 +4,8 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import StarIcon from "@material-ui/icons/Star";
-import AdjustIcon from "@material-ui/icons/Adjust";
 import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
+import SportsSoccerIcon from "@material-ui/icons/SportsSoccer";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 
 import {
@@ -41,10 +41,10 @@ const BottomNav: React.FC<Props> = () => {
         />
         <BottomNavigationAction
           component={NavBottomLiveLink}
-          to={routerConstString.live}
-          label={<Translator id={bottomMenuConst.live} />}
-          value={bottomMenuConst.live}
-          icon={<AdjustIcon />}
+          to={routerConstString.matches}
+          label={<Translator id={bottomMenuConst.matches} />}
+          value={bottomMenuConst.matches}
+          icon={<SportsSoccerIcon />}
         />
         <BottomNavigationAction
           component={NavBottomLiveLink}
