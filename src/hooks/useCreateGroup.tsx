@@ -83,10 +83,10 @@ const createGroupMatches = (teams: TeamData[], returnGames: boolean) => {
     }
     return matches;
   } else if (teams.length === 2) {
-    let matches: any[] = [];
+    let matches: MatchModel[] = [];
     matches.push(initMatch(teams[0], teams[1], 1));
     if (returnGames) {
-      matches.push(initMatch(teams[0], teams[1], 1));
+      matches.push(initMatch(teams[1], teams[0], 2));
     }
     return matches;
   } else {
