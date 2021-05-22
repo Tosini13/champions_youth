@@ -13,7 +13,7 @@ const TournamentInfoHeader: React.FC<TournamentInfoHeaderProps> = ({
   title,
 }) => {
   return (
-    <Grid container alignItems="center">
+    <Grid container alignItems="center" wrap="nowrap">
       <Grid item>
         <Logo src={image} size={SIZE_LOGO.lg} />
       </Grid>
