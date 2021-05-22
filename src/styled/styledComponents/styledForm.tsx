@@ -21,6 +21,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Stepper from "@material-ui/core/Stepper";
 
 import { mainTheme } from "../styledConst";
+import { useColors } from "../themes/CustomThemeProvider";
 
 export const FormStyled = styled.form`
   padding: 5px;
@@ -34,46 +35,41 @@ export const TextFieldContainerStyled = styled.div`
   margin-bottom: 20px;
 `;
 
-const INPUT_STYLE = `
-  width: 100%;
-  input {
-    color: ${mainTheme.palette.secondary.main};
-    &::before {
-      border-color: blue;
-    };
-  };
-  label {
-    color: ${mainTheme.palette.secondary.dark};
-  };
-  .MuiInput-underline:before{
-    border-color: ${mainTheme.palette.secondary.dark};
-    border-color: ${(props) => props.theme.palette.text.secondary};
-  };
-`;
-
 /* ---------------------------------------- */
 /* TextField */
 /* ---------------------------------------- */
-export const TextFieldStyled = styled(TextField)`
+export const TextFieldStyled = styled(TextField)<{
+  buttoncolor: string;
+}>`
+  //**************
   width: 100%;
   input {
-    color: ${mainTheme.palette.secondary.main};
+    color: ${(props) => props.theme.palette.text.primary};
     &::before {
       border-color: blue;
     }
   }
   label {
-    color: ${mainTheme.palette.secondary.dark};
+    color: ${(props) => props.theme.palette.secondary.main};
   }
   .MuiInput-underline:before {
-    border-color: ${(props) => props.theme.palette.text.secondary};
+    border-color: ${(props) => props.buttoncolor};
   }
+  //**************
   max-width: 250px;
 `;
 
-export const TextFieldRC = (props: TextFieldProps) => {
+export const TextFieldRC = (props: any) => {
   const theme = useTheme();
-  return <TextFieldStyled color="secondary" theme={theme} {...props} />;
+  const { buttonColor } = useColors();
+  return (
+    <TextFieldStyled
+      color="secondary"
+      theme={theme}
+      buttoncolor={buttonColor}
+      {...props}
+    />
+  );
 };
 
 export const GroupNameTextFieldRCStyled = styled(TextFieldRC)`
@@ -89,8 +85,24 @@ export const GroupNameTextFieldRC = (props: TextFieldProps) => {
 /* Select */
 /* ---------------------------------------- */
 
-export const TemplateSelectStyled = styled(Select)`
-  ${INPUT_STYLE};
+export const TemplateSelectStyled = styled(Select)<{
+  buttoncolor: string;
+}>`
+  //**************
+  width: 100%;
+  input {
+    color: ${(props) => props.theme.palette.text.primary};
+    &::before {
+      border-color: blue;
+    }
+  }
+  label {
+    color: ${(props) => props.theme.palette.secondary.main};
+  }
+  .MuiInput-underline:before {
+    border-color: ${(props) => props.buttoncolor};
+  }
+  //**************
   max-width: 250px;
   margin-right: auto;
   color: ${mainTheme.palette.secondary.main};
@@ -102,38 +114,102 @@ export const TemplateSelectStyled = styled(Select)`
   }
 `;
 
-export const SelectStyled: React.FC<SelectProps> = ({ children, ...props }) => (
-  <TemplateSelectStyled color="secondary" {...props}>
-    {children}
-  </TemplateSelectStyled>
-);
+export const SelectStyled: React.FC<SelectProps> = ({ children, ...props }) => {
+  const theme = useTheme();
+  const { buttonColor } = useColors();
+  return (
+    <TemplateSelectStyled
+      color="secondary"
+      theme={theme}
+      buttoncolor={buttonColor}
+      {...props}
+    >
+      {children}
+    </TemplateSelectStyled>
+  );
+};
 /* ---------------------------------------- */
 /* KeyboardDatePicker */
 /* ---------------------------------------- */
-const KEYBOARD_PICKER_STYLE = `
-  button{
-    color: ${mainTheme.palette.secondary.main};
+
+export const TemplateKeyboardDatePickerStyled = styled(KeyboardDatePicker)<{
+  buttoncolor: string;
+}>`
+  button {
+    color: ${(props) => props.theme.palette.text.primary};
   }
-  ${INPUT_STYLE};
+  //**************
+  width: 100%;
+  input {
+    color: ${(props) => props.theme.palette.text.primary};
+    &::before {
+      border-color: blue;
+    }
+  }
+  label {
+    color: ${(props) => props.theme.palette.secondary.main};
+  }
+  .MuiInput-underline:before {
+    border-color: ${(props) => props.buttoncolor};
+  }
+  //**************
 `;
 
-export const TemplateKeyboardDatePickerStyled = styled(KeyboardDatePicker)`
-  ${KEYBOARD_PICKER_STYLE};
-`;
-
-export const KeyboardDatePickerStyled = (props: KeyboardDatePickerProps) => (
-  <TemplateKeyboardDatePickerStyled color="secondary" {...props} />
-);
-export const TemplateKeyboardTimePickerStyled = styled(KeyboardTimePicker)`
-  ${KEYBOARD_PICKER_STYLE};
-`;
+export const KeyboardDatePickerStyled = (props: KeyboardDatePickerProps) => {
+  const theme = useTheme();
+  const { buttonColor } = useColors();
+  return (
+    <TemplateKeyboardDatePickerStyled
+      theme={theme}
+      buttoncolor={buttonColor}
+      color="secondary"
+      {...props}
+    />
+  );
+};
 
 /* ---------------------------------------- */
 /* KeyboardTimePicker */
 /* ---------------------------------------- */
-export const KeyboardTimePickerStyled = (props: KeyboardTimePickerProps) => (
-  <TemplateKeyboardTimePickerStyled color="secondary" {...props} />
-);
+export const TemplateKeyboardTimePickerStyled = styled(KeyboardTimePicker)<{
+  buttoncolor: string;
+}>`
+  button {
+    color: ${(props) => props.theme.palette.text.primary};
+  }
+  //**************
+  width: 100%;
+  input {
+    color: ${(props) => props.theme.palette.text.primary};
+    &::before {
+      border-color: blue;
+    }
+  }
+  label {
+    color: ${(props) => props.theme.palette.secondary.main};
+  }
+  .MuiInput-underline:before {
+    border-color: ${(props) => props.buttoncolor};
+  }
+  //**************
+`;
+
+export const KeyboardTimePickerStyled = (props: KeyboardTimePickerProps) => {
+  const theme = useTheme();
+  const { buttonColor } = useColors();
+  return (
+    <TemplateKeyboardTimePickerStyled
+      theme={theme}
+      buttoncolor={buttonColor}
+      color="secondary"
+      {...props}
+    />
+  );
+};
+
+/* ---------------------------------------- */
+/* Checkbox */
+/* ---------------------------------------- */
 export const CheckboxStyled = styled(Checkbox)`
   svg {
     color: ${mainTheme.palette.secondary.dark};

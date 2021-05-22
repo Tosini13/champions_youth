@@ -6,16 +6,14 @@ import clsx from "clsx";
 import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
 import DoneIcon from "@material-ui/icons/Done";
 import RoomIcon from "@material-ui/icons/Room";
-import { useColors } from "../../../styled/themes/CustomThemeProvider";
 
 export function ColorlibStepIcon(props: any) {
-  const { specialColor } = useColors();
   const theme = useTheme();
 
   const useColorlibStepIconStyles = makeStyles({
     root: {
       backgroundColor: theme.palette.primary.main,
-      color: specialColor,
+      color: theme.palette.text.primary,
       zIndex: 1,
       width: 28,
       height: 28,
@@ -29,12 +27,13 @@ export function ColorlibStepIcon(props: any) {
       height: "0.8em",
     },
     active: {
-      backgroundColor: theme.palette.secondary.main,
       color: theme.palette.primary.main,
+      backgroundColor: theme.palette.text.primary,
       boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
     },
     completed: {
       backgroundColor: theme.palette.primary.dark,
+      color: theme.palette.text.primary,
     },
   });
 
