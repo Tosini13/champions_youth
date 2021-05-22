@@ -40,9 +40,11 @@ const PlayOffsCreateMenu: React.FC<Props> = ({
             <Translator id="create" />
           </ButtonRC>
         </ButtonHorizontalContainerStyled>
-        <ButtonRC onClick={setAutoTeams}>
-          <Translator id="draw" />
-        </ButtonRC>
+        <ButtonHorizontalContainerStyled>
+          <ButtonRC onClick={setAutoTeams}>
+            <Translator id="draw" />
+          </ButtonRC>
+        </ButtonHorizontalContainerStyled>
         <PlayOffsChooseLastMatchPlace
           options={options}
           setPlaceMatchesQtt={setPlaceMatchesQtt}
