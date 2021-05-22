@@ -83,11 +83,10 @@ const TournamentInfo: React.FC<Props> = ({
     openNotification();
   };
 
-  console.log("tournament.image", tournament.image);
   return (
     <>
       <Rosetta translations={tournamentDetailsDict} locale={locale}>
-        <SectionStyled style={{ padding: "20px" }}>
+        <SectionStyled>
           <MainContainerStyled>
             <MainContainerContentStyled>
               <TournamentInfoHeader

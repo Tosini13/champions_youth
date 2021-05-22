@@ -30,7 +30,6 @@ export const NoContentContainer = styled.div`
 `;
 
 export const ContentContainerStyled = styled.div`
-  padding: 20px;
   text-align: center;
   position: relative;
 `;
@@ -191,7 +190,7 @@ const GridSectionContentStyled = styled(Grid)<{
 }>`
   flex-grow: 1;
   ${ScrollBarStyled}
-  padding: 2px 0px;
+  padding: 5px;
 
   -webkit-overflow-scrolling: touch;
   overflow-y: auto;
