@@ -17,8 +17,6 @@ const GridContainer = styled(Grid)`
   width: 100%;
   background-color: ${mainTheme.palette.primary.main};
   background-color: transparent;
-  display: flex;
-  justify-content: space-around;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 `;
 
@@ -74,7 +72,13 @@ const CreationNav: React.FC<CreationNavProps> = ({
           </GridContainer>
         </Hidden>
         <Hidden smDown>
-          <GridContainer container justify="space-between" alignItems="center">
+          <GridContainer
+            container
+            justify="space-between"
+            alignItems="center"
+            style={{ padding: "10px 20px" }}
+          >
+            <Grid item></Grid>
             <Grid item>
               <NavManage openSettings={openSettings} add={add} draw={draw} />
             </Grid>
