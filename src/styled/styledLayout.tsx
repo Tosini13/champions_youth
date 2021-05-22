@@ -185,8 +185,6 @@ export const SectionNavStyled: React.FC<GridProps> = ({
 
 const GridSectionContentStyled = styled(Grid)`
   flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
   ${ScrollBarStyled}
   padding: 5px;
 `;
