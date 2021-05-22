@@ -10,12 +10,6 @@ import { DialogRU } from "../../../../styled/styledComponents/navigation/styledD
 import { useLocale } from "../../../../Provider/LocaleProvider";
 import { TeamsList } from "../../../../styled/styledComponents/teams/styledLayout";
 
-// const TeamList = styled(TeamListStyled)`
-//   overflow-x: hidden;
-//   flex-wrap: nowrap;
-//   ${ScrollBarStyled}
-// `;
-
 export interface ChooseTeamsProps {
   userId: Id;
   tournamentId: Id;
@@ -59,10 +53,8 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
         <TeamsList>
           {teams?.map((team: TeamData) => (
             <ChooseTeamsElement
-              tournamentId={tournamentId}
               key={team.id}
               team={team}
-              userId={userId}
               handleChooseTeam={handleChooseTeam}
               selected={chosenTeams.includes(team)}
               restricted={Boolean(

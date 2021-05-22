@@ -8,7 +8,7 @@ import {
   getImage,
   getImageJustUploaded,
 } from "../tournaments/actions/getImage";
-import Logo, { SIZE_LOGO } from "../global/Logo";
+import Logo, { SIZE_LOGO, TeamLogo } from "../global/Logo";
 import { useNotification } from "../global/Notification";
 import {
   TeamContentContainer,
@@ -75,7 +75,7 @@ const TeamSummary: React.FC<Props> = ({
     <TeamsItem>
       <TeamContainerStyled>
         <TeamLogoContainer>
-          <Logo src={logo} size={SIZE_LOGO.md} />
+          <TeamLogo teamLogo={team.logo} size={SIZE_LOGO.md} />
         </TeamLogoContainer>
         <TeamContentContainer>
           <TypographyPrimaryText style={{ color: "white" }}>

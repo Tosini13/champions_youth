@@ -243,10 +243,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
                     <GroupTeamsContainer style={{ marginBottom: "15px" }}>
                       {group.teams?.map((team) => (
                         <GroupTeamSummaryContainer key={team.id}>
-                          <GroupTeamSummary
-                            team={team}
-                            tournamentId={tournamentId}
-                          />
+                          <GroupTeamSummary team={team} />
                         </GroupTeamSummaryContainer>
                       ))}
                     </GroupTeamsContainer>

@@ -12,7 +12,7 @@ import {
   getImageJustUploaded,
 } from "../../tournaments/actions/getImage";
 import { Id } from "../../../const/structuresConst";
-import Logo, { SIZE_LOGO } from "../../global/Logo";
+import Logo, { SIZE_LOGO, TeamLogo } from "../../global/Logo";
 import MatchHeader from "./MatchHeader";
 import {
   AwayLogoContainer,
@@ -65,14 +65,14 @@ const MatchSummary: React.FC<MatchSummaryProps> = ({ match }) => {
   return (
     <MatchContainer>
       <HomeLogoContainer>
-        <Logo src={imageHome} size={SIZE_LOGO.md} />
+        <TeamLogo teamLogo={match.home?.logo} size={SIZE_LOGO.md} />
       </HomeLogoContainer>
       <MatchContentContainer>
         <MatchHeader mode={match.mode} date={match.date} round={match.round} />
         <MatchContent match={match} />
       </MatchContentContainer>
       <AwayLogoContainer>
-        <Logo src={imageAway} size={SIZE_LOGO.md} />
+        <TeamLogo teamLogo={match.away?.logo} size={SIZE_LOGO.md} />
       </AwayLogoContainer>
     </MatchContainer>
   );

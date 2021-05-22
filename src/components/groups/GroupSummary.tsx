@@ -37,7 +37,7 @@ const GroupSummary: React.FC<GroupsComponentProps> = ({ group }) => {
           <GroupTeamsContainer>
             {group.teams?.map((team) => (
               <GroupTeamSummaryContainer key={team.id}>
-                <GroupTeamSummary team={team} tournamentId={tournamentId} />
+                <GroupTeamSummary team={team} />
               </GroupTeamSummaryContainer>
             ))}
           </GroupTeamsContainer>

@@ -14,7 +14,7 @@ import {
 
 import { TypographyLiveMatchHeader } from "../../styled/styledComponents/match/styledTypography";
 
-import Logo, { SIZE_LOGO } from "../global/Logo";
+import Logo, { SIZE_LOGO, TeamLogo } from "../global/Logo";
 import {
   getImage,
   getImageJustUploaded,
@@ -29,53 +29,18 @@ export interface MatchDetailsDisplayProps {
   authorId: Id;
 }
 
-const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
-  match,
-  tournamentId,
-  authorId,
-}) => {
+const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({ match }) => {
   const { locale } = useLocale();
-  const [imageHome, setImageHome] = useState<any>(null);
-  const [imageAway, setImageAway] = useState<any>(null);
-
-  useEffect(() => {
-    if (match.home?.logo) {
-      getImage(match.home?.logo, tournamentId)
-        .then((image) => {
-          let img = image;
-          if (!image && match.home?.logo) {
-            img =
-              getImageJustUploaded(match.home?.logo, tournamentId) ?? undefined;
-          }
-          setImageHome(img);
-        })
-        .catch((err) => console.log("err", err));
-    }
-
-    if (match.away?.logo) {
-      getImage(match.away?.logo, tournamentId)
-        .then((image) => {
-          let img = image;
-          if (!image && match.away?.logo) {
-            img =
-              getImageJustUploaded(match.away?.logo, tournamentId) ?? undefined;
-          }
-          setImageAway(img);
-        })
-        .catch((err) => console.log("err", err));
-    }
-  }, [match, tournamentId]);
 
   const isStarted: boolean = match.mode !== matchModeConst.notStarted;
 
   const theme = useTheme();
-  console.log(theme);
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <Grid container alignItems="center" style={{ paddingTop: "10px" }}>
         <Grid item xs={4}>
           <Grid container direction="column" alignItems="center">
-            <Logo src={imageHome} size={SIZE_LOGO.lg} />
+            <TeamLogo teamLogo={match.home?.logo} size={SIZE_LOGO.lg} />
             <MatchDisplayTeamNameStyled>
               <ShowTeam
                 team={match.home}
@@ -121,7 +86,7 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
         <Grid item xs={4}>
           <Grid container direction="column" alignItems="center">
             <Grid item>
-              <Logo src={imageAway} size={SIZE_LOGO.lg} />
+              <TeamLogo teamLogo={match.away?.logo} size={SIZE_LOGO.lg} />
             </Grid>
             <Grid item>
               <MatchDisplayTeamNameStyled>

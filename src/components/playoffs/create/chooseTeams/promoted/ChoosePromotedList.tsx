@@ -5,6 +5,9 @@ import { Group } from "../../../../../models/groupData";
 import ChoosePromotedListElement from "./ChoosePromotedListElement";
 import { Id } from "../../../../../const/structuresConst";
 import { Placeholder, PromotedTeam } from "../../../../../NewModels/Team";
+import { TeamsList } from "../../../../../styled/styledComponents/teams/styledLayout";
+import { TypographyPrimaryText } from "../../../../../styled/styledComponents/styledTypography";
+import { GroupHeaderContainer } from "../../../../../styled/styledComponents/group/styledLayout";
 
 type Props = {
   groups?: Group[];
@@ -85,16 +88,22 @@ const ChoosePromotedList: React.FC<Props> = ({
     <ChooseListStyled>
       {groups?.map((group) => (
         <div key={group.id}>
-          <p>{group.name}</p>
+          <GroupHeaderContainer>
+            <TypographyPrimaryText align="center" style={{ color: "white" }}>
+              {group.name}
+            </TypographyPrimaryText>
+          </GroupHeaderContainer>
           {group.promoted.map((team, id) => (
-            <ChoosePromotedListElement
-              key={id}
-              groupId={group.id}
-              element={team}
-              selected={doesChosenTeamsIncludes(team.place, group.id)}
-              addToChosenTeams={addTeam}
-              disabled={Boolean(isDisabled(team, group.id))}
-            />
+            <TeamsList>
+              <ChoosePromotedListElement
+                key={id}
+                groupId={group.id}
+                element={team}
+                selected={doesChosenTeamsIncludes(team.place, group.id)}
+                addToChosenTeams={addTeam}
+                disabled={Boolean(isDisabled(team, group.id))}
+              />
+            </TeamsList>
           ))}
         </div>
       ))}

@@ -52,10 +52,7 @@ const GroupSummary: React.FC<GroupsComponentProps> = ({
               if (exisitingTeam) {
                 return (
                   <GroupTeamSummaryContainer key={`${team.id}${team.place}`}>
-                    <GroupTeamSummary
-                      team={exisitingTeam}
-                      tournamentId={tournamentId}
-                    />
+                    <GroupTeamSummary team={exisitingTeam} />
                   </GroupTeamSummaryContainer>
                 );
               }

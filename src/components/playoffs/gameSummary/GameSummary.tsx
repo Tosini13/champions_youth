@@ -11,7 +11,7 @@ import {
   getImageJustUploaded,
 } from "../../tournaments/actions/getImage";
 import { Id } from "../../../const/structuresConst";
-import Logo, { SIZE_LOGO } from "../../global/Logo";
+import Logo, { SIZE_LOGO, TeamLogo } from "../../global/Logo";
 import GameHeader from "./GameHeader";
 import {
   AwayLogoContainer,
@@ -80,14 +80,14 @@ const GameSummary: React.FC<GameSummaryProps> = ({
       >
         <MatchContainer>
           <HomeLogoContainer>
-            <Logo src={imageHome} size={SIZE_LOGO.md} />
+            <TeamLogo teamLogo={game.homeTeam?.logo} size={SIZE_LOGO.md} />
           </HomeLogoContainer>
           <MatchContentContainer>
             <GameHeader round={game.round} />
             <GameContent game={game} match={match} returnMatch={returnMatch} />
           </MatchContentContainer>
           <AwayLogoContainer>
-            <Logo src={imageAway} size={SIZE_LOGO.md} />
+            <TeamLogo teamLogo={game.awayTeam?.logo} size={SIZE_LOGO.md} />
           </AwayLogoContainer>
         </MatchContainer>
       </div>
