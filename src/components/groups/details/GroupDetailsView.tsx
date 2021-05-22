@@ -229,7 +229,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             <SectionNavStyled>
               <GroupDetailsNav value={view} setValue={setView} />
             </SectionNavStyled>
-            <SectionContentStyled>
+            <SectionContentStyled navQty={1}>
               {view === E_GROUP_MENU.TABLE ? (
                 <GroupTableView
                   group={group}

@@ -86,7 +86,7 @@ const TournamentDetails: React.FC<Props> = ({
             <SectionNavStyled>
               <TournamentNav value={view} setValue={setView} />
             </SectionNavStyled>
-            <SectionContentStyled style={{ padding: "5px" }}>
+            <SectionContentStyled navQty={1}>
               {view === E_TOURNAMENT_MENU.GROUPS &&
               tournament &&
               tournamentId ? (

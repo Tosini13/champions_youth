@@ -17,19 +17,15 @@ import TournamentSummaryContainer from "./TournamentSummaryContainer";
 import DateNav from "../nav/DateNav";
 import { setSelectedDate } from "../../store/actions/MenuActions";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import {
+  SectionContentStyled,
+  SectionFooterStyled,
+  SectionNavStyled,
+  SectionStyled,
+} from "../../styled/styledLayout";
 
 const GridMainContainer = styled(Grid)`
   height: 100%;
-`;
-
-const GridSideContainer = styled(Grid)`
-  height: 100%;
-`;
-
-const GridContent = styled(Grid)`
-  flex-grow: 1;
-  height: calc(100vh - 140px);
-  overflow: hidden;
 `;
 
 const getFilteredTournaments = (
@@ -139,38 +135,30 @@ class TournamentsDashboard extends Component<TProps, IState> {
         <Hidden smDown>
           <GridMainContainer container>
             <Grid item style={{ flexGrow: 1 }}>
-              <GridSideContainer container direction="column">
-                <GridContent item>
-                  <GridSideContainer container direction="column" wrap="nowrap">
-                    <Grid item>
-                      <Grid
-                        container
-                        alignItems="center"
-                        justify="space-between"
-                      >
-                        <DateNav
-                          isDateActive={true}
-                          selectedDate={this.props.selectedDate}
-                          handleDateChange={this.handleDateChange}
-                          setSelectedDate={this.props.setSelectedDate}
-                        />
-                        <Grid item xs={1}></Grid>
-                      </Grid>
-                    </Grid>
-                    <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
-                      <TournamentSummaryContainer
-                        handleRedirectLogin={this.handleRedirectLogin}
-                        {...this.props}
-                        tournaments={
-                          this.state.leftView === LEFT_VIEW.TOURNAMENTS
-                            ? tournaments
-                            : liveTournaments
-                        }
-                      />
-                    </GridContent>
-                  </GridSideContainer>
-                </GridContent>
-                <Grid item>
+              <SectionStyled>
+                <SectionNavStyled>
+                  <Grid container alignItems="center" justify="space-between">
+                    <DateNav
+                      isDateActive={true}
+                      selectedDate={this.props.selectedDate}
+                      handleDateChange={this.handleDateChange}
+                      setSelectedDate={this.props.setSelectedDate}
+                    />
+                    <Grid item xs={1}></Grid>
+                  </Grid>
+                </SectionNavStyled>
+                <SectionContentStyled navQty={2}>
+                  <TournamentSummaryContainer
+                    handleRedirectLogin={this.handleRedirectLogin}
+                    {...this.props}
+                    tournaments={
+                      this.state.leftView === LEFT_VIEW.TOURNAMENTS
+                        ? tournaments
+                        : liveTournaments
+                    }
+                  />
+                </SectionContentStyled>
+                <SectionFooterStyled>
                   <LeftBottomNav
                     value={this.state.leftView}
                     setValue={(leftView: number) =>
@@ -180,13 +168,13 @@ class TournamentsDashboard extends Component<TProps, IState> {
                       })
                     }
                   />
-                </Grid>
-              </GridSideContainer>
+                </SectionFooterStyled>
+              </SectionStyled>
             </Grid>
             <Divider orientation="vertical" />
             <Grid item style={{ flexGrow: 1 }}>
-              <GridSideContainer container direction="column">
-                <GridContent item style={{ padding: "0px 5px 10px 5px" }}>
+              <SectionStyled>
+                <SectionContentStyled navQty={1}>
                   <TournamentSummaryContainer
                     handleRedirectLogin={this.handleRedirectLogin}
                     {...this.props}
@@ -196,8 +184,8 @@ class TournamentsDashboard extends Component<TProps, IState> {
                         : favoriteTournaments
                     }
                   />
-                </GridContent>
-                <Grid item>
+                </SectionContentStyled>
+                <SectionFooterStyled>
                   <RightBottomNav
                     value={this.state.rightView}
                     setValue={(rightView: number) =>
@@ -207,8 +195,8 @@ class TournamentsDashboard extends Component<TProps, IState> {
                       })
                     }
                   />
-                </Grid>
-              </GridSideContainer>
+                </SectionFooterStyled>
+              </SectionStyled>
             </Grid>
           </GridMainContainer>
         </Hidden>

@@ -23,14 +23,4 @@ export const ScrollBarStyled = `
 ::-webkit-scrollbar-thumb:hover {
   background: ${mainTheme.palette.secondary.dark};
 }
-
-
--webkit-overflow-scrolling: touch;
-overflow-y: auto;
-overflow-x: hidden;
-
-max-height: calc(100vh - 155px);
-@media only screen and (min-width: 960px)  {
-  max-height: calc(100vh);
-}
 `;

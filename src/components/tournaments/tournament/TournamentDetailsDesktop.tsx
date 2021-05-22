@@ -78,7 +78,7 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
           <SectionNavStyled>
             <TournamentLeftMenu value={leftView} setValue={setLeftView} />
           </SectionNavStyled>
-          <SectionContentStyled style={{ padding: "20px" }}>
+          <SectionContentStyled>
             {leftView === TOURNAMENT_LEFT_MENU.INFO &&
             tournament &&
             tournamentId ? (

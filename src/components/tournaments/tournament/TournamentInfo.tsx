@@ -86,7 +86,7 @@ const TournamentInfo: React.FC<Props> = ({
   return (
     <>
       <Rosetta translations={tournamentDetailsDict} locale={locale}>
-        <SectionStyled>
+        <SectionStyled style={{ padding: "20px" }}>
           <MainContainerStyled>
             <MainContainerContentStyled>
               <TournamentInfoHeader image={image} title={tournament.name} />

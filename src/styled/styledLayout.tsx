@@ -153,6 +153,8 @@ export const DesktopMainDividerStyled: React.FC<{}> = ({ children }) => (
 /* ============== SECTION =============== */
 /* -------------------------------------- */
 
+const NAV_HEIGHT = "58px";
+
 const GridSectionStyled = styled(Grid)`
   // max-height: 100%;
   height: 100%;
@@ -172,6 +174,7 @@ export const SectionStyled: React.FC<TSectionStyledProps> = ({
 
 const GridSectionNavStyled = styled(Grid)`
   z-index: 1;
+  height: ${NAV_HEIGHT};
 `;
 
 export const SectionNavStyled: React.FC<GridProps> = ({
@@ -183,16 +186,30 @@ export const SectionNavStyled: React.FC<GridProps> = ({
   </GridSectionNavStyled>
 );
 
-const GridSectionContentStyled = styled(Grid)`
+const GridSectionContentStyled = styled(Grid)<{
+  navqty: number;
+}>`
   flex-grow: 1;
   ${ScrollBarStyled}
-  padding: 5px;
+  padding: 2px 0px;
+
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  max-height: calc(100vh - 58px * ${(props) => props.navqty ?? 0});
 `;
-export const SectionContentStyled: React.FC<GridProps> = ({
+
+type TSectionContent = GridProps & {
+  navQty?: number;
+};
+
+export const SectionContentStyled: React.FC<TSectionContent> = ({
   children,
+  navQty,
   ...props
 }) => (
-  <GridSectionContentStyled item {...props}>
+  <GridSectionContentStyled item navqty={navQty ?? 0} {...props}>
     {children}
   </GridSectionContentStyled>
 );
