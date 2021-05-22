@@ -8,7 +8,7 @@ import {
   TeamLogoContainer,
   TeamsItem,
 } from "../../../../../styled/styledComponents/teams/styledLayout";
-import Logo, { SIZE_LOGO, TeamLogo } from "../../../../global/Logo";
+import { SIZE_LOGO, TeamLogo } from "../../../../global/Logo";
 import { TypographyPrimaryText } from "../../../../../styled/styledComponents/styledTypography";
 import { ChooseTeamIconButton } from "../../../../../styled/styledComponents/teams/styledButtons";
 

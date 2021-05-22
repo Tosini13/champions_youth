@@ -1,6 +1,5 @@
 import React from "react";
 
-import { ChooseListStyled } from "../../../../../styled/styledBracket";
 import PlayOffsChooseListElement from "./ChooseTeamListElement";
 import { TeamData } from "../../../../../models/teamData";
 import { TeamsList } from "../../../../../styled/styledComponents/teams/styledLayout";

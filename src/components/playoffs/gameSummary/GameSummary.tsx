@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import {
   MatchContentContainer,
@@ -6,12 +6,9 @@ import {
 } from "../../../styled/styledComponents/match/styledLayout";
 
 import GameContent from "./GameContent";
-import {
-  getImage,
-  getImageJustUploaded,
-} from "../../tournaments/actions/getImage";
+
 import { Id } from "../../../const/structuresConst";
-import Logo, { SIZE_LOGO, TeamLogo } from "../../global/Logo";
+import { SIZE_LOGO, TeamLogo } from "../../global/Logo";
 import GameHeader from "./GameHeader";
 import {
   AwayLogoContainer,
@@ -39,38 +36,6 @@ const GameSummary: React.FC<GameSummaryProps> = ({
   returnMatch,
 }) => {
   const [openDetails, setOpenDetails] = useState<boolean>(false);
-  const [imageHome, setImageHome] = useState<any>(null);
-  const [imageAway, setImageAway] = useState<any>(null);
-
-  useEffect(() => {
-    if (game.homeTeam?.logo) {
-      getImage(game.homeTeam?.logo, tournamentId)
-        .then((image) => {
-          let img = image;
-          if (!image && game.homeTeam?.logo) {
-            img =
-              getImageJustUploaded(game.homeTeam?.logo, tournamentId) ??
-              undefined;
-          }
-          setImageHome(img);
-        })
-        .catch((err) => console.log("err", err));
-    }
-
-    if (game.awayTeam?.logo) {
-      getImage(game.awayTeam?.logo, tournamentId)
-        .then((image) => {
-          let img = image;
-          if (!image && game.awayTeam?.logo) {
-            img =
-              getImageJustUploaded(game.awayTeam?.logo, tournamentId) ??
-              undefined;
-          }
-          setImageAway(img);
-        })
-        .catch((err) => console.log("err", err));
-    }
-  }, [game, tournamentId]);
 
   return (
     <>

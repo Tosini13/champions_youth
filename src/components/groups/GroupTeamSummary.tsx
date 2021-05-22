@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Grid } from "@material-ui/core";
 import { TeamData } from "../../models/teamData";
-import Logo, { SIZE_LOGO, TeamLogo } from "../global/Logo";
+import { SIZE_LOGO, TeamLogo } from "../global/Logo";
 import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
-import {
-  getImage,
-  getImageJustUploaded,
-} from "../tournaments/actions/getImage";
 
 export interface GroupTeamSummaryProps {
   team: TeamData;

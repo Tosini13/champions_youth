@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
-import Logo, { SIZE_LOGO, TeamLogo } from "../../../global/Logo";
+import { SIZE_LOGO, TeamLogo } from "../../../global/Logo";
 import { TournamentTitle } from "../../../../styled/styledComponents/tournament/info/styledTypography";
 
 export interface TournamentInfoHeaderProps {

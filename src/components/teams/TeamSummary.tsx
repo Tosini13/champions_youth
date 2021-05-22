@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { TeamData } from "../../models/teamData";
 import { Edit, Delete } from "@material-ui/icons";
 
 import { Id } from "../../const/structuresConst";
-import {
-  getImage,
-  getImageJustUploaded,
-} from "../tournaments/actions/getImage";
-import Logo, { SIZE_LOGO, TeamLogo } from "../global/Logo";
+import { SIZE_LOGO, TeamLogo } from "../global/Logo";
 import { useNotification } from "../global/Notification";
 import {
   TeamContentContainer,
@@ -54,22 +50,6 @@ const TeamSummary: React.FC<Props> = ({
     ]);
     openNotification();
   };
-
-  const [logo, setLogo] = useState<any>(null);
-
-  useEffect(() => {
-    if (team?.logo) {
-      getImage(team.logo, tournamentId)
-        .then((image) => {
-          let img = image;
-          if (!image && team.logo) {
-            img = getImageJustUploaded(team.logo, tournamentId) ?? undefined;
-          }
-          setLogo(img);
-        })
-        .catch((err) => console.log("err", err));
-    }
-  }, [team, tournamentId]);
 
   return (
     <TeamsItem>

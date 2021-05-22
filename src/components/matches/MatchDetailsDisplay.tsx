@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { Rosetta, Translator } from "react-rosetta";
 
@@ -14,11 +14,8 @@ import {
 
 import { TypographyLiveMatchHeader } from "../../styled/styledComponents/match/styledTypography";
 
-import Logo, { SIZE_LOGO, TeamLogo } from "../global/Logo";
-import {
-  getImage,
-  getImageJustUploaded,
-} from "../tournaments/actions/getImage";
+import { SIZE_LOGO, TeamLogo } from "../global/Logo";
+
 import matchDict from "../../locale/matchDict";
 import ShowTeam from "./ShowTeam";
 import { useLocale } from "../../Provider/LocaleProvider";

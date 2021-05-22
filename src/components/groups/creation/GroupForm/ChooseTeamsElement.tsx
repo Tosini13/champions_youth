@@ -1,12 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { TeamData } from "../../../../models/teamData";
-import { Id } from "../../../../const/structuresConst";
-import {
-  getImage,
-  getImageJustUploaded,
-} from "../../../tournaments/actions/getImage";
-import Logo, { SIZE_LOGO, TeamLogo } from "../../../global/Logo";
+import { SIZE_LOGO, TeamLogo } from "../../../global/Logo";
 import {
   ChooseTeamContentContainer,
   TeamActionContainer,
