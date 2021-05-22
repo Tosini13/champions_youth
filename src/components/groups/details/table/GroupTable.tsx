@@ -95,8 +95,10 @@ const GroupTable: React.FC<GroupTableProps> = ({
         <TDRC>{team.name}</TDRC>
         <TDRC>{row.matches}</TDRC>
         <TDRC>{row.points}</TDRC>
-        <TDRC>{row.goalsScored}</TDRC>
-        <TDRC>{row.goalsLost}</TDRC>
+        <TDRC>
+          {row.goalsScored} - {row.goalsLost} (
+          {Number(row.goalsScored) - Number(row.goalsLost)})
+        </TDRC>
       </TRRC>
     );
   });
@@ -127,11 +129,8 @@ const GroupTable: React.FC<GroupTableProps> = ({
               </th>
               <th>
                 <p>
-                  <Translator id="scoredTable" />
+                  <Translator id="goalsTable" />
                 </p>
-              </th>
-              <th>
-                <Translator id="goalsLostTable" />
               </th>
             </tr>
           </thead>
