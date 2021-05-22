@@ -6,14 +6,14 @@ import TeamForm from "../../teams/TeamForm";
 import TeamList from "../../teams/TeamList";
 
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
-import { ButtonStyled } from "../../../styled/styledButtons";
+import { ButtonHorizontalContainerStyled } from "../../../styled/styledButtons";
 import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
 import {
   SectionContentStyled,
-  SectionFooterStyled,
   SectionStyled,
 } from "../../../styled/styledLayout";
 import { useLocale } from "../../../Provider/LocaleProvider";
+import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
 
 type Props = {
   teams?: TeamData[];
@@ -46,21 +46,15 @@ const TournamentTeams: React.FC<Props> = ({ teams, isOwner, isCreated }) => {
           <TeamForm handleClose={handleClose} />
         </DialogRU>
         <SectionContentStyled>
+          {isOwner ? (
+            <ButtonHorizontalContainerStyled>
+              <ButtonRC onClick={handleOpen} disabled={isCreated}>
+                <Translator id="addTeam" />
+              </ButtonRC>
+            </ButtonHorizontalContainerStyled>
+          ) : null}
           <TeamList teams={teams} isOwner={isOwner} isCreated={isCreated} />
         </SectionContentStyled>
-        <SectionFooterStyled>
-          {isOwner ? (
-            <ButtonStyled
-              variant="outlined"
-              color="secondary"
-              onClick={handleOpen}
-              style={{ margin: "5px auto", width: "fit-content" }}
-              disabled={isCreated}
-            >
-              <Translator id="addTeam" />
-            </ButtonStyled>
-          ) : null}
-        </SectionFooterStyled>
       </SectionStyled>
     </Rosetta>
   );
