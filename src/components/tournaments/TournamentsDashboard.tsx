@@ -126,11 +126,13 @@ class TournamentsDashboard extends Component<TProps, IState> {
     return (
       <>
         <Hidden mdUp>
-          <TournamentSummaryContainer
-            handleRedirectLogin={this.handleRedirectLogin}
-            {...this.props}
-            tournaments={this.handleGetTournamentsView()}
-          />
+          <SectionContentStyled navQty={2}>
+            <TournamentSummaryContainer
+              handleRedirectLogin={this.handleRedirectLogin}
+              {...this.props}
+              tournaments={this.handleGetTournamentsView()}
+            />
+          </SectionContentStyled>
         </Hidden>
         <Hidden smDown>
           <GridMainContainer container>

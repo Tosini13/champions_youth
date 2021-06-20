@@ -56,14 +56,16 @@ const TournamentSummaryContainer: React.FC<TournamentSummaryContainerProps> = ({
             </ButtonRC>
           </NoContentContainer>
         ) : null}
-        <ListStyled>
-          {tournaments?.map((tournament: TournamentData) => (
-            <React.Fragment key={tournament.id}>
-              <TournamentSummary tournament={tournament} user={user} />
-              <Divider color="primary" />
-            </React.Fragment>
-          ))}
-        </ListStyled>
+        {tournaments?.length && (
+          <ListStyled>
+            {tournaments?.map((tournament: TournamentData) => (
+              <React.Fragment key={tournament.id}>
+                <TournamentSummary tournament={tournament} user={user} />
+                <Divider color="primary" />
+              </React.Fragment>
+            ))}
+          </ListStyled>
+        )}
       </>
     </Rosetta>
   );
