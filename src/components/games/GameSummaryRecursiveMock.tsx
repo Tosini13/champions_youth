@@ -38,7 +38,10 @@ const GameSummaryRecursiveMock: React.FC<Props> = ({
         ) : null}
         {game.previousMatchHome === undefined ||
         game.previousMatchAway === undefined ? (
-          <ButtonRC onClick={() => handleOpenTeams(game)}>
+          <ButtonRC
+            onClick={() => handleOpenTeams(game)}
+            style={{ marginBottom: "10px" }}
+          >
             <Translator id="chooseTeams" />
           </ButtonRC>
         ) : null}

@@ -23,14 +23,15 @@ export interface MatchHeaderProps {
 const MatchHeader: React.FC<MatchHeaderProps> = ({ mode, round, date }) => {
   const { locale } = useLocale();
   const { translateRound } = useTranslationHelp();
-  const { round: matchRound, number } = translateRound(round);
+  const { round: matchRound, number, isPlayOff } = translateRound(round);
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <MatchHeaderContainer>
         <Grid item xs={5}>
           {round ? (
             <TypographyMatchHeader>
-              <Translator id="round" /> <Translator id={matchRound} /> {number}
+              {isPlayOff ? null : <Translator id="round" />}{" "}
+              <Translator id={matchRound} /> {number}
             </TypographyMatchHeader>
           ) : null}
         </Grid>
