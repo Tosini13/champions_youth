@@ -31,6 +31,7 @@ import GroupTeamSummary from "../GroupTeamSummary";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 120px;
+  max-width: 100%;
 `;
 
 export interface CreateGroupsScreenProps {
