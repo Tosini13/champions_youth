@@ -51,7 +51,7 @@ const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <GridMatchContainer container alignItems="center" wrap="nowrap">
-        <Grid item xs={5}>
+        <Grid item xs={4} sm={5}>
           <HostName>
             <ShowTeam
               team={match.home}
@@ -59,14 +59,14 @@ const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
             />
           </HostName>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={4} sm={2}>
           <Result
             home={match.result?.home}
             away={match.result?.away}
             mode={match.mode}
           />
         </Grid>
-        <Grid item xs={5}>
+        <Grid item xs={4} sm={5}>
           <GuestName>
             <ShowTeam
               team={match.away}
@@ -94,7 +94,7 @@ type TResultProps = {
 
 const Result: React.FC<TResultProps> = ({ home, away, mode }) => {
   return (
-    <Grid container alignItems="center">
+    <Grid container alignItems="center" wrap="nowrap">
       <Grid item xs={5}>
         <ResultTypographyStyled
           align="right"

@@ -20,6 +20,7 @@ import {
 } from "../../../../styled/styledComponents/group/styledTable";
 import { parseStyledBoolean } from "../../../../helpers/booleanParser";
 import { useLocale } from "../../../../Provider/LocaleProvider";
+import GoalDiffrence from "./GoalDiffrence";
 
 const GroupTableStyled = styled.div`
   margin: 10px 0px;
@@ -96,8 +97,11 @@ const GroupTable: React.FC<GroupTableProps> = ({
         <TDRC>{row.matches}</TDRC>
         <TDRC>{row.points}</TDRC>
         <TDRC>
-          {row.goalsScored} - {row.goalsLost} (
-          {Number(row.goalsScored) - Number(row.goalsLost)})
+          <GoalDiffrence
+            scored={row.goalsScored}
+            lost={row.goalsLost}
+            diffrence={Number(row.goalsScored) - Number(row.goalsLost)}
+          />
         </TDRC>
       </TRRC>
     );
