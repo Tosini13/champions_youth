@@ -15,7 +15,6 @@ import { DialogRU } from "../../../../styled/styledComponents/navigation/styledD
 import { useLocale } from "../../../../Provider/LocaleProvider";
 
 const TeamList = styled(TeamListStyled)`
-  overflow-x: hidden;
   flex-wrap: nowrap;
   padding-bottom: 5px;
   ${ScrollBarStyled}
