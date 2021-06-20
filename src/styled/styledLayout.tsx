@@ -35,6 +35,7 @@ export const ContentContainerStyled = styled.div`
 `;
 
 export const GroupsContentContainerStyled = styled(ContentContainerStyled)`
+  padding: 0px 20px;
   max-height: 100%;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
