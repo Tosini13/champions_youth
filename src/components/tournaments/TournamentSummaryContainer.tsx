@@ -56,7 +56,7 @@ const TournamentSummaryContainer: React.FC<TournamentSummaryContainerProps> = ({
             </ButtonRC>
           </NoContentContainer>
         ) : null}
-        {tournaments?.length && (
+        {tournaments?.length ? (
           <ListStyled>
             {tournaments?.map((tournament: TournamentData) => (
               <React.Fragment key={tournament.id}>
@@ -65,7 +65,7 @@ const TournamentSummaryContainer: React.FC<TournamentSummaryContainerProps> = ({
               </React.Fragment>
             ))}
           </ListStyled>
-        )}
+        ) : null}
       </>
     </Rosetta>
   );
