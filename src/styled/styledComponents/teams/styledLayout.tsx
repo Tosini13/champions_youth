@@ -9,7 +9,9 @@ import { SIZE_LOGO } from "../../../components/global/Logo";
 
 // ================== GRID ========================
 
-const TeamsListStyled = styled(Grid)``;
+const TeamsListStyled = styled(Grid)`
+  padding-bottom: 60px;
+`;
 
 export const TeamsList: React.FC<GridProps> = ({ children }) => {
   return <TeamsListStyled container>{children}</TeamsListStyled>;

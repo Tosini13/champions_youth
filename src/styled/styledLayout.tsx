@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Link } from "react-router-dom";
 
-import { Divider, Grid, GridProps } from "@material-ui/core";
+import { Divider, Grid, GridProps, List, ListProps } from "@material-ui/core";
 import { ScrollBarStyled } from "./styledScrollBar";
 import { CSSProperties } from "@material-ui/styles";
 
@@ -220,4 +220,14 @@ const GridSectionFooterStyled = styled(Grid)`
 `;
 export const SectionFooterStyled: React.FC<{}> = ({ children }) => (
   <GridSectionFooterStyled item>{children}</GridSectionFooterStyled>
+);
+
+const ListContainerSectionStyled = styled(List)`
+  padding-bottom: 60px;
+`;
+export const ListContainerSection: React.FC<ListProps> = ({
+  children,
+  ...props
+}) => (
+  <ListContainerSectionStyled {...props}>{children}</ListContainerSectionStyled>
 );

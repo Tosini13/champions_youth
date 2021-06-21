@@ -5,16 +5,19 @@ import { Rosetta, Translator } from "react-rosetta";
 import { UserData } from "../../models/credentialsData";
 import { TournamentData } from "../../models/tournamentData";
 import tournamentDashboardDict from "../../locale/tournamentDashboard";
-import { NoContentContainer } from "../../styled/styledLayout";
+import {
+  ListContainerSection,
+  NoContentContainer,
+} from "../../styled/styledLayout";
 import TournamentSummary from "./tournamentSummary/TournamentSummary";
-import { Divider, List } from "@material-ui/core";
+import { Divider } from "@material-ui/core";
 import { ScrollBarStyled } from "../../styled/styledScrollBar";
 import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
 import { useTournamentNav } from "../../hooks/useTournamentNavs";
 import { ButtonRC } from "../../styled/styledComponents/styledButtons";
 import { useLocale } from "../../Provider/LocaleProvider";
 
-const ListStyled = styled(List)`
+const ListStyled = styled(ListContainerSection)`
   padding: 0px 2px;
   height: 100%;
   overflow-y: auto;

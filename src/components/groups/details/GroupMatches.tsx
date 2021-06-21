@@ -1,8 +1,8 @@
 import React from "react";
 
-import { List } from "@material-ui/core";
 import {
   LinkStyled,
+  ListContainerSection,
   SectionContentStyled,
   SectionStyled,
 } from "../../../styled/styledLayout";
@@ -25,7 +25,7 @@ const GroupMatchesView: React.SFC<GroupMatchesViewProps> = ({
   return (
     <SectionStyled>
       <SectionContentStyled>
-        <List>
+        <ListContainerSection>
           {matches.map((match) => (
             <LinkStyled
               key={match.id}
@@ -34,7 +34,7 @@ const GroupMatchesView: React.SFC<GroupMatchesViewProps> = ({
               <MatchSummary match={match} />
             </LinkStyled>
           ))}
-        </List>
+        </ListContainerSection>
       </SectionContentStyled>
     </SectionStyled>
   );
