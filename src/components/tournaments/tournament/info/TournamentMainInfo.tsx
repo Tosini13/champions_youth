@@ -16,6 +16,14 @@ import TournamentInfoLocation from "./TournamentInfoLocation";
 import Share from "../../../share/Share";
 import { Id } from "../../../../const/structuresConst";
 import { useLocale } from "../../../../Provider/LocaleProvider";
+import styled from "styled-components";
+import { parseStyledBoolean } from "../../../../helpers/booleanParser";
+
+const GridStyled = styled(Grid)<{
+  clickable?: string;
+}>`
+  ${(props) => props.clickable ? `cursor: pointer;` : ``}
+`;
 
 export interface TournamentMainInfoProps {
   date?: string | Moment;
@@ -37,8 +45,9 @@ const TournamentMainInfo: React.FC<TournamentMainInfoProps> = ({
     {
       id: 1,
       icon: <ShareIcon />,
+      handleClick: () => setOpenShare(true),
       content: (
-        <span style={{ cursor: "pointer" }} onClick={() => setOpenShare(true)}>
+        <span style={{ cursor: "pointer" }}>
           <Translator id="share" />
         </span>
       ),
@@ -66,9 +75,9 @@ const TournamentMainInfo: React.FC<TournamentMainInfoProps> = ({
         style={{ margin: "20px 0px" }}
       >
         {infos.map((info) => (
-          <Grid item key={info.id}>
+          <GridStyled item key={info.id} onClick={info.handleClick} clickable={parseStyledBoolean(Boolean(info.handleClick))}>
             <InfoItem icon={info.icon}>{info.content}</InfoItem>
-          </Grid>
+          </GridStyled>
         ))}
         {city && address ? (
           <Grid item>
