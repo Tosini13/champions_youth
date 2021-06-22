@@ -55,7 +55,7 @@ export const bergerAlgorithm = (
         initMatch(
           match.away ?? match.placeholder.away,
           match.home ?? match.placeholder.home,
-          Number(match.round + roundsQtt)
+          Number(match.round) + Number(roundsQtt)
         )
       );
     });

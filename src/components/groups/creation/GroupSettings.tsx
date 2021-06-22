@@ -3,15 +3,17 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import { DialogContent, FormControlLabel, Grid } from "@material-ui/core";
 
-import { TextFieldStyled, CheckboxStyled } from "../../../styled/styledForm";
-import { LOCALE } from "../../../locale/config";
+import {
+  TextFieldRC,
+  CheckboxStyled,
+} from "../../../styled/styledComponents/styledForm";
 import groupCreationDict from "../../../locale/creationNav.dict.";
 import { useForm } from "react-hook-form";
 import { SettingType } from "./CreateGroupsScreen";
-import { DialogRU } from "../../../styled/styledDialog";
+import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 export interface GroupSettingsProps {
-  locale: LOCALE;
   open: boolean;
   handleClose: () => void;
   settings: SettingType;
@@ -19,12 +21,12 @@ export interface GroupSettingsProps {
 }
 
 const GroupSettings: React.FC<GroupSettingsProps> = ({
-  locale,
   open,
   handleClose,
   settings,
   setSettings,
 }) => {
+  const { locale } = useLocale();
   const [time, setTime] = useState<boolean>(Boolean(settings.time));
   const [returnMatches, setReturnMatches] = useState<boolean>(
     Boolean(settings.returnMatches)
@@ -63,7 +65,6 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
             formRef.current?.dispatchEvent(new Event("submit"));
             handleClose();
           }}
-          locale={locale}
           title={"settings"}
         >
           <DialogContent>
@@ -78,7 +79,7 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
               label={<Translator id="returnMatches" />}
             />
             <Grid item xs={5}>
-              <TextFieldStyled
+              <TextFieldRC
                 label={<Translator id="fields" />}
                 color="secondary"
                 type="number"
@@ -104,7 +105,7 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
             />
             <Grid container justify="space-around" spacing={2}>
               <Grid item xs={5}>
-                <TextFieldStyled
+                <TextFieldRC
                   disabled={Boolean(!time)}
                   label={<Translator id="matchTime" />}
                   color="secondary"
@@ -122,7 +123,7 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
                 />
               </Grid>
               <Grid item xs={5}>
-                <TextFieldStyled
+                <TextFieldRC
                   disabled={Boolean(!time)}
                   label={<Translator id="breakTime" />}
                   color="secondary"

@@ -1,8 +1,8 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
-import { LOCALE } from "../../../../locale/config";
 import matchDict from "../../../../locale/matchDict";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 import { MatchData } from "../../../../structures/match";
 import {
   MatchContainerStyled,
@@ -15,13 +15,10 @@ import ShowTeam from "../../../matches/ShowTeam";
 
 export interface MatchSummaryMockProps {
   match: MatchData;
-  locale: LOCALE;
 }
 
-const MatchSummaryMock: React.SFC<MatchSummaryMockProps> = ({
-  match,
-  locale,
-}) => {
+const MatchSummaryMock: React.SFC<MatchSummaryMockProps> = ({ match }) => {
+  const { locale } = useLocale();
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <MatchContainerStyled>

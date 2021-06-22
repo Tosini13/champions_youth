@@ -4,6 +4,7 @@ import {
   getImageUrl,
   setImageJustUploaded,
 } from "../../components/tournaments/actions/getImage";
+import { Id } from "../../const/structuresConst";
 import {
   TournamentCreateData,
   TournamentData,
@@ -26,7 +27,6 @@ export const createTournament = (data: TournamentCreateData, image?: any) => {
         ownerId: authorId,
       })
       .then((res: any) => {
-        console.log(res.id);
         if (image) {
           const storageRef = firebase.storage().ref();
 
@@ -57,6 +57,75 @@ export const createTournament = (data: TournamentCreateData, image?: any) => {
   };
 };
 
+export type TupdateTournament = {
+  data: TournamentCreateData;
+  tournamentId: Id;
+  image?: any;
+  oldImage?: string;
+};
+
+export const updateTournament = ({
+  data,
+  tournamentId,
+  image,
+  oldImage,
+}: TupdateTournament) => {
+  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    const firestore = getFirestore();
+    const authorId = getState().firebase.auth.uid;
+    const logoName = image ? `${moment().format()}${image.name}` : undefined;
+    if (image && logoName) {
+      image.name = logoName;
+      setImageJustUploaded(logoName, URL.createObjectURL(image), authorId); // should be tournamentId, but there's no, so authorId is instead!
+    }
+    const getImageName = () =>
+      logoName
+        ? {
+            image: logoName,
+          }
+        : {};
+    firestore
+      .collection("tournaments")
+      .doc(tournamentId)
+      .update({
+        ...data,
+        ...getImageName(),
+      })
+      .then((res: any) => {
+        if (image) {
+          const storageRef = firebase.storage().ref();
+          const ref = storageRef.child(
+            getImageUrl({
+              tournamentId,
+              imageName: image.name,
+            })
+          );
+          ref
+            .put(image)
+            .then((res) => {
+              dispatch({ type: "CREATE_TOURNAMENT_IMAGE_UPLOADED", data });
+            })
+            .catch((err) => {
+              dispatch({
+                type: "CREATE_TOURNAMENT_IMAGE_UPLOADED_ERROR",
+                data,
+              });
+            });
+        } else {
+          dispatch({ type: "UPDATED_TOURNAMENT", data });
+        }
+        if (!oldImage && data.image) {
+          const ref = firebase.storage().ref(`images/${tournamentId}`);
+          deleteFile(ref.fullPath, data.image);
+          dispatch({ type: "UPDATED_TOURNAMENT_DELETE_LOGO" });
+        }
+      })
+      .catch((err: any) => {
+        dispatch({ type: "UPDATED_TOURNAMENT_ERROR", err });
+      });
+  };
+};
+
 export const deleteTournament = (
   tournament: TournamentData,
   callBackSuccess?: () => void,
@@ -81,7 +150,6 @@ export const deleteTournament = (
               dispatch({ type: "DELETE_TOURNAMENT_DELETE_LOGO" });
             })
             .catch((error) => {
-              console.log(error);
               dispatch({
                 type: "DELETE_TOURNAMENT_OK_DELETE_LOGO_ERROR",
               });

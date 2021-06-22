@@ -1,21 +1,22 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { Button, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 
 import { GameStructure } from "../../../../structures/game";
-import MatchSummaryMock from "../../../matches/MatchSummaryMock";
 import { GAME_SIDE } from "../../../../const/playOffsConst";
 import { TeamData } from "../../../../models/teamData";
 import { Group } from "../../../../models/groupData";
 import ChoosePromoted from "./promoted/ChoosePromoted";
 import ChooseTeam from "./teams/ChooseTeam";
 import { BracketStructure } from "../../../../structures/bracket";
-import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import { Placeholder } from "../../../../NewModels/Team";
-import { DialogRU } from "../../../../styled/styledDialog";
+import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
+import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
+import MatchSummary from "../../../matches/MatchSummary/MatchSummary";
+import { convertMatchStructureToData } from "../../../../structures/match";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 type Props = {
   teams?: TeamData[];
@@ -28,7 +29,6 @@ type Props = {
   setChosenTeams: (teams: TeamData[]) => void;
   chosenPromoted: Placeholder[];
   setChosenPromoted: (teams: Placeholder[]) => void;
-  locale: LOCALE;
 };
 
 const Choose: React.FC<Props> = ({
@@ -42,34 +42,27 @@ const Choose: React.FC<Props> = ({
   setChosenTeams,
   chosenPromoted,
   setChosenPromoted,
-  locale,
 }) => {
+  const { locale } = useLocale();
   const [gameSide, setGameSide] = useState(GAME_SIDE.HOME);
   return (
-    <DialogRU
-      open={open}
-      onClose={handleClose}
-      locale={locale}
-      title="chooseTeams"
-    >
+    <DialogRU open={open} onClose={handleClose} title="chooseTeams">
       <Rosetta translations={tournamentDetailsDict} locale={locale}>
         <>
-          <MatchSummaryMock match={game.match} locale={locale} />
+          <MatchSummary match={convertMatchStructureToData(game.match)} />
           <Grid container justify="space-around">
-            <Button
+            <ButtonRC
               variant={gameSide === GAME_SIDE.HOME ? "contained" : "outlined"}
-              color="secondary"
               onClick={() => setGameSide(GAME_SIDE.HOME)}
             >
               <Translator id="host" />
-            </Button>
-            <Button
+            </ButtonRC>
+            <ButtonRC
               variant={gameSide === GAME_SIDE.AWAY ? "contained" : "outlined"}
-              color="secondary"
               onClick={() => setGameSide(GAME_SIDE.AWAY)}
             >
               <Translator id="guest" />
-            </Button>
+            </ButtonRC>
           </Grid>
           {groups && groups?.length > 0 ? (
             <ChoosePromoted
@@ -79,7 +72,6 @@ const Choose: React.FC<Props> = ({
               groups={groups}
               game={game}
               gameSide={gameSide}
-              locale={locale}
             />
           ) : (
             <ChooseTeam
@@ -89,29 +81,20 @@ const Choose: React.FC<Props> = ({
               teams={teams}
               game={game}
               gameSide={gameSide}
-              locale={locale}
             />
           )}
-          <Button
-            variant="outlined"
-            color="secondary"
+          <ButtonRC
             onClick={handleClose}
             style={{
               margin: "0px 5px 5px 5px",
             }}
           >
             <Translator id="ok" />
-          </Button>
+          </ButtonRC>
         </>
       </Rosetta>
     </DialogRU>
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(Choose);
+export default Choose;

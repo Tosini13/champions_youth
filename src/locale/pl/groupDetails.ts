@@ -7,6 +7,7 @@ export const groupDetails = {
   pointsTable: "Pkt",
   scoredTable: "GZ",
   goalsLostTable: "GS",
+  goalsTable: "GZ - GS",
   noTeamsMessage: "W tej grupie nie ma żadnych zespołów",
   table: "Tabela",
   matches: "Mecze",

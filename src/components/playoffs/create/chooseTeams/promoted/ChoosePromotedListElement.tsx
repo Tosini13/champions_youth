@@ -1,22 +1,22 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-
-import {
-  ChooseListItemSecondaryActionStyled,
-  ChooseListItemStyled,
-} from "../../../../../styled/styledBracket";
 import { Id } from "../../../../../const/structuresConst";
 import { PromotedTeam } from "../../../../../NewModels/Team";
-import { LOCALE } from "../../../../../locale/config";
 import chooseTeamDict from "../../../../../locale/chooseTeam.dict";
-import { Typography } from "@material-ui/core";
+import { useLocale } from "../../../../../Provider/LocaleProvider";
+import {
+  ChooseTeamContentContainer,
+  TeamActionContainer,
+  TeamContainerStyled,
+  TeamLogoContainer,
+  TeamsItem,
+} from "../../../../../styled/styledComponents/teams/styledLayout";
+import Logo, { SIZE_LOGO } from "../../../../global/Logo";
+import { TypographyPrimaryText } from "../../../../../styled/styledComponents/styledTypography";
+import { ChooseTeamIconButton } from "../../../../../styled/styledComponents/teams/styledButtons";
 
 type Props = {
-  locale: LOCALE;
   element: PromotedTeam;
   selected: boolean;
   groupId?: Id | null;
@@ -25,36 +25,45 @@ type Props = {
 };
 
 const ChoosePromotedListElement: React.FC<Props> = ({
-  locale,
   element,
   selected,
   disabled,
   groupId,
   addToChosenTeams,
 }) => {
-  // PLACE TEXT TRANSLATE
+  const { locale } = useLocale();
+  // TODO: PLACE TEXT TRANSLATE
+  const handleAddTeam = () => {
+    if (groupId) {
+      addToChosenTeams(element, groupId);
+    }
+  };
   return (
     <Rosetta translations={chooseTeamDict} locale={locale}>
-      <ChooseListItemStyled
-        button
-        onClick={() => {
-          if (groupId) addToChosenTeams(element, groupId);
-        }}
-        disabled={disabled}
-      >
-        <Typography variant="body2" style={{ padding: "4px" }}>
-          {element.name + " " + element.place + " "} <Translator id="place" />
-        </Typography>
-        <ChooseListItemSecondaryActionStyled>
-          <IconButton size="small">
-            {selected || disabled ? (
-              <RemoveIcon color="secondary" />
-            ) : (
-              <AddIcon color="secondary" />
-            )}
-          </IconButton>
-        </ChooseListItemSecondaryActionStyled>
-      </ChooseListItemStyled>
+      <TeamsItem>
+        <TeamContainerStyled
+          onClick={() => (disabled ? false : handleAddTeam())}
+          style={{ cursor: "pointer" }}
+        >
+          <TeamLogoContainer>
+            <Logo size={SIZE_LOGO.md} />
+          </TeamLogoContainer>
+          <ChooseTeamContentContainer isRestricted={disabled}>
+            <TypographyPrimaryText style={{ color: "white" }}>
+              {element.name + " " + element.place + " "}{" "}
+              <Translator id="place" />
+            </TypographyPrimaryText>
+          </ChooseTeamContentContainer>
+          <TeamActionContainer>
+            {!disabled ? (
+              <ChooseTeamIconButton
+                isSelected={selected}
+                handleClick={() => (disabled ? false : handleAddTeam())}
+              />
+            ) : null}
+          </TeamActionContainer>
+        </TeamContainerStyled>
+      </TeamsItem>
     </Rosetta>
   );
 };

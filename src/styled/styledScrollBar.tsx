@@ -1,14 +1,17 @@
-import { mainTheme } from "./styledConst";
+import { mainTheme } from "./themes/darkTheme";
 
 export const ScrollBarStyled = `
 /* width */
 ::-webkit-scrollbar {
   width: 3px;
+  &:hover{
+    width: 10px;
+  }
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: ${mainTheme.palette.primary.light};
+  background: ${mainTheme.palette.primary.dark};
 }
 
 /* Handle */
@@ -19,4 +22,5 @@ export const ScrollBarStyled = `
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: ${mainTheme.palette.secondary.dark};
-}`;
+}
+`;

@@ -1,23 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-import RemoveIcon from "@material-ui/icons/Remove";
-import AddIcon from "@material-ui/icons/Add";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import { TeamData } from "../../../../models/teamData";
-import { Id } from "../../../../const/structuresConst";
+import { SIZE_LOGO, TeamLogo } from "../../../global/Logo";
 import {
-  getImage,
-  getImageJustUploaded,
-} from "../../../tournaments/actions/getImage";
-import { TeamListElementStyled } from "../../../../styled/styledTeams";
-import Logo, { SIZE_LOGO } from "../../../global/Logo";
-import { IconButton } from "@material-ui/core";
-import { ListItemTextStyled } from "../../../../styled/styledBracket";
+  ChooseTeamContentContainer,
+  TeamActionContainer,
+  TeamContainerStyled,
+  TeamLogoContainer,
+  TeamsItem,
+} from "../../../../styled/styledComponents/teams/styledLayout";
+import { TypographyPrimaryText } from "../../../../styled/styledComponents/styledTypography";
+import { ChooseTeamIconButton } from "../../../../styled/styledComponents/teams/styledButtons";
 
 type Props = {
   team: TeamData;
-  userId: Id;
-  tournamentId: Id;
   selected: boolean;
   restricted: boolean;
   handleChooseTeam: (selected: TeamData) => void;
@@ -25,44 +21,34 @@ type Props = {
 
 const ChooseTeamsElement: React.FC<Props> = ({
   team,
-  userId,
-  tournamentId,
   selected,
   restricted,
   handleChooseTeam,
 }) => {
-  const [logo, setLogo] = useState<any>(null);
-
-  useEffect(() => {
-    if (team?.logo) {
-      getImage(team.logo, tournamentId)
-        .then((image) => {
-          let img = image;
-          if (!image && team.logo) {
-            img = getImageJustUploaded(team.logo, tournamentId) ?? undefined;
-          }
-          setLogo(img);
-        })
-        .catch((err) => console.log("err", err));
-    }
-  }, [team, tournamentId]);
-
   return (
-    <TeamListElementStyled
-      button
-      onClick={() => (restricted ? false : handleChooseTeam(team))}
-      disabled={restricted}
-    >
-      <Logo src={logo} size={SIZE_LOGO.sm} />
-      <>
-        <ListItemTextStyled primary={team.name} style={{ marginLeft: "5px" }} />
-        <ListItemSecondaryAction>
-          <IconButton color="secondary" size="small">
-            {selected ? <RemoveIcon /> : <AddIcon />}
-          </IconButton>
-        </ListItemSecondaryAction>
-      </>
-    </TeamListElementStyled>
+    <TeamsItem>
+      <TeamContainerStyled
+        onClick={() => (restricted ? false : handleChooseTeam(team))}
+        style={{ cursor: "pointer" }}
+      >
+        <TeamLogoContainer>
+          <TeamLogo teamLogo={team.logo} size={SIZE_LOGO.md} />
+        </TeamLogoContainer>
+        <ChooseTeamContentContainer isRestricted={restricted}>
+          <TypographyPrimaryText style={{ color: "white" }}>
+            {team.name}
+          </TypographyPrimaryText>
+        </ChooseTeamContentContainer>
+        <TeamActionContainer>
+          {!restricted ? (
+            <ChooseTeamIconButton
+              isSelected={selected}
+              handleClick={() => handleChooseTeam(team)}
+            />
+          ) : null}
+        </TeamActionContainer>
+      </TeamContainerStyled>
+    </TeamsItem>
   );
 };
 

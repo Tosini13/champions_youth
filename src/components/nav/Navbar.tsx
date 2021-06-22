@@ -3,26 +3,20 @@ import { connect } from "react-redux";
 import { Moment } from "moment";
 import { useHistory } from "react-router-dom";
 
-import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 import "date-fns";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { Grid, Hidden } from "@material-ui/core";
 
-import { GridNavBarStyled, NavContainerStyled } from "../../styled/styledNav";
-import { HamburgerStyled } from "../../styled/styledIcons";
 import MenuSideBar from "./mainMenu/MenuSideBar";
 import { setSelectedDate } from "../../store/actions/MenuActions";
-import { IconButtonNavStyled } from "../../styled/styledButtons";
 import { routerConstString } from "../../const/menuConst";
 import DateNav from "./DateNav";
-import { LOCALE } from "../../locale/config";
+import { NavContainer } from "../../styled/styledComponents/navigation/styledLayout";
 
 const Navbar = ({
-  locale,
   selectedDate,
   setSelectedDate,
 }: {
-  locale: LOCALE;
   selectedDate: Moment;
   setSelectedDate: (menu: Moment) => void;
 }) => {
@@ -50,7 +44,7 @@ const Navbar = ({
         location.pathname + location.search ===
           (routerConstString.tournaments ||
             routerConstString.favorites ||
-            routerConstString.live ||
+            routerConstString.matches ||
             routerConstString.my)
       );
     });
@@ -59,41 +53,24 @@ const Navbar = ({
   return (
     <>
       <Hidden mdUp>
-        <NavContainerStyled>
-          <GridNavBarStyled
+        <NavContainer>
+          <Grid
             container
             justify="space-between"
             alignItems="center"
             wrap="nowrap"
           >
-            {!isDateActive ? (
-              <Grid item>
-                <IconButtonNavStyled onClick={goBack}>
-                  <NavigateBeforeIcon fontSize="large" />
-                </IconButtonNavStyled>
-              </Grid>
-            ) : null}
             <DateNav
-              locale={locale}
               isDateActive={isDateActive}
               selectedDate={selectedDate}
+              isHamburgerOpen={sideBarMenuOpened}
               handleDateChange={handleDateChange}
               setSelectedDate={setSelectedDate}
+              goBack={goBack}
+              toggleHamnburgerOpen={toggleSideBarMenu}
             />
-            <Grid item>
-              <Hidden smUp>
-                <HamburgerStyled
-                  open={sideBarMenuOpened}
-                  onClick={toggleSideBarMenu}
-                >
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </HamburgerStyled>
-              </Hidden>
-            </Grid>
-          </GridNavBarStyled>
-        </NavContainerStyled>
+          </Grid>
+        </NavContainer>
       </Hidden>
       <MenuSideBar
         handleCloseSideBar={() => setSideBarMenu(false)}
@@ -106,7 +83,6 @@ const Navbar = ({
 const mapStateToProps = (state: any, ownProps: any) => {
   return {
     selectedDate: state.menu.selectedDate,
-    locale: state.dictionary.locale,
   };
 };
 

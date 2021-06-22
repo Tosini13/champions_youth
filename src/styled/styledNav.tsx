@@ -1,12 +1,10 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import BottomNavigation from "@material-ui/core/BottomNavigation";
-import { KeyboardDatePicker } from "@material-ui/pickers";
 import List from "@material-ui/core/List";
 
-import { mainTheme, styledColors } from "./styledConst";
-import { Typography, Grid } from "@material-ui/core";
+import { mainTheme } from "./styledConst";
+import { Typography } from "@material-ui/core";
 
 export const ListStyled = styled(List)`
   padding: 0px;
@@ -41,21 +39,6 @@ export const MenuSideBarContainerStyled = styled.div<{ opened: boolean }>`
       : `translateX(-100%);
         box-shadow: none;`};
 `;
-
-export const GridNavBarStyled = styled(Grid)`
-  position: relative;
-  padding: 6px 10px;
-  width: 100%;
-`;
-
-export const NavContainerStyled = styled.div`
-  width: 100%;
-  background-color: ${mainTheme.palette.primary.main};
-  color: ${mainTheme.palette.secondary.main};
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.24);
-  z-index: 10;
-`;
-
 export const MenuLinkStyled = styled(Link)`
   color: inherit;
   width: 100%;
@@ -63,39 +46,6 @@ export const MenuLinkStyled = styled(Link)`
   justify-content: center;
   align-items: center;
   text-decoration: none;
-`;
-
-export const BottomNavigationStyled = styled(BottomNavigation)`
-  background-color: ${mainTheme.palette.primary.main};
-  max-width: 100vw;
-  min-height: 55px;
-  overflow: hidden;
-  box-shadow: 0px -3px 8px rgba(0, 0, 0, 0.24);
-  z-index: 9;
-`;
-
-export const BottomNavigationActionLinkStyled = styled(Link)`
-  color: ${mainTheme.palette.secondary.main};
-  min-width: 0px;
-  .MuiBottomNavigationAction-label.Mui-selected {
-    font-size: 0.575rem;
-  }
-`;
-
-export const GoldBottomNavigationActionLinkStyled = styled(
-  BottomNavigationActionLinkStyled
-)`
-  &.MuiBottomNavigationAction-root.Mui-selected {
-    color: ${styledColors.icons.tournament};
-  }
-`;
-
-export const RedBottomNavigationActionLinkStyled = styled(
-  BottomNavigationActionLinkStyled
-)`
-  &.MuiBottomNavigationAction-root.Mui-selected {
-    color: ${styledColors.icons.live};
-  }
 `;
 
 export const DayNavbarContainerStyled = styled.div`
@@ -121,28 +71,4 @@ export const DayDateStyled = styled(Typography)`
   padding: 0px;
   font-size: 10px;
   text-align: center;
-`;
-
-export const KeyboardDatePickerStyled = styled(KeyboardDatePicker)`
-  margin: 0px;
-  .MuiInputBase-root,
-  .MuiFormControl-root {
-    margin: 0px;
-  }
-  .MuiInputBase-root::before,
-  .MuiInputBase-root::after {
-    content: none;
-  }
-  .Mui-error,
-  input,
-  label {
-    display: none;
-  }
-  .MuiIconButton-root {
-    padding: 1.5px;
-    color: ${mainTheme.palette.secondary.main};
-  }
-  .MuiInputAdornment-root {
-    height: 100%;
-  }
 `;

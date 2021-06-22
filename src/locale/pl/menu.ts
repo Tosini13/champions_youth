@@ -16,6 +16,6 @@ export const menu = {
   cancel: "Anuluj",
   info: "Info",
   teams: "Drużyny",
-  groups: "Faza Grupowa",
-  playOffs: "Faza Pucharowa",
+  groups: "Grupy",
+  playOffs: "Pucharowa",
 };

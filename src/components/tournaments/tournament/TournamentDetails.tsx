@@ -4,16 +4,11 @@ import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
 import {
-  ContentContainerStyled,
   SectionContentStyled,
   SectionNavStyled,
   SectionStyled,
 } from "../../../styled/styledLayout";
-import {
-  menuTournamentConst,
-  routerConstString,
-} from "../../../const/menuConst";
-import TournamentMenu from "./TournamentMenu";
+import { routerConstString } from "../../../const/menuConst";
 import TournamentTeams from "./TournamentTeams";
 import TournamentGroups from "./TournamentGroups";
 import { TeamData } from "../../../models/teamData";
@@ -29,10 +24,13 @@ import SplashScreen from "../../global/SplashScreen";
 import { GroupModel } from "../../../NewModels/Group";
 import { Hidden } from "@material-ui/core";
 import TournamentDetailsDesktop from "./TournamentDetailsDesktop";
-import { LOCALE } from "../../../locale/config";
+import TournamentNav from "./nav/TournamentNav";
+import {
+  E_TOURNAMENT_MENU,
+  useTournamentNav,
+} from "../../../hooks/useTournamentNavs";
 
 type Props = {
-  locale: LOCALE;
   tournament?: TournamentData;
   teams?: TeamData[];
   groups?: Group[];
@@ -45,7 +43,6 @@ type Props = {
 };
 
 const TournamentDetails: React.FC<Props> = ({
-  locale,
   authorId,
   isOwner,
   tournamentId,
@@ -55,7 +52,13 @@ const TournamentDetails: React.FC<Props> = ({
   playOffs,
   playOffsGroups,
 }) => {
+  const { getLocalStorageTournamentNav, clearLocalStorageGroupNav } =
+    useTournamentNav();
   const [image, setImage] = useState<any | null>(null);
+
+  useEffect(() => {
+    clearLocalStorageGroupNav();
+  }, [clearLocalStorageGroupNav]);
 
   useEffect(() => {
     if (tournament?.image && tournamentId && authorId) {
@@ -71,63 +74,66 @@ const TournamentDetails: React.FC<Props> = ({
     }
   }, [tournament, tournamentId, authorId]);
 
-  const [view, setView] = useState(menuTournamentConst.info);
+  const [view, setView] = useState(
+    getLocalStorageTournamentNav() || E_TOURNAMENT_MENU.INFO
+  );
+
   if (tournament && teams) {
     return (
       <>
         <Hidden mdUp>
           <SectionStyled>
             <SectionNavStyled>
-              <TournamentMenu view={view} setView={setView} />
+              <TournamentNav value={view} setValue={setView} />
             </SectionNavStyled>
-            <SectionContentStyled>
-              <ContentContainerStyled>
-                {view === menuTournamentConst.groups && tournament ? (
-                  <TournamentGroups
-                    tournamentId={tournamentId}
-                    tournament={tournament}
-                    groups={groups}
-                    playOffs={Boolean(playOffs?.length)}
-                    playOffsGroups={Boolean(playOffsGroups?.length)}
-                    teams={teams}
-                    isOwner={isOwner}
-                  />
-                ) : null}
-                {view === menuTournamentConst.playoffs &&
-                tournament &&
-                playOffs ? (
-                  <TournamentPlayOffs
-                    tournamentId={tournamentId}
-                    tournament={tournament}
-                    playOffs={playOffs}
-                    playOffsGroups={playOffsGroups}
-                    teams={teams}
-                    groups={groups}
-                    isOwner={isOwner}
-                  />
-                ) : null}
-                {view === menuTournamentConst.info && tournament ? (
-                  <TournamentInfo
-                    tournament={tournament}
-                    image={image}
-                    isOwner={isOwner}
-                    tournamentId={tournamentId}
-                  />
-                ) : null}
-                {view === menuTournamentConst.teams && tournament ? (
-                  <TournamentTeams
-                    teams={teams}
-                    isOwner={isOwner}
-                    isCreated={Boolean(playOffs?.length || groups?.length)}
-                  />
-                ) : null}
-              </ContentContainerStyled>
+            <SectionContentStyled navQty={1}>
+              {view === E_TOURNAMENT_MENU.GROUPS &&
+              tournament &&
+              tournamentId ? (
+                <TournamentGroups
+                  tournamentId={tournamentId}
+                  tournament={tournament}
+                  groups={groups}
+                  playOffs={Boolean(playOffs?.length)}
+                  playOffsGroups={Boolean(playOffsGroups?.length)}
+                  teams={teams}
+                  isOwner={isOwner}
+                />
+              ) : null}
+              {view === E_TOURNAMENT_MENU.PLAY_OFFS &&
+              tournament &&
+              playOffs &&
+              tournamentId ? (
+                <TournamentPlayOffs
+                  tournamentId={tournamentId}
+                  tournament={tournament}
+                  playOffs={playOffs}
+                  playOffsGroups={playOffsGroups}
+                  teams={teams}
+                  groups={groups}
+                  isOwner={isOwner}
+                />
+              ) : null}
+              {view === E_TOURNAMENT_MENU.INFO && tournament && tournamentId ? (
+                <TournamentInfo
+                  tournament={tournament}
+                  image={image}
+                  isOwner={isOwner}
+                  tournamentId={tournamentId}
+                />
+              ) : null}
+              {view === E_TOURNAMENT_MENU.TEAMS && tournament ? (
+                <TournamentTeams
+                  teams={teams}
+                  isOwner={isOwner}
+                  isCreated={Boolean(playOffs?.length || groups?.length)}
+                />
+              ) : null}
             </SectionContentStyled>
           </SectionStyled>
         </Hidden>
         <Hidden smDown>
           <TournamentDetailsDesktop
-            locale={locale}
             authorId={authorId}
             isOwner={isOwner}
             tournamentId={tournamentId}
@@ -179,7 +185,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
     playOffsGroups,
     tournamentId,
     groups,
-    locale: state.dictionary.locale,
   };
 };
 

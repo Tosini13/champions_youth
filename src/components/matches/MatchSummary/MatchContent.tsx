@@ -9,8 +9,10 @@ import { matchModeConst } from "../../../const/matchConst";
 import { LOCALE } from "../../../locale/config";
 import matchDict from "../../../locale/matchDict";
 import ShowTeam from "../ShowTeam";
+import { styledColors } from "../../../styled/themes/other";
+import { parseStyledBoolean } from "../../../helpers/booleanParser";
 
-const TeamName = styled.div`
+export const TeamName = styled.div`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -18,31 +20,26 @@ const TeamName = styled.div`
   padding: 2px;
 `;
 
-const HostName = styled(TeamName)`
+export const HostName = styled(TeamName)`
   text-align: right;
 `;
 
-const GuestName = styled(TeamName)`
+export const GuestName = styled(TeamName)`
   text-align: left;
 `;
 
-const ResultGoal = styled(Grid)`
-  background-color: rgba(0, 0, 0, 0.3);
-  font-size: 13px;
-  margin: 2px;
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
-  text-align: center;
+export const ResultTypographyStyled = styled(Typography)<{ islive?: string }>`
+  color: white;
+  ${(props) =>
+    props.islive
+      ? `
+  color: ${styledColors.icons.live};
+  font-weight: bold;`
+      : ""}
 `;
 
-const Goal = styled(Typography)`
-  font-size: 13px;
-`;
-
-const Divider = styled(Typography)`
-  font-size: 13px;
-  text-align: center;
+export const GridMatchContainer = styled(Grid)`
+  padding: 0px 20px;
 `;
 
 export interface MatchContentProps {
@@ -51,61 +48,33 @@ export interface MatchContentProps {
 }
 
 const MatchContent: React.FC<MatchContentProps> = ({ match, locale }) => {
-  const isResult = match.mode !== matchModeConst.notStarted;
   return (
     <Rosetta translations={matchDict} locale={locale}>
-      <Grid container wrap="nowrap" alignItems="center">
-        <Grid item xs={10}>
-          <Grid
-            container
-            justify="space-evenly"
-            alignItems="center"
-            wrap="nowrap"
-          >
-            <Grid item xs={5}>
-              <HostName>
-                <ShowTeam
-                  team={match.home}
-                  placeholder={match?.placeholder?.home}
-                />
-              </HostName>
-            </Grid>
-            <Grid item xs={2}>
-              <Divider color="secondary">vs</Divider>
-            </Grid>
-            <Grid item xs={5}>
-              <GuestName>
-                <ShowTeam
-                  team={match.away}
-                  placeholder={match?.placeholder?.away}
-                />
-              </GuestName>
-            </Grid>
-          </Grid>
+      <GridMatchContainer container alignItems="center" wrap="nowrap">
+        <Grid item xs={4} sm={5}>
+          <HostName>
+            <ShowTeam
+              team={match.home}
+              placeholder={match?.placeholder?.home}
+            />
+          </HostName>
         </Grid>
-        <Grid item xs={2}>
-          <Grid
-            container
-            justify="space-evenly"
-            alignItems="center"
-            wrap="nowrap"
-          >
-            <ResultGoal item>
-              <Goal color="secondary">
-                {isResult ? match.result?.home : null}
-              </Goal>
-            </ResultGoal>
-            <Grid item>
-              <Divider color="secondary">:</Divider>
-            </Grid>
-            <ResultGoal item>
-              <Goal color="secondary">
-                {isResult ? match.result?.away : null}
-              </Goal>
-            </ResultGoal>
-          </Grid>
+        <Grid item xs={4} sm={2}>
+          <Result
+            home={match.result?.home}
+            away={match.result?.away}
+            mode={match.mode}
+          />
         </Grid>
-      </Grid>
+        <Grid item xs={4} sm={5}>
+          <GuestName>
+            <ShowTeam
+              team={match.away}
+              placeholder={match?.placeholder?.away}
+            />
+          </GuestName>
+        </Grid>
+      </GridMatchContainer>
     </Rosetta>
   );
 };
@@ -116,3 +85,40 @@ const mapStateToProps = (state: any, ownProps: any) => {
   };
 };
 export default connect(mapStateToProps)(MatchContent);
+
+type TResultProps = {
+  home?: number;
+  away?: number;
+  mode: string;
+};
+
+const Result: React.FC<TResultProps> = ({ home, away, mode }) => {
+  return (
+    <Grid container alignItems="center" wrap="nowrap">
+      <Grid item xs={5}>
+        <ResultTypographyStyled
+          align="right"
+          islive={parseStyledBoolean(mode === matchModeConst.live)}
+        >
+          {home ?? ""}
+        </ResultTypographyStyled>
+      </Grid>
+      <Grid item xs={2}>
+        <ResultTypographyStyled
+          align="center"
+          islive={parseStyledBoolean(mode === matchModeConst.live)}
+        >
+          -
+        </ResultTypographyStyled>
+      </Grid>
+      <Grid item xs={5}>
+        <ResultTypographyStyled
+          align="left"
+          islive={parseStyledBoolean(mode === matchModeConst.live)}
+        >
+          {away ?? ""}
+        </ResultTypographyStyled>
+      </Grid>
+    </Grid>
+  );
+};

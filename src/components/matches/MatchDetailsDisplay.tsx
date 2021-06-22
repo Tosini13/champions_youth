@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { Rosetta, Translator } from "react-rosetta";
-import { connect } from "react-redux";
 
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, useTheme } from "@material-ui/core";
 import { matchModeConst } from "../../const/matchConst";
 import { Id } from "../../const/structuresConst";
 
@@ -11,73 +10,39 @@ import { Match } from "../../structures/dbAPI/matchData";
 import {
   MatchDisplayTeamNameStyled,
   MatchDisplayResultGoalStyled,
-  LiveMarkStyled,
 } from "../../styled/styledMatch";
-import Logo, { SIZE_LOGO } from "../global/Logo";
-import {
-  getImage,
-  getImageJustUploaded,
-} from "../tournaments/actions/getImage";
+
+import { TypographyLiveMatchHeader } from "../../styled/styledComponents/match/styledTypography";
+
+import { SIZE_LOGO, TeamLogo } from "../global/Logo";
+
 import matchDict from "../../locale/matchDict";
-import { LOCALE } from "../../locale/config";
 import ShowTeam from "./ShowTeam";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 export interface MatchDetailsDisplayProps {
   match: Match;
   tournamentId: Id;
   authorId: Id;
-  locale: LOCALE;
 }
 
-const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
-  match,
-  tournamentId,
-  authorId,
-  locale,
-}) => {
-  const [imageHome, setImageHome] = useState<any>(null);
-  const [imageAway, setImageAway] = useState<any>(null);
-
-  useEffect(() => {
-    if (match.home?.logo) {
-      getImage(match.home?.logo, tournamentId)
-        .then((image) => {
-          let img = image;
-          if (!image && match.home?.logo) {
-            img =
-              getImageJustUploaded(match.home?.logo, tournamentId) ?? undefined;
-          }
-          setImageHome(img);
-        })
-        .catch((err) => console.log("err", err));
-    }
-
-    if (match.away?.logo) {
-      getImage(match.away?.logo, tournamentId)
-        .then((image) => {
-          let img = image;
-          if (!image && match.away?.logo) {
-            img =
-              getImageJustUploaded(match.away?.logo, tournamentId) ?? undefined;
-          }
-          setImageAway(img);
-        })
-        .catch((err) => console.log("err", err));
-    }
-  }, [match, tournamentId]);
+const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({ match }) => {
+  const { locale } = useLocale();
 
   const isStarted: boolean = match.mode !== matchModeConst.notStarted;
 
+  const theme = useTheme();
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <Grid container alignItems="center" style={{ paddingTop: "10px" }}>
         <Grid item xs={4}>
           <Grid container direction="column" alignItems="center">
-            <Logo src={imageHome} size={SIZE_LOGO.lg} />
+            <TeamLogo teamLogo={match.home?.logo} size={SIZE_LOGO.lg} />
             <MatchDisplayTeamNameStyled>
               <ShowTeam
                 team={match.home}
                 placeholder={match?.placeholder?.home}
+                color={theme.palette.text.primary}
               />
             </MatchDisplayTeamNameStyled>
           </Grid>
@@ -90,9 +55,11 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
             alignItems="center"
           >
             <Grid item>
-              <LiveMarkStyled live={match.mode === matchModeConst.live}>
+              <TypographyLiveMatchHeader
+                isLive={match.mode === matchModeConst.live}
+              >
                 <Translator id="live" />
-              </LiveMarkStyled>
+              </TypographyLiveMatchHeader>
             </Grid>
             <Grid item>
               <Grid container justify="center" alignItems="center">
@@ -116,13 +83,14 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
         <Grid item xs={4}>
           <Grid container direction="column" alignItems="center">
             <Grid item>
-              <Logo src={imageAway} size={SIZE_LOGO.lg} />
+              <TeamLogo teamLogo={match.away?.logo} size={SIZE_LOGO.lg} />
             </Grid>
             <Grid item>
               <MatchDisplayTeamNameStyled>
                 <ShowTeam
                   team={match.away}
                   placeholder={match?.placeholder?.away}
+                  color={theme.palette.text.primary}
                 />
               </MatchDisplayTeamNameStyled>
             </Grid>
@@ -133,9 +101,4 @@ const MatchDetailsDisplay: React.FC<MatchDetailsDisplayProps> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-export default connect(mapStateToProps)(MatchDetailsDisplay);
+export default MatchDetailsDisplay;

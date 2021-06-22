@@ -13,6 +13,7 @@ export const tournamentDetails = {
   playOffs: "Pucharowa",
   teams: "Zespoły",
   deleteTournament: "Usuń turniej",
+  editTournament: "Edytuj turniej",
   deleteGroupStage: "Usuń fazę grupową",
   createGroupStage: "Stwórz fazę grupową",
   noGroup: "Brak grup",

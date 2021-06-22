@@ -1,19 +1,18 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { Sports, Add, Remove } from "@material-ui/icons";
 
 import { matchModeConst } from "../../const/matchConst";
 import { Match } from "../../structures/dbAPI/matchData";
-import { Grid } from "@material-ui/core";
+import { Grid, Hidden, useMediaQuery } from "@material-ui/core";
 import { Result } from "../../const/structuresConst";
 import matchDict from "../../locale/matchDict";
-import { LOCALE } from "../../locale/config";
+import { ButtonRC } from "../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 type Props = {
-  locale: LOCALE;
   match: Match;
   gameIsFinished?: () => boolean;
   updateMode: (mode: matchModeConst) => void;
@@ -24,7 +23,6 @@ type Props = {
 };
 
 const MatchDetailsDashboard: React.FC<Props> = ({
-  locale,
   match,
   gameIsFinished,
   updateMode,
@@ -33,20 +31,16 @@ const MatchDetailsDashboard: React.FC<Props> = ({
   startMatch,
   finishMatch,
 }) => {
-  console.log(locale);
+  const { locale } = useLocale();
 
   const changeMatchMode = () => {
     switch (match.mode) {
       case matchModeConst.live:
         return (
           <Grid item>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => finishMatch()}
-            >
+            <ButtonRC onClick={() => finishMatch()}>
               <Sports /> <Translator id="finish" />
-            </Button>
+            </ButtonRC>
           </Grid>
         );
       case matchModeConst.finished:
@@ -54,22 +48,14 @@ const MatchDetailsDashboard: React.FC<Props> = ({
           <Grid item xs={12}>
             <Grid container justify="space-evenly" alignItems="center">
               <Grid item>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => resetMatch()}
-                >
+                <ButtonRC onClick={() => resetMatch()}>
                   <Sports /> <Translator id="reset" />
-                </Button>
+                </ButtonRC>
               </Grid>
               <Grid item>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  onClick={() => updateMode(matchModeConst.live)}
-                >
+                <ButtonRC onClick={() => updateMode(matchModeConst.live)}>
                   <Sports /> <Translator id="continue" />
-                </Button>
+                </ButtonRC>
               </Grid>
             </Grid>
           </Grid>
@@ -77,13 +63,9 @@ const MatchDetailsDashboard: React.FC<Props> = ({
       case matchModeConst.notStarted:
         return (
           <Grid item>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => startMatch()}
-            >
+            <ButtonRC onClick={() => startMatch()}>
               <Sports /> <Translator id="start" />
-            </Button>
+            </ButtonRC>
           </Grid>
         );
       default:
@@ -119,52 +101,72 @@ const MatchDetailsDashboard: React.FC<Props> = ({
     });
   };
 
+  const isSmUp = useMediaQuery((theme: any) => theme.breakpoints.up("sm"));
   return (
     <Rosetta translations={matchDict} locale={locale}>
-      <Grid
-        container
-        justify="space-evenly"
-        alignItems="center"
-        style={{ marginTop: "10px", minHeight: "100px" }}
-      >
-        {match.mode === matchModeConst.live ? (
-          <Grid item>
-            <IconButton
-              color="secondary"
-              onClick={handleHomeScore}
-              aria-label="add-home-goal"
-            >
-              <Add />
-            </IconButton>
-            <IconButton
-              color="secondary"
-              onClick={handleHomeLose}
-              aria-label="remove-away-goal"
-            >
-              <Remove />
-            </IconButton>
+      <>
+        <Grid
+          container
+          justify="space-around"
+          alignItems="center"
+          style={{ marginTop: "10px", minHeight: "100px" }}
+        >
+          {match.mode === matchModeConst.live ? (
+            <Grid item>
+              <Grid container spacing={isSmUp ? 3 : 1}>
+                <Grid item>
+                  <IconButton
+                    color="secondary"
+                    onClick={handleHomeScore}
+                    aria-label="add-home-goal"
+                  >
+                    <Add />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <IconButton
+                    color="secondary"
+                    onClick={handleHomeLose}
+                    aria-label="remove-away-goal"
+                  >
+                    <Remove />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Grid>
+          ) : null}
+          <Hidden smDown>{changeMatchMode()}</Hidden>
+          {match.mode === matchModeConst.live ? (
+            <Grid item>
+              <Grid container spacing={isSmUp ? 3 : 1}>
+                <Grid item>
+                  <IconButton
+                    color="secondary"
+                    onClick={handleAwayLose}
+                    aria-label="remove-away-goal"
+                  >
+                    <Remove />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <IconButton
+                    color="secondary"
+                    onClick={handleAwayScore}
+                    aria-label="add-away-goal"
+                  >
+                    <Add />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </Grid>
+          ) : null}
+        </Grid>
+        <Hidden mdUp>
+          <Grid container justify="center">
+            {changeMatchMode()}
           </Grid>
-        ) : null}
-        {changeMatchMode()}
-        {match.mode === matchModeConst.live ? (
-          <Grid item>
-            <IconButton
-              color="secondary"
-              onClick={handleAwayLose}
-              aria-label="remove-away-goal"
-            >
-              <Remove />
-            </IconButton>
-            <IconButton
-              color="secondary"
-              onClick={handleAwayScore}
-              aria-label="add-away-goal"
-            >
-              <Add />
-            </IconButton>
-          </Grid>
-        ) : null}
-      </Grid>
+        </Hidden>
+      </>
     </Rosetta>
   );
 };

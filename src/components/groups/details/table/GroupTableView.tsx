@@ -2,7 +2,6 @@ import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import Grid from "@material-ui/core/Grid";
-import { Button, Typography } from "@material-ui/core";
 
 import { GroupModel } from "../../../../NewModels/Group";
 import GroupTable from "./GroupTable";
@@ -10,71 +9,36 @@ import {
   SectionContentStyled,
   SectionNavStyled,
   SectionStyled,
+  SectionFooterStyled,
 } from "../../../../styled/styledLayout";
-import { LOCALE } from "../../../../locale/config";
 import groupDetailsDict from "../../../../locale/groupDetails.dict";
+import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
+import { TypographyPrimaryText } from "../../../../styled/styledComponents/styledTypography";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 export interface GroupTableViewProps {
-  locale: LOCALE;
   group: GroupModel;
   handleFinishGroup?: () => void;
   handleContinueGroup?: () => void;
 }
 
 const GroupTableView: React.FC<GroupTableViewProps> = ({
-  locale,
   group,
   handleFinishGroup,
   handleContinueGroup,
 }) => {
+  const { locale } = useLocale();
   // TODO: REMOVE BUTTONS WHEN THERE'S NO PLAYOFFS - OR SET WINNERS
   return (
     <Rosetta translations={groupDetailsDict} locale={locale}>
       <SectionStyled>
-        <SectionNavStyled>
-          <Grid
-            container
-            justify="space-between"
-            alignItems="center"
-            style={{ padding: "10px" }}
-          >
-            <Grid item>
-              <Typography color="secondary">
-                <Translator id="groupName" />: {group.name}
-              </Typography>
-            </Grid>
-            {handleContinueGroup || handleFinishGroup ? (
-              <Grid item>
-                <Grid container justify="center" alignItems="center">
-                  <Grid item>
-                    {group.finished === true ? (
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        style={{ margin: "0px auto" }}
-                        onClick={handleContinueGroup}
-                      >
-                        <Translator id="continueGroup" />
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        style={{ margin: "0px auto" }}
-                        onClick={handleFinishGroup}
-                      >
-                        <Translator id="finishGroup" />
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
-              </Grid>
-            ) : null}
-          </Grid>
+        <SectionNavStyled style={{ paddingTop: "10px" }}>
+          <TypographyPrimaryText variant="h6" align="center">
+            {group.name}
+          </TypographyPrimaryText>
         </SectionNavStyled>
         <SectionContentStyled>
           <GroupTable
-            locale={locale}
             groupTeams={group.groupTeams}
             matches={group.matches}
             teams={group.teams}
@@ -82,6 +46,31 @@ const GroupTableView: React.FC<GroupTableViewProps> = ({
             playOffsGroup={group.playOffsGroup}
           />
         </SectionContentStyled>
+        <SectionFooterStyled>
+          {handleContinueGroup || handleFinishGroup ? (
+            <Grid item>
+              <Grid container justify="center" alignItems="center">
+                <Grid item>
+                  {group.finished === true ? (
+                    <ButtonRC
+                      style={{ margin: "0px auto" }}
+                      onClick={handleContinueGroup}
+                    >
+                      <Translator id="continueGroup" />
+                    </ButtonRC>
+                  ) : (
+                    <ButtonRC
+                      style={{ margin: "0px auto" }}
+                      onClick={handleFinishGroup}
+                    >
+                      <Translator id="finishGroup" />
+                    </ButtonRC>
+                  )}
+                </Grid>
+              </Grid>
+            </Grid>
+          ) : null}
+        </SectionFooterStyled>
       </SectionStyled>
     </Rosetta>
   );

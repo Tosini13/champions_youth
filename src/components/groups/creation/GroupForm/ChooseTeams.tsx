@@ -1,26 +1,16 @@
 import React from "react";
-import styled from "styled-components";
 import { Rosetta } from "react-rosetta";
 
 import chooseTeamDict from "../../../../locale/chooseTeam.dict";
-import { LOCALE } from "../../../../locale/config";
-import { connect } from "react-redux";
 import { TeamData } from "../../../../models/teamData";
 import { Id } from "../../../../const/structuresConst";
-import { TeamListStyled } from "../../../../styled/styledTeams";
 import ChooseTeamsElement from "./ChooseTeamsElement";
 import { GroupModel } from "../../../../NewModels/Group";
-import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
-import { DialogRU } from "../../../../styled/styledDialog";
-
-const TeamList = styled(TeamListStyled)`
-  overflow-x: hidden;
-  flex-wrap: nowrap;
-  ${ScrollBarStyled}
-`;
+import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
+import { useLocale } from "../../../../Provider/LocaleProvider";
+import { TeamsList } from "../../../../styled/styledComponents/teams/styledLayout";
 
 export interface ChooseTeamsProps {
-  locale: LOCALE;
   userId: Id;
   tournamentId: Id;
   teams?: TeamData[];
@@ -33,7 +23,6 @@ export interface ChooseTeamsProps {
 }
 
 const ChooseTeams: React.FC<ChooseTeamsProps> = ({
-  locale,
   userId,
   tournamentId,
   teams,
@@ -44,6 +33,7 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
   handleOpenTeams,
   handleChooseGroupTeam,
 }) => {
+  const { locale } = useLocale();
   const handleChooseTeam = (selected: TeamData) => {
     if (chosenTeams.includes(selected)) {
       setChosenTeams(chosenTeams.filter((team) => team.id !== selected.id));
@@ -59,19 +49,12 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
 
   return (
     <Rosetta translations={chooseTeamDict} locale={locale}>
-      <DialogRU
-        onClose={handleClose}
-        open={open}
-        title={"chooseTeams"}
-        locale={locale}
-      >
-        <TeamList>
+      <DialogRU onClose={handleClose} open={open} title={"chooseTeams"}>
+        <TeamsList>
           {teams?.map((team: TeamData) => (
             <ChooseTeamsElement
-              tournamentId={tournamentId}
               key={team.id}
               team={team}
-              userId={userId}
               handleChooseTeam={handleChooseTeam}
               selected={chosenTeams.includes(team)}
               restricted={Boolean(
@@ -79,17 +62,10 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
               )}
             />
           ))}
-        </TeamList>
+        </TeamsList>
       </DialogRU>
     </Rosetta>
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return {
-    locale: state.dictionary.locale,
-    userId: state.firebase.auth.uid,
-  };
-};
-
-export default connect(mapStateToProps)(ChooseTeams);
+export default ChooseTeams;

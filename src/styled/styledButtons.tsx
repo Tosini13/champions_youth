@@ -11,44 +11,6 @@ export const ButtonHorizontalContainerStyled = styled.div`
   margin-top: 10px;
 `;
 
-export const IconButtonNavStyled = styled(IconButton)`
-  z-index: 1500;
-  padding: 0px;
-  color: ${mainTheme.palette.secondary.main};
-`;
-
-export const IconButtonArrowStyled = styled(IconButtonNavStyled)`
-  transition: transform 0.3s, opacity 0.3s;
-  transform: translateX(0px);
-  opacity: 1;
-`;
-
-export const IconButtonArrowBeforeStyled = styled(IconButtonArrowStyled)<{
-  active: number;
-}>`
-  ${(props) =>
-    props.active ? "" : `transform: translateX(-50px); opacity: 0;`}
-`;
-
-export const IconButtonArrowNextStyled = styled(IconButtonArrowStyled)<{
-  active: number;
-}>`
-  ${(props) => (props.active ? "" : `transform: translateX(50px); opacity: 0;`)}
-`;
-
-export const IconButtonBackStyled = styled(IconButton)`
-  display: flex;
-  align-items: center;
-  opacity: 0;
-  transform: translate(-100px, 0px);
-  transition: transform 0.3s, opacity 0.3s;
-  color: black;
-  &.btn-back-show {
-    transform: translate(0px, 0px);
-    opacity: 1;
-  }
-`;
-
 export const IconButtonStarStyled = styled(IconButton)`
   padding: 0px;
 `;
@@ -69,24 +31,11 @@ export const IconButtonStyled = styled(IconButton)`
   width: fit-content;
 `;
 
-export const ALinkStyled = styled.a`
-  text-decoration: none;
-  color: ${mainTheme.palette.secondary.main};
-`;
-
 export const ButtonStyled = styled(Button)`
   &.Mui-disabled {
     border-color: rgba(150, 150, 150, 0.26);
     color: rgba(150, 150, 150, 0.26);
   }
-`;
-
-export const ButtonSuccessStyled = styled(ButtonStyled)`
-  color: ${mainTheme.palette.success.main};
-`;
-
-export const ButtonErrorStyled = styled(ButtonStyled)`
-  color: ${mainTheme.palette.error.main};
 `;
 
 export const ButtonInfoStyled = styled(ButtonStyled)`

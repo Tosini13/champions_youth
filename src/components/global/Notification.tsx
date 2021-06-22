@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import { Button, DialogActions } from "@material-ui/core";
-import { connect } from "react-redux";
-import { LOCALE } from "../../locale/config";
+import { DialogActions } from "@material-ui/core";
 import notificationsDict from "../../locale/notifications.dict";
-import { DialogRU } from "../../styled/styledDialog";
+import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
+import { ButtonRC } from "../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../Provider/LocaleProvider";
 
 export type Answer = {
   title: string;
@@ -27,11 +27,10 @@ export const useNotification = () => {
   };
 };
 
-export interface NotificationProps {
-  locale: LOCALE;
-}
+export interface NotificationProps {}
 
-const Notification: React.FC<NotificationProps> = ({ locale }) => {
+const Notification: React.FC<NotificationProps> = () => {
+  const { locale } = useLocale();
   const [open, setOpen] = useState<boolean>(false);
   const [question, setQuestion] = useState<string>("");
   const [answers, setAnswers] = useState<Answer[] | undefined>();
@@ -54,15 +53,12 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
         keepMounted
         color="primary"
         onClose={handleClose}
-        locale={locale}
         title={question}
       >
         <DialogActions>
           {answers?.map((answer) => (
-            <Button
+            <ButtonRC
               key={answer.title}
-              variant="outlined"
-              color="secondary"
               onClick={() => {
                 if (answer.action) {
                   answer.action();
@@ -71,7 +67,7 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
               }}
             >
               <Translator id={answer.title} />
-            </Button>
+            </ButtonRC>
           ))}
         </DialogActions>
       </DialogRU>
@@ -79,10 +75,4 @@ const Notification: React.FC<NotificationProps> = ({ locale }) => {
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(Notification);
+export default Notification;

@@ -29,7 +29,6 @@ import TournamentRightMenu, {
   TOURNAMENT_RIGHT_MENU,
 } from "./nav/TournamentRightMenu";
 import { ScrollBarStyled } from "../../../styled/styledScrollBar";
-import { LOCALE } from "../../../locale/config";
 
 export const GridSectionStyled = styled(Grid)`
   max-height: 100%;
@@ -42,11 +41,11 @@ export const GridSectionContentStyled = styled(Grid)`
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   ${ScrollBarStyled}
 `;
 
 export interface TournamentDetailsDesktopProps {
-  locale: LOCALE;
   image: any | null;
   tournament?: TournamentData;
   teams?: TeamData[];
@@ -59,7 +58,6 @@ export interface TournamentDetailsDesktopProps {
 }
 
 const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
-  locale,
   image,
   isOwner,
   tournamentId,
@@ -78,30 +76,26 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
       <DesktopMainItemStyled>
         <SectionStyled>
           <SectionNavStyled>
-            <TournamentLeftMenu
-              locale={locale}
-              value={leftView}
-              setValue={setLeftView}
-            />
+            <TournamentLeftMenu value={leftView} setValue={setLeftView} />
           </SectionNavStyled>
           <SectionContentStyled>
-            <ContentContainerStyled>
-              {leftView === TOURNAMENT_LEFT_MENU.INFO && tournament ? (
-                <TournamentInfo
-                  tournament={tournament}
-                  image={image}
-                  isOwner={isOwner}
-                  tournamentId={tournamentId}
-                />
-              ) : null}
-              {leftView === TOURNAMENT_LEFT_MENU.TEAMS && tournament ? (
-                <TournamentTeams
-                  teams={teams}
-                  isOwner={isOwner}
-                  isCreated={Boolean(playOffs?.length || groups?.length)}
-                />
-              ) : null}
-            </ContentContainerStyled>
+            {leftView === TOURNAMENT_LEFT_MENU.INFO &&
+            tournament &&
+            tournamentId ? (
+              <TournamentInfo
+                tournament={tournament}
+                image={image}
+                isOwner={isOwner}
+                tournamentId={tournamentId}
+              />
+            ) : null}
+            {leftView === TOURNAMENT_LEFT_MENU.TEAMS && tournament ? (
+              <TournamentTeams
+                teams={teams}
+                isOwner={isOwner}
+                isCreated={Boolean(playOffs?.length || groups?.length)}
+              />
+            ) : null}
           </SectionContentStyled>
         </SectionStyled>
       </DesktopMainItemStyled>
@@ -109,34 +103,35 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
       <DesktopMainItemStyled>
         <SectionStyled>
           <SectionNavStyled>
-            <TournamentRightMenu
-              locale={locale}
-              value={rightView}
-              setValue={setRightView}
-            />
+            <TournamentRightMenu value={rightView} setValue={setRightView} />
           </SectionNavStyled>
           <SectionContentStyled>
             <ContentContainerStyled>
-              {rightView === TOURNAMENT_RIGHT_MENU.GROUPS && tournament ? (
+              {rightView === TOURNAMENT_RIGHT_MENU.GROUPS &&
+              tournament &&
+              tournamentId &&
+              teams ? (
                 <TournamentGroups
                   tournamentId={tournamentId}
                   tournament={tournament}
+                  teams={teams}
                   groups={groups}
                   playOffs={Boolean(playOffs?.length)}
                   playOffsGroups={Boolean(playOffsGroups?.length)}
-                  teams={teams}
                   isOwner={isOwner}
                 />
               ) : null}
               {rightView === TOURNAMENT_RIGHT_MENU.PLAY_OFFS &&
               tournament &&
-              playOffs ? (
+              playOffs &&
+              tournamentId &&
+              teams ? (
                 <TournamentPlayOffs
+                  teams={teams}
                   tournamentId={tournamentId}
                   tournament={tournament}
                   playOffs={playOffs}
                   playOffsGroups={playOffsGroups}
-                  teams={teams}
                   groups={groups}
                   isOwner={isOwner}
                 />

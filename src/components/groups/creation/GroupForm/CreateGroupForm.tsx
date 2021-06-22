@@ -2,26 +2,20 @@ import React, { useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import { Button, Grid, IconButton } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 
 import styled from "styled-components";
-import { mainTheme } from "../../../../styled/styledConst";
 import { useForm } from "react-hook-form";
-import { TextFieldStyled } from "../../../../styled/styledForm";
-import groupCreationDict from "../../../../locale/creationNav.dict.";
-import { LOCALE } from "../../../../locale/config";
+import { GroupNameTextFieldRC } from "../../../../styled/styledComponents/styledForm";
 import { useNotification } from "../../../global/Notification";
 import { Id } from "../../../../const/structuresConst";
 import { GroupModel } from "../../../../NewModels/Group";
-import MatchSummaryMock from "./MatchSummaryMock";
-import { DialogRU } from "../../../../styled/styledDialog";
-import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
+import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../../Provider/LocaleProvider";
+import groupCreationDict from "../../../../locale/creationNav.dict.";
+import GroupFormMatchesListDialog from "./GroupFormMatchesListDialog";
 
 const GridContainer = styled(Grid)`
-  border-radius: 5px;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
-  background-color: ${mainTheme.palette.primary.main};
   position: relative;
 `;
 
@@ -32,18 +26,11 @@ const DeleteIconButton = styled(IconButton)`
   transform: translate(-10%, 10%);
 `;
 
-const GridMatchesContainer = styled(Grid)`
-  overflow-x: hidden;
-  flex-wrap: nowrap;
-  ${ScrollBarStyled}
-`;
-
 export interface CreateGroupFormProps {
   group: GroupModel;
   handleOpenTeams: (group: GroupModel) => void;
   handleRemoveGroup: (selected: GroupModel) => void;
   handleUpdateGroup: (updatedGroup: GroupModel) => void;
-  locale: LOCALE;
   userId: Id;
 }
 
@@ -52,10 +39,10 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
   handleOpenTeams,
   handleRemoveGroup,
   handleUpdateGroup,
-  locale,
   userId,
   children,
 }) => {
+  const { locale } = useLocale();
   const [open, setOpen] = useState<boolean>(false);
   const { openNotification, setQuestion, setAnswers } = useNotification();
   const { handleSubmit, register, errors, getValues } = useForm<GroupModel>({
@@ -109,9 +96,8 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
           spacing={2}
         >
           <Grid item>
-            <TextFieldStyled
+            <GroupNameTextFieldRC
               label={<Translator id="groupName" />}
-              color="secondary"
               inputProps={{
                 name: "name",
                 ref: register({
@@ -125,25 +111,15 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
           </Grid>
           <Grid item>
             {children}
-            <Button
-              variant="outlined"
-              color="secondary"
-              size="small"
-              onClick={() => handleOpenTeams(group)}
-            >
+            <ButtonRC size="small" onClick={() => handleOpenTeams(group)}>
               <Translator id="addTeam" />
-            </Button>
+            </ButtonRC>
           </Grid>
           {group.matches.length ? (
             <Grid item>
-              <Button
-                variant="outlined"
-                color="secondary"
-                size="small"
-                onClick={() => setOpen(true)}
-              >
+              <ButtonRC size="small" onClick={() => setOpen(true)}>
                 <Translator id="showMatches" />
-              </Button>
+              </ButtonRC>
             </Grid>
           ) : null}
           <DeleteIconButton
@@ -153,42 +129,11 @@ const CreateGroupForm: React.FC<CreateGroupFormProps> = ({
           >
             <DeleteOutlineIcon />
           </DeleteIconButton>
-          <DialogRU
+          <GroupFormMatchesListDialog
             open={open}
-            onClose={handleClose}
-            title="matches"
-            locale={locale}
-          >
-            <GridMatchesContainer container direction="column">
-              {group.matches?.map((match) => {
-                const homePlaceholder = group.groupTeams?.find(
-                  (team) => team.place === match.groupPlaceholder?.home
-                );
-                const awayPlaceholder = group.groupTeams?.find(
-                  (team) => team.place === match.groupPlaceholder?.away
-                );
-                if (homePlaceholder) {
-                  match.placeholder.home = {
-                    id: homePlaceholder.group?.id,
-                    place: homePlaceholder.group?.place,
-                    name: `${homePlaceholder.group?.id}`,
-                  };
-                }
-                if (awayPlaceholder) {
-                  match.placeholder.away = {
-                    id: awayPlaceholder.group?.id,
-                    place: awayPlaceholder.group?.place,
-                    name: `${awayPlaceholder.group?.id}`,
-                  };
-                }
-                return (
-                  <Grid item key={match.id}>
-                    <MatchSummaryMock match={match} locale={locale} />
-                  </Grid>
-                );
-              })}
-            </GridMatchesContainer>
-          </DialogRU>
+            handleClose={handleClose}
+            group={group}
+          />
         </GridContainer>
       </form>
     </Rosetta>

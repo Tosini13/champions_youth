@@ -43,9 +43,7 @@ export const HamburgerStyled = styled.div<{ open: boolean }>`
       : ``}
 `;
 
-export const TeamsListIconButtonStyled = styled(IconButton)`
-  padding-right: 0px;
-`;
+export const TeamsListIconButtonStyled = styled(IconButton)``;
 
 export const DeleteIconStyled = styled(DeleteIcon)`
   color: ${mainTheme.palette.error.dark};

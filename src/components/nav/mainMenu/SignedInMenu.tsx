@@ -20,9 +20,10 @@ import { Id } from "../../../const/structuresConst";
 import { UserData } from "../../../models/credentialsData";
 import Language from "../Language";
 import menuDict from "../../../locale/menu";
-import { LOCALE } from "../../../locale/config";
 import styled from "styled-components";
 import { Grid, Hidden } from "@material-ui/core";
+import Theme from "../Theme";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type BorderPosition = "bottom" | "top";
 
@@ -42,20 +43,19 @@ type Props = {
   signOut: () => void;
   handleCloseSideBar: () => void;
   user: UserData | undefined;
-  locale: LOCALE;
 };
 
 const SignedInMenu: React.FC<Props> = ({
   handleCloseSideBar,
   signOut,
   user,
-  locale,
 }) => {
   const handleSignOut = () => {
     signOut();
     handleCloseSideBar();
   };
 
+  const { locale } = useLocale();
   return (
     <Rosetta translations={menuDict} locale={locale}>
       <GridContainer container direction="column" justify="space-between">
@@ -67,6 +67,7 @@ const SignedInMenu: React.FC<Props> = ({
               </ListItemIcon>
               <ListItemText primary={user?.login} />
               <Language />
+              <Theme />
             </ListItemStyled>
             <Hidden smDown>
               <ListItemStyled borderposition="bottom" button>
@@ -129,7 +130,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
   }
   return {
     user,
-    locale: state.dictionary.locale,
   };
 };
 

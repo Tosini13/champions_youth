@@ -19,3 +19,4 @@ export interface TournamentData {
 }
 
 export type TournamentCreateData = Omit<TournamentData, "id" | "ownerId">;
+export type TournamentUpdateData = Omit<TournamentData, "ownerId">;

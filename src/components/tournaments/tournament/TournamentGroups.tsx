@@ -5,11 +5,7 @@ import { Rosetta, Translator } from "react-rosetta";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import {
-  ButtonErrorStyled,
-  ButtonHorizontalContainerStyled,
-  ButtonSuccessStyled,
-} from "../../../styled/styledButtons";
+import { ButtonHorizontalContainerStyled } from "../../../styled/styledButtons";
 import GroupsCreate from "../../groups/create/GroupsCreate";
 import { TournamentData } from "../../../models/tournamentData";
 import { GroupStage } from "../../../structures/groupStage";
@@ -17,7 +13,6 @@ import { TeamData } from "../../../models/teamData";
 import GroupsComponent from "../../groups/GroupsComponent";
 import { Group } from "../../../models/groupData";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
-import { LOCALE } from "../../../locale/config";
 import { Id } from "../../../const/structuresConst";
 import { deleteGroups } from "../../../store/actions/GroupActions";
 import { setInProgress } from "../../global/InProgress";
@@ -25,6 +20,8 @@ import InfoStatic from "../../global/InfoStatic";
 import { useNotification } from "../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../const/menuConst";
+import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   tournament: TournamentData;
@@ -32,7 +29,6 @@ type Props = {
   teams: TeamData[];
   playOffs: boolean;
   playOffsGroups: boolean;
-  locale: LOCALE;
   tournamentId: Id;
   deleteGroups: (
     tournamentId: Id,
@@ -48,11 +44,11 @@ const TournamentGroups: React.FC<Props> = ({
   playOffs,
   playOffsGroups,
   groups,
-  locale,
   tournamentId,
   deleteGroups,
   isOwner,
 }) => {
+  const { locale } = useLocale();
   const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [create, setCreate] = useState<boolean>(false);
@@ -109,16 +105,13 @@ const TournamentGroups: React.FC<Props> = ({
             <GroupsComponent groups={groups} />
             {isOwner ? (
               <ButtonHorizontalContainerStyled>
-                <ButtonErrorStyled
+                <ButtonRC
                   onClick={handleDelete}
-                  variant="outlined"
-                  color="secondary"
                   startIcon={<DeleteIcon />}
                   disabled={playOffs || playOffsGroups}
-                  aria-label="delete groups"
                 >
                   <Translator id="deleteGroupStage" />
-                </ButtonErrorStyled>
+                </ButtonRC>
               </ButtonHorizontalContainerStyled>
             ) : null}
           </>
@@ -143,7 +136,7 @@ const TournamentGroups: React.FC<Props> = ({
         ) : null}
         {!create && !groups?.length && isOwner && teams.length ? (
           <ButtonHorizontalContainerStyled>
-            <ButtonSuccessStyled
+            <ButtonRC
               onClick={() => {
                 history.push(routerGenerateConst.createGroups(tournamentId));
               }}
@@ -154,18 +147,12 @@ const TournamentGroups: React.FC<Props> = ({
               aria-label="create groups"
             >
               <Translator id="createGroupStage" />
-            </ButtonSuccessStyled>
+            </ButtonRC>
           </ButtonHorizontalContainerStyled>
         ) : null}
       </>
     </Rosetta>
   );
-};
-
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -177,4 +164,4 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(deleteGroups(tournamentId, callBackSuccess, callBackError)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(TournamentGroups);
+export default connect(null, mapDispatchToProps)(TournamentGroups);

@@ -1,50 +1,72 @@
 import React from "react";
 
-import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-
-import {
-  ChooseListItemSecondaryActionStyled,
-  ChooseListItemStyled,
-  ListItemTextStyled,
-} from "../../../../../styled/styledBracket";
 import { TeamData } from "../../../../../models/teamData";
-import { LOCALE } from "../../../../../locale/config";
+import {
+  ChooseTeamContentContainer,
+  TeamActionContainer,
+  TeamContainerStyled,
+  TeamLogoContainer,
+  TeamsItem,
+} from "../../../../../styled/styledComponents/teams/styledLayout";
+import { SIZE_LOGO, TeamLogo } from "../../../../global/Logo";
+import { TypographyPrimaryText } from "../../../../../styled/styledComponents/styledTypography";
+import { ChooseTeamIconButton } from "../../../../../styled/styledComponents/teams/styledButtons";
 
 type Props = {
-  locale: LOCALE;
-  element: TeamData;
+  team: TeamData;
   selected: boolean;
   addToChosenTeams: (chosenTeam: TeamData) => void;
   disabled: boolean;
 };
 
 const PlayOffsChooseListElement: React.FC<Props> = ({
-  locale,
-  element,
+  team,
   selected,
   disabled,
   addToChosenTeams,
 }) => {
   return (
-    <ChooseListItemStyled
-      button
-      onClick={() => addToChosenTeams(element)}
-      disabled={disabled}
-    >
-      <ListItemTextStyled primary={element.name} />
-      <ChooseListItemSecondaryActionStyled>
-        <IconButton size="small">
-          {selected || disabled ? (
-            <RemoveIcon color="secondary" />
-          ) : (
-            <AddIcon color="secondary" />
-          )}
-        </IconButton>
-      </ChooseListItemSecondaryActionStyled>
-    </ChooseListItemStyled>
+    <TeamsItem>
+      <TeamContainerStyled
+        onClick={() => (disabled ? false : addToChosenTeams(team))}
+        style={{ cursor: "pointer" }}
+      >
+        <TeamLogoContainer>
+          <TeamLogo teamLogo={team.logo} size={SIZE_LOGO.md} />
+        </TeamLogoContainer>
+        <ChooseTeamContentContainer isRestricted={disabled}>
+          <TypographyPrimaryText style={{ color: "white" }}>
+            {team.name}
+          </TypographyPrimaryText>
+        </ChooseTeamContentContainer>
+        <TeamActionContainer>
+          {!disabled ? (
+            <ChooseTeamIconButton
+              isSelected={selected}
+              handleClick={() => (disabled ? false : addToChosenTeams(team))}
+            />
+          ) : null}
+        </TeamActionContainer>
+      </TeamContainerStyled>
+    </TeamsItem>
   );
 };
 
 export default PlayOffsChooseListElement;
+
+// <ChooseListItemStyled
+//   button
+//   onClick={() => addToChosenTeams(element)}
+//   disabled={disabled}
+// >
+//   <ListItemTextStyled primary={element.name} />
+//   <ChooseListItemSecondaryActionStyled>
+//     <IconButton size="small">
+//       {selected || disabled ? (
+//         <RemoveIcon color="secondary" />
+//       ) : (
+//         <AddIcon color="secondary" />
+//       )}
+//     </IconButton>
+//   </ChooseListItemSecondaryActionStyled>
+// </ChooseListItemStyled>

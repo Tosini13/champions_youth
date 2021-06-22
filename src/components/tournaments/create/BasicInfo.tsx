@@ -8,8 +8,8 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import {
   KeyboardDatePickerStyled,
   KeyboardTimePickerStyled,
-  TextFieldStyled,
-} from "../../../styled/styledForm";
+  TextFieldRC,
+} from "../../../styled/styledComponents/styledForm";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { BasicInfoDataForm } from "./CreateTournament";
 import createTournamentDict from "../../../locale/createTournament.dict";
@@ -56,7 +56,7 @@ const CreateTournamentBasicInfo: React.FC<Props> = ({
   return (
     <Rosetta translations={createTournamentDict} locale={locale}>
       <div style={{ textAlign: "center" }}>
-        <TextFieldStyled
+        <TextFieldRC
           label={<Translator id="title" />}
           defaultValue={basicInfo.name}
           onChange={handleOnChange}

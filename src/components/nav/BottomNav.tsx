@@ -4,8 +4,8 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import StarIcon from "@material-ui/icons/Star";
-import AdjustIcon from "@material-ui/icons/Adjust";
 import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
+import SportsSoccerIcon from "@material-ui/icons/SportsSoccer";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 
 import {
@@ -13,65 +13,56 @@ import {
   routerConst,
   routerConstString,
 } from "../../const/menuConst";
-import {
-  BottomNavigationStyled,
-  RedBottomNavigationActionLinkStyled,
-  GoldBottomNavigationActionLinkStyled,
-} from "../../styled/styledNav";
 import menuDict from "../../locale/menu";
-import { connect } from "react-redux";
-import { LOCALE } from "../../locale/config";
+import {
+  BottomNavigationRC,
+  NavBottomLink,
+  NavBottomLiveLink,
+} from "../../styled/styledComponents/navigation/styledLayout";
+import { useLocale } from "../../Provider/LocaleProvider";
 
-type Props = {
-  locale: LOCALE;
-};
+type Props = {};
 
-const BottomNav: React.FC<Props> = ({ locale }) => {
+const BottomNav: React.FC<Props> = () => {
+  const { locale } = useLocale();
   const location = useLocation();
 
   return (
     <Rosetta translations={menuDict} locale={locale}>
-      <>
-        <BottomNavigationStyled
-          value={routerConst.get(location.pathname + location.search)}
-        >
-          <BottomNavigationAction
-            component={GoldBottomNavigationActionLinkStyled}
-            to={routerConstString.tournaments}
-            label={<Translator id={bottomMenuConst.tournaments} />}
-            value={bottomMenuConst.tournaments}
-            icon={<EmojiEventsIcon />}
-          />
-          <BottomNavigationAction
-            component={RedBottomNavigationActionLinkStyled}
-            to={routerConstString.live}
-            label={<Translator id={bottomMenuConst.live} />}
-            value={bottomMenuConst.live}
-            icon={<AdjustIcon />}
-          />
-          <BottomNavigationAction
-            component={RedBottomNavigationActionLinkStyled}
-            to={routerConstString.my}
-            label={<Translator id={bottomMenuConst.my} />}
-            value={bottomMenuConst.my}
-            icon={<FavoriteIcon />}
-          />
-          <BottomNavigationAction
-            component={GoldBottomNavigationActionLinkStyled}
-            to={routerConstString.favorites}
-            label={<Translator id={bottomMenuConst.favorites} />}
-            value={bottomMenuConst.favorites}
-            icon={<StarIcon />}
-          />
-        </BottomNavigationStyled>
-      </>
+      <BottomNavigationRC
+        value={routerConst.get(location.pathname + location.search)}
+      >
+        <BottomNavigationAction
+          component={NavBottomLink}
+          to={routerConstString.tournaments}
+          label={<Translator id={bottomMenuConst.tournaments} />}
+          value={bottomMenuConst.tournaments}
+          icon={<EmojiEventsIcon />}
+        />
+        <BottomNavigationAction
+          component={NavBottomLiveLink}
+          to={routerConstString.matches}
+          label={<Translator id={bottomMenuConst.matches} />}
+          value={bottomMenuConst.matches}
+          icon={<SportsSoccerIcon />}
+        />
+        <BottomNavigationAction
+          component={NavBottomLiveLink}
+          to={routerConstString.my}
+          label={<Translator id={bottomMenuConst.my} />}
+          value={bottomMenuConst.my}
+          icon={<FavoriteIcon />}
+        />
+        <BottomNavigationAction
+          component={NavBottomLink}
+          to={routerConstString.favorites}
+          label={<Translator id={bottomMenuConst.favorites} />}
+          value={bottomMenuConst.favorites}
+          icon={<StarIcon />}
+        />
+      </BottomNavigationRC>
     </Rosetta>
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-export default connect(mapStateToProps)(BottomNav);
+export default BottomNav;

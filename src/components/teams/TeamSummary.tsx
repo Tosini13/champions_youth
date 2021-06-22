@@ -1,32 +1,26 @@
-import React, { useState, ChangeEvent, useEffect } from "react";
+import React from "react";
 
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-
-import { TeamListElementStyled } from "../../styled/styledTeams";
-import { ListItemTextStyled } from "../../styled/styledBracket";
 import { TeamData } from "../../models/teamData";
-import {
-  ClearIconStyled,
-  DeleteIconStyled,
-  DoneIconStyled,
-  EditIconStyled,
-  TeamsListIconButtonStyled,
-} from "../../styled/styledIcons";
+import { Edit, Delete } from "@material-ui/icons";
 
-import { EditTeamInputStyled } from "../../styled/styledForm";
 import { Id } from "../../const/structuresConst";
-import {
-  getImage,
-  getImageJustUploaded,
-} from "../tournaments/actions/getImage";
-import Logo, { SIZE_LOGO } from "../global/Logo";
+import { SIZE_LOGO, TeamLogo } from "../global/Logo";
 import { useNotification } from "../global/Notification";
+import {
+  TeamContentContainer,
+  TeamLogoContainer,
+  TeamsItem,
+  TeamContainerStyled,
+  TeamActionContainer,
+} from "../../styled/styledComponents/teams/styledLayout";
+import { TypographyPrimaryText } from "../../styled/styledComponents/styledTypography";
+import { TeamItemIconButton } from "../../styled/styledComponents/teams/styledButtons";
 
 type Props = {
   tournamentId: Id;
   team: TeamData;
-  handleDeleteTeam: (team: TeamData) => void;
-  handleEditTeam: (team: TeamData) => void;
+  handleDeleteTeam: () => void;
+  handleEditTeam: () => void;
   userId: Id;
   isOwner: boolean;
   isCreated: boolean;
@@ -43,16 +37,12 @@ const TeamSummary: React.FC<Props> = ({
 }) => {
   const { setQuestion, setAnswers, openNotification } = useNotification();
 
-  const handleExecuteDelete = () => {
-    handleDeleteTeam(team);
-  };
-
   const handleDelete = () => {
     setQuestion("doDeleteTeam");
     setAnswers([
       {
         title: "yes",
-        action: handleExecuteDelete,
+        action: handleDeleteTeam,
       },
       {
         title: "no",
@@ -61,76 +51,32 @@ const TeamSummary: React.FC<Props> = ({
     openNotification();
   };
 
-  const handleEdit = () => {
-    handleEditTeam({
-      ...team,
-      name,
-    });
-    setEdit(false);
-  };
-
-  const handleChange = (
-    value: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setName(value.currentTarget.value);
-  };
-
-  const [edit, setEdit] = useState<boolean>(false);
-  const [name, setName] = useState<string>(team.name);
-  const [logo, setLogo] = useState<any>(null);
-
-  useEffect(() => {
-    if (team?.logo) {
-      getImage(team.logo, tournamentId)
-        .then((image) => {
-          let img = image;
-          if (!image && team.logo) {
-            img = getImageJustUploaded(team.logo, tournamentId) ?? undefined;
-          }
-          setLogo(img);
-        })
-        .catch((err) => console.log("err", err));
-    }
-  }, [team, tournamentId]);
-
   return (
-    <TeamListElementStyled button>
-      <Logo src={logo} size={SIZE_LOGO.sm} />
-      {edit ? (
-        <form onSubmit={handleEdit}>
-          <EditTeamInputStyled
-            type="text"
-            value={name}
-            onChange={handleChange}
-          />
-          <ListItemSecondaryAction>
-            <TeamsListIconButtonStyled onClick={() => setEdit(false)}>
-              <ClearIconStyled />
-            </TeamsListIconButtonStyled>
-            <TeamsListIconButtonStyled type="submit">
-              <DoneIconStyled />
-            </TeamsListIconButtonStyled>
-          </ListItemSecondaryAction>
-        </form>
-      ) : (
-        <>
-          <ListItemTextStyled
-            primary={team.name}
-            style={{ marginLeft: "5px" }}
-          />
+    <TeamsItem>
+      <TeamContainerStyled>
+        <TeamLogoContainer>
+          <TeamLogo teamLogo={team.logo} size={SIZE_LOGO.md} />
+        </TeamLogoContainer>
+        <TeamContentContainer>
+          <TypographyPrimaryText style={{ color: "white" }}>
+            {team.name}
+          </TypographyPrimaryText>
+        </TeamContentContainer>
+        <TeamActionContainer>
           {isOwner && !isCreated ? (
-            <ListItemSecondaryAction>
-              <TeamsListIconButtonStyled onClick={handleDelete}>
-                <DeleteIconStyled />
-              </TeamsListIconButtonStyled>
-              <TeamsListIconButtonStyled onClick={() => setEdit(true)}>
-                <EditIconStyled />
-              </TeamsListIconButtonStyled>
-            </ListItemSecondaryAction>
+            <TeamItemIconButton onClick={handleDelete} size="medium">
+              <Delete />
+            </TeamItemIconButton>
           ) : null}
-        </>
-      )}
-    </TeamListElementStyled>
+
+          {isOwner ? (
+            <TeamItemIconButton onClick={() => handleEditTeam()} size="medium">
+              <Edit />
+            </TeamItemIconButton>
+          ) : null}
+        </TeamActionContainer>
+      </TeamContainerStyled>
+    </TeamsItem>
   );
 };
 

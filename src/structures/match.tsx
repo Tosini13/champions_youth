@@ -115,3 +115,10 @@ export type MatchData = {
     away: string | number;
   };
 };
+
+export const convertMatchStructureToData = (
+  match: MatchStructure
+): MatchData => ({
+  ...match,
+  id: match.id ?? "TEMP_ID",
+});

@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 import { Link } from "react-router-dom";
-import { mainTheme } from "./styledConst";
 
-import { Divider, Grid } from "@material-ui/core";
+import { Divider, Grid, GridProps, List, ListProps } from "@material-ui/core";
 import { ScrollBarStyled } from "./styledScrollBar";
 import { CSSProperties } from "@material-ui/styles";
+import { LIST_CONTAINER_IOS } from "./styledComponents/const";
 
 export const BodyContainer = styled.div<{ sm: boolean }>`
   display: flex;
@@ -17,19 +17,10 @@ export const BodyContainer = styled.div<{ sm: boolean }>`
   ${(props) =>
     props.sm
       ? `
-  width: calc(100vw - 250px);
-  margin-left: auto;
-  `
+width: calc(100vw - 250px);
+margin-left: auto;
+`
       : ``}
-`;
-
-export const MainContainer = styled.main`
-  overflow-x: hidden;
-  overflow-y: auto;
-  flex-grow: 1;
-  background-color: ${mainTheme.palette.primary.dark};
-  position: relative;
-  overflow: hidden;
 `;
 
 export const NoContentContainer = styled.div`
@@ -39,20 +30,16 @@ export const NoContentContainer = styled.div`
   align-items: center;
 `;
 
-export const NoContentTitle = styled.p`
-  text-align: center;
-  color: ${mainTheme.palette.secondary.dark};
-`;
-
 export const ContentContainerStyled = styled.div`
-  padding: 20px;
   text-align: center;
   position: relative;
 `;
 
 export const GroupsContentContainerStyled = styled(ContentContainerStyled)`
+  padding: 0px 20px;
   max-height: 100%;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 `;
 
 export const LinkStyled = styled(Link)`
@@ -167,8 +154,11 @@ export const DesktopMainDividerStyled: React.FC<{}> = ({ children }) => (
 /* ============== SECTION =============== */
 /* -------------------------------------- */
 
+const NAV_HEIGHT = "58px";
+
 const GridSectionStyled = styled(Grid)`
-  max-height: 100%;
+  // max-height: 100%;
+  height: 100%;
   flex-wrap: nowrap;
 `;
 
@@ -184,22 +174,61 @@ export const SectionStyled: React.FC<TSectionStyledProps> = ({
 );
 
 const GridSectionNavStyled = styled(Grid)`
-  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%),
-    0 1px 5px 0 rgb(0 0 0 / 20%);
   z-index: 1;
+  height: ${NAV_HEIGHT};
 `;
 
-export const SectionNavStyled: React.FC<{}> = ({ children }) => (
-  <GridSectionNavStyled item>{children}</GridSectionNavStyled>
+export const SectionNavStyled: React.FC<GridProps> = ({
+  children,
+  ...props
+}) => (
+  <GridSectionNavStyled item {...props}>
+    {children}
+  </GridSectionNavStyled>
 );
 
-const GridSectionContentStyled = styled(Grid)`
+const GridSectionContentStyled = styled(Grid)<{
+  navqty: number;
+}>`
   flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
   ${ScrollBarStyled}
   padding: 5px;
+
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  max-height: calc(100vh - 58px * ${(props) => props.navqty ?? 0});
 `;
-export const SectionContentStyled: React.FC<{}> = ({ children }) => (
-  <GridSectionContentStyled item>{children}</GridSectionContentStyled>
+
+type TSectionContent = GridProps & {
+  navQty?: number;
+};
+
+export const SectionContentStyled: React.FC<TSectionContent> = ({
+  children,
+  navQty,
+  ...props
+}) => (
+  <GridSectionContentStyled item navqty={navQty ?? 0} {...props}>
+    {children}
+  </GridSectionContentStyled>
+);
+
+const GridSectionFooterStyled = styled(Grid)`
+  padding: 5px 0px;
+  text-align: center;
+`;
+export const SectionFooterStyled: React.FC<{}> = ({ children }) => (
+  <GridSectionFooterStyled item>{children}</GridSectionFooterStyled>
+);
+
+const ListContainerSectionStyled = styled(List)`
+  ${LIST_CONTAINER_IOS}
+`;
+export const ListContainerSection: React.FC<ListProps> = ({
+  children,
+  ...props
+}) => (
+  <ListContainerSectionStyled {...props}>{children}</ListContainerSectionStyled>
 );

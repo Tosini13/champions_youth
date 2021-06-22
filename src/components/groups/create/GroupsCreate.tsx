@@ -13,8 +13,8 @@ import { createGroup } from "../../../store/actions/GroupActions";
 import { MatchDataDb } from "../../../structures/dbAPI/matchData";
 import { Id } from "../../../const/structuresConst";
 import { useParams } from "react-router-dom";
-import { LOCALE } from "../../../locale/config";
 import tournamentDetailsDict from "../../../locale/tournamentDetails";
+import { useLocale } from "../../../Provider/LocaleProvider";
 
 type Props = {
   tournament: TournamentData;
@@ -26,7 +26,6 @@ type Props = {
     group: GroupDataDb,
     matches?: MatchDataDb[]
   ) => void;
-  locale: LOCALE;
 };
 
 const GroupsCreate: React.FC<Props> = ({
@@ -35,8 +34,8 @@ const GroupsCreate: React.FC<Props> = ({
   teams,
   toggleCreate,
   createGroup,
-  locale,
 }) => {
+  const { locale } = useLocale();
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
   const [chosenGroup, setChosenGroup] = useState<GroupData>();
   const [groups, setGroups] = useState<GroupData[]>([]);
@@ -175,12 +174,6 @@ const GroupsCreate: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
 const mapDispatchToProps = (dispatch: any) => {
   return {
     createGroup: (
@@ -190,4 +183,4 @@ const mapDispatchToProps = (dispatch: any) => {
     ) => dispatch(createGroup(tournamentId, group, matches)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(GroupsCreate);
+export default connect(null, mapDispatchToProps)(GroupsCreate);

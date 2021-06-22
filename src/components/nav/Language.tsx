@@ -15,14 +15,13 @@ import plFlag from "../../images/flags/pl.png";
 import enFlag from "../../images/flags/us.png";
 import languageDict from "../../locale/language";
 import { IconButton } from "@material-ui/core";
-import { DialogRU } from "../../styled/styledDialog";
+import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
+import { useLocale } from "../../Provider/LocaleProvider";
 
-export interface LanguageProps {
-  locale: LOCALE;
-  setLocale: (locale: LOCALE) => void;
-}
+export interface LanguageProps {}
 
-const Language: React.FC<LanguageProps> = ({ locale, setLocale }) => {
+const Language: React.FC<LanguageProps> = () => {
+  const { handleChangeLocale, locale } = useLocale();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -34,7 +33,7 @@ const Language: React.FC<LanguageProps> = ({ locale, setLocale }) => {
   };
 
   const handleSetLocale = (locale: LOCALE) => {
-    setLocale(locale);
+    handleChangeLocale(locale);
     setOpen(false);
   };
 
@@ -57,7 +56,6 @@ const Language: React.FC<LanguageProps> = ({ locale, setLocale }) => {
           onClose={handleClose}
           aria-labelledby="simple-dialog-title"
           open={open}
-          locale={locale}
           title="chooseLanguage"
         >
           <List>

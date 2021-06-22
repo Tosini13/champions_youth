@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { Rosetta, Translator } from "react-rosetta";
 
 import FormLabel from "@material-ui/core/FormLabel";
@@ -9,11 +8,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { BracketNavSelectStyled } from "../../../../styled/styledBracket";
 import { roundMatchesTitle } from "../../../../const/structuresConst";
 import { Options } from "../../../../structures/bracket";
-import { LOCALE } from "../../../../locale/config";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
 import useTranslationHelp from "../../../../hooks/useTranslationHelp";
-import { SelectStyled } from "../../../../styled/styledForm";
+import { SelectStyled } from "../../../../styled/styledComponents/styledForm";
 import { mainTheme } from "../../../../styled/styledConst";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 export const style = {
   formControlLabel: {
@@ -31,15 +30,14 @@ type Props = {
   maxRounds: number;
   options: Options;
   setRounds: (rounds: number) => void;
-  locale: LOCALE;
 };
 
 const PlayOffsChooseRound: React.FC<Props> = ({
   maxRounds,
   options,
   setRounds,
-  locale,
 }) => {
+  const { locale } = useLocale();
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     const rounds = event.target.value as number;
     setRounds(rounds);
@@ -85,11 +83,4 @@ const PlayOffsChooseRound: React.FC<Props> = ({
     </Rosetta>
   );
 };
-
-const mapStateToProps = (state: any, ownProps: any) => {
-  return {
-    locale: state.dictionary.locale,
-  };
-};
-
-export default connect(mapStateToProps)(PlayOffsChooseRound);
+export default PlayOffsChooseRound;

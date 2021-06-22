@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { Rosetta } from "react-rosetta";
 
 import chooseTeamDict from "../../../../locale/chooseTeam.dict";
-import { LOCALE } from "../../../../locale/config";
 import { connect } from "react-redux";
 import { Id } from "../../../../const/structuresConst";
 import { TeamListStyled } from "../../../../styled/styledTeams";
@@ -12,17 +11,16 @@ import { GroupModel } from "../../../../NewModels/Group";
 import { NewPlaceholder } from "../../../../NewModels/Team";
 import { PromotedGroup } from "./CreatePlayOffsGroupPage";
 import { ScrollBarStyled } from "../../../../styled/styledScrollBar";
-import { DialogRU } from "../../../../styled/styledDialog";
+import { DialogRU } from "../../../../styled/styledComponents/navigation/styledDialog";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 const TeamList = styled(TeamListStyled)`
-  overflow-x: hidden;
   flex-wrap: nowrap;
   padding-bottom: 5px;
   ${ScrollBarStyled}
 `;
 
 export interface ChooseTeamsProps {
-  locale: LOCALE;
   userId: Id;
   promotedGroups: PromotedGroup[];
   chosenGroup?: GroupModel;
@@ -34,7 +32,6 @@ export interface ChooseTeamsProps {
 }
 
 const ChooseTeams: React.FC<ChooseTeamsProps> = ({
-  locale,
   userId,
   promotedGroups,
   chosenGroup,
@@ -44,6 +41,7 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
   handleOpenTeams,
   handleChooseGroupTeam,
 }) => {
+  const { locale } = useLocale();
   const handleChooseTeam = (selected: NewPlaceholder) => {
     if (chosenTeams.includes(selected)) {
       const selectedTeams = chosenTeams.filter(
@@ -62,12 +60,7 @@ const ChooseTeams: React.FC<ChooseTeamsProps> = ({
 
   return (
     <Rosetta translations={chooseTeamDict} locale={locale}>
-      <DialogRU
-        onClose={handleClose}
-        open={open}
-        title={"chooseTeams"}
-        locale={locale}
-      >
+      <DialogRU onClose={handleClose} open={open} title={"chooseTeams"}>
         {promotedGroups.map((group) => (
           <div key={group.id}>
             <p>{group.name}</p>

@@ -5,13 +5,12 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 
-import {
-  TournamentCreationStepLabelStyled,
-  TournamentCreationStepperStyled,
-} from "../../../styled/styledForm";
+import { TournamentCreationStepperStyled } from "../../../styled/styledComponents/styledForm";
 import { ColorlibStepIcon } from "./StepperBullet";
 import { LOCALE } from "../../../locale/config";
 import createTournamentDict from "../../../locale/createTournament.dict";
+import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
+import { useTheme } from "@material-ui/core";
 
 function getSteps() {
   return ["basicInfo", "locationInfo", "summary"];
@@ -30,6 +29,7 @@ const VerticalStepper: React.FC<Props> = ({
   handleTrigger,
   locale,
 }) => {
+  const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
 
@@ -54,9 +54,13 @@ const VerticalStepper: React.FC<Props> = ({
                 handleSetStep(index);
               }}
             >
-              <TournamentCreationStepLabelStyled type="submit">
+              <ButtonRC
+                type="submit"
+                variant="text"
+                style={{ color: theme.palette.text.primary }}
+              >
                 <Translator id={`${label}`} />
-              </TournamentCreationStepLabelStyled>
+              </ButtonRC>
             </StepLabel>
             <StepContent>{getStepContent(index)}</StepContent>
           </Step>

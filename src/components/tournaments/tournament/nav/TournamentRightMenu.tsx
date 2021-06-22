@@ -1,9 +1,11 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
-import { TabStyled } from "../../../../styled/styledTabs";
-import { Tabs } from "@material-ui/core";
 import menuDict from "../../../../locale/menu";
-import { LOCALE } from "../../../../locale/config";
+import {
+  TabRC,
+  TabsContainer,
+} from "../../../../styled/styledComponents/navigation/styledTabs";
+import { useLocale } from "../../../../Provider/LocaleProvider";
 
 export enum TOURNAMENT_RIGHT_MENU {
   "GROUPS" = 0,
@@ -11,29 +13,28 @@ export enum TOURNAMENT_RIGHT_MENU {
 }
 
 export default function TournamentRightMenu({
-  locale,
   value,
   setValue,
 }: {
-  locale: LOCALE;
   value: TOURNAMENT_RIGHT_MENU;
   setValue: (value: TOURNAMENT_RIGHT_MENU) => void;
 }) {
+  const { locale } = useLocale();
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
 
   return (
     <Rosetta translations={menuDict} locale={locale}>
-      <Tabs
+      <TabsContainer
         value={value}
         indicatorColor="secondary"
         textColor="secondary"
-        onChange={handleChange}
+        handleChange={handleChange}
       >
-        <TabStyled label={<Translator id={"groups"} />} />
-        <TabStyled label={<Translator id={"playOffs"} />} />
-      </Tabs>
+        <TabRC label={<Translator id={"groups"} />} />
+        <TabRC label={<Translator id={"playOffs"} />} />
+      </TabsContainer>
     </Rosetta>
   );
 }

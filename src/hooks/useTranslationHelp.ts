@@ -1,3 +1,15 @@
+enum E_ROUNDS {
+  "1/64_finals" = "1/64_finals",
+  "1/32_finals" = "1/32_finals",
+  "1/16_finals" = "1/16_finals",
+  "Quarter_final" = "Quarter_final",
+  "Semi_final" = "Semi_final",
+  "Final" = "Final",
+}
+
+const checkIsPlayOff = (round: string) =>
+  Boolean(Object.values(E_ROUNDS).find((r) => r === round));
+
 const useTranslationHelp = () => {
   const translateRound = (round: string) => {
     let prefix = "";
@@ -13,9 +25,13 @@ const useTranslationHelp = () => {
       prefix = "1/64";
       round = "_" + round.replace(prefix, "").trim();
     }
+
+    const ROUND = prefix + round.replace(/\d/g, "").trim().replace("-", "_");
+
     return {
-      round: prefix + round.replace(/\d/g, "").trim().replace("-", "_"),
+      round: ROUND,
       number: round.replace(/\D/g, "").trim(),
+      isPlayOff: checkIsPlayOff(ROUND),
     };
   };
   return {

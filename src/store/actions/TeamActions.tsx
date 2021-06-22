@@ -91,21 +91,99 @@ export const deleteTeamFromTournament = (tournamentId: Id, team: TeamData) => {
   };
 };
 
-export const editTeamFromTournament = (tournamentId: Id, team: TeamData) => {
+export type TEditTeam = {
+  tournamentId: Id;
+  teamId: Id;
+  team: Omit<TeamData, "id">;
+  oldLogo?: any;
+  newLogo?: any;
+};
+
+export const editTeamFromTournament = ({
+  team,
+  teamId,
+  tournamentId,
+  newLogo,
+  oldLogo,
+}: TEditTeam) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
-    const teamDb = {
-      name: team.name,
+    const logoName = newLogo
+      ? `${moment().format()}${newLogo.name}`
+      : undefined;
+    if (newLogo && logoName) {
+      newLogo.name = logoName;
+      setImageJustUploaded(
+        logoName,
+        URL.createObjectURL(newLogo),
+        tournamentId
+      );
+    }
+    const getImageName = () => {
+      if (logoName) {
+        return {
+          logo: logoName,
+        };
+      }
+      if (team.logo && !oldLogo) {
+        return {
+          logo: null,
+        };
+      }
+      return {};
     };
+    console.log("payload", {
+      ...team,
+      ...getImageName(),
+    });
     const firestore = getFirestore();
     firestore
       .collection("tournaments")
       .doc(tournamentId)
       .collection("teams")
-      .doc(team.id)
+      .doc(teamId)
       .update({
-        ...teamDb,
+        ...team,
+        ...getImageName(),
       })
       .then(() => {
+        if (newLogo) {
+          const storageRef = firebase.storage().ref();
+          const ref = storageRef.child(
+            getImageUrl({
+              tournamentId,
+              imageName: newLogo.name,
+            })
+          );
+          ref
+            .put(newLogo)
+            .then((res) =>
+              dispatch({ type: "ADD_TEAM_TO_TOURNAMENT_IMAGE_UPLOADED" })
+            )
+            .catch((err) =>
+              dispatch({ type: "ADD_TEAM_TO_TOURNAMENT_IMAGE_UPLOADED_ERROR" })
+            );
+        }
+        if (team.logo && !oldLogo) {
+          const storageRef = firebase.storage().ref();
+          const desertRef = storageRef.child(
+            getImageUrl({
+              tournamentId,
+              imageName: team.logo,
+            })
+          );
+          desertRef
+            .delete()
+            .then(() => {
+              dispatch({ type: "DELETE_TEAM_FROM_TOURNAMENT_DELETE_LOGO" });
+            })
+            .catch((error) => {
+              dispatch({
+                type: "DELETE_TEAM_FROM_TOURNAMENT_OK_DELETE_LOGO_ERROR",
+              });
+            });
+        } else {
+          dispatch({ type: "DELETE_TEAM_FROM_TOURNAMENT" });
+        }
         dispatch({ type: "EDIT_TEAM" });
       })
       .catch((err: any) => {

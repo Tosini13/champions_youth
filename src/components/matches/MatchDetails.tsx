@@ -21,17 +21,11 @@ import { updateGame, UpdateGame } from "../../store/actions/GameActions";
 import { matchGame } from "../../store/actions/PlayOffsActions";
 import { routerConstString } from "../../const/menuConst";
 import { GroupModelDB } from "../../NewModels/Group";
-import { Grid, Hidden, IconButton, Paper } from "@material-ui/core";
-import { mainTheme } from "../../styled/styledConst";
-import { LOCALE } from "../../locale/config";
+import { Grid, Hidden, IconButton } from "@material-ui/core";
 import Share from "../share/Share";
 import { routerGenerateConst } from "../../const/menuConst";
 import { TournamentData } from "../../models/tournamentData";
-
-const PaperStyled = styled(Paper)`
-  background-color: ${mainTheme.palette.primary.main};
-  padding: 5px;
-`;
+import { PaperRC } from "../../styled/styledComponents/styledPaper";
 
 const IconButtonDesktopStyled = styled(IconButton)`
   position: absolute;
@@ -42,7 +36,6 @@ const IconButtonDesktopStyled = styled(IconButton)`
 
 type Props = {
   isOwner: boolean;
-  locale: LOCALE;
   nextWinner?: GameDataDb;
   nextLoser?: GameDataDb;
   game?: Game;
@@ -75,7 +68,6 @@ type Props = {
 
 const MatchDetails: React.FC<Props> = ({
   isOwner,
-  locale,
   nextWinner,
   nextLoser,
   game,
@@ -290,7 +282,6 @@ const MatchDetails: React.FC<Props> = ({
     return matchData.home !== undefined && matchData.away !== undefined;
   };
 
-  console.log(matchData);
   if (matchData === undefined) return <SplashScreen />;
   return (
     <>
@@ -303,10 +294,7 @@ const MatchDetails: React.FC<Props> = ({
           style={{ width: "100%", height: "100%" }}
         >
           <Grid item lg={6} md={8}>
-            <PaperStyled
-              style={{ padding: "10px", position: "relative" }}
-              color="primary"
-            >
+            <PaperRC style={{ padding: "10px", position: "relative" }}>
               <IconButtonDesktopStyled onClick={() => setOpenShare(true)}>
                 <ShareIcon color="secondary" />
               </IconButtonDesktopStyled>
@@ -317,7 +305,6 @@ const MatchDetails: React.FC<Props> = ({
               />
               {isOwner && hasTeams() ? (
                 <MatchDetailsDashboard
-                  locale={locale}
                   match={matchData}
                   updateMode={updateMode}
                   updateResult={updateResult}
@@ -326,7 +313,7 @@ const MatchDetails: React.FC<Props> = ({
                   finishMatch={finishMatch}
                 />
               ) : null}
-            </PaperStyled>
+            </PaperRC>
           </Grid>
         </Grid>
       </Hidden>
@@ -345,7 +332,6 @@ const MatchDetails: React.FC<Props> = ({
         </Grid>
         {isOwner && hasTeams() ? (
           <MatchDetailsDashboard
-            locale={locale}
             match={matchData}
             updateMode={updateMode}
             updateResult={updateResult}
@@ -356,7 +342,6 @@ const MatchDetails: React.FC<Props> = ({
         ) : null}
       </Hidden>
       <Share
-        locale={locale}
         open={openShare}
         handleClose={() => setOpenShare(false)}
         message={getLink()}
@@ -416,7 +401,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
     gameId,
     matchId,
     playOffsGroup: ownProps.match.path === routerConstString.matchPlayOffsGroup,
-    locale: state.dictionary.locale,
   };
 };
 
