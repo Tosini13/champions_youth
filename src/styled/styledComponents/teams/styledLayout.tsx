@@ -6,11 +6,12 @@ import { Grid, GridProps, useTheme } from "@material-ui/core";
 import { LogoContainerStyled } from "../match/styledLogo";
 import { useColors } from "../../themes/CustomThemeProvider";
 import { SIZE_LOGO } from "../../../components/global/Logo";
+import { LIST_CONTAINER_IOS } from "../const";
 
 // ================== GRID ========================
 
 const TeamsListStyled = styled(Grid)`
-  padding-bottom: 60px;
+  ${LIST_CONTAINER_IOS}
 `;
 
 export const TeamsList: React.FC<GridProps> = ({ children }) => {

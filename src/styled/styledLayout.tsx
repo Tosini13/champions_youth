@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Divider, Grid, GridProps, List, ListProps } from "@material-ui/core";
 import { ScrollBarStyled } from "./styledScrollBar";
 import { CSSProperties } from "@material-ui/styles";
+import { LIST_CONTAINER_IOS } from "./styledComponents/const";
 
 export const BodyContainer = styled.div<{ sm: boolean }>`
   display: flex;
@@ -223,7 +224,7 @@ export const SectionFooterStyled: React.FC<{}> = ({ children }) => (
 );
 
 const ListContainerSectionStyled = styled(List)`
-  padding-bottom: 60px;
+  ${LIST_CONTAINER_IOS}
 `;
 export const ListContainerSection: React.FC<ListProps> = ({
   children,

@@ -1,5 +1,9 @@
 import React from "react";
 import { Game } from "../../models/gameData";
+import {
+  GamesContainer,
+  GamesItem,
+} from "../../styled/styledComponents/playOffs/styledLayout";
 import GameSummaryContainer from "./gameSummary/GameSummaryContainer";
 
 type Props = {
@@ -9,17 +13,17 @@ type Props = {
 
 const PlayOffsBracket: React.FC<Props> = ({ playOffs, tournamentId }) => {
   return (
-    <>
+    <GamesContainer>
       {playOffs.map((game) => (
-        <React.Fragment key={game.id}>
+        <GamesItem key={game.id}>
           <GameSummaryContainer
             game={game}
             tournamentId={tournamentId}
             gameId={game.id}
           />
-        </React.Fragment>
+        </GamesItem>
       ))}
-    </>
+    </GamesContainer>
   );
 };
 
