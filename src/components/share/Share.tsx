@@ -2,25 +2,40 @@ import React, { useEffect, useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 import styled from "styled-components";
 
+import { FacebookShareButton } from "react-share";
+
 import {
   Grid,
   IconButton,
   List,
   ListItem,
   Typography,
+  TypographyProps,
 } from "@material-ui/core";
-import { WhatsApp, FileCopy } from "@material-ui/icons";
-
+import { WhatsApp, Link, Facebook } from "@material-ui/icons";
 import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
 import shareDict from "../../locale/shareDict.dict";
 import { AStyled } from "../../styled/styledLayout";
-import { mainTheme } from "../../styled/styledConst";
 import { useLocale } from "../../Provider/LocaleProvider";
+import { useColors } from "../../styled/themes/CustomThemeProvider";
 
-const TypographyCopiedStyled = styled(Typography)`
-  color: ${mainTheme.palette.primary.light};
+const TypographyCopiedStyled = styled(Typography)<{
+  textColor: string
+}>`
+  color: ${(props) => props.textColor};
   text-align: right;
 `;
+
+export const TypographyCopied: React.FC<TypographyProps> = ({
+  children,
+  ...props
+}) => {
+  const {specialColor} = useColors();
+  return (
+  <TypographyCopiedStyled color="textPrimary" {...props} textColor={specialColor}>
+    {children}
+  </TypographyCopiedStyled>
+)};
 
 export interface ShareProps {
   message: string;
@@ -52,7 +67,7 @@ const Share: React.FC<ShareProps> = ({ message, open, handleClose }) => {
             >
               <Grid item>
                 <IconButton>
-                  <FileCopy color="secondary" />
+                  <Link color="secondary" />
                 </IconButton>
               </Grid>
               <Grid item>
@@ -62,12 +77,35 @@ const Share: React.FC<ShareProps> = ({ message, open, handleClose }) => {
               </Grid>
               {copied ? (
                 <Grid item style={{ flexGrow: 1 }}>
-                  <TypographyCopiedStyled>
+                  <TypographyCopied>
                     <Translator id="copied" />!
-                  </TypographyCopiedStyled>
+                  </TypographyCopied>
                 </Grid>
               ) : null}
             </Grid>
+          </ListItem>
+          <ListItem button>
+            <FacebookShareButton
+              url={message}
+              quote={"Champions Youth"}
+              hashtag={"#ChampionsYouth"}
+            >
+            <Grid
+              container
+              alignItems="center"
+            >
+              <Grid item>
+                <IconButton>
+                  <Facebook color="secondary" />
+                </IconButton>
+              </Grid>
+              <Grid item>
+                <Typography>
+                  <Translator id="facebook" />
+                </Typography>
+              </Grid>
+            </Grid>
+            </FacebookShareButton>
           </ListItem>
           <ListItem button>
             <AStyled
