@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import { matchModeConst } from "../../const/matchConst";
 import { Id } from "../../const/structuresConst";
 import { GroupDataDb } from "../../models/groupData";
 import { GroupTeamModel } from "../../models/teamData";
@@ -200,6 +201,7 @@ export const updatePlayOffsGroupTeams = ({
   groupTeams,
 }: UpdatePlayOffsGroupTeamsParams) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
+    console.log('groupTeams', groupTeams);
     const firestore = getFirestore();
     firestore
       .collection("tournaments")
@@ -210,6 +212,29 @@ export const updatePlayOffsGroupTeams = ({
         groupTeams,
       })
       .then((res: any) => {
+        firestore
+        .collection("tournaments")
+        .doc(tournamentId)
+        .collection("playOffsGroups")
+        .doc(groupId)
+        .collection("matches")
+        .get()
+        .then((snapshot) => {
+          snapshot.forEach((doc) => {
+            // console.log('doc fields',doc.xf.nn.proto.mapValue.fields);
+            doc.ref
+              .update({
+                mode: matchModeConst.notStarted,
+                result: {}
+              })
+              .catch((err) => {
+                console.log("update", err);
+              });
+          });
+        })
+        .catch((err) => {
+          console.log("get", err);
+        });
         dispatch({ type: "UPDATE_GROUP" });
       })
       .catch((err: any) => {
