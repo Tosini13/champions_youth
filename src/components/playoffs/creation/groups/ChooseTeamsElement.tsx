@@ -7,8 +7,8 @@ import { Id } from "../../../../const/structuresConst";
 import { TeamListElementStyled } from "../../../../styled/styledTeams";
 import Logo, { SIZE_LOGO } from "../../../global/Logo";
 import { IconButton } from "@material-ui/core";
-import { ListItemTextStyled } from "../../../../styled/styledBracket";
 import { NewPlaceholder } from "../../../../NewModels/Team";
+import { ChooseTeamDialogTypography } from "../../../../styled/styledComponents/teams/styledButtons";
 
 type Props = {
   team: NewPlaceholder;
@@ -20,7 +20,6 @@ type Props = {
 
 const ChooseTeamsElement: React.FC<Props> = ({
   team,
-  userId,
   selected,
   restricted,
   handleChooseTeam,
@@ -32,10 +31,9 @@ const ChooseTeamsElement: React.FC<Props> = ({
     >
       <Logo size={SIZE_LOGO.sm} />
       <>
-        <ListItemTextStyled
-          primary={team.id + " " + team.place}
-          style={{ marginLeft: "5px" }}
-        />
+        <ChooseTeamDialogTypography>
+          {team.id + " " + team.place}
+        </ChooseTeamDialogTypography>
         <ListItemSecondaryAction>
           <IconButton color={restricted ? "primary" : "secondary"}>
             {selected ? <RemoveIcon /> : <AddIcon />}

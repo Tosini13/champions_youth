@@ -3,6 +3,7 @@ import { IconButton, IconButtonProps, useTheme } from "@material-ui/core";
 import styled from "styled-components";
 import { useColors } from "../../themes/CustomThemeProvider";
 import { parseStyledBoolean } from "../../../helpers/booleanParser";
+import { TypographyPrimaryText } from "../styledTypography";
 
 const TeamItemIconButtonStyled = styled(IconButton)<{
   buttoncolor: string;
@@ -87,3 +88,7 @@ export const ChooseTeamIconButton: React.FC<TChooseTeamIconButtonProps> = ({
     </ChooseTeamIconButtonStyled>
   );
 };
+
+export const ChooseTeamDialogTypography = styled(TypographyPrimaryText)`
+  margin-left: 5px;
+`;
