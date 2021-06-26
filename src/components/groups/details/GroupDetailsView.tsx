@@ -231,8 +231,12 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
               {view === E_GROUP_MENU.TABLE ? (
                 <GroupTableView
                   group={group}
-                  handleFinishGroup={handleFinishGroupNotification}
-                  handleContinueGroup={handleContinueGroupsNotification}
+                  handleFinishGroup={
+                    playOffsGroups && handleFinishGroupNotification // BUTTON REMOVED FROM PLAYOFFS
+                  }
+                  handleContinueGroup={
+                    playOffsGroups && handleContinueGroupsNotification
+                  }
                 />
               ) : null}
               {view === E_GROUP_MENU.MATCHES ? (
@@ -250,8 +254,12 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             <DesktopMainItemStyled>
               <GroupTableView
                 group={group}
-                handleFinishGroup={handleFinishGroupNotification}
-                handleContinueGroup={handleContinueGroupsNotification}
+                handleFinishGroup={
+                  playOffsGroups && handleFinishGroupNotification
+                }
+                handleContinueGroup={
+                  playOffsGroups && handleContinueGroupsNotification
+                }
               />
             </DesktopMainItemStyled>
             <DesktopMainItemStyled>
