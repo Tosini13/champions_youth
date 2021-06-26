@@ -28,6 +28,10 @@ import { GroupModel } from "../../../NewModels/Group";
 import PlayOffsGroups from "../../playoffs/groups/PlayOffsGroups";
 import { ButtonRC } from "../../../styled/styledComponents/styledButtons";
 import { useLocale } from "../../../Provider/LocaleProvider";
+import {
+  continueAllGroups,
+  TContinueAllGroups,
+} from "../../../store/actions/GroupActions";
 
 type Props = {
   tournamentId: Id;
@@ -47,6 +51,7 @@ type Props = {
     callBackSuccess?: () => void,
     callBackError?: () => void
   ) => void;
+  continueAllGroups: (params: TContinueAllGroups) => void;
 };
 
 const TournamentPlayOffs: React.FC<Props> = ({
@@ -59,6 +64,7 @@ const TournamentPlayOffs: React.FC<Props> = ({
   isOwner,
   deletePlayOffs,
   deletePlayOffsGroups,
+  continueAllGroups,
 }) => {
   const { locale } = useLocale();
   const history = useHistory();
@@ -77,6 +83,7 @@ const TournamentPlayOffs: React.FC<Props> = ({
       deletePlayOffs(
         tournamentId,
         () => {
+          continueAllGroups({ tournamentId });
           setInProgress(false);
         },
         () => {
@@ -88,6 +95,7 @@ const TournamentPlayOffs: React.FC<Props> = ({
       deletePlayOffsGroups(
         tournamentId,
         () => {
+          continueAllGroups({ tournamentId });
           setInProgress(false);
         },
         () => {
@@ -208,6 +216,8 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(
         deletePlayOffsGroups(tournamentId, callBackSuccess, callBackError)
       ),
+    continueAllGroups: (params: TContinueAllGroups) =>
+      dispatch(continueAllGroups(params)),
   };
 };
 export default connect(null, mapDispatchToProps)(TournamentPlayOffs);
