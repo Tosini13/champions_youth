@@ -53,20 +53,3 @@ const PlayOffsChooseListElement: React.FC<Props> = ({
 };
 
 export default PlayOffsChooseListElement;
-
-// <ChooseListItemStyled
-//   button
-//   onClick={() => addToChosenTeams(element)}
-//   disabled={disabled}
-// >
-//   <ListItemTextStyled primary={element.name} />
-//   <ChooseListItemSecondaryActionStyled>
-//     <IconButton size="small">
-//       {selected || disabled ? (
-//         <RemoveIcon color="secondary" />
-//       ) : (
-//         <AddIcon color="secondary" />
-//       )}
-//     </IconButton>
-//   </ChooseListItemSecondaryActionStyled>
-// </ChooseListItemStyled>

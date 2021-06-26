@@ -93,8 +93,8 @@ const ChoosePromotedList: React.FC<Props> = ({
               {group.name}
             </TypographyPrimaryText>
           </GroupHeaderContainer>
-          {group.promoted.map((team, id) => (
-            <TeamsList>
+          <TeamsList>
+            {group.promoted.map((team, id) => (
               <ChoosePromotedListElement
                 key={id}
                 groupId={group.id}
@@ -103,8 +103,8 @@ const ChoosePromotedList: React.FC<Props> = ({
                 addToChosenTeams={addTeam}
                 disabled={Boolean(isDisabled(team, group.id))}
               />
-            </TeamsList>
-          ))}
+            ))}
+          </TeamsList>
         </div>
       ))}
     </ChooseListStyled>
