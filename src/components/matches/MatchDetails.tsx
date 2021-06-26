@@ -140,70 +140,78 @@ const MatchDetails: React.FC<Props> = ({
   ) => {
     if (winner?.previousMatchHome === gameId) {
       const homeTeam = getWinnerTeam(reset);
-      updateMatch({
-        tournamentId,
-        groupId,
-        gameId: winner.id,
-        matchId: matchGame.match,
-        homeTeam,
-      });
-      updateGame({
-        tournamentId,
-        gameId: winner.id,
-        homeTeam,
-        returnMatch: false,
-      });
+      if (homeTeam || reset) {
+        updateMatch({
+          tournamentId,
+          groupId,
+          gameId: winner.id,
+          matchId: matchGame.match,
+          homeTeam,
+        });
+        updateGame({
+          tournamentId,
+          gameId: winner.id,
+          homeTeam,
+          returnMatch: false,
+        });
+      }
     }
 
     if (winner?.previousMatchAway === gameId) {
       const awayTeam = getWinnerTeam(reset);
-      updateMatch({
-        tournamentId,
-        groupId,
-        gameId: winner.id,
-        matchId: matchGame.match,
-        awayTeam,
-      });
-      updateGame({
-        tournamentId,
-        gameId: winner.id,
-        awayTeam,
-        returnMatch: false,
-      });
+      if (awayTeam || reset) {
+        updateMatch({
+          tournamentId,
+          groupId,
+          gameId: winner.id,
+          matchId: matchGame.match,
+          awayTeam,
+        });
+        updateGame({
+          tournamentId,
+          gameId: winner.id,
+          awayTeam,
+          returnMatch: false,
+        });
+      }
     }
 
     if (loser?.previousMatchHome === gameId) {
       const homeTeam = getLoserTeam(reset);
-      updateMatch({
-        tournamentId,
-        groupId,
-        gameId: loser.id,
-        matchId: matchGame.match,
-        homeTeam,
-      });
-      updateGame({
-        tournamentId,
-        gameId: loser.id,
-        homeTeam: getLoserTeam(reset),
-        returnMatch: false,
-      });
+      if (homeTeam || reset) {
+        updateMatch({
+          tournamentId,
+          groupId,
+          gameId: loser.id,
+          matchId: matchGame.match,
+          homeTeam,
+        });
+        updateGame({
+          tournamentId,
+          gameId: loser.id,
+          homeTeam: getLoserTeam(reset),
+          returnMatch: false,
+        });
+      }
     }
 
     if (loser?.previousMatchAway === gameId) {
       const awayTeam = getLoserTeam(reset);
-      updateMatch({
-        tournamentId,
-        groupId,
-        gameId: loser.id,
-        matchId: matchGame.match,
-        awayTeam,
-      });
-      updateGame({
-        tournamentId,
-        gameId: loser.id,
-        awayTeam: getLoserTeam(reset),
-        returnMatch: false,
-      });
+      if (awayTeam || reset) {
+        updateMatch({
+          tournamentId,
+          groupId,
+          gameId: loser.id,
+          matchId: matchGame.match,
+          awayTeam,
+        });
+        updateGame({
+          tournamentId,
+          gameId: loser.id,
+          awayTeam: getLoserTeam(reset),
+          returnMatch: false,
+        });
+      }
     }
   };
 
