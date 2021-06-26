@@ -17,12 +17,14 @@ import { TypographyPrimaryText } from "../../../../styled/styledComponents/style
 import { useLocale } from "../../../../Provider/LocaleProvider";
 
 export interface GroupTableViewProps {
+  isOwner: boolean;
   group: GroupModel;
   handleFinishGroup?: () => void;
   handleContinueGroup?: () => void;
 }
 
 const GroupTableView: React.FC<GroupTableViewProps> = ({
+  isOwner,
   group,
   handleFinishGroup,
   handleContinueGroup,
@@ -47,7 +49,7 @@ const GroupTableView: React.FC<GroupTableViewProps> = ({
           />
         </SectionContentStyled>
         <SectionFooterStyled>
-          {handleContinueGroup || handleFinishGroup ? (
+          {isOwner && (handleContinueGroup || handleFinishGroup) ? (
             <Grid item>
               <Grid container justify="center" alignItems="center">
                 <Grid item>

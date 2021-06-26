@@ -30,6 +30,7 @@ import {
 } from "../../../hooks/useTournamentNavs";
 
 export interface GroupDetailsViewProps {
+  isOwner: boolean;
   tournamentId: Id;
   groupId: Id;
   group: GroupModel;
@@ -65,6 +66,7 @@ export interface GroupDetailsViewProps {
 }
 
 const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
+  isOwner,
   tournamentId,
   groupId,
   group,
@@ -230,6 +232,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
             <SectionContentStyled navQty={1}>
               {view === E_GROUP_MENU.TABLE ? (
                 <GroupTableView
+                  isOwner={isOwner}
                   group={group}
                   handleFinishGroup={
                     playOffsGroups && handleFinishGroupNotification // BUTTON REMOVED FROM PLAYOFFS
@@ -253,6 +256,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
           <DesktopMainContainerStyled>
             <DesktopMainItemStyled>
               <GroupTableView
+                isOwner={isOwner}
                 group={group}
                 handleFinishGroup={
                   playOffsGroups && handleFinishGroupNotification
@@ -284,6 +288,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
           <SectionContentStyled>
             {view === E_GROUP_MENU.TABLE ? (
               <GroupTableView
+                isOwner={isOwner}
                 group={group}
                 handleFinishGroup={handleFinishGroupNotification}
                 handleContinueGroup={handleContinueGroupsNotification}
@@ -303,6 +308,7 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
         <DesktopMainContainerStyled>
           <DesktopMainItemStyled>
             <GroupTableView
+              isOwner={isOwner}
               group={group}
               handleFinishGroup={handleFinishGroupNotification}
               handleContinueGroup={handleContinueGroupsNotification}
