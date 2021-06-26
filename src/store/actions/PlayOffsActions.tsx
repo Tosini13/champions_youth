@@ -96,9 +96,30 @@ export const deletePlayOffs = (
 ) => {
   const path = `/tournaments/${tournamentId}/playOffs`;
   return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
     var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
     deleteFn({ path: path })
       .then(function (result) {
+        firestore
+          .collection("tournaments")
+          .doc(tournamentId)
+          .collection("groups")
+          .get()
+          .then((snapshot) => {
+            snapshot.forEach((doc) => {
+              doc.ref
+                .update({
+                  playOffs: [],
+                  playOffsGroup: [],
+                })
+                .catch((err) => {
+                  console.log("update", err);
+                });
+            });
+          })
+          .catch((err) => {
+            console.log("get", err);
+          });
         if (callBackSuccess) {
           callBackSuccess();
         }
@@ -120,9 +141,31 @@ export const deletePlayOffsGroups = (
 ) => {
   const path = `/tournaments/${tournamentId}/playOffsGroups`;
   return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
     var deleteFn = firebase.functions().httpsCallable("recursiveDelete");
     deleteFn({ path: path })
       .then(function (result) {
+        firestore
+          .collection("tournaments")
+          .doc(tournamentId)
+          .collection("groups")
+          .get()
+          .then((snapshot) => {
+            snapshot.forEach((doc) => {
+              doc.ref
+                .update({
+                  playOffs: [],
+                  playOffsGroup: [],
+                })
+                .catch((err) => {
+                  console.log("update", err);
+                });
+            });
+          })
+          .catch((err) => {
+            console.log("get", err);
+          });
+
         if (callBackSuccess) {
           callBackSuccess();
         }
