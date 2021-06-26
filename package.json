@@ -48,7 +48,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && firebase deploy --only hosting",
+    "deploy": "npm run build && alias firebase=\"`npm config get prefix`/bin/firebase\" && firebase deploy --only hosting",
     "cypress:open": "cypress open"
   },
   "eslintConfig": {

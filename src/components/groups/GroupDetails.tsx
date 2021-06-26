@@ -21,8 +21,10 @@ import {
 import { GroupModel, GroupModelDB } from "../../NewModels/Group";
 import { MatchModel, MatchModelDB } from "../../NewModels/Matches";
 import GroupDetailsView from "./details/GroupDetailsView";
+import { TournamentData } from "../../models/tournamentData";
 
 export interface GroupsComponentProps {
+  isOwner: boolean;
   tournamentId: Id;
   groupId: Id;
   group?: GroupModel;
@@ -54,6 +56,7 @@ export interface GroupsComponentProps {
 }
 
 const GroupDetails: React.FC<GroupsComponentProps> = ({
+  isOwner,
   tournamentId,
   groupId,
   group,
@@ -67,6 +70,7 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
   if (!group || !groupId || groupId !== group.id) return <SplashScreen />;
   return (
     <GroupDetailsView
+      isOwner={isOwner}
       tournamentId={tournamentId}
       groupId={groupId}
       group={group}
@@ -81,7 +85,18 @@ const GroupDetails: React.FC<GroupsComponentProps> = ({
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
+  const authorId = state.firebase.auth.uid;
   const tournamentId = ownProps.match.params.tournamentId;
+  const tournaments = state.firestore.data.tournaments;
+  const tournament: TournamentData | undefined = tournaments
+    ? {
+        ...tournaments[tournamentId],
+        id: tournamentId,
+      }
+    : undefined;
+  const isOwner: boolean = Boolean(
+    tournament && tournament.ownerId === authorId
+  );
   const groupId = ownProps.match.params.groupId;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
   const matchesData: MatchModelDB[] | undefined =
@@ -112,6 +127,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
       : undefined;
   const playOffsGroups: GroupModel[] = state.firestore.ordered.playOffsGroups;
   return {
+    isOwner,
     tournamentId,
     groupId,
     group,
@@ -182,6 +198,9 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect((props: any) => {
     return [
+      {
+        collection: "tournaments",
+      },
       {
         collection: "tournaments",
         doc: props.match.params.tournamentId,

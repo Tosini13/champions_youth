@@ -3,7 +3,6 @@ import styled from "styled-components";
 import FormGroup from "@material-ui/core/FormGroup";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 
 import { mainTheme, styledColors } from "./styledConst";
@@ -80,12 +79,6 @@ export const ChooseListItemSecondaryActionStyled = styled(
   ListItemSecondaryAction
 )`
   right: 0px;
-`;
-
-export const ListItemTextStyled = styled(ListItemText)`
-  > .MuiTypography-body1 {
-    font-size: 0.8rem;
-  }
 `;
 
 export const BracketRoundTitleStyled = styled.div<{ live: boolean }>`
