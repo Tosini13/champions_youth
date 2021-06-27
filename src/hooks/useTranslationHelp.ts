@@ -8,7 +8,7 @@ enum E_ROUNDS {
 }
 
 const checkIsPlayOff = (round: string) =>
-  Boolean(Object.values(E_ROUNDS).find((r) => r === round));
+  Boolean(Object.values(E_ROUNDS).find((r) => round.includes(r)));
 
 const useTranslationHelp = () => {
   const translateRound = (round: string) => {
@@ -26,14 +26,20 @@ const useTranslationHelp = () => {
       round = "_" + round.replace(prefix, "").trim();
     }
 
-    const ROUND = prefix + round.replace(/\d/g, "").trim().replace("-", "_");
-
+    const ROUND = round.includes("place")
+      ? "place"
+      : prefix + round.replace(/\d/g, "").trim().replace("-", "_");
+    const roundLetter = ROUND.split(" ");
     return {
-      round: ROUND,
+      round: roundLetter.length > 1 ? roundLetter[0] : ROUND,
       number: round.replace(/\D/g, "").trim(),
-      isPlayOff: checkIsPlayOff(ROUND),
+      isPlayOff: checkIsPlayOff(ROUND) || round.includes("place"),
+      isPlace: round.includes("place"),
+      roundLetter:
+        roundLetter.length > 1 ? roundLetter[roundLetter.length - 1] : "",
     };
   };
+
   return {
     translateRound: translateRound,
   };

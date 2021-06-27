@@ -1,4 +1,4 @@
-import { CircularProgress, Grid } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
@@ -10,6 +10,7 @@ import { Game } from "../../../models/gameData";
 import { TeamData } from "../../../models/teamData";
 import { MatchData } from "../../../structures/match";
 import { DialogRU } from "../../../styled/styledComponents/navigation/styledDialog";
+import CircularProgressRU from "../../../styled/styledComponents/styledLoading";
 import { LinkStyled } from "../../../styled/styledLayout";
 import MatchSummary from "../../matches/MatchSummary/MatchSummary";
 
@@ -35,29 +36,35 @@ const GameDetails: React.FC<GameDetailsProps> = ({
   handleClose,
 }) => {
   return (
-    <DialogRU open={open} onClose={handleClose} title={game.round}>
-      {match ? (
-        <GridContainer container>
-          <Grid item xs={12}>
-            <LinkStyled
-              to={routerGenerateConst.matchPlayOffs(
-                tournamentId,
-                game.id,
-                match.id
-              )}
-            >
-              <MatchSummary match={match} />
-            </LinkStyled>
-          </Grid>
-          {returnMatch ? (
+    <DialogRU open={open} onClose={handleClose}>
+      <>
+        {match ? (
+          <GridContainer container>
             <Grid item xs={12}>
-              <MatchSummary match={returnMatch} />
+              <LinkStyled
+                to={routerGenerateConst.matchPlayOffs(
+                  tournamentId,
+                  game.id,
+                  match.id
+                )}
+              >
+                <MatchSummary match={match} />
+              </LinkStyled>
             </Grid>
-          ) : null}
-        </GridContainer>
-      ) : (
-        <CircularProgress />
-      )}
+            {returnMatch ? (
+              <Grid item xs={12}>
+                <MatchSummary match={returnMatch} />
+              </Grid>
+            ) : null}
+          </GridContainer>
+        ) : (
+          <Grid container justify="center">
+            <Grid item>
+              <CircularProgressRU />
+            </Grid>
+          </Grid>
+        )}
+      </>
     </DialogRU>
   );
 };
@@ -66,7 +73,6 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
   const matchData = state.firestore.data.bracketMatches?.match;
   const returnMatchData = state.firestore.data.bracketMatches?.returnMatch;
-  console.log("matchData", matchData);
   const match: MatchData | undefined =
     matchData && teams
       ? {
