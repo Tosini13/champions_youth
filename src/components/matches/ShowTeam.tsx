@@ -8,7 +8,7 @@ import { TeamData } from "../../models/teamData";
 import { Placeholder } from "../../NewModels/Team";
 import { Typography } from "@material-ui/core";
 import { useLocale } from "../../Provider/LocaleProvider";
-import { ShowRound } from "../../styled/styledComponents/match/styledTypography";
+import { ShowRoundTeam } from "../../styled/styledComponents/match/styledTypography";
 
 export interface ShowTeamProps {
   team?: TeamData | null;
@@ -25,7 +25,7 @@ const ShowTeam: React.FC<ShowTeamProps> = ({ team, placeholder, color }) => {
         {team ? (
           team.name
         ) : placeholder ? (
-          <ShowRound round={placeholder?.name ?? ""} />
+          <ShowRoundTeam round={placeholder?.name ?? ""} />
         ) : (
           <Translator id="noTeam" />
         )}

@@ -59,6 +59,32 @@ export const ShowRound: React.FC<TTypographyRoundProps> = ({ round }) => {
   );
 };
 
+export const ShowRoundTeam: React.FC<TTypographyRoundProps> = ({ round }) => {
+  const { locale } = useLocale();
+  const { translateRound } = useTranslationHelp();
+  const {
+    round: gameRound,
+    number,
+    isPlace,
+    roundLetter,
+  } = translateRound(round);
+  return (
+    <Rosetta translations={matchDict} locale={locale}>
+      <>
+        {isPlace ? (
+          <>
+            {number} <Translator id={gameRound} />
+          </>
+        ) : (
+          <>
+            <Translator id={gameRound} /> {roundLetter} {number}
+          </>
+        )}
+      </>
+    </Rosetta>
+  );
+};
+
 const TypographyLiveStyled = styled(TypographyPrimaryText)<{
   islive?: string;
 }>`
