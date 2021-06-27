@@ -5,7 +5,7 @@ import { Rosetta, Translator } from "react-rosetta";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import StarIcon from "@material-ui/icons/Star";
 import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
-// import SportsSoccerIcon from "@material-ui/icons/SportsSoccer";
+import SportsSoccerIcon from "@material-ui/icons/SportsSoccer";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 
 import {
@@ -39,19 +39,13 @@ const BottomNav: React.FC<Props> = () => {
           value={bottomMenuConst.tournaments}
           icon={<EmojiEventsIcon />}
         />
-        {/* <BottomNavigationAction
+        <BottomNavigationAction
           component={NavBottomLiveLink}
           to={routerConstString.matches}
           label={<Translator id={bottomMenuConst.matches} />}
           value={bottomMenuConst.matches}
           icon={<SportsSoccerIcon />}
         />
-          component={NavBottomLiveLink}
-          to={routerConstString.matches}
-          label={<Translator id={bottomMenuConst.matches} />}
-          value={bottomMenuConst.matches}
-          icon={<SportsSoccerIcon />}
-        /> */}
         <BottomNavigationAction
           component={NavBottomLiveLink}
           to={routerConstString.my}
