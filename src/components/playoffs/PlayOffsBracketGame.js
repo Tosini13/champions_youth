@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Rosetta, Translator } from "react-rosetta";
 
 import {
   MatchContainerStyled,
@@ -9,14 +8,11 @@ import {
   MatchRoundTitleStyled,
 } from "../../styled/styledMatch";
 import GameDetails from "../games/GameDetails";
-import tournamentDetailsDict from "../../locale/tournamentDetails";
 import ShowTeam from "../matches/ShowTeam";
-import useTranslationHelp from "../../hooks/useTranslationHelp";
 import { Typography } from "@material-ui/core";
-import { useLocale } from "../../Provider/LocaleProvider";
+import { ShowRound } from "../../styled/styledComponents/match/styledTypography";
 
 const PlayOffsBracketGame = ({ game }) => {
-  const { locale } = useLocale();
   const [open, setOpen] = React.useState(false);
   const { tournamentId } = useParams();
 
@@ -28,39 +24,35 @@ const PlayOffsBracketGame = ({ game }) => {
     setOpen(false);
   };
 
-  const { translateRound } = useTranslationHelp();
-  const { round, number } = translateRound(game.round);
   return (
-    <Rosetta translations={tournamentDetailsDict} locale={locale}>
-      <>
-        <MatchContainerStyled onClick={handleClickOpen}>
-          <MatchHeaderStyled live={false} style={{ justifyContent: "center" }}>
-            <MatchRoundTitleStyled>
-              <Translator id={round} /> {number}
-            </MatchRoundTitleStyled>
-          </MatchHeaderStyled>
-          <MatchMockTeamsContainerStyled>
-            <ShowTeam
-              team={game.homeTeam}
-              placeholder={game?.placeholder?.home}
-            />
-            <Typography variant="body2">vs</Typography>
-            <ShowTeam
-              team={game.awayTeam}
-              placeholder={game?.placeholder?.away}
-            />
-          </MatchMockTeamsContainerStyled>
-        </MatchContainerStyled>
-        {open ? (
-          <GameDetails
-            handleClose={handleClose}
-            open={open}
-            tournamentId={tournamentId}
-            gameId={game.id}
+    <>
+      <MatchContainerStyled onClick={handleClickOpen}>
+        <MatchHeaderStyled live={false} style={{ justifyContent: "center" }}>
+          <MatchRoundTitleStyled>
+            <ShowRound round={game.round} />
+          </MatchRoundTitleStyled>
+        </MatchHeaderStyled>
+        <MatchMockTeamsContainerStyled>
+          <ShowTeam
+            team={game.homeTeam}
+            placeholder={game?.placeholder?.home}
           />
-        ) : null}
-      </>
-    </Rosetta>
+          <Typography variant="body2">vs</Typography>
+          <ShowTeam
+            team={game.awayTeam}
+            placeholder={game?.placeholder?.away}
+          />
+        </MatchMockTeamsContainerStyled>
+      </MatchContainerStyled>
+      {open ? (
+        <GameDetails
+          handleClose={handleClose}
+          open={open}
+          tournamentId={tournamentId}
+          gameId={game.id}
+        />
+      ) : null}
+    </>
   );
 };
 

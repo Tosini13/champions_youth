@@ -2,7 +2,6 @@ import React from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
-import { Rosetta, Translator } from "react-rosetta";
 
 import { MatchData } from "../../structures/match";
 import { Match } from "../../models/matchData";
@@ -12,10 +11,9 @@ import { routerGenerateConst } from "../../const/menuConst";
 import { Id } from "../../const/structuresConst";
 import { matchGame } from "../../store/actions/PlayOffsActions";
 import MatchSummary from "../matches/MatchSummary/MatchSummary";
-import tournamentDetailsDict from "../../locale/tournamentDetails";
 import useTranslationHelp from "../../hooks/useTranslationHelp";
 import { DialogRU } from "../../styled/styledComponents/navigation/styledDialog";
-import { useLocale } from "../../Provider/LocaleProvider";
+import { ShowRound } from "../../styled/styledComponents/match/styledTypography";
 
 type Props = {
   handleClose: () => void;
@@ -34,13 +32,9 @@ const GameDetails: React.FC<Props> = ({
   gameId,
   tournamentId,
 }) => {
-  const { locale } = useLocale();
   const { translateRound } = useTranslationHelp();
   const { round: matchRound, number: matchNumber } = translateRound(
     match?.round ?? ""
-  );
-  const { round: returnMatchRound, number: returnMatchNumber } = translateRound(
-    returnMatch?.round ?? ""
   );
   return (
     <DialogRU
@@ -49,35 +43,33 @@ const GameDetails: React.FC<Props> = ({
       title={matchRound}
       matchNumber={matchNumber}
     >
-      <Rosetta translations={tournamentDetailsDict} locale={locale}>
-        <>
-          {match ? (
-            <LinkStyled
-              to={routerGenerateConst.matchPlayOffs(
-                tournamentId,
-                gameId,
-                matchGame.match
-              )}
-            >
-              <MatchSummary match={match} />
-            </LinkStyled>
-          ) : null}
-          {returnMatch ? (
-            <LinkStyled
-              to={routerGenerateConst.matchPlayOffs(
-                tournamentId,
-                gameId,
-                matchGame.returnMatch
-              )}
-            >
-              <DialogTitle>
-                <Translator id={returnMatchRound} /> {returnMatchNumber}
-              </DialogTitle>
-              <MatchSummary match={returnMatch} />
-            </LinkStyled>
-          ) : null}
-        </>
-      </Rosetta>
+      <>
+        {match ? (
+          <LinkStyled
+            to={routerGenerateConst.matchPlayOffs(
+              tournamentId,
+              gameId,
+              matchGame.match
+            )}
+          >
+            <MatchSummary match={match} />
+          </LinkStyled>
+        ) : null}
+        {returnMatch ? (
+          <LinkStyled
+            to={routerGenerateConst.matchPlayOffs(
+              tournamentId,
+              gameId,
+              matchGame.returnMatch
+            )}
+          >
+            <DialogTitle>
+              {match?.round ? <ShowRound round={match?.round} /> : ""}
+            </DialogTitle>
+            <MatchSummary match={returnMatch} />
+          </LinkStyled>
+        ) : null}
+      </>
     </DialogRU>
   );
 };

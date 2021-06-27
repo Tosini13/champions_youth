@@ -6,9 +6,9 @@ import matchDict from "../../locale/matchDict";
 import { isNumber } from "util";
 import { TeamData } from "../../models/teamData";
 import { Placeholder } from "../../NewModels/Team";
-import useTranslationHelp from "../../hooks/useTranslationHelp";
 import { Typography } from "@material-ui/core";
 import { useLocale } from "../../Provider/LocaleProvider";
+import { ShowRoundTeam } from "../../styled/styledComponents/match/styledTypography";
 
 export interface ShowTeamProps {
   team?: TeamData | null;
@@ -17,8 +17,6 @@ export interface ShowTeamProps {
 }
 const ShowTeam: React.FC<ShowTeamProps> = ({ team, placeholder, color }) => {
   const { locale } = useLocale();
-  const { translateRound } = useTranslationHelp();
-  const { round, number } = translateRound(placeholder?.name ?? "");
   return (
     <Rosetta translations={matchDict} locale={locale}>
       <Typography
@@ -27,9 +25,7 @@ const ShowTeam: React.FC<ShowTeamProps> = ({ team, placeholder, color }) => {
         {team ? (
           team.name
         ) : placeholder ? (
-          <>
-            <Translator id={round} /> {number}
-          </>
+          <ShowRoundTeam round={placeholder?.name ?? ""} />
         ) : (
           <Translator id="noTeam" />
         )}
