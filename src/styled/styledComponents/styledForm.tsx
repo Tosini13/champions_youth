@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import {
   Checkbox,
+  FormLabel,
+  FormLabelProps,
   Select,
   SelectProps,
   TextField,
@@ -82,6 +84,25 @@ export const GroupNameTextFieldRC = (props: TextFieldProps) => {
 };
 
 /* ---------------------------------------- */
+/* FormLabel */
+/* ---------------------------------------- */
+
+const FormLabelStyled = styled(FormLabel)`
+  color: ${(props) => props.theme.palette.text.primary};
+`;
+
+export const FormLabelRC: React.FC<FormLabelProps> = ({
+  children,
+  ...props
+}) => {
+  const theme = useTheme();
+  return (
+    <FormLabelStyled {...props} theme={theme}>
+      {children}
+    </FormLabelStyled>
+  );
+};
+/* ---------------------------------------- */
 /* Select */
 /* ---------------------------------------- */
 
@@ -90,6 +111,9 @@ export const TemplateSelectStyled = styled(Select)<{
 }>`
   //**************
   width: 100%;
+  .MuiInputBase-input {
+    color: ${(props) => props.theme.palette.text.primary};
+  }
   input {
     color: ${(props) => props.theme.palette.text.primary};
     &::before {
@@ -105,16 +129,15 @@ export const TemplateSelectStyled = styled(Select)<{
   //**************
   max-width: 250px;
   margin-right: auto;
-  color: ${mainTheme.palette.secondary.main};
   svg {
-    fill: ${mainTheme.palette.secondary.main};
+    fill: ${(props) => props.theme.palette.text.primary};
   }
   &.MuiInput-underline:before {
-    border-color: ${mainTheme.palette.secondary.dark};
+    border-color: ${(props) => props.theme.palette.text.primary};
   }
 `;
 
-export const SelectStyled: React.FC<SelectProps> = ({ children, ...props }) => {
+export const SelectRU: React.FC<SelectProps> = ({ children, ...props }) => {
   const theme = useTheme();
   const { buttonColor } = useColors();
   return (

@@ -1,15 +1,16 @@
 import React from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
-import FormLabel from "@material-ui/core/FormLabel";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import { BracketNavSelectStyled } from "../../../../styled/styledBracket";
 import { Options } from "../../../../structures/bracket";
 import tournamentDetailsDict from "../../../../locale/tournamentDetails";
-import { SelectStyled } from "../../../../styled/styledComponents/styledForm";
-import { style } from "./PlayOffsChooseRound";
+import {
+  FormLabelRC,
+  SelectRU,
+} from "../../../../styled/styledComponents/styledForm";
 import { useLocale } from "../../../../Provider/LocaleProvider";
 
 type Props = {
@@ -38,15 +39,15 @@ const PlayOffsChooseLastMatchPlace: React.FC<Props> = ({
   return (
     <Rosetta translations={tournamentDetailsDict} locale={locale}>
       <BracketNavSelectStyled row>
-        <FormLabel component="legend" style={style.legend}>
+        <FormLabelRC>
           <Translator id="placeMatches" />
-        </FormLabel>
+        </FormLabelRC>
         <FormControlLabel
           color="secondary"
           label=""
           labelPlacement="start"
           control={
-            <SelectStyled
+            <SelectRU
               color="secondary"
               value={options.placeMatchesQtt}
               onChange={handleChange}
@@ -58,7 +59,7 @@ const PlayOffsChooseLastMatchPlace: React.FC<Props> = ({
                   </MenuItem>
                 );
               })}
-            </SelectStyled>
+            </SelectRU>
           }
         />
       </BracketNavSelectStyled>
