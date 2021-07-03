@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { firestoreConnect } from "react-redux-firebase";
@@ -6,10 +6,15 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import EmojiEventsIcon from "@material-ui/icons/EmojiEvents";
-import FlashOnIcon from "@material-ui/icons/FlashOn";
+
+import {
+  Share as ShareIcon,
+  FlashOn,
+  EmojiEvents,
+  AddCircleOutline,
+  AccountCircle,
+} from "@material-ui/icons";
+
 import LockIcon from "@material-ui/icons/Lock";
 import ListItem from "@material-ui/core/ListItem";
 
@@ -24,6 +29,7 @@ import styled from "styled-components";
 import { Grid, Hidden } from "@material-ui/core";
 import Theme from "../Theme";
 import { useLocale } from "../../../Provider/LocaleProvider";
+import Share from "../../share/Share";
 
 type BorderPosition = "bottom" | "top";
 
@@ -50,73 +56,94 @@ const SignedInMenu: React.FC<Props> = ({
   signOut,
   user,
 }) => {
+  const { locale } = useLocale();
+  const [openShare, setOpenShare] = useState<boolean>(false);
   const handleSignOut = () => {
     signOut();
     handleCloseSideBar();
   };
 
-  const { locale } = useLocale();
   return (
     <Rosetta translations={menuDict} locale={locale}>
-      <GridContainer container direction="column" justify="space-between">
-        <Grid item>
-          <ListStyled>
-            <ListItemStyled borderposition="bottom" button>
-              <ListItemIcon>
-                <AccountCircleIcon color="secondary" />
-              </ListItemIcon>
-              <ListItemText primary={user?.login} />
-              <Language />
-              <Theme />
-            </ListItemStyled>
-            <Hidden smDown>
+      <>
+        <GridContainer container direction="column" justify="space-between">
+          <Grid item>
+            <ListStyled>
+              <ListItemStyled borderposition="bottom" button>
+                <ListItemIcon>
+                  <AccountCircle color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={user?.login} />
+                <Language />
+                <Theme />
+              </ListItemStyled>
+              <Hidden smDown>
+                <ListItemStyled borderposition="bottom" button>
+                  <MenuLinkStyled
+                    to={routerConstString.tournaments}
+                    onClick={() => handleCloseSideBar()}
+                  >
+                    <ListItemIcon>
+                      <EmojiEvents color="secondary" />
+                    </ListItemIcon>
+                    <ListItemText primary={<Translator id="tournaments" />} />
+                  </MenuLinkStyled>
+                </ListItemStyled>
+              </Hidden>
               <ListItemStyled borderposition="bottom" button>
                 <MenuLinkStyled
-                  to={routerConstString.tournaments}
+                  to={routerConstString.create}
                   onClick={() => handleCloseSideBar()}
                 >
                   <ListItemIcon>
-                    <EmojiEventsIcon color="secondary" />
+                    <AddCircleOutline color="secondary" />
                   </ListItemIcon>
-                  <ListItemText primary={<Translator id="tournaments" />} />
+                  <ListItemText
+                    primary={<Translator id="createTournament" />}
+                  />
                 </MenuLinkStyled>
               </ListItemStyled>
-            </Hidden>
-            <ListItemStyled borderposition="bottom" button>
-              <MenuLinkStyled
-                to={routerConstString.create}
-                onClick={() => handleCloseSideBar()}
+            </ListStyled>
+          </Grid>
+          <Grid item>
+            <ListStyled>
+              <ListItemStyled
+                borderposition="top"
+                button
+                onClick={() => setOpenShare(true)}
               >
                 <ListItemIcon>
-                  <AddCircleOutlineIcon color="secondary" />
+                  <ShareIcon color="secondary" />
                 </ListItemIcon>
-                <ListItemText primary={<Translator id="createTournament" />} />
-              </MenuLinkStyled>
-            </ListItemStyled>
-          </ListStyled>
-        </Grid>
-        <Grid item>
-          <ListStyled>
-            <ListItemStyled borderposition="top" button>
-              <ListItemIcon>
-                <FlashOnIcon color="secondary" />
-              </ListItemIcon>
-              <ListItemText primary={<Translator id="version" />} /> {VERSION}
-            </ListItemStyled>
-            <ListItemStyled borderposition="top" button>
-              <MenuLinkStyled
-                to={routerConstString.login}
-                onClick={() => handleSignOut()}
-              >
+                <ListItemText primary={<Translator id="share" />} />
+              </ListItemStyled>
+
+              <ListItemStyled borderposition="top" button>
                 <ListItemIcon>
-                  <LockIcon color="secondary" />
+                  <FlashOn color="secondary" />
                 </ListItemIcon>
-                <ListItemText primary={<Translator id="logOut" />} />
-              </MenuLinkStyled>
-            </ListItemStyled>
-          </ListStyled>
-        </Grid>
-      </GridContainer>
+                <ListItemText primary={<Translator id="version" />} /> {VERSION}
+              </ListItemStyled>
+              <ListItemStyled borderposition="top" button>
+                <MenuLinkStyled
+                  to={routerConstString.login}
+                  onClick={() => handleSignOut()}
+                >
+                  <ListItemIcon>
+                    <LockIcon color="secondary" />
+                  </ListItemIcon>
+                  <ListItemText primary={<Translator id="logOut" />} />
+                </MenuLinkStyled>
+              </ListItemStyled>
+            </ListStyled>
+          </Grid>
+        </GridContainer>
+        <Share
+          open={openShare}
+          handleClose={() => setOpenShare(false)}
+          message={`${process.env.REACT_APP_URL}`}
+        />
+      </>
     </Rosetta>
   );
 };

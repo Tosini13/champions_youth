@@ -19,8 +19,14 @@ import { AStyled } from "../../styled/styledLayout";
 import { useLocale } from "../../Provider/LocaleProvider";
 import { useColors } from "../../styled/themes/CustomThemeProvider";
 
+const IconButtonStyled = styled(IconButton)`
+  &:hover {
+    background-color: transparent;
+  }
+`;
+
 const TypographyCopiedStyled = styled(Typography)<{
-  textColor: string
+  textColor: string;
 }>`
   color: ${(props) => props.textColor};
   text-align: right;
@@ -30,12 +36,17 @@ export const TypographyCopied: React.FC<TypographyProps> = ({
   children,
   ...props
 }) => {
-  const {specialColor} = useColors();
+  const { specialColor } = useColors();
   return (
-  <TypographyCopiedStyled color="textPrimary" {...props} textColor={specialColor}>
-    {children}
-  </TypographyCopiedStyled>
-)};
+    <TypographyCopiedStyled
+      color="textPrimary"
+      {...props}
+      textColor={specialColor}
+    >
+      {children}
+    </TypographyCopiedStyled>
+  );
+};
 
 export interface ShareProps {
   message: string;
@@ -66,9 +77,9 @@ const Share: React.FC<ShareProps> = ({ message, open, handleClose }) => {
               }}
             >
               <Grid item>
-                <IconButton>
+                <IconButtonStyled>
                   <Link color="secondary" />
-                </IconButton>
+                </IconButtonStyled>
               </Grid>
               <Grid item>
                 <Typography>
@@ -90,21 +101,18 @@ const Share: React.FC<ShareProps> = ({ message, open, handleClose }) => {
               quote={"Champions Youth"}
               hashtag={"#ChampionsYouth"}
             >
-            <Grid
-              container
-              alignItems="center"
-            >
-              <Grid item>
-                <IconButton>
-                  <Facebook color="secondary" />
-                </IconButton>
+              <Grid container alignItems="center">
+                <Grid item>
+                  <IconButtonStyled>
+                    <Facebook color="secondary" />
+                  </IconButtonStyled>
+                </Grid>
+                <Grid item>
+                  <Typography>
+                    <Translator id="facebook" />
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid item>
-                <Typography>
-                  <Translator id="facebook" />
-                </Typography>
-              </Grid>
-            </Grid>
             </FacebookShareButton>
           </ListItem>
           <ListItem button>
@@ -114,9 +122,9 @@ const Share: React.FC<ShareProps> = ({ message, open, handleClose }) => {
             >
               <Grid container alignItems="center">
                 <Grid item>
-                  <IconButton>
+                  <IconButtonStyled>
                     <WhatsApp color="secondary" />
-                  </IconButton>
+                  </IconButtonStyled>
                 </Grid>
                 <Grid item>
                   <Typography>WhatsApp</Typography>

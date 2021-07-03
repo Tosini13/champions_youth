@@ -22,7 +22,7 @@ import { parseStyledBoolean } from "../../../../helpers/booleanParser";
 const GridStyled = styled(Grid)<{
   clickable?: string;
 }>`
-  ${(props) => props.clickable ? `cursor: pointer;` : ``}
+  ${(props) => (props.clickable ? `cursor: pointer;` : ``)}
 `;
 
 export interface TournamentMainInfoProps {
@@ -75,7 +75,12 @@ const TournamentMainInfo: React.FC<TournamentMainInfoProps> = ({
         style={{ margin: "20px 0px" }}
       >
         {infos.map((info) => (
-          <GridStyled item key={info.id} onClick={info.handleClick} clickable={parseStyledBoolean(Boolean(info.handleClick))}>
+          <GridStyled
+            item
+            key={info.id}
+            onClick={info.handleClick}
+            clickable={parseStyledBoolean(Boolean(info.handleClick))}
+          >
             <InfoItem icon={info.icon}>{info.content}</InfoItem>
           </GridStyled>
         ))}
