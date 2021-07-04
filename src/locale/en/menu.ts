@@ -5,7 +5,7 @@ export const menu = {
   loggedOut: "Logged out",
   share: "Share",
   youAreLoggedOut: "You're logged out",
-  signIn: "Sign in",
+  logIn: "Log in",
   signUp: "Sign up",
   version: "version",
   live: "Live",

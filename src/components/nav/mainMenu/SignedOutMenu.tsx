@@ -3,22 +3,18 @@ import { Rosetta, Translator } from "react-rosetta";
 
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import {
-  Share as ShareIcon,
-  Drafts,
-  Inbox,
-  AccountCircle,
-} from "@material-ui/icons";
+import { Share as ShareIcon, Drafts, FlashOn, Inbox } from "@material-ui/icons";
 
 import { ListStyled, MenuLinkStyled } from "../../../styled/styledNav";
 import { routerConstString } from "../../../const/menuConst";
-import Language from "../Language";
 import menuDict from "../../../locale/menu";
 import { GridContainer, ListItemStyled } from "./SignedInMenu";
 import { Grid } from "@material-ui/core";
-import Theme from "../Theme";
 import { useLocale } from "../../../Provider/LocaleProvider";
 import Share from "../../share/Share";
+import MenuHeader from "./MenuHeader";
+
+const VERSION = process.env.REACT_APP_VERSION;
 
 type Props = {
   handleCloseSideBar: () => void;
@@ -33,18 +29,17 @@ const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar }) => {
         <GridContainer container direction="column" justify="space-between">
           <Grid item>
             <ListStyled>
-              <ListItemStyled borderposition="bottom" button>
-                <ListItemIcon>
-                  <AccountCircle color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary={<Translator id="youAreLoggedOut" />} />
-                <Language />
-                <Theme />
-              </ListItemStyled>
+              <MenuHeader />
             </ListStyled>
           </Grid>
           <Grid item>
             <ListStyled>
+              <ListItemStyled borderposition="top" button>
+                <ListItemIcon>
+                  <FlashOn color="secondary" />
+                </ListItemIcon>
+                <ListItemText primary={<Translator id="version" />} /> {VERSION}
+              </ListItemStyled>
               <ListItemStyled
                 borderposition="top"
                 button
@@ -64,7 +59,7 @@ const SignedOutMenu: React.FC<Props> = ({ handleCloseSideBar }) => {
                   <ListItemIcon>
                     <Inbox color="secondary" />
                   </ListItemIcon>
-                  <ListItemText primary={<Translator id="signIn" />} />
+                  <ListItemText primary={<Translator id="logIn" />} />
                 </MenuLinkStyled>
               </ListItemStyled>
               <ListItemStyled borderposition="top" button>
