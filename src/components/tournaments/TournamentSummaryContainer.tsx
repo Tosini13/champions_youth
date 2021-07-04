@@ -43,35 +43,62 @@ const TournamentSummaryContainer: React.FC<TournamentSummaryContainerProps> = ({
   }, [clearLocalStorageTournamentNav]);
   return (
     <Rosetta translations={tournamentDashboardDict} locale={locale}>
-      <>
-        {!tournaments?.length && user ? (
-          <TypographyPrimaryText align="center" style={{ marginTop: "30px" }}>
-            <Translator id={"noTournaments"} />
-          </TypographyPrimaryText>
-        ) : null}
-        {!tournaments?.length && !user ? (
-          <NoContentContainer>
-            <TypographyPrimaryText align="center">
-              <Translator id={"mustBeLoggedInToAddTournament"} />
-            </TypographyPrimaryText>
-            <ButtonRC onClick={handleRedirectLogin}>
-              <Translator id={"logIn"} />
-            </ButtonRC>
-          </NoContentContainer>
-        ) : null}
-        {tournaments?.length ? (
-          <ListStyled>
-            {tournaments?.map((tournament: TournamentData) => (
-              <React.Fragment key={tournament.id}>
-                <TournamentSummary tournament={tournament} user={user} />
-                <Divider color="primary" />
-              </React.Fragment>
-            ))}
-          </ListStyled>
-        ) : null}
-      </>
+      {tournaments?.length ? (
+        <ListStyled>
+          {tournaments?.map((tournament: TournamentData) => (
+            <React.Fragment key={tournament.id}>
+              <TournamentSummary tournament={tournament} user={user} />
+              <Divider color="primary" />
+            </React.Fragment>
+          ))}
+        </ListStyled>
+      ) : (
+        <TypographyPrimaryText align="center" style={{ marginTop: "30px" }}>
+          <Translator id={"noTournaments"} />
+        </TypographyPrimaryText>
+      )}
     </Rosetta>
   );
 };
 
 export default TournamentSummaryContainer;
+
+export interface TournamentsSummaryUserContainerProps {
+  user?: UserData;
+  tournaments?: TournamentData[];
+  handleRedirectLogin: () => void;
+}
+
+export const TournamentsSummaryUserContainer: React.FC<TournamentsSummaryUserContainerProps> =
+  ({ user, tournaments, handleRedirectLogin }) => {
+    const { locale } = useLocale();
+    const { clearLocalStorageTournamentNav } = useTournamentNav();
+    useEffect(() => {
+      clearLocalStorageTournamentNav();
+    }, [clearLocalStorageTournamentNav]);
+    return (
+      <Rosetta translations={tournamentDashboardDict} locale={locale}>
+        <>
+          {!user ? (
+            <NoContentContainer>
+              <TypographyPrimaryText
+                align="center"
+                style={{ margin: "20px 0px" }}
+              >
+                <Translator id={"mustBeLoggedInToAddTournament"} />
+              </TypographyPrimaryText>
+              <ButtonRC onClick={handleRedirectLogin}>
+                <Translator id={"logIn"} />
+              </ButtonRC>
+            </NoContentContainer>
+          ) : (
+            <TournamentSummaryContainer
+              user={user}
+              tournaments={tournaments}
+              handleRedirectLogin={handleRedirectLogin}
+            />
+          )}
+        </>
+      </Rosetta>
+    );
+  };

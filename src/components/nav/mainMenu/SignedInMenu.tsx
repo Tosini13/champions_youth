@@ -12,7 +12,6 @@ import {
   FlashOn,
   EmojiEvents,
   AddCircleOutline,
-  AccountCircle,
 } from "@material-ui/icons";
 
 import LockIcon from "@material-ui/icons/Lock";
@@ -23,13 +22,12 @@ import { routerConstString } from "../../../const/menuConst";
 import { signOut } from "../../../store/actions/AuthActions";
 import { Id } from "../../../const/structuresConst";
 import { UserData } from "../../../models/credentialsData";
-import Language from "../Language";
 import menuDict from "../../../locale/menu";
 import styled from "styled-components";
 import { Grid, Hidden } from "@material-ui/core";
-import Theme from "../Theme";
 import { useLocale } from "../../../Provider/LocaleProvider";
 import Share from "../../share/Share";
+import MenuHeader from "./MenuHeader";
 
 type BorderPosition = "bottom" | "top";
 
@@ -69,14 +67,7 @@ const SignedInMenu: React.FC<Props> = ({
         <GridContainer container direction="column" justify="space-between">
           <Grid item>
             <ListStyled>
-              <ListItemStyled borderposition="bottom" button>
-                <ListItemIcon>
-                  <AccountCircle color="secondary" />
-                </ListItemIcon>
-                <ListItemText primary={user?.login} />
-                <Language />
-                <Theme />
-              </ListItemStyled>
+              <MenuHeader username={user?.login} />
               <Hidden smDown>
                 <ListItemStyled borderposition="bottom" button>
                   <MenuLinkStyled

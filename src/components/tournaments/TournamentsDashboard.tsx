@@ -13,7 +13,9 @@ import { Divider, Grid, Hidden } from "@material-ui/core";
 import LeftBottomNav, { LEFT_VIEW } from "../nav/bottomNav/LeftBottomNav";
 import styled from "styled-components";
 import RightBottomNav, { RIGHT_VIEW } from "../nav/bottomNav/RightBottomNav";
-import TournamentSummaryContainer from "./TournamentSummaryContainer";
+import TournamentSummaryContainer, {
+  TournamentsSummaryUserContainer,
+} from "./TournamentSummaryContainer";
 import DateNav from "../nav/DateNav";
 import { setSelectedDate } from "../../store/actions/MenuActions";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
@@ -101,6 +103,31 @@ class TournamentsDashboard extends Component<TProps, IState> {
         return this.props.tournaments;
     }
   };
+
+  handleGetMobileView = () => {
+    const mobileView =
+      this.props.location.pathname + this.props.location.search;
+    if (
+      mobileView === routerConstString.my ||
+      mobileView === routerConstString.favorites
+    ) {
+      return (
+        <TournamentsSummaryUserContainer
+          handleRedirectLogin={this.handleRedirectLogin}
+          {...this.props}
+          tournaments={this.handleGetTournamentsView()}
+        />
+      );
+    }
+    return (
+      <TournamentSummaryContainer
+        handleRedirectLogin={this.handleRedirectLogin}
+        {...this.props}
+        tournaments={this.handleGetTournamentsView()}
+      />
+    );
+  };
+
   handleDateChange = (date: MaterialUiPickersDate) => {
     if (date) {
       this.props.setSelectedDate(date);
@@ -127,11 +154,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
       <>
         <Hidden mdUp>
           <SectionContentStyled navQty={2}>
-            <TournamentSummaryContainer
-              handleRedirectLogin={this.handleRedirectLogin}
-              {...this.props}
-              tournaments={this.handleGetTournamentsView()}
-            />
+            {this.handleGetMobileView()}
           </SectionContentStyled>
         </Hidden>
         <Hidden smDown>
@@ -177,7 +200,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
             <Grid item style={{ flexGrow: 1 }}>
               <SectionStyled>
                 <SectionContentStyled navQty={1}>
-                  <TournamentSummaryContainer
+                  <TournamentsSummaryUserContainer
                     handleRedirectLogin={this.handleRedirectLogin}
                     {...this.props}
                     tournaments={

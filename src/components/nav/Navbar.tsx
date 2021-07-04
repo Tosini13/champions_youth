@@ -81,7 +81,6 @@ const Navbar = ({
 };
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  console.log("state", state);
   return {
     selectedDate: state.menu.selectedDate,
   };
