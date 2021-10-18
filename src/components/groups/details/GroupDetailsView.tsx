@@ -164,8 +164,6 @@ const GroupDetailsView: React.FC<GroupDetailsViewProps> = ({
           }
         });
       });
-
-      console.log('groupsTeams',groupsTeams);
       updateGroupMode(tournamentId, groupId, true);
       groupsTeams.forEach((groupTeams) => {
         updatePlayOffsGroupTeams({

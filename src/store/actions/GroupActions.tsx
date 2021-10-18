@@ -4,6 +4,7 @@ import { Id } from "../../const/structuresConst";
 import { GroupDataDb } from "../../models/groupData";
 import { GroupTeamModel } from "../../models/teamData";
 import { GroupModel, GroupPlayOffsGroup } from "../../NewModels/Group";
+import { MatchModel } from "../../NewModels/Matches";
 import { MatchDataDb } from "../../structures/dbAPI/matchData";
 
 export const createPlayOffGroup = (tournamentId: Id, group: GroupModel) => {
@@ -201,7 +202,10 @@ export const updatePlayOffsGroupTeams = ({
   groupTeams,
 }: UpdatePlayOffsGroupTeamsParams) => {
   return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
-    console.log('groupTeams', groupTeams);
+    const undefinedTeamsId: number[] | undefined = groupTeams
+      ?.filter((team) => team.id === undefined)
+      .map((team) => Number(team.place));
+
     const firestore = getFirestore();
     firestore
       .collection("tournaments")
@@ -213,28 +217,35 @@ export const updatePlayOffsGroupTeams = ({
       })
       .then((res: any) => {
         firestore
-        .collection("tournaments")
-        .doc(tournamentId)
-        .collection("playOffsGroups")
-        .doc(groupId)
-        .collection("matches")
-        .get()
-        .then((snapshot) => {
-          snapshot.forEach((doc) => {
-            // console.log('doc fields',doc.xf.nn.proto.mapValue.fields);
-            doc.ref
-              .update({
-                mode: matchModeConst.notStarted,
-                result: {}
-              })
-              .catch((err) => {
-                console.log("update", err);
-              });
+          .collection("tournaments")
+          .doc(tournamentId)
+          .collection("playOffsGroups")
+          .doc(groupId)
+          .collection("matches")
+          .get()
+          .then((snapshot) => {
+            snapshot.forEach((doc) => {
+              const match: MatchModel = doc.data();
+              if (
+                undefinedTeamsId?.includes(
+                  Number(match.groupPlaceholder?.home)
+                ) ||
+                undefinedTeamsId?.includes(Number(match.groupPlaceholder?.away))
+              ) {
+                doc.ref
+                  .update({
+                    mode: matchModeConst.notStarted,
+                    result: {},
+                  })
+                  .catch((err) => {
+                    console.log("update", err);
+                  });
+              }
+            });
+          })
+          .catch((err) => {
+            console.log("get", err);
           });
-        })
-        .catch((err) => {
-          console.log("get", err);
-        });
         dispatch({ type: "UPDATE_GROUP" });
       })
       .catch((err: any) => {
