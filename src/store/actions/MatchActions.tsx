@@ -135,8 +135,8 @@ const updatePlayOffsMatch = ({
       .update({
         ...(mode !== undefined ? { mode } : {}),
         ...(result !== undefined ? { result } : {}),
-        ...(homeTeam !== undefined ? { homeTeam } : {}),
-        ...(awayTeam !== undefined ? { awayTeam } : {}),
+        ...(homeTeam !== undefined ? { home: homeTeam } : {}),
+        ...(awayTeam !== undefined ? { away: awayTeam } : {}),
       })
       .then(() => {
         dispatch({ type: "UPDATE_PLAYOFFS_MATCH" });
