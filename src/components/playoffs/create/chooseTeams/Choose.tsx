@@ -83,14 +83,18 @@ const Choose: React.FC<Props> = ({
               gameSide={gameSide}
             />
           )}
-          <ButtonRC
-            onClick={handleClose}
-            style={{
-              margin: "0px 5px 5px 5px",
-            }}
-          >
-            <Translator id="ok" />
-          </ButtonRC>
+          <Grid container alignItems="center" justify="center">
+            <Grid item>
+              <ButtonRC
+                onClick={handleClose}
+                style={{
+                  margin: "0px 5px 5px 5px",
+                }}
+              >
+                <Translator id="ok" />
+              </ButtonRC>
+            </Grid>
+          </Grid>
         </>
       </Rosetta>
     </DialogRU>
