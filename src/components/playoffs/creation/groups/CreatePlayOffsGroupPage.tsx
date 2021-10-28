@@ -48,7 +48,7 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
     console.log("history");
     history.push("/");
   }
-  const mockDate = "01/01/2021"; // todo: change on real date
+  const mockDate = "01/01/2021"; // TODO: change on real date
   let teamsQtt = 0;
   const promotedGroups: PromotedGroup[] =
     groups?.map((group) => {

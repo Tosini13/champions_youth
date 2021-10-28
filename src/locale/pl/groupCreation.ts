@@ -1,3 +1,5 @@
+import { form } from "./form";
+
 export const groupCreation = {
   cancel: "Anuluj",
   save: "Zapisz",
@@ -15,4 +17,7 @@ export const groupCreation = {
   returnMatches: "Mecze rewanżowe",
   fields: "Ilość boisk",
   wrongFields: "Zła ilość boisk",
+  chooseDate: "Wybierz Datę Rozpoczęcia",
+  chooseTime: "Wybierz Czas Rozpoczęcia",
+  ...form,
 };

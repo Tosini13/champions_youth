@@ -17,7 +17,7 @@ import useCreateGroup from "../../../hooks/useCreateGroup";
 import { GroupModel } from "../../../NewModels/Group";
 import { Id } from "../../../const/structuresConst";
 import { MatchTime } from "../../../NewModels/Matches";
-import GroupSettings from "./GroupSettings";
+import GroupSettings from "./settings/GroupSettings";
 import { createWholeGroup } from "../../../store/actions/GroupActions";
 import { useNotification } from "../../global/Notification";
 import { useHistory } from "react-router-dom";
@@ -28,6 +28,7 @@ import {
   GroupTeamSummaryContainer,
 } from "../../../styled/styledComponents/group/styledLayout";
 import GroupTeamSummary from "../GroupTeamSummary";
+import moment from "moment";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 120px;
@@ -46,6 +47,7 @@ export type SettingType = {
   time?: MatchTime;
   fields: number;
   returnMatches: boolean;
+  startDate?: Date;
 };
 
 const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
@@ -65,11 +67,19 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   const [settings, setSettings] = useState<SettingType>({
     returnMatches: false,
     fields: 1,
+    startDate: tournament?.date ? new Date(tournament?.date) : undefined, // TODO: Change!
   });
-  const [chosenGroup, setChosenGroup] =
-    useState<GroupModel | undefined>(undefined);
+  const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
+    undefined
+  );
   const [chosenTeams, setChosenTeams] = useState<TeamData[]>([]);
   const [groups, setGroups] = useState<GroupModel[]>([]);
+
+  useEffect(() => {
+    if (tournament?.date) {
+      setSettings({ ...settings, startDate: new Date(tournament.date) });
+    }
+  }, [tournament?.date]);
 
   const { initGroupMatches } = useCreateGroup();
 
@@ -154,7 +164,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     groups.forEach((group) => (group.teams = []));
     let shuffledTeams = shuffle(teams);
     shuffledTeams?.forEach((team, i) => {
-      groups[i % groups.length].teams.push(team);
+      groups[i % groups.length]?.teams.push(team);
     });
     setGroups(
       initGroupMatches({
@@ -162,7 +172,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         returnMatches: settings.returnMatches,
         fields: settings.fields,
         time: settings.time,
-        date: tournament.date,
+        date: moment(settings.startDate).format(),
       })
     );
     setChosenTeams(shuffledTeams ?? []);
@@ -201,7 +211,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         returnMatches: settings.returnMatches,
         fields: settings.fields,
         time: settings.time,
-        date: tournament?.date,
+        date: moment(settings.startDate).format(),
       })
     );
   }, [
