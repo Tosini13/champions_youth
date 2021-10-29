@@ -136,7 +136,7 @@ export const DesktopMainItemStyled: React.FC<{}> = ({ children }) => (
     item
     style={{
       maxHeight: "100%",
-      maxWidth: "50%",
+      maxWidth: "calc(50% - 0.5px)",
       flexGrow: 1,
     }}
   >

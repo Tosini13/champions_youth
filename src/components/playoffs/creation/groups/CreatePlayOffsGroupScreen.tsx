@@ -7,20 +7,21 @@ import { GroupsContentContainerStyled } from "../../../../styled/styledLayout";
 import useCreateGroup from "../../../../hooks/useCreateGroup";
 import { GroupModel, GroupPlayOffsGroup } from "../../../../NewModels/Group";
 import { Id } from "../../../../const/structuresConst";
-import { MatchTime } from "../../../../NewModels/Matches";
 import { useNotification } from "../../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../../const/menuConst";
 import CreationNav from "../../../groups/creation/nav/CreationNav";
 import CreateGroupForm from "../../../groups/creation/GroupForm/CreateGroupForm";
 import CreateGroupsActions from "../../../groups/creation/CreateGroupsActions";
-import GroupSettings from "../../../groups/creation/GroupSettings";
+import GroupSettings from "../../../groups/creation/settings/GroupSettings";
 import { PromotedGroup } from "./CreatePlayOffsGroupPage";
 import { NewPlaceholder } from "../../../../NewModels/Team";
 import ChooseTeams from "./ChooseTeams";
 import PlaceholderTeamsList from "./PlaceholderTeamsList";
 import { GroupTeamModel } from "../../../../models/teamData";
 import { UpdateGroupPromotedParams } from "../../../../store/actions/GroupActions";
+import { SettingType } from "../../../groups/creation/CreateGroupsScreen";
+import { format } from "date-fns";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
@@ -41,12 +42,6 @@ export interface CreatePlayOffsGroupScreenProps {
   }: UpdateGroupPromotedParams) => void;
 }
 
-export type SettingType = {
-  time?: MatchTime;
-  fields: number;
-  returnMatches: boolean;
-};
-
 const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   promotedGroups,
   tournamentId,
@@ -59,12 +54,16 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [openSettings, setOpenSettings] = useState<boolean>(false);
+
   const [settings, setSettings] = useState<SettingType>({
     returnMatches: false,
     fields: 1,
+    startDate: new Date(startDate), // TODO: Change!
   });
-  const [chosenGroup, setChosenGroup] =
-    useState<GroupModel | undefined>(undefined);
+
+  const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
+    undefined
+  );
   const [chosenTeams, setChosenTeams] = useState<NewPlaceholder[]>([]);
   const [groups, setGroups] = useState<GroupModel[]>([]);
 
@@ -151,7 +150,6 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         playOffsGroup: groupPromoted[groupId],
       });
     });
-    console.log(groups);
     groups.forEach((group) => {
       createGroup(tournamentId, group);
     });
@@ -245,7 +243,8 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         returnMatches: settings.returnMatches,
         fields: settings.fields,
         time: settings.time,
-        date: startDate,
+        date:
+          settings.startDate && format(settings.startDate, "yyyy-MM-dd HH:mm"),
       })
     );
   }, [

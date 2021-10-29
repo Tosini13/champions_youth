@@ -14,6 +14,8 @@ import {
 } from "../../../../store/actions/GroupActions";
 import CreatePlayOffsGroupScreen from "./CreatePlayOffsGroupScreen";
 import { useHistory } from "react-router-dom";
+import { calculateGroupsFinishDate } from "../../../../utils/calculateGroupsFinishDate";
+import SplashScreen from "../../../global/SplashScreen";
 
 export type PromotedGroup = {
   teams: NewPlaceholder[];
@@ -44,11 +46,16 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
   updateGroupPromoted,
 }) => {
   const history = useHistory();
+  if (groups === undefined) {
+    return <SplashScreen />;
+  }
+
+  const groupsFinishDate = calculateGroupsFinishDate(groups);
+
   if (doesGroupsExist) {
-    console.log("history");
+    console.info("Group does not exists!");
     history.push("/");
   }
-  const mockDate = "01/01/2021"; // todo: change on real date
   let teamsQtt = 0;
   const promotedGroups: PromotedGroup[] =
     groups?.map((group) => {
@@ -63,6 +70,7 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
           })) ?? [],
       };
     }) ?? [];
+
   return (
     <CreatePlayOffsGroupScreen
       promotedGroups={promotedGroups}
@@ -70,7 +78,7 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
       createGroup={createGroup}
       updateGroupPromoted={updateGroupPromoted}
       userId={userId}
-      startDate={mockDate}
+      startDate={groupsFinishDate}
       teamsQtt={teamsQtt}
     />
   );

@@ -1,3 +1,5 @@
+import { form } from "./form";
+
 export const groupCreation = {
   cancel: "Cancel",
   save: "Save",
@@ -15,4 +17,7 @@ export const groupCreation = {
   returnMatches: "Return Matches",
   fields: "Fields' quantity",
   wrongFields: "Wrong fields' quantity",
+  chooseDate: "Choose Start Date",
+  chooseTime: "Choose Start Time",
+  ...form,
 };
