@@ -191,22 +191,25 @@ const setMatchesTime = (
     for (let j = 0; j < groups.length; j++) {
       const groupMatches = groups[j].matches;
       if (groupMatches && i < groupMatches.length) {
-        const home = groupMatches[i].home;
-        const away = groupMatches[i].away;
+        const home =
+          groupMatches[i].home ??
+          groupMatches[i].placeholder.home ??
+          `${groupMatches[i].id}${groupMatches[i].groupPlaceholder?.home}`;
+        const away =
+          groupMatches[i].away ??
+          groupMatches[i].placeholder.away ??
+          `${groupMatches[i].id}${groupMatches[i].groupPlaceholder?.away}`;
         if (
-          timeTeamsCounter.includes(home ?? groupMatches[i].placeholder.home) ||
-          timeTeamsCounter.includes(away ?? groupMatches[i].placeholder.away)
+          timeTeamsCounter.includes(home) ||
+          timeTeamsCounter.includes(away)
         ) {
           timeCounter = moment(timeCounter).add(timeUnit, "minutes");
           fieldCounter = 1;
           timeTeamsCounter = [];
         }
         groupMatches[i].date = moment(timeCounter);
-        timeTeamsCounter = [
-          ...timeTeamsCounter,
-          home ?? groupMatches[i].placeholder.home,
-          away ?? groupMatches[i].placeholder.away,
-        ];
+        timeTeamsCounter = [...timeTeamsCounter, home, away];
+
         if (!(fieldCounter % fields)) {
           timeCounter = moment(timeCounter).add(timeUnit, "minutes");
           fieldCounter = 0;

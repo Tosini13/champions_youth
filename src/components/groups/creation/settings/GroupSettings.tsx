@@ -27,6 +27,7 @@ import { DialogRU } from "../../../../styled/styledComponents/navigation/styledD
 import { useLocale } from "../../../../Provider/LocaleProvider";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+
 type TForm = {
   returnMatches: boolean;
   fields: number;
@@ -54,11 +55,9 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
   const [startDate, setStartDate] = useState<MaterialUiPickersDate>(
     settings.startDate ? moment(settings.startDate) : null
   );
-  const { register, errors, handleSubmit, reset, watch, control } =
-    useForm<TForm>({});
+  const { register, errors, handleSubmit, reset, watch } = useForm<TForm>({});
 
   useEffect(() => {
-    console.log("CHanged settings!!!!!!!!!", settings);
     if (open) {
       reset({
         time: Boolean(settings.time),
@@ -67,12 +66,12 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
         breakTime: settings.time?.break ?? 2,
         fields: settings.fields,
       });
+
       setStartDate(settings.startDate ? moment(settings.startDate) : null);
     }
   }, [settings, reset, open]);
 
   const onSubmit = (values: TForm) => {
-    console.log("values", values);
     setSettings({
       ...settings,
       time: values.time
@@ -101,51 +100,6 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
           <MuiPickersUtilsProvider utils={MomentUtils}>
             <DialogContent>
               <Grid container spacing={2} justify="space-evenly">
-                <Grid item md={6} sm={8} xs={12}>
-                  <KeyboardDatePickerStyled
-                    clearable
-                    inputProps={{
-                      name: "startDate",
-                      ref: register({
-                        required: timeChecked,
-                      }),
-                    }}
-                    margin="normal"
-                    label={<Translator id="chooseDate" />}
-                    format="yyyy-MM-DD"
-                    value={startDate}
-                    onChange={setStartDate}
-                    KeyboardButtonProps={{
-                      "aria-label": "change date",
-                    }}
-                    cancelLabel={<Translator id="cancel" />}
-                    helperText={
-                      errors.startDate && <Translator id="required" />
-                    }
-                  />
-                </Grid>
-                <Grid item md={6} sm={8} xs={12}>
-                  <KeyboardTimePickerStyled
-                    clearable
-                    inputProps={{
-                      name: "startTime",
-                      ref: register({
-                        required: timeChecked,
-                      }),
-                    }}
-                    margin="normal"
-                    label={<Translator id="chooseTime" />}
-                    value={startDate}
-                    onChange={setStartDate}
-                    KeyboardButtonProps={{
-                      "aria-label": "change time",
-                    }}
-                    cancelLabel={<Translator id="cancel" />}
-                    helperText={
-                      errors.startTime && <Translator id="required" />
-                    }
-                  />
-                </Grid>
                 <Grid item md={6} xs={12}>
                   <Grid
                     container
@@ -244,6 +198,53 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
                       />
                     </Grid>
                   </Grid>
+                </Grid>
+                <Grid item md={6} sm={8} xs={12}>
+                  <KeyboardDatePickerStyled
+                    disabled={!timeChecked}
+                    clearable
+                    inputProps={{
+                      name: "startDate",
+                      ref: register({
+                        required: timeChecked,
+                      }),
+                    }}
+                    margin="normal"
+                    label={<Translator id="chooseDate" />}
+                    format="yyyy-MM-DD"
+                    value={startDate}
+                    onChange={setStartDate}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                    cancelLabel={<Translator id="cancel" />}
+                    helperText={
+                      errors.startDate && <Translator id="required" />
+                    }
+                  />
+                </Grid>
+                <Grid item md={6} sm={8} xs={12}>
+                  <KeyboardTimePickerStyled
+                    disabled={!timeChecked}
+                    clearable
+                    inputProps={{
+                      name: "startTime",
+                      ref: register({
+                        required: timeChecked,
+                      }),
+                    }}
+                    margin="normal"
+                    label={<Translator id="chooseTime" />}
+                    value={startDate}
+                    onChange={setStartDate}
+                    KeyboardButtonProps={{
+                      "aria-label": "change time",
+                    }}
+                    cancelLabel={<Translator id="cancel" />}
+                    helperText={
+                      errors.startTime && <Translator id="required" />
+                    }
+                  />
                 </Grid>
               </Grid>
             </DialogContent>

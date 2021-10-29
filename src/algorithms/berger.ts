@@ -121,11 +121,15 @@ export const bergerAlgorithmPlace = (
     roundsQtt--;
     let returnMatches: MatchModel[] = [];
     matches.forEach((match) => {
+      const home =
+        match.groupPlaceholder && teams[match.groupPlaceholder?.home];
+      const away =
+        match.groupPlaceholder && teams[match.groupPlaceholder?.away];
       returnMatches.push(
         initMatch(
-          match.away ?? match.placeholder.away,
-          match.home ?? match.placeholder.home,
-          Number(match.round + roundsQtt)
+          match.away ?? match.placeholder.away ?? home,
+          match.home ?? match.placeholder.home ?? away,
+          Number(match.round) + Number(roundsQtt)
         )
       );
     });

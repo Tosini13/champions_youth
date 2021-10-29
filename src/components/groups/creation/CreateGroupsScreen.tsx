@@ -214,14 +214,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         date: moment(settings.startDate).format(),
       })
     );
-  }, [
-    groups,
-    initGroupMatches,
-    settings.time,
-    settings.returnMatches,
-    settings.fields,
-    tournament,
-  ]);
+  }, [groups, initGroupMatches, settings, tournament, setGroups]);
 
   return (
     <>

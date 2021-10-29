@@ -7,7 +7,6 @@ import { GroupsContentContainerStyled } from "../../../../styled/styledLayout";
 import useCreateGroup from "../../../../hooks/useCreateGroup";
 import { GroupModel, GroupPlayOffsGroup } from "../../../../NewModels/Group";
 import { Id } from "../../../../const/structuresConst";
-import { MatchTime } from "../../../../NewModels/Matches";
 import { useNotification } from "../../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../../const/menuConst";
@@ -22,6 +21,7 @@ import PlaceholderTeamsList from "./PlaceholderTeamsList";
 import { GroupTeamModel } from "../../../../models/teamData";
 import { UpdateGroupPromotedParams } from "../../../../store/actions/GroupActions";
 import { SettingType } from "../../../groups/creation/CreateGroupsScreen";
+import { format } from "date-fns";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 20px;
@@ -51,7 +51,6 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   userId,
   updateGroupPromoted,
 }) => {
-  console.log("startDate", startDate);
   const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
   const [openSettings, setOpenSettings] = useState<boolean>(false);
@@ -61,6 +60,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     fields: 1,
     startDate: new Date(startDate), // TODO: Change!
   });
+
   const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
     undefined
   );
@@ -150,7 +150,6 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         playOffsGroup: groupPromoted[groupId],
       });
     });
-    console.log(groups);
     groups.forEach((group) => {
       createGroup(tournamentId, group);
     });
@@ -244,7 +243,8 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         returnMatches: settings.returnMatches,
         fields: settings.fields,
         time: settings.time,
-        date: startDate,
+        date:
+          settings.startDate && format(settings.startDate, "yyyy-MM-dd HH:mm"),
       })
     );
   }, [
