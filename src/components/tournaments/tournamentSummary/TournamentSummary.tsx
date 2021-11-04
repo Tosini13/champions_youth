@@ -72,14 +72,16 @@ const TournamentSummary: React.FC<Props> = ({
   };
 
   return (
-    <div style={{ position: "relative", padding: "15px 0px" }}>
+    <div
+      style={{ position: "relative", padding: "15px 0px", marginBottom: "7px" }}
+    >
       <TournamentLogoContainer>
         <Logo src={image} size={SIZE_LOGO.lg} />
       </TournamentLogoContainer>
       <LinkStyled to={`${routerConstString.tournament}/${tournament.id}`}>
         <TournamentSummaryContent
           name={tournament.name}
-          sponsor={"Gaz Prom"}
+          sponsor={tournament.sponsor}
           date={tournament.date}
           location={tournament.city}
         />

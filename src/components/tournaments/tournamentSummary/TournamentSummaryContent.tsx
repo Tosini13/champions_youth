@@ -18,7 +18,7 @@ const TypographyTournamentHeader = styled(TypographyPrimaryText)`
 
 export interface TournamentSummaryContentProps {
   name: string;
-  sponsor: string;
+  sponsor?: string;
   date?: Moment | string;
   location?: string;
 }
@@ -40,11 +40,13 @@ const TournamentSummaryContent: React.FC<TournamentSummaryContentProps> = ({
           {name}
         </Typography>
       </TournamentTitleContainer>
-      <TournamentFooterContainer>
-        <TypographyTournamentHeader align="center" style={{ color: "white" }}>
-          {sponsor}
-        </TypographyTournamentHeader>
-      </TournamentFooterContainer>
+      {sponsor && (
+        <TournamentFooterContainer>
+          <TypographyTournamentHeader align="center" style={{ color: "white" }}>
+            {sponsor}
+          </TypographyTournamentHeader>
+        </TournamentFooterContainer>
+      )}
     </>
   );
 };

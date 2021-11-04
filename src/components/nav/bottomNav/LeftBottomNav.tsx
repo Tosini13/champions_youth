@@ -38,7 +38,7 @@ export default function LeftBottomNav({
         handleChange={handleChange}
       >
         <TabRC label={<Translator id={bottomMenuConst.tournaments} />} />
-        <TabRC label={<Translator id={bottomMenuConst.matches} />} />
+        {/* <TabRC label={<Translator id={bottomMenuConst.matches} />} /> */}
       </TabsContainer>
     </Rosetta>
   );
