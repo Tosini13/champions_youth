@@ -263,7 +263,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         save={handleSaveGroup}
         openSettings={() => setOpenSettings(true)}
         add={handleAddGroup}
-        draw={handleDrawGroup}
+        // draw={handleDrawGroup} TODO: implement
       />
       <GroupsContentContainerStyled>
         <GridContainer container spacing={5} direction="row">
@@ -284,7 +284,10 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
           })}
         </GridContainer>
       </GroupsContentContainerStyled>
-      <CreateGroupsActions add={handleAddGroup} draw={handleDrawGroup} />
+      <CreateGroupsActions
+        add={handleAddGroup}
+        // draw={handleDrawGroup} TODO: implement
+      />
       <ChooseTeams
         promotedGroups={promotedGroups}
         chosenGroup={chosenGroup}
