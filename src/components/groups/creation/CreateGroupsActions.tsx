@@ -14,7 +14,7 @@ const GridContainer = styled(Grid)`
 
 export interface CreateGroupsActionsProps {
   add: () => void;
-  draw: () => void;
+  draw?: () => void;
 }
 
 const CreateGroupsActions: React.FC<CreateGroupsActionsProps> = ({
@@ -24,11 +24,13 @@ const CreateGroupsActions: React.FC<CreateGroupsActionsProps> = ({
   return (
     <Hidden mdUp>
       <GridContainer container justify="space-evenly">
-        <Grid item>
-          <Fab color="secondary" size="small" onClick={draw}>
-            <AutorenewIcon />
-          </Fab>
-        </Grid>
+        {draw && (
+          <Grid item>
+            <Fab color="secondary" size="small" onClick={draw}>
+              <AutorenewIcon />
+            </Fab>
+          </Grid>
+        )}
         <Grid item>
           <Fab color="secondary" size="small" onClick={add}>
             <AddIcon />

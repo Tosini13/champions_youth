@@ -8,24 +8,26 @@ import { Add } from "@material-ui/icons";
 export interface NavManageProps {
   openSettings: () => void;
   add: () => void;
-  draw: () => void;
+  draw?: () => void;
 }
 
 const NavManage: React.FC<NavManageProps> = ({ openSettings, add, draw }) => {
   return (
     <Grid container spacing={5}>
-      <Hidden smDown>
-        <Grid item>
-          <IconButton
-            size="small"
-            color="secondary"
-            onClick={draw}
-            aria-label="draw-groups"
-          >
-            <AutorenewIcon />
-          </IconButton>
-        </Grid>
-      </Hidden>
+      {draw && (
+        <Hidden smDown>
+          <Grid item>
+            <IconButton
+              size="small"
+              color="secondary"
+              onClick={draw}
+              aria-label="draw-groups"
+            >
+              <AutorenewIcon />
+            </IconButton>
+          </Grid>
+        </Hidden>
+      )}
       <Grid item>
         <IconButton
           size="small"

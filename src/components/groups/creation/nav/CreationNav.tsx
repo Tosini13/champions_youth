@@ -25,7 +25,7 @@ export interface CreationNavProps {
   save: () => void;
   openSettings: () => void;
   add: () => void;
-  draw: () => void;
+  draw?: () => void;
 }
 
 const CreationNav: React.FC<CreationNavProps> = ({
