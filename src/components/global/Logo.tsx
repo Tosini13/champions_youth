@@ -14,7 +14,7 @@ export enum SIZE_LOGO {
   sm = "20px",
 }
 
-const LogoContainer = styled.div<{
+export const LogoContainer = styled.div<{
   size: string;
 }>`
   display: flex;
@@ -30,7 +30,7 @@ const LogoContainer = styled.div<{
         width: ${SIZE_LOGO.sm};`}
 `;
 
-const LogoStyled = styled.img<{
+export const LogoStyled = styled.img<{
   size: string;
 }>`
   ${(props) =>
@@ -81,7 +81,7 @@ export const TeamLogo: React.FC<TeamLogoProps> = ({ size, teamLogo }) => {
           }
           setLogo(img);
         })
-        .catch((err) => console.log("err", err));
+        .catch((err) => console.error("error while fetching logo", err));
     }
   }, [teamLogo, tournamentId]);
 

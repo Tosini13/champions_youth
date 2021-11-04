@@ -64,6 +64,7 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
   tournament,
   teams,
   groups,
+  authorId,
   playOffs,
   playOffsGroups,
 }) => {
@@ -81,12 +82,14 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
           <SectionContentStyled>
             {leftView === TOURNAMENT_LEFT_MENU.INFO &&
             tournament &&
-            tournamentId ? (
+            tournamentId &&
+            authorId ? (
               <TournamentInfo
                 tournament={tournament}
                 image={image}
                 isOwner={isOwner}
                 tournamentId={tournamentId}
+                authorId={authorId}
               />
             ) : null}
             {leftView === TOURNAMENT_LEFT_MENU.TEAMS && tournament ? (

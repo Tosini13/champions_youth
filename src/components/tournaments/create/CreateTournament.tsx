@@ -74,8 +74,9 @@ const CreateTournament: React.FC<Props> = ({
       : {},
   });
 
-  const [currentInputs, setCurrentInputs] =
-    useState<string | string[] | undefined>();
+  const [currentInputs, setCurrentInputs] = useState<
+    string | string[] | undefined
+  >();
 
   const handleTrigger = async () => {
     await trigger(currentInputs);
@@ -182,7 +183,11 @@ const CreateTournament: React.FC<Props> = ({
                 onClick={onCreate}
                 style={{ margin: "5px auto" }}
               >
-                <Translator id="create" />
+                {tournamentData ? (
+                  <Translator id="save" />
+                ) : (
+                  <Translator id="create" />
+                )}
               </ButtonRC>
             </FormGroup>
           </Rosetta>
