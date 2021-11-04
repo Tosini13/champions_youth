@@ -20,32 +20,31 @@ export async function getImage(image: string, tournamentId: Id) {
     if (!img) {
       const storage = firebase.storage();
       const pathReference = storage.ref(url);
-      pathReference
-        .getDownloadURL()
-        .then((img) => {
-          localStorage.setItem(imageId, img);
-          return img;
-        })
-        .catch(function (error) {
-          img = getImageJustUploaded(image, tournamentId);
-          return img;
-        });
+      try {
+        const firebaseImg = await pathReference.getDownloadURL();
+        localStorage.setItem(imageId, firebaseImg);
+        return firebaseImg;
+      } catch (error) {
+        console.error("error when getting logo", error);
+        img = getImageJustUploaded(image, tournamentId);
+        return img;
+      }
     } else {
       return img;
     }
   }
 }
 
-export const getImageJustUploaded = (logoName: string, tournamentId: Id) => {
-  const imageId = `uploaded/${tournamentId}/${logoName}`;
+export const getImageJustUploaded = (logoName: string, id: Id) => {
+  const imageId = `uploaded/${id}/${logoName}`;
   return localStorage.getItem(imageId);
 };
 
 export const setImageJustUploaded = (
   logoName: string,
   imageUrl: string,
-  tournamentId: Id
+  id: Id
 ) => {
-  const imageId = `uploaded/${tournamentId}/${logoName}`;
+  const imageId = `uploaded/${id}/${logoName}`;
   localStorage.setItem(imageId, imageUrl);
 };

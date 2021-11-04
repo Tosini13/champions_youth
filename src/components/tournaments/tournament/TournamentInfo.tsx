@@ -40,6 +40,7 @@ type Props = {
   ) => void;
   isOwner: boolean;
   tournamentId: Id;
+  authorId: Id;
 };
 
 const TournamentInfo: React.FC<Props> = ({
@@ -47,6 +48,7 @@ const TournamentInfo: React.FC<Props> = ({
   deleteTournament,
   children,
   image,
+  authorId,
   isOwner,
   tournamentId,
 }) => {
@@ -92,6 +94,7 @@ const TournamentInfo: React.FC<Props> = ({
               <TournamentInfoHeader
                 image={tournament.image}
                 title={tournament.name}
+                authorId={authorId}
               />
               <TournamentMainInfo
                 date={tournament.date}

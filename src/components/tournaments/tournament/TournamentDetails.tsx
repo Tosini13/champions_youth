@@ -114,12 +114,16 @@ const TournamentDetails: React.FC<Props> = ({
                   isOwner={isOwner}
                 />
               ) : null}
-              {view === E_TOURNAMENT_MENU.INFO && tournament && tournamentId ? (
+              {view === E_TOURNAMENT_MENU.INFO &&
+              tournament &&
+              tournamentId &&
+              authorId ? (
                 <TournamentInfo
                   tournament={tournament}
                   image={image}
                   isOwner={isOwner}
                   tournamentId={tournamentId}
+                  authorId={authorId}
                 />
               ) : null}
               {view === E_TOURNAMENT_MENU.TEAMS && tournament ? (
