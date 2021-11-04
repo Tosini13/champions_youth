@@ -1,5 +1,6 @@
 export const createTournament = {
   create: "Create",
+  save: "Save",
   basicInfo: "Tournament Information",
   locationInfo: "Tournament Location",
   summary: "Summary",
