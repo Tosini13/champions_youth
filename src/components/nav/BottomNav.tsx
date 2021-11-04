@@ -39,13 +39,13 @@ const BottomNav: React.FC<Props> = () => {
           value={bottomMenuConst.tournaments}
           icon={<EmojiEventsIcon />}
         />
-        <BottomNavigationAction
+        {/* <BottomNavigationAction
           component={NavBottomLiveLink}
           to={routerConstString.matches}
           label={<Translator id={bottomMenuConst.matches} />}
           value={bottomMenuConst.matches}
           icon={<SportsSoccerIcon />}
-        />
+        /> */}
         <BottomNavigationAction
           component={NavBottomLiveLink}
           to={routerConstString.my}

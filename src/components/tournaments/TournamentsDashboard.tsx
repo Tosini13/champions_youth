@@ -20,6 +20,7 @@ import DateNav from "../nav/DateNav";
 import { setSelectedDate } from "../../store/actions/MenuActions";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import {
+  DesktopMainItemStyled,
   SectionContentStyled,
   SectionFooterStyled,
   SectionNavStyled,
@@ -159,7 +160,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
         </Hidden>
         <Hidden smDown>
           <GridMainContainer container>
-            <Grid item style={{ flexGrow: 1 }}>
+            <DesktopMainItemStyled>
               <SectionStyled>
                 <SectionNavStyled>
                   <Grid container alignItems="center" justify="space-between">
@@ -195,9 +196,9 @@ class TournamentsDashboard extends Component<TProps, IState> {
                   />
                 </SectionFooterStyled>
               </SectionStyled>
-            </Grid>
+            </DesktopMainItemStyled>
             <Divider orientation="vertical" />
-            <Grid item style={{ flexGrow: 1 }}>
+            <DesktopMainItemStyled>
               <SectionStyled>
                 <SectionContentStyled navQty={1}>
                   <TournamentsSummaryUserContainer
@@ -222,7 +223,7 @@ class TournamentsDashboard extends Component<TProps, IState> {
                   />
                 </SectionFooterStyled>
               </SectionStyled>
-            </Grid>
+            </DesktopMainItemStyled>
           </GridMainContainer>
         </Hidden>
       </>
