@@ -19,7 +19,9 @@ export interface InfoStaticProps {}
 const InfoStatic: React.FC<InfoStaticProps> = ({ children }) => {
   return (
     <PaperStyled elevation={0}>
-      <TypographyStyled color="secondary">{children}</TypographyStyled>
+      <TypographyStyled color="secondary" align="center">
+        {children}
+      </TypographyStyled>
     </PaperStyled>
   );
 };
