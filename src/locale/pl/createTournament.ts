@@ -9,8 +9,10 @@ export const createTournament = {
   chooseDate: "Wybierz datę",
   chooseTime: "Wybierz czas",
   cancel: "Anuluj",
+  sponsor: "Sponsor",
   city: "Miasto",
   address: "Adres",
   wrongCity: "Podane miasto nie istnieje",
   wrongAddress: "Podane adres nie istnieje",
+  required: "To pole jest wymagane",
 };

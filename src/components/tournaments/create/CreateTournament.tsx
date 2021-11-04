@@ -35,6 +35,7 @@ import {
   SectionContentStyled,
   SectionStyled,
 } from "../../../styled/styledLayout";
+import SponsorForm from "./SponsorForm";
 
 export type BasicInfoDataForm = {
   name: string;
@@ -44,6 +45,10 @@ export type BasicInfoDataForm = {
 export type LocationDataForm = {
   city: string;
   address: string;
+};
+
+export type TSponsorDataForm = {
+  sponsor: string;
 };
 
 type FormModel = BasicInfoDataForm & LocationDataForm;
@@ -120,6 +125,10 @@ const CreateTournament: React.FC<Props> = ({
     address: tournamentData?.address ?? "",
   });
 
+  const [sponsor, setSponsor] = useState<TSponsorDataForm>({
+    sponsor: tournamentData?.sponsor ?? "",
+  });
+
   const onCreate = () => {
     const data: TournamentCreateData = {
       name: basicInfo.name,
@@ -128,6 +137,7 @@ const CreateTournament: React.FC<Props> = ({
       address: location.address,
       fields: 3,
       image: tournamentData?.image,
+      sponsor: sponsor.sponsor.trim(),
     };
     if (tournamentData) {
       updateTournament({
@@ -161,6 +171,13 @@ const CreateTournament: React.FC<Props> = ({
               deleteOldImage={() => setOldImage(undefined)}
               image={image}
               setImage={setImage}
+            />
+            <SponsorForm
+              locale={locale}
+              register={register}
+              errors={errors}
+              sponsor={sponsor}
+              setSponsor={setSponsor}
             />
           </>
         );

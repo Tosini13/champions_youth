@@ -5,28 +5,28 @@ import { LOCALE } from "../../../locale/config";
 import createTournamentDict from "../../../locale/createTournament.dict";
 
 import { TextFieldRC } from "../../../styled/styledComponents/styledForm";
-import { LocationDataForm } from "./CreateTournament";
+import { TSponsorDataForm } from "./CreateTournament";
 
 type Props = {
   register: any;
   errors: any;
-  location: LocationDataForm;
+  sponsor: TSponsorDataForm;
   locale: LOCALE;
-  setLocation: (basicInfo: LocationDataForm) => void;
+  setSponsor: (basicInfo: TSponsorDataForm) => void;
 };
 
-const CreateTournamentLocation: React.FC<Props> = ({
+const SponsorForm: React.FC<Props> = ({
   register,
   errors,
-  location,
+  sponsor,
   locale,
-  setLocation,
+  setSponsor,
 }) => {
   const handleOnChange = (
     element: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setLocation({
-      ...location,
+    setSponsor({
+      ...sponsor,
       [element.target.name]: element.target.value,
     });
   };
@@ -35,28 +35,15 @@ const CreateTournamentLocation: React.FC<Props> = ({
       <Grid container justify="space-evenly">
         <Grid item>
           <TextFieldRC
-            label={<Translator id="city" />}
-            value={location.city}
+            label={<Translator id="sponsor" />}
+            value={sponsor.sponsor}
             onChange={handleOnChange}
             inputProps={{
-              name: "city",
+              name: "sponsor",
               ref: register({}),
             }}
-            helperText={errors.city && <Translator id="wrongCity" />}
-            error={Boolean(errors.city)}
-          />
-        </Grid>
-        <Grid item>
-          <TextFieldRC
-            label={<Translator id="address" />}
-            value={location.address}
-            onChange={handleOnChange}
-            inputProps={{
-              name: "address",
-              ref: register(),
-            }}
-            helperText={errors.address && <Translator id="wrongAddress" />}
-            error={Boolean(errors.address)}
+            helperText={errors.sponsor && <Translator id="required" />}
+            error={Boolean(errors.sponsor)}
           />
         </Grid>
       </Grid>
@@ -64,4 +51,4 @@ const CreateTournamentLocation: React.FC<Props> = ({
   );
 };
 
-export default CreateTournamentLocation;
+export default SponsorForm;

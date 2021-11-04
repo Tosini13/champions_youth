@@ -16,6 +16,7 @@ export interface TournamentData {
   breakTimeInBracket?: number;
   fields: number;
   image?: string;
+  sponsor?: string;
 }
 
 export type TournamentCreateData = Omit<TournamentData, "id" | "ownerId">;
