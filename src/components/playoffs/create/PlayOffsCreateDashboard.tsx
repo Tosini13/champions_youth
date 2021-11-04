@@ -75,6 +75,9 @@ const PlayOffsCreateDashboard: React.FC<Props> = ({
     while (rounds * 2 < teamsQtt) {
       rounds *= 2;
     }
+    if (rounds * 2 > teamsQtt) {
+      rounds /= 2;
+    }
     return rounds;
   };
 
