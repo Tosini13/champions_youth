@@ -21,8 +21,11 @@ const Navbar = ({
   setSelectedDate: (menu: Moment) => void;
 }) => {
   const history = useHistory();
+
   const [sideBarMenuOpened, setSideBarMenu] = useState(false);
-  const [isDateActive, setIsDateActive] = useState(false);
+  const [isDateActive, setIsDateActive] = useState(
+    history.location.pathname === "/" && !Boolean(history.location.search)
+  );
 
   const toggleSideBarMenu = () => {
     setSideBarMenu(!sideBarMenuOpened);
@@ -39,6 +42,10 @@ const Navbar = ({
   };
 
   useEffect(() => {
+    setIsDateActive(
+      history.location.pathname === "/" && !Boolean(history.location.search)
+    );
+
     return history.listen((location) => {
       setIsDateActive(
         location.pathname + location.search ===
@@ -48,7 +55,7 @@ const Navbar = ({
             routerConstString.my)
       );
     });
-  }, [history]);
+  }, [history, history.location]);
 
   return (
     <>
