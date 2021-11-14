@@ -27,8 +27,9 @@ import { DialogRU } from "../../../../styled/styledComponents/navigation/styledD
 import { useLocale } from "../../../../Provider/LocaleProvider";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import GroupsSettingsTimeBreak, { TBreak } from "./GroupsSettingsTimeBreak";
 
-type TForm = {
+export type TGroupsSettingsForm = {
   returnMatches: boolean;
   fields: number;
   time: boolean;
@@ -36,6 +37,7 @@ type TForm = {
   breakTime: number;
   startDate: MaterialUiPickersDate;
   startTime: MaterialUiPickersDate;
+  timeBreaks: TBreak[];
 };
 
 export interface GroupSettingsProps {
@@ -55,7 +57,8 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
   const [startDate, setStartDate] = useState<MaterialUiPickersDate>(
     settings.startDate ? moment(settings.startDate) : null
   );
-  const { register, errors, handleSubmit, reset, watch } = useForm<TForm>({});
+  const { register, errors, handleSubmit, reset, watch, control } =
+    useForm<TGroupsSettingsForm>({});
 
   useEffect(() => {
     if (open) {
@@ -71,7 +74,15 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
     }
   }, [settings, reset, open]);
 
-  const onSubmit = (values: TForm) => {
+  const onSubmit = (values: TGroupsSettingsForm) => {
+    console.log("values", values);
+
+    Object.values(values.timeBreaks).map((b) => {
+      console.log("name", b.name);
+      console.log("startDate", moment(b.startDate).format("yyyy-MM-DD HH:mm"));
+      console.log("endDate", moment(b.endDate).format("yyyy-MM-DD HH:mm"));
+    });
+
     setSettings({
       ...settings,
       time: values.time
@@ -98,7 +109,7 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
       <Rosetta translations={groupCreationDict} locale={locale}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
-            <DialogContent>
+            <DialogContent style={{ paddingBottom: "20px" }}>
               <Grid container spacing={2} justify="space-evenly">
                 <Grid item md={6} xs={12}>
                   <Grid
@@ -244,6 +255,12 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
                     helperText={
                       errors.startTime && <Translator id="required" />
                     }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <GroupsSettingsTimeBreak
+                    control={control}
+                    defaultDate={settings.startDate}
                   />
                 </Grid>
               </Grid>

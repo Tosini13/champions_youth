@@ -19,5 +19,8 @@ export const groupCreation = {
   wrongFields: "Zła ilość boisk",
   chooseDate: "Wybierz Datę Rozpoczęcia",
   chooseTime: "Wybierz Czas Rozpoczęcia",
+  startDate: "Data Rozpoczęcia",
+  endDate: "Data Zakończenia",
+  breakName: "Nazwa Przerwy",
   ...form,
 };

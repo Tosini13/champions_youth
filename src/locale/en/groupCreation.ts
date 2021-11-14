@@ -19,5 +19,8 @@ export const groupCreation = {
   wrongFields: "Wrong fields' quantity",
   chooseDate: "Choose Start Date",
   chooseTime: "Choose Start Time",
+  startDate: "Start Date",
+  endDate: "End Date",
+  breakName: "Break Name",
   ...form,
 };
