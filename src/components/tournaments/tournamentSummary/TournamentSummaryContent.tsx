@@ -32,7 +32,7 @@ const TournamentSummaryContent: React.FC<TournamentSummaryContentProps> = ({
   return (
     <>
       <TournamentSummaryHeader date={date} location={location} />
-      <TournamentTitleContainer>
+      <TournamentTitleContainer sponsor={Boolean(sponsor)}>
         <Typography
           align="center"
           style={{ color: styledColors.champions.white }}

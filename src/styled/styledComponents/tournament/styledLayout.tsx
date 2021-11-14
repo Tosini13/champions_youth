@@ -4,15 +4,20 @@ import { useColors } from "../../themes/CustomThemeProvider";
 
 const TournamentTitleContainerStyled = styled.div<{
   gradient: string;
+  sponsor?: boolean;
 }>`
   background: ${(props) => props.gradient};
   margin-top: 2px;
+  ${(props) => (props.sponsor ? "" : "margin-bottom: 20px;")}
 `;
 
-export const TournamentTitleContainer: React.FC = ({ children }) => {
+export const TournamentTitleContainer: React.FC<{ sponsor?: boolean }> = ({
+  children,
+  sponsor,
+}) => {
   const { darkGradient } = useColors();
   return (
-    <TournamentTitleContainerStyled gradient={darkGradient}>
+    <TournamentTitleContainerStyled gradient={darkGradient} sponsor={sponsor}>
       {children}
     </TournamentTitleContainerStyled>
   );
@@ -44,6 +49,7 @@ const TournamentFooterContainerStyled = styled.div<{
   margin: auto;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+  margin-top: 1px;
 `;
 
 export const TournamentFooterContainer: React.FC = ({ children }) => {

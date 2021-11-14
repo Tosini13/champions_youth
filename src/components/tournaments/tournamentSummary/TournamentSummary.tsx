@@ -72,9 +72,7 @@ const TournamentSummary: React.FC<Props> = ({
   };
 
   return (
-    <div
-      style={{ position: "relative", padding: "15px 0px", marginBottom: "7px" }}
-    >
+    <div style={{ position: "relative", padding: "15px 0px" }}>
       <TournamentLogoContainer>
         <Logo src={image} size={SIZE_LOGO.lg} />
       </TournamentLogoContainer>
