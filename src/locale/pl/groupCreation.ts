@@ -23,5 +23,7 @@ export const groupCreation = {
   endDate: "Data Zakończenia",
   breakName: "Nazwa Przerwy",
   addBreak: "Dodaj Przerwę",
+  errorStartDate: "Data rozpoczęcia musi być przed datą zakończenia",
+  errorEndDate: "Data zakończenia musi być po dacie rozpoczęcia",
   ...form,
 };

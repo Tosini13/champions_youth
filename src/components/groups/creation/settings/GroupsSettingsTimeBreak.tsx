@@ -12,6 +12,7 @@ import { useLocale } from "../../../../Provider/LocaleProvider";
 import ControlledTextField from "../../../controlled/ControlledTextField";
 import styled from "styled-components";
 import { useColors } from "../../../../styled/themes/CustomThemeProvider";
+import moment from "moment";
 
 const GridStyled = styled(Grid)<{
   buttoncolor: string;
@@ -41,6 +42,7 @@ type TGroupsSettingsTimeBreakProps = {
   timeChecked: boolean;
   control: Control<TGroupsSettingsForm>;
   watch: UseFormMethods<TGroupsSettingsForm>["watch"];
+  errors: UseFormMethods<TGroupsSettingsForm>["errors"];
   defaultDate?: Date;
   defaultBreaksQtt: number;
 };
@@ -48,6 +50,7 @@ type TGroupsSettingsTimeBreakProps = {
 const GroupsSettingsTimeBreak: React.FC<TGroupsSettingsTimeBreakProps> = ({
   timeChecked,
   control,
+  errors,
   watch,
   defaultDate,
   defaultBreaksQtt,
@@ -69,11 +72,10 @@ const GroupsSettingsTimeBreak: React.FC<TGroupsSettingsTimeBreakProps> = ({
         <Grid item>
           <Grid container direction="column" spacing={4}>
             {breaks.map((b) => {
-              console.log(
-                "watch(`timeBreaks[${b}].endDate`)",
-                watch(`timeBreaks[${b}].endDate`)
-              );
-
+              const startDateError =
+                errors.timeBreaks && errors?.timeBreaks[b]?.startDate;
+              const endDateError =
+                errors.timeBreaks && errors?.timeBreaks[b]?.endDate;
               return (
                 <Grid item key={b}>
                   <GridContainer
@@ -114,7 +116,18 @@ const GroupsSettingsTimeBreak: React.FC<TGroupsSettingsTimeBreakProps> = ({
                         name={`timeBreaks[${b}].startDate`}
                         format="yyyy-MM-DD HH:mm"
                         cancelLabel={<Translator id="cancel" />}
-                        maxDate={watch(`timeBreaks[${b}].endDate`)}
+                        rules={{
+                          validate: (date: any) => {
+                            const isValid = !moment(date).isAfter(
+                              watch(`timeBreaks[${b}].endDate`) ?? defaultDate
+                            );
+                            return isValid
+                              ? true
+                              : groupCreationDict[locale].errorStartDate;
+                          },
+                        }}
+                        error={Boolean(startDateError)}
+                        helperText={startDateError?.message}
                       />
                     </Grid>
                     <Grid item md={6} sm={8} xs={12}>
@@ -129,6 +142,18 @@ const GroupsSettingsTimeBreak: React.FC<TGroupsSettingsTimeBreakProps> = ({
                         minDate={
                           watch(`timeBreaks[${b}].startDate`) ?? defaultDate
                         }
+                        rules={{
+                          validate: (date: any) => {
+                            const isValid = !moment(date).isBefore(
+                              watch(`timeBreaks[${b}].startDate`) ?? defaultDate
+                            );
+                            return isValid
+                              ? true
+                              : groupCreationDict[locale].errorEndDate;
+                          },
+                        }}
+                        error={Boolean(endDateError)}
+                        helperText={endDateError?.message}
                       />
                     </Grid>
                   </GridContainer>

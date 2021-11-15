@@ -61,8 +61,6 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
     useForm<TGroupsSettingsForm>({});
 
   useEffect(() => {
-    console.log("settings", settings);
-
     if (open) {
       reset({
         time: Boolean(settings.time),
@@ -276,6 +274,7 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
                   <GroupsSettingsTimeBreak
                     control={control}
                     watch={watch}
+                    errors={errors}
                     timeChecked={timeChecked}
                     defaultDate={settings.startDate}
                     defaultBreaksQtt={settings.breaks.length} // TODO: Implement
