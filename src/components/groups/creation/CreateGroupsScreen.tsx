@@ -49,7 +49,7 @@ export type SettingType = {
   fields: number;
   returnMatches: boolean;
   startDate?: Date;
-  breaks: Omit<TBreak, "id">[];
+  breaks: TBreak[];
 };
 
 const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
@@ -176,6 +176,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         fields: settings.fields,
         time: settings.time,
         date: moment(settings.startDate).format(),
+        timeBreaks: settings.breaks,
       })
     );
     setChosenTeams(shuffledTeams ?? []);
@@ -215,6 +216,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         fields: settings.fields,
         time: settings.time,
         date: moment(settings.startDate).format(),
+        timeBreaks: settings.breaks,
       })
     );
   }, [groups, initGroupMatches, settings, tournament, setGroups]);

@@ -21,9 +21,6 @@ const ControlledDateTimePicker: React.FC<TControlledDateTimePickerProps> = ({
   defaultValue,
   ...props
 }) => {
-  console.log("props.maxDate", props.maxDate);
-  console.log("rules", rules);
-
   return (
     <Controller
       control={control}

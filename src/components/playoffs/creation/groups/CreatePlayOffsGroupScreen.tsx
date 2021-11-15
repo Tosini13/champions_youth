@@ -246,6 +246,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         time: settings.time,
         date:
           settings.startDate && format(settings.startDate, "yyyy-MM-dd HH:mm"),
+        timeBreaks: settings.breaks,
       })
     );
   }, [
