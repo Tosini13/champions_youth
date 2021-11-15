@@ -18,7 +18,10 @@ import { GroupModel } from "../../../NewModels/Group";
 import { Id } from "../../../const/structuresConst";
 import { MatchTime } from "../../../NewModels/Matches";
 import GroupSettings from "./settings/GroupSettings";
-import { createWholeGroup } from "../../../store/actions/GroupActions";
+import {
+  createGroupsGeneralInfo,
+  createWholeGroup,
+} from "../../../store/actions/GroupActions";
 import { useNotification } from "../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../const/menuConst";
@@ -42,6 +45,7 @@ export interface CreateGroupsScreenProps {
   tournament: TournamentModel;
   doesGroupsExist: Boolean;
   createGroup: (tournamentId: Id, group: GroupModel) => void;
+  createGeneralInfo: (tournamentId: Id, settings: SettingType) => void;
 }
 
 export type SettingType = {
@@ -59,6 +63,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   tournament,
   doesGroupsExist,
   createGroup,
+  createGeneralInfo,
 }) => {
   const history = useHistory();
   if (doesGroupsExist) {
@@ -144,6 +149,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     groups.forEach((group) => {
       createGroup(tournamentId, group);
     });
+    createGeneralInfo(tournamentId, settings);
     history.push(routerGenerateConst.tournament(tournamentId));
   };
 
@@ -305,6 +311,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     createGroup: (tournamentId: Id, group: GroupModel) =>
       dispatch(createWholeGroup(tournamentId, group)),
+    createGeneralInfo: (tournamentId: Id, settings: SettingType) =>
+      dispatch(createGroupsGeneralInfo(tournamentId, settings)),
   };
 };
 

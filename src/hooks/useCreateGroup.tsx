@@ -214,10 +214,7 @@ const setMatchesTime = (
   let fieldCounter = 1;
   for (let i = 0; i < matchesQtt + 1; i++) {
     for (let j = 0; j < groups.length; j++) {
-      const nextDate = getNextDate(
-        moment(timeCounter).add(timeUnit, "minutes"),
-        breaks
-      );
+      const nextDate = getNextDate(timeCounter, breaks);
       timeCounter = nextDate.date;
       breaks = nextDate.timeBreaks;
       const groupMatches = groups[j].matches;
