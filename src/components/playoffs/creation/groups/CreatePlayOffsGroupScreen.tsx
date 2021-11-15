@@ -40,6 +40,7 @@ export interface CreatePlayOffsGroupScreenProps {
     playOffs,
     playOffsGroup,
   }: UpdateGroupPromotedParams) => void;
+  createGeneralInfo: (tournamentId: Id, settings: SettingType) => void;
 }
 
 const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
@@ -50,6 +51,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
   createGroup,
   userId,
   updateGroupPromoted,
+  createGeneralInfo,
 }) => {
   const history = useHistory();
   const { setQuestion, setAnswers, openNotification } = useNotification();
@@ -59,6 +61,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     returnMatches: false,
     fields: 1,
     startDate: new Date(startDate), // TODO: Change!
+    breaks: [],
   });
 
   const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
@@ -153,6 +156,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     groups.forEach((group) => {
       createGroup(tournamentId, group);
     });
+    createGeneralInfo(tournamentId, settings);
     history.push(routerGenerateConst.tournament(tournamentId));
   };
 
@@ -245,6 +249,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
         time: settings.time,
         date:
           settings.startDate && format(settings.startDate, "yyyy-MM-dd HH:mm"),
+        timeBreaks: settings.breaks,
       })
     );
   }, [

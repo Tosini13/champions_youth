@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import moment from "moment";
@@ -27,8 +27,9 @@ import { DialogRU } from "../../../../styled/styledComponents/navigation/styledD
 import { useLocale } from "../../../../Provider/LocaleProvider";
 import { ButtonRC } from "../../../../styled/styledComponents/styledButtons";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import GroupsSettingsTimeBreak, { TBreak } from "./GroupsSettingsTimeBreak";
 
-type TForm = {
+export type TGroupsSettingsForm = {
   returnMatches: boolean;
   fields: number;
   time: boolean;
@@ -36,6 +37,7 @@ type TForm = {
   breakTime: number;
   startDate: MaterialUiPickersDate;
   startTime: MaterialUiPickersDate;
+  timeBreaks: TBreak[];
 };
 
 export interface GroupSettingsProps {
@@ -55,7 +57,8 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
   const [startDate, setStartDate] = useState<MaterialUiPickersDate>(
     settings.startDate ? moment(settings.startDate) : null
   );
-  const { register, errors, handleSubmit, reset, watch } = useForm<TForm>({});
+  const { register, errors, handleSubmit, reset, watch, control } =
+    useForm<TGroupsSettingsForm>({});
 
   useEffect(() => {
     if (open) {
@@ -65,13 +68,34 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
         matchTime: settings.time?.match ?? 5,
         breakTime: settings.time?.break ?? 2,
         fields: settings.fields,
+        timeBreaks: settings.breaks.map((b, i) => ({
+          ...b,
+          id: i,
+        })),
       });
 
       setStartDate(settings.startDate ? moment(settings.startDate) : null);
     }
   }, [settings, reset, open]);
 
-  const onSubmit = (values: TForm) => {
+  const sortBreaks = useCallback((brA: TBreak, brB: TBreak) => {
+    if (moment(brA.startDate).isBefore(brB.startDate)) {
+      return -1;
+    }
+    if (moment(brA.startDate).isAfter(brB.startDate)) {
+      return 1;
+    }
+    if (moment(brA.endDate).isBefore(brB.endDate)) {
+      return -1;
+    }
+    if (moment(brA.endDate).isAfter(brB.endDate)) {
+      return 1;
+    }
+    return -1;
+  }, []);
+
+  const onSubmit = (values: TGroupsSettingsForm) => {
+    const timeBreaks = Object.values(values.timeBreaks).sort(sortBreaks);
     setSettings({
       ...settings,
       time: values.time
@@ -83,22 +107,22 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
       returnMatches: values.returnMatches,
       fields: values.fields,
       startDate: startDate ? new Date(moment(startDate).format()) : undefined,
+      breaks: timeBreaks.map((b, i) => ({
+        ...b,
+        id: i,
+      })),
     });
-    handleClose();
-  };
-
-  const handleCloseAndReset = () => {
     handleClose();
   };
 
   const timeChecked = watch("time");
 
   return (
-    <DialogRU open={open} onClose={handleCloseAndReset} title={"settings"}>
+    <DialogRU open={open} title={"settings"} onClose={handleClose}>
       <Rosetta translations={groupCreationDict} locale={locale}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
-            <DialogContent>
+            <DialogContent style={{ paddingBottom: "20px" }}>
               <Grid container spacing={2} justify="space-evenly">
                 <Grid item md={6} xs={12}>
                   <Grid
@@ -244,6 +268,16 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
                     helperText={
                       errors.startTime && <Translator id="required" />
                     }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <GroupsSettingsTimeBreak
+                    control={control}
+                    watch={watch}
+                    errors={errors}
+                    timeChecked={timeChecked}
+                    defaultDate={settings.startDate}
+                    defaultBreaksQtt={settings.breaks.length} // TODO: Implement
                   />
                 </Grid>
               </Grid>

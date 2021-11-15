@@ -18,7 +18,10 @@ import { GroupModel } from "../../../NewModels/Group";
 import { Id } from "../../../const/structuresConst";
 import { MatchTime } from "../../../NewModels/Matches";
 import GroupSettings from "./settings/GroupSettings";
-import { createWholeGroup } from "../../../store/actions/GroupActions";
+import {
+  createGroupsGeneralInfo,
+  createWholeGroup,
+} from "../../../store/actions/GroupActions";
 import { useNotification } from "../../global/Notification";
 import { useHistory } from "react-router-dom";
 import { routerGenerateConst } from "../../../const/menuConst";
@@ -29,6 +32,7 @@ import {
 } from "../../../styled/styledComponents/group/styledLayout";
 import GroupTeamSummary from "../GroupTeamSummary";
 import moment from "moment";
+import { TBreak } from "./settings/GroupsSettingsTimeBreak";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 120px;
@@ -41,6 +45,7 @@ export interface CreateGroupsScreenProps {
   tournament: TournamentModel;
   doesGroupsExist: Boolean;
   createGroup: (tournamentId: Id, group: GroupModel) => void;
+  createGeneralInfo: (tournamentId: Id, settings: SettingType) => void;
 }
 
 export type SettingType = {
@@ -48,6 +53,7 @@ export type SettingType = {
   fields: number;
   returnMatches: boolean;
   startDate?: Date;
+  breaks: TBreak[];
 };
 
 const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
@@ -57,6 +63,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
   tournament,
   doesGroupsExist,
   createGroup,
+  createGeneralInfo,
 }) => {
   const history = useHistory();
   if (doesGroupsExist) {
@@ -68,6 +75,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     returnMatches: false,
     fields: 1,
     startDate: tournament?.date ? new Date(tournament?.date) : undefined, // TODO: Change!
+    breaks: [],
   });
   const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
     undefined
@@ -141,6 +149,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     groups.forEach((group) => {
       createGroup(tournamentId, group);
     });
+    createGeneralInfo(tournamentId, settings);
     history.push(routerGenerateConst.tournament(tournamentId));
   };
 
@@ -173,6 +182,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         fields: settings.fields,
         time: settings.time,
         date: moment(settings.startDate).format(),
+        timeBreaks: settings.breaks,
       })
     );
     setChosenTeams(shuffledTeams ?? []);
@@ -212,6 +222,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
         fields: settings.fields,
         time: settings.time,
         date: moment(settings.startDate).format(),
+        timeBreaks: settings.breaks,
       })
     );
   }, [groups, initGroupMatches, settings, tournament, setGroups]);
@@ -300,6 +311,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     createGroup: (tournamentId: Id, group: GroupModel) =>
       dispatch(createWholeGroup(tournamentId, group)),
+    createGeneralInfo: (tournamentId: Id, settings: SettingType) =>
+      dispatch(createGroupsGeneralInfo(tournamentId, settings)),
   };
 };
 

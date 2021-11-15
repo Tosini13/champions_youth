@@ -24,6 +24,7 @@ import Stepper from "@material-ui/core/Stepper";
 
 import { mainTheme } from "../styledConst";
 import { useColors } from "../themes/CustomThemeProvider";
+import { parseStyledBoolean } from "../../helpers/booleanParser";
 
 export const FormStyled = styled.form`
   padding: 5px;
@@ -42,6 +43,8 @@ export const TextFieldContainerStyled = styled.div`
 /* ---------------------------------------- */
 export const TextFieldStyled = styled(TextField)<{
   buttoncolor: string;
+  isrequired?: string;
+  isdisabled?: string;
 }>`
   //**************
   width: 100%;
@@ -53,15 +56,21 @@ export const TextFieldStyled = styled(TextField)<{
   }
   label {
     color: ${(props) => props.theme.palette.secondary.main};
+    ${(props) => (props.isrequired ? `&::after { content: " *"; }` : "")}
   }
   .MuiInput-underline:before {
-    border-color: ${(props) => props.buttoncolor};
+    ${(props) =>
+      props.isdisabled ? "" : `border-color: ${props.buttoncolor}`};
   }
   //**************
   max-width: 250px;
 `;
 
-export const TextFieldRC = (props: any) => {
+type TextFieldRCProps = any & {
+  isRequired?: boolean;
+};
+
+export const TextFieldRC = ({ isRequired, ...props }: TextFieldRCProps) => {
   const theme = useTheme();
   const { buttonColor } = useColors();
   return (
@@ -69,6 +78,8 @@ export const TextFieldRC = (props: any) => {
       color="secondary"
       theme={theme}
       buttoncolor={buttonColor}
+      isrequired={parseStyledBoolean(isRequired)}
+      isdisabled={parseStyledBoolean(props.disabled)}
       {...props}
     />
   );
