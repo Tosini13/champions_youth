@@ -22,5 +22,6 @@ export const groupCreation = {
   startDate: "Data Rozpoczęcia",
   endDate: "Data Zakończenia",
   breakName: "Nazwa Przerwy",
+  addBreak: "Dodaj Przerwę",
   ...form,
 };

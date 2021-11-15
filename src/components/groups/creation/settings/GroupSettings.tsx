@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Rosetta, Translator } from "react-rosetta";
 
 import moment from "moment";
@@ -61,6 +61,8 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
     useForm<TGroupsSettingsForm>({});
 
   useEffect(() => {
+    console.log("settings", settings);
+
     if (open) {
       reset({
         time: Boolean(settings.time),
@@ -68,21 +70,34 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
         matchTime: settings.time?.match ?? 5,
         breakTime: settings.time?.break ?? 2,
         fields: settings.fields,
+        timeBreaks: settings.breaks.map((b, i) => ({
+          ...b,
+          id: i,
+        })),
       });
 
       setStartDate(settings.startDate ? moment(settings.startDate) : null);
     }
   }, [settings, reset, open]);
 
+  const sortBreaks = useCallback((brA: TBreak, brB: TBreak) => {
+    if (moment(brA.startDate).isBefore(brB.startDate)) {
+      return -1;
+    }
+    if (moment(brA.startDate).isAfter(brB.startDate)) {
+      return 1;
+    }
+    if (moment(brA.endDate).isBefore(brB.endDate)) {
+      return -1;
+    }
+    if (moment(brA.endDate).isAfter(brB.endDate)) {
+      return 1;
+    }
+    return -1;
+  }, []);
+
   const onSubmit = (values: TGroupsSettingsForm) => {
-    console.log("values", values);
-
-    Object.values(values.timeBreaks).map((b) => {
-      console.log("name", b.name);
-      console.log("startDate", moment(b.startDate).format("yyyy-MM-DD HH:mm"));
-      console.log("endDate", moment(b.endDate).format("yyyy-MM-DD HH:mm"));
-    });
-
+    const timeBreaks = Object.values(values.timeBreaks).sort(sortBreaks);
     setSettings({
       ...settings,
       time: values.time
@@ -94,18 +109,18 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
       returnMatches: values.returnMatches,
       fields: values.fields,
       startDate: startDate ? new Date(moment(startDate).format()) : undefined,
+      breaks: timeBreaks.map((b, i) => ({
+        ...b,
+        id: i,
+      })),
     });
-    handleClose();
-  };
-
-  const handleCloseAndReset = () => {
     handleClose();
   };
 
   const timeChecked = watch("time");
 
   return (
-    <DialogRU open={open} onClose={handleCloseAndReset} title={"settings"}>
+    <DialogRU open={open} title={"settings"} onClose={handleClose}>
       <Rosetta translations={groupCreationDict} locale={locale}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -260,7 +275,10 @@ const GroupSettings: React.FC<GroupSettingsProps> = ({
                 <Grid item xs={12}>
                   <GroupsSettingsTimeBreak
                     control={control}
+                    watch={watch}
+                    timeChecked={timeChecked}
                     defaultDate={settings.startDate}
+                    defaultBreaksQtt={settings.breaks.length} // TODO: Implement
                   />
                 </Grid>
               </Grid>

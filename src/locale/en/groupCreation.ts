@@ -22,5 +22,6 @@ export const groupCreation = {
   startDate: "Start Date",
   endDate: "End Date",
   breakName: "Break Name",
+  addBreak: "Add Break",
   ...form,
 };

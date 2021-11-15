@@ -59,6 +59,7 @@ const CreatePlayOffsGroupScreen: React.FC<CreatePlayOffsGroupScreenProps> = ({
     returnMatches: false,
     fields: 1,
     startDate: new Date(startDate), // TODO: Change!
+    breaks: [],
   });
 
   const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(

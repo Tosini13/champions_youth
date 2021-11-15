@@ -29,6 +29,7 @@ import {
 } from "../../../styled/styledComponents/group/styledLayout";
 import GroupTeamSummary from "../GroupTeamSummary";
 import moment from "moment";
+import { TBreak } from "./settings/GroupsSettingsTimeBreak";
 
 const GridContainer = styled(Grid)`
   margin-bottom: 120px;
@@ -48,6 +49,7 @@ export type SettingType = {
   fields: number;
   returnMatches: boolean;
   startDate?: Date;
+  breaks: Omit<TBreak, "id">[];
 };
 
 const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
@@ -68,6 +70,7 @@ const CreateGroupsScreen: React.FC<CreateGroupsScreenProps> = ({
     returnMatches: false,
     fields: 1,
     startDate: tournament?.date ? new Date(tournament?.date) : undefined, // TODO: Change!
+    breaks: [],
   });
   const [chosenGroup, setChosenGroup] = useState<GroupModel | undefined>(
     undefined
