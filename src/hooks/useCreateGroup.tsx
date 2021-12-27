@@ -6,7 +6,6 @@ import { MatchTime } from "../NewModels/Matches";
 import { NewPlaceholder } from "../NewModels/Team";
 import { MatchModel } from "../NewModels/Matches";
 import { matchModeConst } from "../const/matchConst";
-import { TBreak } from "../components/groups/creation/settings/GroupsSettingsTimeBreak";
 
 let matchCounter = 0;
 
@@ -169,40 +168,16 @@ const createGroupPlaceholderMatches = (
   }
 };
 
-const getNextDate = (
-  date: Moment,
-  timeBreaks: TBreak[]
-): {
-  date: Moment;
-  timeBreaks: TBreak[];
-} => {
-  if (timeBreaks.length === 0) {
-    return { date, timeBreaks };
-  }
-  if (date.isAfter(timeBreaks[0].startDate)) {
-    return getNextDate(moment(timeBreaks[0].endDate), timeBreaks.slice(1));
-  }
-  return {
-    date,
-    timeBreaks,
-  };
-};
-
 const setMatchesTime = (
   time: MatchTime,
   groups: GroupModel[],
   fields: number,
-  date: string,
-  timeBreaks: TBreak[]
+  date: string
 ) => {
   const matchTime: number = time?.match ? time.match : 0;
   const breakTime: number = time?.break ? time.break : 0;
   const timeUnit: number = Number(matchTime) + Number(breakTime);
-  let { date: timeCounter, timeBreaks: breaks } = getNextDate(
-    moment(date),
-    timeBreaks
-  );
-
+  let timeCounter: Moment = moment(date);
   let timeTeamsCounter: any[] = [];
   let matchesQtt = 0;
   groups.forEach((group) => {
@@ -214,9 +189,6 @@ const setMatchesTime = (
   let fieldCounter = 1;
   for (let i = 0; i < matchesQtt + 1; i++) {
     for (let j = 0; j < groups.length; j++) {
-      const nextDate = getNextDate(timeCounter, breaks);
-      timeCounter = nextDate.date;
-      breaks = nextDate.timeBreaks;
       const groupMatches = groups[j].matches;
       if (groupMatches && i < groupMatches.length) {
         const home =
@@ -261,14 +233,12 @@ const useCreateGroup = () => {
     fields,
     time,
     date,
-    timeBreaks,
   }: {
     groups: GroupModel[];
     returnMatches: boolean;
     fields: number;
     time?: MatchTime;
     date?: string;
-    timeBreaks: TBreak[];
   }) => {
     groups.forEach((group, i) => {
       if (group.groupTeams?.length) {
@@ -292,7 +262,7 @@ const useCreateGroup = () => {
       }
     });
     if (time && date) {
-      groups = setMatchesTime(time, groups, fields, date, timeBreaks);
+      groups = setMatchesTime(time, groups, fields, date);
     }
     return groups;
   };

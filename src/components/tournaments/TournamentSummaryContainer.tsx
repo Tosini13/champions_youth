@@ -20,7 +20,7 @@ import { useLocale } from "../../Provider/LocaleProvider";
 const ListStyled = styled(ListContainerSection)`
   padding: 0px 2px;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   ${ScrollBarStyled}
