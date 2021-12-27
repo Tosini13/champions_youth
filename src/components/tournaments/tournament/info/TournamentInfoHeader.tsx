@@ -8,7 +8,7 @@ import { Id } from "../../../../const/structuresConst";
 export interface TournamentInfoHeaderProps {
   image?: string;
   title: string;
-  authorId: Id;
+  authorId?: Id;
 }
 
 const TournamentInfoHeader: React.FC<TournamentInfoHeaderProps> = ({

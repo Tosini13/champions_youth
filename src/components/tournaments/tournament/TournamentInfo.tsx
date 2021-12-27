@@ -40,7 +40,7 @@ type Props = {
   ) => void;
   isOwner: boolean;
   tournamentId: Id;
-  authorId: Id;
+  authorId?: Id;
 };
 
 const TournamentInfo: React.FC<Props> = ({
