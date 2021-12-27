@@ -81,9 +81,8 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
           </SectionNavStyled>
           <SectionContentStyled>
             {leftView === TOURNAMENT_LEFT_MENU.INFO &&
-            tournament &&
-            tournamentId &&
-            authorId ? (
+              tournament &&
+              tournamentId ? (
               <TournamentInfo
                 tournament={tournament}
                 image={image}
@@ -111,9 +110,9 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
           <SectionContentStyled>
             <ContentContainerStyled>
               {rightView === TOURNAMENT_RIGHT_MENU.GROUPS &&
-              tournament &&
-              tournamentId &&
-              teams ? (
+                tournament &&
+                tournamentId &&
+                teams ? (
                 <TournamentGroups
                   tournamentId={tournamentId}
                   tournament={tournament}
@@ -125,10 +124,10 @@ const TournamentDetailsDesktop: React.FC<TournamentDetailsDesktopProps> = ({
                 />
               ) : null}
               {rightView === TOURNAMENT_RIGHT_MENU.PLAY_OFFS &&
-              tournament &&
-              playOffs &&
-              tournamentId &&
-              teams ? (
+                tournament &&
+                playOffs &&
+                tournamentId &&
+                teams ? (
                 <TournamentPlayOffs
                   teams={teams}
                   tournamentId={tournamentId}

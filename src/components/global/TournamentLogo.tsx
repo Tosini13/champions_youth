@@ -10,7 +10,7 @@ import Logo, { SIZE_LOGO } from "./Logo";
 export interface TournamentLogoProps {
   size: SIZE_LOGO;
   teamLogo?: string;
-  authorId: Id;
+  authorId?: Id;
 }
 
 const TournamentLogo: React.FC<TournamentLogoProps> = ({
@@ -26,7 +26,7 @@ const TournamentLogo: React.FC<TournamentLogoProps> = ({
       getImage(teamLogo, tournamentId)
         .then((image) => {
           let img = image;
-          if (!image && teamLogo) {
+          if (!image && teamLogo && authorId) {
             img = getImageJustUploaded(teamLogo, authorId) ?? undefined;
           }
           console.log("img to setLogo", img);

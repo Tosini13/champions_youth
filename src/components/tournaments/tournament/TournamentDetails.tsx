@@ -61,11 +61,11 @@ const TournamentDetails: React.FC<Props> = ({
   }, [clearLocalStorageGroupNav]);
 
   useEffect(() => {
-    if (tournament?.image && tournamentId && authorId) {
+    if (tournament?.image && tournamentId) {
       getImage(tournament.image, tournamentId)
         .then((image) => {
           let img = image;
-          if (!image && tournament.image) {
+          if (!image && tournament.image && authorId) {
             img = getImageJustUploaded(tournament.image, authorId) ?? undefined;
           }
           setImage(img);
@@ -88,8 +88,8 @@ const TournamentDetails: React.FC<Props> = ({
             </SectionNavStyled>
             <SectionContentStyled navQty={1}>
               {view === E_TOURNAMENT_MENU.GROUPS &&
-              tournament &&
-              tournamentId ? (
+                tournament &&
+                tournamentId ? (
                 <TournamentGroups
                   tournamentId={tournamentId}
                   tournament={tournament}
@@ -101,9 +101,9 @@ const TournamentDetails: React.FC<Props> = ({
                 />
               ) : null}
               {view === E_TOURNAMENT_MENU.PLAY_OFFS &&
-              tournament &&
-              playOffs &&
-              tournamentId ? (
+                tournament &&
+                playOffs &&
+                tournamentId ? (
                 <TournamentPlayOffs
                   tournamentId={tournamentId}
                   tournament={tournament}
@@ -115,9 +115,8 @@ const TournamentDetails: React.FC<Props> = ({
                 />
               ) : null}
               {view === E_TOURNAMENT_MENU.INFO &&
-              tournament &&
-              tournamentId &&
-              authorId ? (
+                tournament &&
+                tournamentId ? (
                 <TournamentInfo
                   tournament={tournament}
                   image={image}
@@ -162,9 +161,9 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const tournaments = state.firestore.data.tournaments;
   const tournament: TournamentData | undefined = tournaments
     ? {
-        ...tournaments[tournamentId],
-        id: tournamentId,
-      }
+      ...tournaments[tournamentId],
+      id: tournamentId,
+    }
     : undefined;
   const isOwner = tournament && tournament.ownerId === authorId;
   const teams: TeamData[] | undefined = state.firestore.ordered.teams;
