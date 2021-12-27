@@ -29,6 +29,8 @@ const TournamentLogo: React.FC<TournamentLogoProps> = ({
           if (!image && teamLogo) {
             img = getImageJustUploaded(teamLogo, authorId) ?? undefined;
           }
+          console.log("img to setLogo", img);
+
           setLogo(img);
         })
         .catch((err) => console.error("error while fetching logo", err));

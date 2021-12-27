@@ -9,7 +9,6 @@ import { NewPlaceholder } from "../../../../NewModels/Team";
 import { Id } from "../../../../const/structuresConst";
 import {
   createPlayOffGroup,
-  createPlayOffsGroupsGeneralInfo,
   updateGroupPromoted,
   UpdateGroupPromotedParams,
 } from "../../../../store/actions/GroupActions";
@@ -17,7 +16,6 @@ import CreatePlayOffsGroupScreen from "./CreatePlayOffsGroupScreen";
 import { useHistory } from "react-router-dom";
 import { calculateGroupsFinishDate } from "../../../../utils/calculateGroupsFinishDate";
 import SplashScreen from "../../../global/SplashScreen";
-import { SettingType } from "../../../groups/creation/CreateGroupsScreen";
 
 export type PromotedGroup = {
   teams: NewPlaceholder[];
@@ -37,7 +35,6 @@ export interface CreatePlayOffsGroupPageProps {
     playOffs,
     playOffsGroup,
   }: UpdateGroupPromotedParams) => void;
-  createGeneralInfo: (tournamentId: Id, settings: SettingType) => void;
 }
 
 const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
@@ -47,7 +44,6 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
   userId,
   doesGroupsExist,
   updateGroupPromoted,
-  createGeneralInfo,
 }) => {
   const history = useHistory();
   if (groups === undefined) {
@@ -80,7 +76,6 @@ const CreatePlayOffsGroupPage: React.SFC<CreatePlayOffsGroupPageProps> = ({
       promotedGroups={promotedGroups}
       tournamentId={tournamentId}
       createGroup={createGroup}
-      createGeneralInfo={createGeneralInfo}
       updateGroupPromoted={updateGroupPromoted}
       userId={userId}
       startDate={groupsFinishDate}
@@ -111,8 +106,6 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(
         updateGroupPromoted({ tournamentId, groupId, playOffs, playOffsGroup })
       ),
-    createGeneralInfo: (tournamentId: Id, settings: SettingType) =>
-      dispatch(createPlayOffsGroupsGeneralInfo(tournamentId, settings)),
   };
 };
 

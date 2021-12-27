@@ -1,6 +1,4 @@
 import firebase from "firebase";
-import moment from "moment";
-import { SettingType } from "../../components/groups/creation/CreateGroupsScreen";
 import { matchModeConst } from "../../const/matchConst";
 import { Id } from "../../const/structuresConst";
 import { GroupDataDb } from "../../models/groupData";
@@ -57,64 +55,6 @@ export const createPlayOffGroup = (tournamentId: Id, group: GroupModel) => {
       })
       .catch((err: any) => {
         dispatch({ type: "CREATE_GROUP_ERROR", err });
-      });
-  };
-};
-
-export const createPlayOffsGroupsGeneralInfo = (
-  tournamentId: Id,
-  settings: SettingType
-) => {
-  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
-    const firestore = getFirestore();
-    firestore
-      .collection("tournaments")
-      .doc(tournamentId)
-      .collection("playOffsGroups")
-      .doc("GENERAL_INFO")
-      .set({
-        // TODO: Save more settings!
-        breaks: settings.breaks.map((br) => ({
-          id: br.id,
-          name: br.name,
-          startDate: moment(br.startDate).format(),
-          endDate: moment(br.endDate).format(),
-        })),
-      })
-      .then((res: any) => {
-        dispatch({ type: "GROUPS_GENERAL_INFO" });
-      })
-      .catch((err: any) => {
-        dispatch({ type: "GROUPS_GENERAL_INFO_ERROR", err });
-      });
-  };
-};
-
-export const createGroupsGeneralInfo = (
-  tournamentId: Id,
-  settings: SettingType
-) => {
-  return (dispatch: any, getState: any, { getFirebase, getFirestore }: any) => {
-    const firestore = getFirestore();
-    firestore
-      .collection("tournaments")
-      .doc(tournamentId)
-      .collection("groups")
-      .doc("GENERAL_INFO")
-      .set({
-        // TODO: Save more settings!
-        breaks: settings.breaks.map((br) => ({
-          id: br.id,
-          name: br.name,
-          startDate: moment(br.startDate).format(),
-          endDate: moment(br.endDate).format(),
-        })),
-      })
-      .then((res: any) => {
-        dispatch({ type: "GROUPS_GENERAL_INFO" });
-      })
-      .catch((err: any) => {
-        dispatch({ type: "GROUPS_GENERAL_INFO_ERROR", err });
       });
   };
 };
